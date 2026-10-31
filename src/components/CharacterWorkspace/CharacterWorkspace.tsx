@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { SheetProvider, type SheetUpdater } from '@/components/SheetProvider'
 import { Tabs } from '@/components/Tabs'
 import type { SheetSystem } from './CharacterWorkspace.types'
-import { WorkspaceToolbar } from './components'
+import { StorageNotice, WorkspaceToolbar } from './components'
 import { useCharacterStore } from './hooks/useCharacterStore'
 import { downloadCharacterFile, parseCharacterFile } from './utils/characterFile'
 import './CharacterWorkspace.styles.css'
@@ -58,6 +58,7 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
           onReset={confirmReset}
         />
       </header>
+      <StorageNotice />
       {storageFailed && (
         <p className="character-workspace-alert" role="alert">
           This browser couldn&apos;t store your characters, possibly because storage is full or blocked. Use Save

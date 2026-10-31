@@ -35,6 +35,29 @@
     background: var(--surface);
   }
 
+  .character-workspace-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 12px;
+    border: 1px solid var(--accent);
+    border-left-width: 4px;
+    border-radius: 6px;
+    background: var(--surface);
+
+    p {
+      flex: 1;
+      margin: 0;
+    }
+  }
+
+  .character-workspace-notice-close {
+    flex: none;
+    padding: 0 8px;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
   .character-workspace-add {
     flex-shrink: 0;
     padding: 4px 12px;

@@ -2,6 +2,10 @@ import type { StatKey } from './character'
 
 export type ExperienceLevel = 'Hero' | 'Veteran' | 'Epic'
 
+/** The rulebooks the sheet has data from. */
+export type BookId = 'core' | 'kng' | 'ua'
+export type SupplementId = Exclude<BookId, 'core'>
+
 export type RaceData = {
   name: string
   archetypes: string[]
@@ -32,6 +36,9 @@ export type CareerPackage = {
 
 export type CareerData = CareerPackage & {
   name: string
+  /** The supplement the career comes from; missing for the core rules. */
+  book?: SupplementId
+  page?: number
   prerequisites: string
   /** Can only be taken at character creation. */
   startingOnly?: boolean
@@ -42,7 +49,42 @@ export type CareerData = CareerPackage & {
   special?: string
   /** Mutually exclusive versions, such as a priest's faith or a sorcerer's element. */
   variants?: (Partial<CareerPackage> & { label: string })[]
+  /** What the variant picker is called, e.g. "Faith". */
+  variantLabel?: string
   /** Highest level each skill can reach in this career; `General Skills` covers all general skills. */
   maxima: Record<string, number>
   abilityList: string[]
+}
+
+/** Extra choices a supplement adds to existing careers, such as a new career ability. */
+export type CareerAddition = {
+  book: SupplementId
+  careers: string[]
+  abilityList?: string[]
+  pairsWith?: string[]
+}
+
+/**
+ * A kingdom version of one or two starting careers, such as the Stormguard (Man-at-Arms and
+ * Stormblade). Additions go to the first career; removals apply to every listed career.
+ */
+export type CareerOption = {
+  name: string
+  book: SupplementId
+  page: number
+  careers: string[]
+  requires: string
+  pairsWith?: string[]
+  add?: Partial<Omit<CareerPackage, 'skills'>> & {
+    skills?: SkillGrant[]
+    assets?: string[]
+    abilityList?: string[]
+    maxima?: Record<string, number>
+  }
+  remove?: { abilities?: string[]; skills?: string[]; assets?: string[] }
+  /** Replaces the career's starting spells. */
+  spells?: string[]
+  /** Replaces the career's starting gold. */
+  gold?: number
+  note?: string
 }

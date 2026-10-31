@@ -1,3 +1,5 @@
+import type { SupplementId } from './rules'
+
 export type Num = number | null
 
 export type StatKey = 'phy' | 'spd' | 'str' | 'agl' | 'prw' | 'poi' | 'int' | 'arc' | 'per'
@@ -7,12 +9,14 @@ export type JackStatKey = Exclude<StatKey, 'arc'>
 export type IkSettings = {
   /** Use the core rulebook races for archetypes, starting stats and stat maximums. */
   raceRules: boolean
-  /** Use the core rulebook careers for starting packages and skill maximums. */
+  /** Use the rulebook careers for starting packages and skill maximums. */
   careerRules: boolean
   magic: boolean
   mechanika: boolean
   steamjacks: boolean
   powerField: boolean
+  /** Supplements whose careers, options and abilities the sheet offers. */
+  books: Record<SupplementId, boolean>
 }
 
 export type IkIdentity = {
@@ -28,6 +32,8 @@ export type IkIdentity = {
   careerVariants: Record<string, string>
   /** Picks for the starting package's "choose one of…" skills, keyed by career and choice. */
   careerChoices: Record<string, string[]>
+  /** Chosen kingdom career options, such as "Stormguard". */
+  careerOptions: string[]
   /** A human's Exceptional Potential: +1 to PHY, AGL or INT. */
   humanBonus: '' | 'phy' | 'agl' | 'int'
   level: string

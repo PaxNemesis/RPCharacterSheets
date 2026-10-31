@@ -3,7 +3,8 @@ import { Panel } from '@/components/Panel'
 import { useSheet } from '@/components/SheetProvider'
 import { findRace } from '../../../../constants/races'
 import { useIkCharacter } from '../../../../hooks/useIkCharacter'
-import { CareerPackage } from './components'
+import { availableOptions } from '../../../../utils/careerOptions'
+import { CareerOptions, CareerPackage } from './components'
 import { applyStartingPackage, choiceKey, startingPackage, type PackageSelection } from './utils/startingPackage'
 import './StartingPackagePanel.styles.css'
 
@@ -15,6 +16,7 @@ export function StartingPackagePanel() {
   const [result, setResult] = useState<string[]>()
   const pack = startingPackage(character, selection)
   const race = character.settings.raceRules ? findRace(character.identity.race) : undefined
+  const options = availableOptions(character)
 
   if (pack.careers.length === 0) {
     return (
@@ -47,6 +49,13 @@ export function StartingPackagePanel() {
         For new characters (pp. 117–119). A skill from both careers starts at level 2. Adding the package never removes
         anything, so it&apos;s safe to use after typing in your own entries.
       </p>
+      {options.length > 0 && (
+        <CareerOptions
+          options={options}
+          chosen={character.identity.careerOptions ?? []}
+          onChange={(chosen) => set('identity.careerOptions', chosen)}
+        />
+      )}
       <div className="starting-package-careers">
         {pack.careers.map((career) => (
           <CareerPackage

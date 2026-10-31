@@ -1,4 +1,32 @@
 .starting-package-container {
+  .starting-package-options {
+    margin: 0 0 12px;
+    padding: 8px 12px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    legend {
+      padding: 0 4px;
+      font-weight: 700;
+    }
+
+    label {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin-top: 6px;
+      font-size: 13px;
+    }
+
+    input {
+      flex: none;
+      width: 16px;
+      height: 16px;
+      margin: 1px 0 0;
+      accent-color: var(--accent);
+    }
+  }
+
   .starting-package-careers {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));

@@ -35,7 +35,7 @@ export const createSteamjack = (): IkSteamjack => ({
 })
 
 export const createCharacter = (): IkCharacter => ({
-  settings: { raceRules: true, careerRules: true, magic: true, mechanika: true, steamjacks: true, powerField: false },
+  settings: { raceRules: true, careerRules: true, magic: true, mechanika: true, steamjacks: true, powerField: false, books: { kng: true, ua: true } },
   identity: {
     name: '',
     player: '',
@@ -45,6 +45,7 @@ export const createCharacter = (): IkCharacter => ({
     careerList: ['', ''],
     careerVariants: {},
     careerChoices: {},
+    careerOptions: [],
     humanBonus: '',
     level: 'Hero',
     xp: null,

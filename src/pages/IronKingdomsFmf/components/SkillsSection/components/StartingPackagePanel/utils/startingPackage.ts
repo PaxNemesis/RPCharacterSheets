@@ -1,4 +1,4 @@
-import { abilityPage } from '../../../../../constants/abilities'
+import { abilityRef } from '../../../../../constants/abilities'
 import { findRace } from '../../../../../constants/races'
 import type { CareerData, IkCharacter, SkillGrant } from '../../../../../types'
 import { careersOf, variantOf } from '../../../../../utils/rules'
@@ -78,7 +78,7 @@ export function applyStartingPackage(character: IkCharacter, pack: Package): { c
       arcaneTradition,
       abilities: [
         ...character.abilities,
-        ...missing(character.abilities, pack.abilities).map((name) => ({ name, description: '', page: String(abilityPage(name) ?? '') })),
+        ...missing(character.abilities, pack.abilities).map((name) => ({ name, description: '', page: abilityRef(name, character.settings) ?? '' })),
       ],
       connections: [
         ...character.connections,

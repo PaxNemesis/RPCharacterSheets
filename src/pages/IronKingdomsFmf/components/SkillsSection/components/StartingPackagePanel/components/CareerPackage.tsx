@@ -22,7 +22,7 @@ export function CareerPackage({ career, character, selection, onSelect }: Career
         {variant && ` (${variant.label})`}
       </h3>
       {career.variants && !variant && (
-        <p className="ik-warning">Choose the {career.name === 'Priest' ? 'faith' : 'element'} on the Character tab.</p>
+        <p className="ik-warning">Choose the {(career.variantLabel ?? 'version').toLowerCase()} on the Character tab.</p>
       )}
       <dl>
         <dt>Skills</dt>
@@ -67,7 +67,7 @@ export function CareerPackage({ career, character, selection, onSelect }: Career
         <dt>Assets</dt>
         <dd>{list([...(career.gold > 0 ? [`${career.gold} gc`] : []), ...career.assets])}</dd>
       </dl>
-      {variant?.stats && <p className="ik-note">This element also raises a stat and its maximum by 1.</p>}
+      {variant?.stats && <p className="ik-note">This {(career.variantLabel ?? 'version').toLowerCase()} also raises a stat and its maximum by 1.</p>}
       {career.special && <p className="ik-note">{career.special}</p>}
     </div>
   )

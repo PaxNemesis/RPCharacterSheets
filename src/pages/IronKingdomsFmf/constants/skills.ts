@@ -1,14 +1,17 @@
 import type { StatKey } from '../types'
+import { compareNames } from '../utils/alphabetical'
 
 type SkillStat = StatKey | 'social'
 
-// Governing stat for each skill, from the lists on pp. 172–173. Forgery and Sailing allow
-// either of two stats; the first is used unless the player picks the other.
+// Governing stat for each skill, from the lists on pp. 172–173, plus the supplements' new skills
+// (Heavy Artillery KNG p. 305, Stormsmithing KNG p. 90, Thrall Crafting UA p. 69). Forgery and
+// Sailing allow either of two stats; the first is used unless the player picks the other.
 export const SKILL_STATS: Record<string, SkillStat> = {
   Archery: 'poi',
   Crossbow: 'poi',
   'Great Weapon': 'prw',
   'Hand Weapon': 'prw',
+  'Heavy Artillery': 'poi',
   Lance: 'prw',
   'Light Artillery': 'poi',
   Pistol: 'poi',
@@ -42,8 +45,10 @@ export const SKILL_STATS: Record<string, SkillStat> = {
   Sailing: 'int',
   Seduction: 'social',
   Sneak: 'agl',
+  Stormsmithing: 'per',
   Streetwise: 'per',
   Survival: 'per',
+  'Thrall Crafting': 'int',
   Tracking: 'per',
   'Animal Handling': 'social',
   Climbing: 'agl',
@@ -72,7 +77,7 @@ export const GENERAL_SKILLS = [
 ]
 
 /** Skill names to suggest while typing. Craft and Lore take a specialization, e.g. "Lore (Trollkin)". */
-export const SKILL_SUGGESTIONS = Object.keys(SKILL_STATS)
+export const SKILL_SUGGESTIONS = Object.keys(SKILL_STATS).sort(compareNames)
 
 /** "Craft (gunsmithing)" → "Craft". */
 export const baseSkillName = (name: string) => name.replace(/\s*\(.*\)\s*$/, '').trim()

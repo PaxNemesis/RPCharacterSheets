@@ -2,6 +2,7 @@ import { SelectField } from '@/components/SelectField'
 import { TextField } from '@/components/TextField'
 import { ARCHETYPES, findRace, RACES, TRADITIONS } from '../../../constants/races'
 import { useIkCharacter } from '../../../hooks/useIkCharacter'
+import { alphabetical } from '../../../utils/alphabetical'
 
 const options = (values: string[], empty = 'Choose…') => [
   { value: '', label: empty },
@@ -40,7 +41,7 @@ export function RaceFields() {
       <SelectField
         path="identity.race"
         label="Race"
-        options={options(withCurrent(RACES.map((r) => r.name), identity.race))}
+        options={options(withCurrent(alphabetical(RACES.map((r) => r.name)), identity.race))}
       />
       <SelectField path="identity.archetype" label="Archetype" options={options(withCurrent(archetypes, identity.archetype))} />
       {race?.name === 'Human' && (

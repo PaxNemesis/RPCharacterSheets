@@ -1,18 +1,18 @@
-import { findCareer } from '../constants/careers'
 import { findRace, LEVEL_CAPS, LEVEL_INDEX, TRADITIONS } from '../constants/races'
 import { baseSkillName, GENERAL_SKILLS } from '../constants/skills'
 import { STAT_KEYS } from '../constants/stats'
 import type { CareerData, IkCharacter, Num, StatKey } from '../types'
+import { resolveCareer } from './careerOptions'
 
 type Level = keyof typeof LEVEL_CAPS
 
 const levelOf = (character: IkCharacter): Level =>
   character.identity.level in LEVEL_CAPS ? (character.identity.level as Level) : 'Hero'
 
-/** The character's rulebook careers, when career rules are on. */
+/** The character's rulebook careers with their chosen options, when career rules are on. */
 export const careersOf = (character: IkCharacter): CareerData[] =>
   character.settings.careerRules
-    ? character.identity.careerList.map((name) => findCareer(name ?? '')).filter((career) => career !== undefined)
+    ? character.identity.careerList.map((name) => resolveCareer(character, name ?? '')).filter((career) => career !== undefined)
     : []
 
 export const variantOf = (character: IkCharacter, career: CareerData) =>

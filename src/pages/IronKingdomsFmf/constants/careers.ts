@@ -1,8 +1,10 @@
 // One data table transcribed from the core rules (pp. 120–149); kept in a single file so each entry can be checked against the book in order.
 import type { CareerData } from '../types'
 import { choose, grant, skillMaxima } from '../utils/careerText'
+import { KNG_CAREERS } from './careersKingsNationsGods'
+import { UA_CAREERS } from './careersUrbanAdventure'
 
-export const CAREERS: CareerData[] = [
+const CORE_CAREERS: CareerData[] = [
   {
     name: 'Alchemist',
     prerequisites: 'None',
@@ -257,6 +259,7 @@ export const CAREERS: CareerData[] = [
     connections: [],
     skills: [grant('Great Weapon 1')],
     spells: [],
+    variantLabel: 'Faith',
     variants: [
       { label: 'Menite', abilities: ['Dispel'], connections: ['Connections (Menite temple)'], skills: [grant('Lore (Menite faith) 1')], spells: ['Guided Blade', 'Ignite', 'Immolation'] },
       { label: 'Morrowan', abilities: ['Empower'], connections: ['Connections (Morrowan church)'], skills: [grant('Lore (Morrowan faith) 1')], spells: ['Blade of Radiance', 'Solovin’s Boon', 'True Sight'] },
@@ -310,6 +313,7 @@ export const CAREERS: CareerData[] = [
     connections: [],
     skills: [choose(1, 'Archery 1', 'Crossbow 1', 'Hand Weapon 1'), ...['Detection 1', 'Survival 1'].map(grant)],
     spells: [],
+    variantLabel: 'Element',
     variants: [
       { label: 'Fire', abilities: ['Immunity: Fire'], spells: ['Fire Starter', 'Howling Flames', 'Wall of Fire'] },
       { label: 'Ice', abilities: ['Immunity: Cold'], spells: ['Blizzard', 'Chiller', 'Ice Bolt'] },
@@ -388,6 +392,9 @@ export const CAREERS: CareerData[] = [
     abilityList: ['Bond', 'Field Marshal: Magical Attack', 'Field Marshal: Relentless Charge', 'Field Marshal: Shield Guard', 'Natural Leader'],
   },
 ]
+
+/** Every career, core rules first, then the supplements in book order. */
+export const CAREERS = [...CORE_CAREERS, ...KNG_CAREERS, ...UA_CAREERS]
 
 export const findCareer = (name: string) =>
   CAREERS.find((career) => career.name.toLowerCase() === name.trim().toLowerCase())

@@ -1,12 +1,13 @@
 import { useMemo } from 'react'
 import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
-import { ABILITY_PAGES } from '../../constants/abilities'
+import { abilityNames } from '../../constants/abilities'
 import { knownSkillStat, SKILL_SUGGESTIONS } from '../../constants/skills'
 import { SKILL_STAT_OPTIONS } from '../../constants/stats'
 import { useIkCharacter } from '../../hooks/useIkCharacter'
 import type { IkDerived, IkEntry, IkSkill } from '../../types'
 import { careersOf } from '../../utils/rules'
+import { alphabetical } from '../../utils/alphabetical'
 import { sum } from '../../utils/sum'
 import { StartingPackagePanel } from './components'
 
@@ -58,8 +59,8 @@ export function SkillsSection() {
   )
 
   const abilitySuggestions = careers.length > 0
-    ? [...new Set(careers.flatMap((career) => career.abilityList))]
-    : Object.keys(ABILITY_PAGES)
+    ? alphabetical([...new Set(careers.flatMap((career) => career.abilityList))])
+    : abilityNames(character.settings)
   const overMax = careers.length > 0
     ? character.skills.filter((skill) => {
         const max = skillMax(skill.name ?? '')

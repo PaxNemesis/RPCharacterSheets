@@ -1,0 +1,71 @@
+.fabula-ultima-page {
+  flex-grow: 1;
+
+  .fu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 12px;
+  }
+
+  /* Panels side by side when there's room. */
+  .fu-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: 12px;
+    align-items: start;
+  }
+
+  .fu-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px 10px;
+  }
+
+  .fu-wide {
+    grid-column: 1 / -1;
+  }
+
+  .fu-start {
+    align-self: flex-start;
+  }
+
+  .fu-note {
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+
+  .fu-warning {
+    font-size: 13px;
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  .fu-checks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 6px 12px;
+  }
+
+  .fu-pool {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 6px 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    .number-field-container {
+      width: 72px;
+    }
+  }
+
+  .fu-crisis input {
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+}

@@ -1,0 +1,1 @@
+export { FabulaUltima } from './FabulaUltima'

@@ -8,7 +8,7 @@ import { useIkCharacter } from '../../hooks/useIkCharacter'
 import type { IkDerived, IkEntry, IkSkill } from '../../types'
 import { careersOf } from '../../utils/rules'
 import { alphabetical } from '../../utils/alphabetical'
-import { sum } from '../../utils/sum'
+import { sum } from '@/utils/sum'
 import { StartingPackagePanel } from './components'
 
 /** The skill's stat: the one picked, or the book's governing stat for a known skill. */

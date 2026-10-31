@@ -1,0 +1,37 @@
+.formula-row-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 4px 6px;
+
+  .number-field-container {
+    width: 64px;
+  }
+
+  .formula-row-total {
+    width: 72px;
+  }
+
+  .formula-row-title {
+    width: 120px;
+    align-self: center;
+    font-weight: 800;
+    color: var(--text-h);
+  }
+
+  .formula-row-operator {
+    padding-bottom: 5px;
+    font-weight: 700;
+    color: var(--text-soft);
+  }
+
+  @media (max-width: 600px) {
+    .formula-row-title {
+      width: 100%;
+    }
+
+    .number-field-container {
+      width: 52px;
+    }
+  }
+}

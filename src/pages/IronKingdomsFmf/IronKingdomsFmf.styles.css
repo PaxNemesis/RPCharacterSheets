@@ -61,10 +61,6 @@
     .number-field-container {
       width: 64px;
     }
-
-    .ik-formula-total {
-      width: 72px;
-    }
   }
 
   .ik-formula-title {
@@ -72,12 +68,6 @@
     align-self: center;
     font-weight: 800;
     color: var(--text-h);
-  }
-
-  .ik-operator {
-    padding-bottom: 5px;
-    font-weight: 700;
-    color: var(--text-soft);
   }
 
   @media (max-width: 600px) {

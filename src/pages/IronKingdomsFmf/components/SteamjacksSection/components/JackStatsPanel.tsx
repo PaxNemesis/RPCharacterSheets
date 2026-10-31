@@ -3,8 +3,8 @@ import { Panel } from '@/components/Panel'
 import { JACK_STAT_KEYS } from '../../../constants/steamjack'
 import { STAT_LABELS } from '../../../constants/stats'
 import type { IkSteamjack } from '../../../types'
-import { sum } from '../../../utils/sum'
-import { FormulaRow } from '../../FormulaRow'
+import { sum } from '@/utils/sum'
+import { FormulaRow } from '@/components/FormulaRow'
 
 type JackStatsPanelProps = {
   jack: IkSteamjack

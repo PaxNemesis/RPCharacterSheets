@@ -1,7 +1,7 @@
 import { STAT_KEYS, ASPECTS } from '../constants/stats'
 import type { IkCharacter, IkDerived, StatKey } from '../types'
 import { racialDefense, skillMaximum, statMaximum } from './rules'
-import { sum } from './sum'
+import { sum } from '@/utils/sum'
 
 /** Works out the derived stats and life spiral from the core rules (pp. 105–107, 215). */
 export function calculate(character: IkCharacter): IkDerived {

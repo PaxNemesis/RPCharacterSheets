@@ -1,0 +1,98 @@
+.attributes-panel-container {
+  .attributes-panel-grid {
+    display: grid;
+    grid-template-columns: auto minmax(64px, 84px) minmax(52px, 72px) auto auto;
+    gap: 6px 12px;
+    align-items: center;
+  }
+
+  .attributes-panel-row {
+    display: contents;
+  }
+
+  .attributes-panel-head {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--text-soft);
+  }
+
+  .attributes-panel-name {
+    text-align: right;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-h);
+  }
+
+  .attributes-panel-short {
+    display: none;
+  }
+
+  .attributes-panel-grid input[readonly] {
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .attributes-panel-lowered input[readonly] {
+    color: var(--danger);
+  }
+
+  /* Enraged and Poisoned span two rows, joined to them by a bracket. */
+  .attributes-panel-pair {
+    grid-column: 5;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  .attributes-panel-bracket {
+    align-self: stretch;
+    width: 10px;
+    border: 2px solid var(--bracket-color);
+    border-left: none;
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* Rows 2–3 are DEX and INS, rows 4–5 MIG and WLP (row 1 is the header). */
+  .attributes-panel-enraged {
+    --bracket-color: #c27a7a;
+    grid-row: 2 / span 2;
+  }
+
+  .attributes-panel-poisoned {
+    --bracket-color: #9a7fa8;
+    grid-row: 4 / span 2;
+  }
+
+  /* Too narrow for a fifth column: Enraged and Poisoned go on a row of their own. */
+  @media (max-width: 520px) {
+    .attributes-panel-grid {
+      grid-template-columns: auto minmax(56px, 72px) minmax(48px, 64px) auto;
+      gap: 6px 8px;
+    }
+
+    .attributes-panel-pair-head,
+    .attributes-panel-bracket {
+      display: none;
+    }
+
+    .attributes-panel-pair {
+      grid-column: span 2;
+      grid-row: 6;
+      padding: 4px 0 0;
+    }
+
+    .attributes-panel-long {
+      display: none;
+    }
+
+    .attributes-panel-short {
+      display: inline;
+    }
+  }
+}

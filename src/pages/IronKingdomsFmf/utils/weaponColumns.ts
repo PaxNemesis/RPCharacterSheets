@@ -1,6 +1,6 @@
 import type { RepeatTableColumn } from '@/components/RepeatTable'
 import type { IkMeleeWeapon, IkRangedWeapon, Num, StatKey } from '../types'
-import { sum } from './sum'
+import { sum } from '@/utils/sum'
 
 type StatLookup = (key: StatKey) => Num
 

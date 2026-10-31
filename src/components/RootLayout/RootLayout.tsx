@@ -10,6 +10,7 @@ export function RootLayout() {
           RPCharacterSheets
         </Link>
         <Link to="/iron-kingdoms-fmf">Iron Kingdoms</Link>
+        <Link to="/fabula-ultima">Fabula Ultima</Link>
         <Link to="/about">About</Link>
       </nav>
       <Outlet />

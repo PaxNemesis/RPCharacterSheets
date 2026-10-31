@@ -1,7 +1,7 @@
 import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
 import type { IkDerived } from '../../../types'
-import { FormulaRow } from '../../FormulaRow'
+import { FormulaRow } from '@/components/FormulaRow'
 
 type DerivedPanelProps = {
   derived: IkDerived

@@ -17,10 +17,12 @@ export function Home() {
           </Link>
         </li>
         <li>
-          <div className="home-system home-system-soon">
+          <Link to="/fabula-ultima" className="home-system">
             <span className="home-system-title">Fabula Ultima</span>
-            <span className="home-system-description">Coming soon.</span>
-          </div>
+            <span className="home-system-description">
+              Attributes, status effects, Bonds, classes and Skills, equipment, spells and rituals, with the Atlases.
+            </span>
+          </Link>
         </li>
       </ul>
     </div>

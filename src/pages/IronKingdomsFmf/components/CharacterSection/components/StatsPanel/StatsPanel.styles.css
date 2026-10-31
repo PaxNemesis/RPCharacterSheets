@@ -26,6 +26,11 @@
     gap: 2px;
   }
 
+  .stats-panel-over input:not([readonly]) {
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+
   .stats-panel-max {
     width: 48px;
     align-self: center;

@@ -1,6 +1,6 @@
 import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
-import type { IkDerived } from '../../../IronKingdomsFmf.types'
+import type { IkDerived } from '../../../types'
 import { FormulaRow } from '../../FormulaRow'
 
 type DerivedPanelProps = {
@@ -22,6 +22,7 @@ export function DerivedPanel({ derived }: DerivedPanelProps) {
           { label: 'SPD', value: stat('spd') },
           { label: 'AGL', value: stat('agl') },
           { label: 'PER', value: stat('per') },
+          ...(derived.racialDefense !== null ? [{ label: 'Race', value: derived.racialDefense }] : []),
           { label: 'Armor', value: derived.armorDefense },
           { label: 'Other', path: 'modifiers.defense' },
         ]}

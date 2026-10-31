@@ -2,7 +2,7 @@ import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
 import { TextField } from '@/components/TextField'
 import { useIkCharacter } from '../hooks/useIkCharacter'
-import type { IkMechanika, IkSpell } from '../IronKingdomsFmf.types'
+import type { IkMechanika, IkSpell } from '../types'
 
 const SPELL_COLUMNS: RepeatTableColumn[] = [
   { key: 'name', label: 'Spell', width: 'minmax(140px, 2fr)' },
@@ -26,7 +26,7 @@ const createSpell = (): IkSpell => ({ name: '', cost: null, rng: '', aoe: '', po
 const createMechanika = (): IkMechanika => ({ name: '', runePlate: '', capacitor: '', charges: null, notes: '' })
 
 export function MagicSection() {
-  const { character } = useIkCharacter()
+  const { character, derived } = useIkCharacter()
 
   return (
     <div className="ik-section">
@@ -35,6 +35,10 @@ export function MagicSection() {
           <div className="ik-fields">
             <TextField path="arcaneTradition" label="Arcane tradition" />
           </div>
+          <p className={derived.spellLimit !== null && character.spells.length > derived.spellLimit ? 'ik-warning' : 'ik-note'}>
+            Spells known: {character.spells.length}
+            {derived.spellLimit !== null && ` of at most ${derived.spellLimit} (twice INT, p. 118)`}.
+          </p>
           <RepeatTable path="spells" columns={SPELL_COLUMNS} createRow={createSpell} itemName="spell" />
         </Panel>
       )}

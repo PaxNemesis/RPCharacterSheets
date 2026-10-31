@@ -8,7 +8,7 @@ export type RepeatTableColumn = {
   /** CSS grid track size, e.g. `2fr` or `64px`. Defaults to `1fr`. */
   width?: string
 } & (
-  | { type?: 'text'; rows?: number }
+  | { type?: 'text'; rows?: number; suggestions?: string[] }
   | { type: 'number' }
   | { type: 'select'; options: SelectOption[] }
   /** Read-only, worked out from the row's other values. */

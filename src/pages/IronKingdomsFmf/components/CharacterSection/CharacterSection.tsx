@@ -4,7 +4,7 @@ import { useIkCharacter } from '../../hooks/useIkCharacter'
 import { DerivedPanel, IdentityPanel, StatsPanel } from './components'
 
 export function CharacterSection() {
-  const { derived } = useIkCharacter()
+  const { character, derived } = useIkCharacter()
 
   return (
     <div className="ik-section">
@@ -13,7 +13,7 @@ export function CharacterSection() {
         <Panel title="Portrait">
           <ImageField path="portrait" label="Character portrait" />
         </Panel>
-        <StatsPanel willpower={derived.willpower} />
+        <StatsPanel character={character} derived={derived} />
       </div>
       <DerivedPanel derived={derived} />
     </div>

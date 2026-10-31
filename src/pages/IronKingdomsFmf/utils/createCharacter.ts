@@ -1,7 +1,7 @@
 import { POWER_ATTACKS } from '../constants/powerAttacks'
 import { GRID_COLUMNS, GRID_ROWS, JACK_STAT_KEYS } from '../constants/steamjack'
 import { STAT_KEYS } from '../constants/stats'
-import type { IkCharacter, IkSkill, IkSteamjack } from '../IronKingdomsFmf.types'
+import type { IkCharacter, IkSkill, IkSteamjack } from '../types'
 
 // The skills printed on the official character sheet.
 const STARTING_SKILLS: Pick<IkSkill, 'name' | 'stat'>[] = [
@@ -35,13 +35,17 @@ export const createSteamjack = (): IkSteamjack => ({
 })
 
 export const createCharacter = (): IkCharacter => ({
-  settings: { magic: true, mechanika: true, steamjacks: true, powerField: false },
+  settings: { raceRules: true, careerRules: true, magic: true, mechanika: true, steamjacks: true, powerField: false },
   identity: {
     name: '',
     player: '',
     race: '',
     archetype: '',
     careers: '',
+    careerList: ['', ''],
+    careerVariants: {},
+    careerChoices: {},
+    humanBonus: '',
     level: 'Hero',
     xp: null,
     sex: '',

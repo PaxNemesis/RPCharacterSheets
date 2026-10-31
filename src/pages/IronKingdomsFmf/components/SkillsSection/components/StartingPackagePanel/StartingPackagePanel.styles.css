@@ -1,0 +1,46 @@
+.starting-package-container {
+  .starting-package-careers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 12px;
+  }
+
+  .starting-package-career {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-alt);
+
+    h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 4px 8px;
+      margin: 0;
+      font-size: 13px;
+    }
+
+    dt {
+      font-weight: 700;
+      color: var(--text-soft);
+    }
+
+    dd {
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 10px;
+      align-items: center;
+    }
+
+    select {
+      width: auto;
+      font-size: 13px;
+      padding: 2px 4px;
+    }
+  }
+}

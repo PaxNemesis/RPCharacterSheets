@@ -1,4 +1,4 @@
-import type { JackStatKey } from '../IronKingdomsFmf.types'
+import type { JackStatKey } from '../types'
 
 export const JACK_STAT_KEYS: JackStatKey[] = ['phy', 'spd', 'str', 'agl', 'prw', 'poi', 'int', 'per']
 

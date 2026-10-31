@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Panel } from '@/components/Panel'
 import { useSheetField } from '@/components/SheetProvider'
 import { CRIPPLED_SYSTEMS, GRID_CELL_TYPES, GRID_COLUMNS, GRID_ROWS } from '../../../../constants/steamjack'
-import type { JackGridCell } from '../../../../IronKingdomsFmf.types'
+import type { JackGridCell } from '../../../../types'
 import './JackDamageGrid.styles.css'
 
 const labelOf = (type: string) => GRID_CELL_TYPES.find((cell) => cell.type === type)?.label ?? type

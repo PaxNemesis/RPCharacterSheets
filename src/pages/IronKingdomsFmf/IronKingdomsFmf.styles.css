@@ -30,6 +30,17 @@
     align-self: flex-start;
   }
 
+  .ik-career {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .ik-career-add {
+    align-self: end;
+    justify-self: start;
+  }
+
   .ik-note {
     font-size: 13px;
     color: var(--text-soft);

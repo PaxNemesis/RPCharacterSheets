@@ -1,5 +1,5 @@
 import type { RepeatTableColumn } from '@/components/RepeatTable'
-import type { IkMeleeWeapon, IkRangedWeapon, Num, StatKey } from '../IronKingdomsFmf.types'
+import type { IkMeleeWeapon, IkRangedWeapon, Num, StatKey } from '../types'
 import { sum } from './sum'
 
 type StatLookup = (key: StatKey) => Num

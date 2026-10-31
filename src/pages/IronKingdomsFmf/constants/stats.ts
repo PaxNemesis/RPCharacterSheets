@@ -1,4 +1,4 @@
-import type { AspectKey, StatKey } from '../IronKingdomsFmf.types'
+import type { AspectKey, StatKey } from '../types'
 
 export const ASPECTS: { key: AspectKey; label: string; primary: StatKey; secondary: StatKey[]; color: string }[] = [
   { key: 'physique', label: 'Physique', primary: 'phy', secondary: ['spd', 'str'], color: '#2f5e8c' },

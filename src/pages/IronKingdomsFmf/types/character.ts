@@ -5,6 +5,10 @@ export type AspectKey = 'physique' | 'agility' | 'intellect'
 export type JackStatKey = Exclude<StatKey, 'arc'>
 
 export type IkSettings = {
+  /** Use the core rulebook races for archetypes, starting stats and stat maximums. */
+  raceRules: boolean
+  /** Use the core rulebook careers for starting packages and skill maximums. */
+  careerRules: boolean
   magic: boolean
   mechanika: boolean
   steamjacks: boolean
@@ -16,7 +20,16 @@ export type IkIdentity = {
   player: string
   race: string
   archetype: string
+  /** Free-text careers, used when career rules are off. */
   careers: string
+  /** Rulebook careers, used when career rules are on; the first two are the starting careers. */
+  careerList: string[]
+  /** Chosen version per career, e.g. { Sorcerer: 'Stone' }. */
+  careerVariants: Record<string, string>
+  /** Picks for the starting package's "choose one of…" skills, keyed by career and choice. */
+  careerChoices: Record<string, string[]>
+  /** A human's Exceptional Potential: +1 to PHY, AGL or INT. */
+  humanBonus: '' | 'phy' | 'agl' | 'int'
   level: string
   xp: Num
   sex: string
@@ -111,6 +124,13 @@ export type IkCharacter = {
 /** Values worked out from the character; never stored. */
 export type IkDerived = {
   stat: (key: StatKey) => Num
+  /** Maximum per stat: from the race and level with race rules on, otherwise as typed. */
+  statMax: (key: StatKey) => Num
+  overMax: StatKey[]
+  racialDefense: Num
+  /** Highest level a skill can reach, from careers and experience level; null if no career offers it. */
+  skillMax: (name: string) => Num
+  spellLimit: Num
   willpower: Num
   armorDefense: Num
   armorArmor: Num

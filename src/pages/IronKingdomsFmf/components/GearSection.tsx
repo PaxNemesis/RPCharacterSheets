@@ -2,7 +2,7 @@ import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
 import { TextField } from '@/components/TextField'
-import type { IkArmor, IkGear } from '../IronKingdomsFmf.types'
+import type { IkArmor, IkGear } from '../types'
 
 const GEAR_COLUMNS: RepeatTableColumn[] = [
   { key: 'name', label: 'Name', width: 'minmax(140px, 1fr)' },

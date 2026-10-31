@@ -1,5 +1,6 @@
 import { Field } from '@/components/Field'
 import { useSheetField } from '@/components/SheetProvider'
+import { SuggestionInput } from './components'
 
 type TextFieldProps = {
   path: string
@@ -8,10 +9,12 @@ type TextFieldProps = {
   /** Number of visible lines; above 1 renders a textarea. */
   rows?: number
   placeholder?: string
+  /** Values offered while typing; any other text is still allowed. */
+  suggestions?: string[]
   className?: string
 }
 
-export function TextField({ path, label, hideLabel, rows = 1, placeholder, className }: TextFieldProps) {
+export function TextField({ path, label, hideLabel, rows = 1, placeholder, suggestions, className }: TextFieldProps) {
   const [value, setValue] = useSheetField<string | undefined>(path)
 
   return (
@@ -24,6 +27,14 @@ export function TextField({ path, label, hideLabel, rows = 1, placeholder, class
             value={value ?? ''}
             placeholder={placeholder}
             onChange={(event) => setValue(event.target.value)}
+          />
+        ) : suggestions ? (
+          <SuggestionInput
+            id={id}
+            value={value ?? ''}
+            placeholder={placeholder}
+            suggestions={suggestions}
+            onChange={setValue}
           />
         ) : (
           <input

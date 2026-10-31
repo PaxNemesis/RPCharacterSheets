@@ -1,4 +1,4 @@
-import type { Num } from '../IronKingdomsFmf.types'
+import type { Num } from '../types'
 
 /** Adds the numbers that are filled in; returns null when none are, so empty totals stay blank. */
 export const sum = (...values: (Num | undefined)[]): Num => {

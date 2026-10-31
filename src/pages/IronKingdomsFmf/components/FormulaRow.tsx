@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { NumberField } from '@/components/NumberField'
-import type { Num } from '../IronKingdomsFmf.types'
+import type { Num } from '../types'
 
 /** A term is either typed in (`path`) or calculated (`value`). */
 type FormulaTerm = { label: string; path?: string; value?: Num }

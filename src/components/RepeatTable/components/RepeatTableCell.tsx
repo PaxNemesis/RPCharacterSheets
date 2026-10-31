@@ -28,6 +28,8 @@ export function RepeatTableCell({ column, rowLabel }: RepeatTableCellProps) {
         />
       )
     default:
-      return <TextField path={column.key} label={label} hideLabel rows={column.rows} />
+      return (
+        <TextField path={column.key} label={label} hideLabel rows={column.rows} suggestions={column.suggestions} />
+      )
   }
 }

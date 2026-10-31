@@ -1,7 +1,7 @@
 import { useState, type ComponentType } from 'react'
 import { Tabs } from '@/components/Tabs'
 import { useIkCharacter } from '../hooks/useIkCharacter'
-import type { IkSettings } from '../IronKingdomsFmf.types'
+import type { IkSettings } from '../types'
 import { CharacterSection } from './CharacterSection'
 import { CombatSection } from './CombatSection'
 import { GearSection } from './GearSection'

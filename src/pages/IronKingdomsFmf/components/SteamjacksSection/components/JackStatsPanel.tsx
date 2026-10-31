@@ -2,7 +2,7 @@ import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
 import { JACK_STAT_KEYS } from '../../../constants/steamjack'
 import { STAT_LABELS } from '../../../constants/stats'
-import type { IkSteamjack } from '../../../IronKingdomsFmf.types'
+import type { IkSteamjack } from '../../../types'
 import { sum } from '../../../utils/sum'
 import { FormulaRow } from '../../FormulaRow'
 

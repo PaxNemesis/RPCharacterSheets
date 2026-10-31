@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SheetProvider, useSheetField } from '@/components/SheetProvider'
 import { Tabs } from '@/components/Tabs'
-import type { IkSteamjack } from '../../IronKingdomsFmf.types'
+import type { IkSteamjack } from '../../types'
 import { createSteamjack } from '../../utils/createCharacter'
 import { SteamjackSheet } from './components'
 

@@ -22,6 +22,11 @@
     gap: 6px;
   }
 
+  .character-workspace-danger {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+
   .character-workspace-alert {
     padding: 8px 12px;
     border: 1px solid var(--danger);

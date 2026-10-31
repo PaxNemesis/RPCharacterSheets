@@ -102,9 +102,21 @@ export function useCharacterStore<T>(system: SheetSystem<T>) {
     [system],
   )
 
+  // A new id remounts the sheet, so no field keeps a half-typed value from before the reset.
+  const reset = useCallback(
+    (id: string) => {
+      const character = blank(system)
+      setState((s) => ({
+        characters: s.characters.map((c) => (c.id === id ? character : c)),
+        activeId: s.activeId === id ? character.id : s.activeId,
+      }))
+    },
+    [system],
+  )
+
   const select = useCallback((id: string) => setState((s) => ({ ...s, activeId: id })), [])
 
   const active = state.characters.find((c) => c.id === state.activeId) ?? state.characters[0]
 
-  return { characters: state.characters, active, add, update, remove, select, storageFailed }
+  return { characters: state.characters, active, add, update, remove, reset, select, storageFailed }
 }

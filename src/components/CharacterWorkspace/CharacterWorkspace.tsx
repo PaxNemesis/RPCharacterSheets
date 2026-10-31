@@ -12,7 +12,7 @@ type CharacterWorkspaceProps<T> = {
 }
 
 export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
-  const { characters, active, add, update, remove, select, storageFailed } = useCharacterStore(system)
+  const { characters, active, add, update, remove, reset, select, storageFailed } = useCharacterStore(system)
   const [errors, setErrors] = useState<string[]>([])
   const nameOf = (data: T) => system.getName(data).trim() || 'Unnamed character'
 
@@ -42,11 +42,21 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
     if (window.confirm(message)) remove(id)
   }
 
+  const confirmReset = () => {
+    const name = nameOf(active.data)
+    const message = `Reset ${name}?\n\nEverything on this sheet will be cleared, including the portrait and settings. This can't be undone. Save it as JSON first if you want to keep a copy.`
+    if (window.confirm(message)) reset(active.id)
+  }
+
   return (
     <div className="character-workspace-container">
       <header className="character-workspace-header">
         <h1>{system.title}</h1>
-        <WorkspaceToolbar onNew={() => add()} onOpen={open} onSave={() => downloadCharacterFile(system, active.data)} />
+        <WorkspaceToolbar
+          onOpen={open}
+          onSave={() => downloadCharacterFile(system, active.data)}
+          onReset={confirmReset}
+        />
       </header>
       {storageFailed && (
         <p className="character-workspace-alert" role="alert">
@@ -66,7 +76,13 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
         onSelect={select}
         onClose={close}
         trailing={
-          <button type="button" className="character-workspace-add" aria-label="New character" onClick={() => add()}>
+          <button
+            type="button"
+            className="character-workspace-add"
+            aria-label="New character"
+            title="New character"
+            onClick={() => add()}
+          >
             +
           </button>
         }

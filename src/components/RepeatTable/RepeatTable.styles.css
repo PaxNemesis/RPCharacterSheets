@@ -1,0 +1,57 @@
+.repeat-table-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .repeat-table-scroll {
+    overflow-x: auto;
+  }
+
+  .repeat-table-grid {
+    display: grid;
+    gap: 4px 6px;
+    min-width: 520px;
+    align-items: start;
+  }
+
+  /* Rows share the parent grid's columns. */
+  .repeat-table-row {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: start;
+    padding: 3px 0;
+    border-radius: 4px;
+
+    &:nth-child(even) {
+      background: var(--surface-alt);
+    }
+  }
+
+  .repeat-table-head {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    padding: 0;
+  }
+
+  .repeat-table-remove {
+    padding: 0;
+    height: 28px;
+    color: var(--text-soft);
+    background: transparent;
+    border-color: transparent;
+
+    &:hover {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+  }
+
+  .repeat-table-add {
+    align-self: flex-start;
+    font-size: 13px;
+  }
+}

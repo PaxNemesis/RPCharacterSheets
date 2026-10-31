@@ -1,0 +1,81 @@
+import { useCallback, useState } from 'react'
+import { SheetProvider, type SheetUpdater } from '@/components/SheetProvider'
+import { Tabs } from '@/components/Tabs'
+import type { SheetSystem } from './CharacterWorkspace.types'
+import { WorkspaceToolbar } from './components'
+import { useCharacterStore } from './hooks/useCharacterStore'
+import { downloadCharacterFile, parseCharacterFile } from './utils/characterFile'
+import './CharacterWorkspace.styles.css'
+
+type CharacterWorkspaceProps<T> = {
+  system: SheetSystem<T>
+}
+
+export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
+  const { characters, active, add, update, remove, select, storageFailed } = useCharacterStore(system)
+  const [errors, setErrors] = useState<string[]>([])
+  const nameOf = (data: T) => system.getName(data).trim() || 'Unnamed character'
+
+  const activeId = active.id
+  const onChange = useCallback(
+    (updater: SheetUpdater) => update(activeId, updater as (data: T) => T),
+    [update, activeId],
+  )
+
+  const open = async (files: File[]) => {
+    const problems: string[] = []
+    for (const file of files) {
+      try {
+        add(parseCharacterFile(system, await file.text()))
+      } catch (error) {
+        problems.push(`${file.name} ${(error as Error).message}.`)
+      }
+    }
+    setErrors(problems)
+  }
+
+  const close = (id: string) => {
+    const character = characters.find((c) => c.id === id)
+    if (!character) return
+    const name = nameOf(character.data)
+    const message = `Close ${name}?\n\nIt will be removed from this browser. Save it as JSON first if you want to keep it.`
+    if (window.confirm(message)) remove(id)
+  }
+
+  return (
+    <div className="character-workspace-container">
+      <header className="character-workspace-header">
+        <h1>{system.title}</h1>
+        <WorkspaceToolbar onNew={() => add()} onOpen={open} onSave={() => downloadCharacterFile(system, active.data)} />
+      </header>
+      {storageFailed && (
+        <p className="character-workspace-alert" role="alert">
+          This browser couldn&apos;t store your characters, possibly because storage is full or blocked. Use Save
+          JSON to keep your changes.
+        </p>
+      )}
+      {errors.map((error) => (
+        <p key={error} className="character-workspace-alert" role="alert">
+          Couldn&apos;t open {error}
+        </p>
+      ))}
+      <Tabs
+        label="Open characters"
+        items={characters.map((c) => ({ id: c.id, label: nameOf(c.data) }))}
+        activeId={active.id}
+        onSelect={select}
+        onClose={close}
+        trailing={
+          <button type="button" className="character-workspace-add" aria-label="New character" onClick={() => add()}>
+            +
+          </button>
+        }
+      />
+      <div className="character-workspace-sheet">
+        <SheetProvider key={active.id} data={active.data} onChange={onChange}>
+          <system.Sheet />
+        </SheetProvider>
+      </div>
+    </div>
+  )
+}

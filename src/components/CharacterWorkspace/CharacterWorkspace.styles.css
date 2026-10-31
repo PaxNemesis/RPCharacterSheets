@@ -1,0 +1,42 @@
+.character-workspace-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
+
+  .character-workspace-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .character-workspace-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .character-workspace-alert {
+    padding: 8px 12px;
+    border: 1px solid var(--danger);
+    border-radius: 6px;
+    color: var(--danger);
+    background: var(--surface);
+  }
+
+  .character-workspace-add {
+    flex-shrink: 0;
+    padding: 4px 12px;
+    font-weight: 700;
+  }
+
+  .character-workspace-sheet {
+    margin-top: -12px;
+  }
+}

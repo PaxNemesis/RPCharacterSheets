@@ -1,0 +1,1 @@
+export { LifeSpiral } from './LifeSpiral'

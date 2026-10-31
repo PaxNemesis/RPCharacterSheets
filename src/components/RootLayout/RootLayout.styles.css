@@ -5,12 +5,29 @@
 
   .root-layout-nav {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 16px;
-    justify-content: center;
-    padding: 16px;
+    padding: 10px 16px;
+    background: var(--border-strong);
 
-    a.active {
-      font-weight: 600;
+    a {
+      color: var(--bg);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
+
+    a.active:not(.root-layout-brand) {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+  }
+
+  .root-layout-brand {
+    font-weight: 800;
+    margin-right: auto;
   }
 }

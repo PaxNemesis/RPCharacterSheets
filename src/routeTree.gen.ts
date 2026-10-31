@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as IronKingdomsFmfRouteImport } from './routes/iron-kingdoms-fmf'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IronKingdomsFmfRoute = IronKingdomsFmfRouteImport.update({
+  id: '/iron-kingdoms-fmf',
+  path: '/iron-kingdoms-fmf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/iron-kingdoms-fmf': typeof IronKingdomsFmfRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/iron-kingdoms-fmf': typeof IronKingdomsFmfRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/iron-kingdoms-fmf': typeof IronKingdomsFmfRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/about' | '/iron-kingdoms-fmf'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '/about' | '/iron-kingdoms-fmf'
+  id: '__root__' | '/' | '/about' | '/iron-kingdoms-fmf'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  IronKingdomsFmfRoute: typeof IronKingdomsFmfRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/iron-kingdoms-fmf': {
+      id: '/iron-kingdoms-fmf'
+      path: '/iron-kingdoms-fmf'
+      fullPath: '/iron-kingdoms-fmf'
+      preLoaderRoute: typeof IronKingdomsFmfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  IronKingdomsFmfRoute: IronKingdomsFmfRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

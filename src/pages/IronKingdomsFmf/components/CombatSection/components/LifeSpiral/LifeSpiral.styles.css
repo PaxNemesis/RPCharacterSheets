@@ -1,0 +1,80 @@
+.life-spiral-container {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  display: block;
+
+  .life-spiral-cog {
+    fill: #3a3027;
+  }
+
+  .life-spiral-line {
+    fill: none;
+    stroke: #f4efe4;
+    stroke-width: 3;
+  }
+
+  .life-spiral-point {
+    cursor: pointer;
+
+    circle {
+      fill: #fff;
+      stroke: currentColor;
+      stroke-width: 3.5;
+    }
+
+    path {
+      stroke: #fff;
+      stroke-width: 4;
+      stroke-linecap: round;
+    }
+
+    &:hover circle {
+      stroke-width: 6;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      circle {
+        stroke: var(--focus);
+        stroke-width: 6;
+      }
+    }
+  }
+
+  .life-spiral-marked circle {
+    fill: currentColor;
+  }
+
+  .life-spiral-unused {
+    fill: #120e0a;
+    stroke: currentColor;
+    stroke-width: 2;
+    opacity: 0.85;
+  }
+
+  .life-spiral-badge {
+    fill: currentColor;
+    stroke: #fff;
+    stroke-width: 4;
+  }
+
+  .life-spiral-number {
+    fill: #fff;
+    font-size: 26px;
+    font-weight: 800;
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+
+  .life-spiral-aspect {
+    fill: #fff;
+    stroke: currentColor;
+    stroke-width: 5;
+    paint-order: stroke;
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 3px;
+  }
+}

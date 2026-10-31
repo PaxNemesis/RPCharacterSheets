@@ -1,0 +1,52 @@
+.jack-damage-grid-container {
+  --cell: 40px;
+
+  .jack-damage-grid-columns,
+  .jack-damage-grid {
+    display: grid;
+    grid-template-columns: repeat(6, var(--cell));
+    gap: 4px;
+  }
+
+  .jack-damage-grid-columns span {
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-h);
+  }
+
+  /* Cells are stored column by column. */
+  .jack-damage-grid {
+    grid-template-rows: repeat(6, var(--cell));
+    grid-auto-flow: column;
+  }
+
+  .jack-damage-grid-cell {
+    padding: 0;
+    font-weight: 800;
+    font-size: 15px;
+    border: 2px solid var(--border-strong);
+    border-radius: 3px;
+    background: var(--input-bg);
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+
+  .jack-damage-grid-cell-empty {
+    border: 1px dashed var(--border);
+    background: transparent;
+  }
+
+  .jack-damage-grid-cell-damaged {
+    color: var(--accent-contrast);
+    background:
+      linear-gradient(45deg, transparent 45%, var(--input-bg) 45% 55%, transparent 55%),
+      linear-gradient(-45deg, transparent 45%, var(--input-bg) 45% 55%, transparent 55%),
+      var(--accent);
+  }
+
+  .jack-damage-grid-editing .jack-damage-grid-cell {
+    border-color: var(--focus);
+  }
+}

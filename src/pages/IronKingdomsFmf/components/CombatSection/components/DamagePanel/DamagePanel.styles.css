@@ -1,0 +1,62 @@
+.damage-panel-container {
+  .damage-panel-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 460px) minmax(220px, 1fr);
+    gap: 16px;
+    align-items: start;
+
+    @media (max-width: 700px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .damage-panel-side {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .damage-panel-crippled {
+    font-size: 13px;
+  }
+
+  .damage-panel-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 6px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-alt);
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    input,
+    select {
+      width: 72px;
+    }
+  }
+
+  .damage-panel-form-title {
+    width: 100%;
+    font-weight: 700;
+    color: var(--text-h);
+  }
+
+  .damage-panel-power {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 8px;
+    align-items: end;
+  }
+}

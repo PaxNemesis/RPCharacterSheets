@@ -6,7 +6,10 @@ export function RootLayout() {
   return (
     <div className="root-layout-container">
       <nav className="root-layout-nav">
-        <Link to="/">Home</Link>
+        <Link to="/" className="root-layout-brand">
+          RPCharacterSheets
+        </Link>
+        <Link to="/iron-kingdoms-fmf">Iron Kingdoms</Link>
         <Link to="/about">About</Link>
       </nav>
       <Outlet />

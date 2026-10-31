@@ -1,0 +1,26 @@
+.number-field-container {
+  input {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+
+    &[aria-invalid='true'] {
+      border-color: var(--danger);
+    }
+  }
+
+  &.number-field-sm input {
+    padding: 2px 4px;
+    font-size: 13px;
+  }
+
+  &.number-field-lg input {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 6px 4px;
+  }
+
+  &.number-field-sm .field-label,
+  &.number-field-lg .field-label {
+    text-align: center;
+  }
+}

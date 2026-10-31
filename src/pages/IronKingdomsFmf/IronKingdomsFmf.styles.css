@@ -1,0 +1,81 @@
+.iron-kingdoms-fmf-page {
+  flex-grow: 1;
+
+  .ik-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 12px;
+  }
+
+  /* Panels side by side when there's room. */
+  .ik-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: 12px;
+    align-items: start;
+  }
+
+  .ik-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px 10px;
+  }
+
+  .ik-wide {
+    grid-column: 1 / -1;
+  }
+
+  .ik-start {
+    align-self: flex-start;
+  }
+
+  .ik-note {
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+
+  .ik-warning {
+    font-size: 13px;
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  .ik-formula {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 4px 6px;
+
+    .number-field-container {
+      width: 64px;
+    }
+
+    .ik-formula-total {
+      width: 72px;
+    }
+  }
+
+  .ik-formula-title {
+    width: 120px;
+    align-self: center;
+    font-weight: 800;
+    color: var(--text-h);
+  }
+
+  .ik-operator {
+    padding-bottom: 5px;
+    font-weight: 700;
+    color: var(--text-soft);
+  }
+
+  @media (max-width: 600px) {
+    .ik-formula-title {
+      width: 100%;
+    }
+
+    .ik-formula .number-field-container {
+      width: 52px;
+    }
+  }
+}

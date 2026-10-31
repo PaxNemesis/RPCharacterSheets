@@ -1,6 +1,14 @@
-# Fabula Ultima
+# RPCharacterSheets
 
-React + TypeScript app built with Vite and pnpm, deployed to GitHub Pages.
+Fillable character sheets for tabletop roleplaying games, with automatic totals, several characters open in tabs, and JSON save/load. React + TypeScript app built with Vite and pnpm, deployed to GitHub Pages.
+
+Supported systems: Iron Kingdoms: Full Metal Fantasy. Fabula Ultima is planned.
+
+## Adding a game system
+
+Each system is a page in `src/pages/<System>/` that renders the shared `CharacterWorkspace` with a `SheetSystem` definition: an id, a data `version`, `createCharacter`, `getName` and a `Sheet` component. The sheet is built from the shared field components (`TextField`, `NumberField`, `RepeatTable`, `CheckTrack`, `ImageField`, …), which read and write the character by path through `SheetProvider`. Calculated values are worked out from the data on every render and never saved.
+
+Saved files look like `{ "system": "<id>", "version": 1, "data": { … } }`. When the data shape changes, bump `version` and upgrade old data in the system's `migrate` function; missing fields are filled from `createCharacter` automatically.
 
 ## Development
 

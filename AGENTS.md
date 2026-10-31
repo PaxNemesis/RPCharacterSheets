@@ -1,6 +1,6 @@
-# Fabula Ultima
+# RPCharacterSheets
 
-React 19 + TypeScript single-page app, built with Vite and pnpm, deployed to GitHub Pages.
+Multi-system tabletop RPG character sheets. React 19 + TypeScript single-page app, built with Vite and pnpm, deployed to GitHub Pages.
 
 ## Commands
 
@@ -18,8 +18,9 @@ Before creating or editing any `.ts` or `.tsx` file, read and follow [.github/in
 ## Project layout
 
 - `src/routes/` — TanStack Router file-based routes. Each file only defines a route and points at a page component; no components live here. Route files must export `Route`.
-- `src/pages/` — one component folder per page (`Home`, `About`, `NotFound`).
-- `src/components/` — shared components, including `RootLayout` (nav and `<Outlet />`).
+- `src/pages/` — one component folder per page (`Home`, `About`, `NotFound`, and one per game system such as `IronKingdomsFmf`).
+- `src/components/` — shared components, including `RootLayout` (nav and `<Outlet />`), `CharacterWorkspace` (character tabs, browser autosave, JSON save/load) and the sheet field components.
+- Game rules (stats, formulas, constants) live in that system's page folder, never in shared components. The site is public: copy only names, numbers and page references from rulebooks, not rules text.
 - `src/index.css` — global styles and theme variables. Component styles go in each component's `<Component>.styles.css`.
 - Import across folders with the `@/` alias (`@/pages/Home`), which points at `src/`.
 

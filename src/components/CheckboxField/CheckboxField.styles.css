@@ -1,0 +1,29 @@
+.checkbox-field-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  input {
+    width: 16px;
+    height: 16px;
+    margin: 2px 0 0;
+    flex-shrink: 0;
+    accent-color: var(--accent);
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .checkbox-field-label {
+    color: var(--text-h);
+    font-weight: 600;
+  }
+
+  .checkbox-field-description {
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+}

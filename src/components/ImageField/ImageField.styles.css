@@ -1,0 +1,45 @@
+.image-field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+
+  .image-field-drop {
+    flex-grow: 1;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+    background: var(--input-bg);
+    border: 1.5px dashed var(--border);
+    border-radius: 6px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .image-field-dragging {
+    border-color: var(--focus);
+    border-style: solid;
+  }
+
+  .image-field-hint {
+    color: var(--text-soft);
+    padding: 12px;
+  }
+
+  .image-field-error {
+    color: var(--danger);
+    font-size: 13px;
+  }
+
+  .image-field-remove {
+    align-self: flex-start;
+    font-size: 13px;
+  }
+}

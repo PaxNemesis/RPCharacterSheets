@@ -1,7 +1,7 @@
 import { POWER_ATTACKS } from '../constants/powerAttacks'
 import { GRID_COLUMNS, GRID_ROWS, JACK_STAT_KEYS } from '../constants/steamjack'
 import { STAT_KEYS } from '../constants/stats'
-import type { IkCharacter, IkSkill, IkSteamjack } from '../types'
+import type { IkCharacter, IkMechanika, IkSkill, IkSteamjack } from '../types'
 
 // The skills printed on the official character sheet.
 const STARTING_SKILLS: Pick<IkSkill, 'name' | 'stat'>[] = [
@@ -32,6 +32,17 @@ export const createSteamjack = (): IkSteamjack => ({
   catastrophic: [],
   gear: [],
   powerAttacks: POWER_ATTACKS.map((attack) => ({ ...attack })),
+})
+
+export const createMechanika = (): IkMechanika => ({
+  name: '',
+  type: '',
+  housing: '',
+  capacitor: '',
+  power: null,
+  lifespan: '',
+  runes: [],
+  notes: '',
 })
 
 export const createCharacter = (): IkCharacter => ({

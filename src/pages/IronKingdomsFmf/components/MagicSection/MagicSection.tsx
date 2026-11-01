@@ -1,8 +1,11 @@
 import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
+import { SheetProvider, useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
-import { useIkCharacter } from '../hooks/useIkCharacter'
-import type { IkMechanika, IkSpell } from '../types'
+import { useIkCharacter } from '../../hooks/useIkCharacter'
+import type { IkSpell } from '../../types'
+import { createMechanika } from '../../utils/createCharacter'
+import { MechanikaDevice } from './components'
 
 const SPELL_COLUMNS: RepeatTableColumn[] = [
   { key: 'name', label: 'Spell', width: 'minmax(140px, 2fr)' },
@@ -16,14 +19,6 @@ const SPELL_COLUMNS: RepeatTableColumn[] = [
   { key: 'description', label: 'Description', rows: 2, wide: true },
 ]
 
-const MECHANIKA_COLUMNS: RepeatTableColumn[] = [
-  { key: 'name', label: 'Housing', width: 'minmax(120px, 1fr)' },
-  { key: 'runePlate', label: 'Rune plate', width: 'minmax(120px, 1fr)' },
-  { key: 'capacitor', label: 'Capacitor', width: 'minmax(100px, 1fr)' },
-  { key: 'charges', label: 'Charges', width: '64px', type: 'number' },
-  { key: 'notes', label: 'Notes', width: 'minmax(160px, 2fr)', rows: 2 },
-]
-
 const createSpell = (): IkSpell => ({
   name: '',
   cost: null,
@@ -35,10 +30,17 @@ const createSpell = (): IkSpell => ({
   page: '',
   description: '',
 })
-const createMechanika = (): IkMechanika => ({ name: '', runePlate: '', capacitor: '', charges: null, notes: '' })
 
 export function MagicSection() {
   const { character, derived } = useIkCharacter()
+  const { set } = useSheet()
+  const devices = character.mechanika ?? []
+  const deviceName = (index: number) => devices[index].name?.trim() || `Device ${index + 1}`
+
+  const removeDevice = (index: number) => {
+    if (!window.confirm(`Remove ${deviceName(index)} and everything recorded for it?`)) return
+    set('mechanika', devices.filter((_, other) => other !== index))
+  }
 
   return (
     <div className="ik-section">
@@ -55,9 +57,27 @@ export function MagicSection() {
         </Panel>
       )}
       {character.settings.mechanika && (
-        <Panel title="Mechanika">
-          <RepeatTable path="mechanika" columns={MECHANIKA_COLUMNS} createRow={createMechanika} itemName="device" />
-        </Panel>
+        <>
+          <Panel
+            title="Mechanika"
+            actions={
+              <button type="button" onClick={() => set('mechanika', [...devices, createMechanika()])}>
+                + Add device
+              </button>
+            }
+          >
+            <p className="ik-note">
+              A device is a housing, a capacitor and a runeplate (pp. 279–286). A runeplate holds up to five rune
+              points, all of one type, and the capacitor must power them all. Pick a capacitor or rune by name to fill in
+              its values.
+            </p>
+          </Panel>
+          {devices.map((_, index) => (
+            <SheetProvider key={index} path={`mechanika.${index}`}>
+              <MechanikaDevice number={index + 1} onRemove={() => removeDevice(index)} />
+            </SheetProvider>
+          ))}
+        </>
       )}
     </div>
   )

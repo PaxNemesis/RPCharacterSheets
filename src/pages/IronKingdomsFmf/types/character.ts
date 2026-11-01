@@ -82,7 +82,20 @@ export type IkSpell = {
   page: string
   description: string
 }
-export type IkMechanika = { name: string; runePlate: string; capacitor: string; charges: Num; notes: string }
+export type MechanikaType = 'armor' | 'melee' | 'ranged' | 'other'
+export type IkRune = { name: string; points: Num; page: string; notes: string }
+
+/** A mechanikal device: housing, capacitor and one runeplate (pp. 279–286). */
+export type IkMechanika = {
+  name: string
+  type: MechanikaType | ''
+  housing: string
+  capacitor: string
+  power: Num
+  lifespan: string
+  runes: IkRune[]
+  notes: string
+}
 
 export type JackGridCell = {
   /** '' = no box, 'hull' = plain box, or a system letter such as 'L' or 'C'. */

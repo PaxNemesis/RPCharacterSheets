@@ -1,4 +1,4 @@
-import type { StatKey } from './character'
+import type { MechanikaType, StatKey } from './character'
 
 export type ExperienceLevel = 'Hero' | 'Veteran' | 'Epic'
 
@@ -113,3 +113,8 @@ export type WeaponData = {
   ammo?: string
   note?: string
 }
+
+export type CapacitorData = { name: string; page: number; power: number; lifespan: string }
+
+/** A mechanika rune; `types` lists the devices it can be inscribed for. */
+export type RuneData = { name: string; page: number; types: MechanikaType[]; points: number; note?: string }

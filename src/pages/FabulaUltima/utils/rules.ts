@@ -2,6 +2,7 @@ import { DISCIPLINES } from '../constants/attributes'
 import { bookEnabled } from '../constants/books'
 import { findClass } from '../constants/classes'
 import { HEROIC_SKILLS } from '../constants/heroicSkills'
+import { findQuirk } from '../constants/quirks'
 import type { Discipline, FuCharacter, FuClass, MartialKey } from '../types'
 
 const DISCIPLINE_KEYS = DISCIPLINES.map((discipline) => discipline.key)
@@ -55,6 +56,24 @@ export function heroicBonus(character: FuCharacter, level: number) {
     totals.ip += data?.bonus?.ip ?? 0
   }
   return totals
+}
+
+/** The character's rulebook Quirk, if Quirks and its book are turned on. */
+export const quirkOf = (character: FuCharacter) => {
+  const quirk = findQuirk(character.quirk?.id ?? '')
+  return character.settings.quirks && quirk && bookEnabled(character.settings, quirk.book) ? quirk : undefined
+}
+
+/** Permanent bonuses from the Quirk: Survivor's +5 HP and MP, and its chosen option (NF/TF p. 127). */
+export function quirkBonus(character: FuCharacter) {
+  const quirk = quirkOf(character)
+  const choice = quirk?.survivor ? character.quirk.choice : ''
+  return {
+    hp: quirk?.bonus?.hp ?? 0,
+    mp: quirk?.bonus?.mp ?? 0,
+    ip: choice === 'ip' ? 2 : 0,
+    martial: choice === 'martial',
+  }
 }
 
 /** Problems with one class: level range, Skill Levels against class level and Skill maximums. */

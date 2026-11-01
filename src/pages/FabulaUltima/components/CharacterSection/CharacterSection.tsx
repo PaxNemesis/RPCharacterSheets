@@ -1,7 +1,7 @@
 import { ImageField } from '@/components/ImageField'
 import { Panel } from '@/components/Panel'
 import { useFuCharacter } from '../../hooks/useFuCharacter'
-import { AttributesPanel, BondsPanel, DefensePanel, IdentityPanel, PointsPanel } from './components'
+import { AttributesPanel, BondsPanel, DefensePanel, IdentityPanel, PointsPanel, QuirkPanel } from './components'
 
 export function CharacterSection() {
   const { character, derived } = useFuCharacter()
@@ -9,11 +9,14 @@ export function CharacterSection() {
   return (
     <div className="fu-section">
       <IdentityPanel character={character} derived={derived} />
-      {/* Portrait beside a stack of the stat panels, so a tall image doesn't leave a gap. */}
+      {/* Portrait and Quirk beside a stack of the stat panels, so a tall image doesn't leave a gap. */}
       <div className="fu-portrait-layout">
-        <Panel title="Portrait">
-          <ImageField path="portrait" label="Character portrait" />
-        </Panel>
+        <div className="fu-stack">
+          <Panel title="Portrait">
+            <ImageField path="portrait" label="Character portrait" />
+          </Panel>
+          {character.settings.quirks && <QuirkPanel character={character} />}
+        </div>
         <div className="fu-stack">
           <AttributesPanel derived={derived} />
           <PointsPanel character={character} derived={derived} />

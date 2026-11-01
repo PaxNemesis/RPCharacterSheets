@@ -49,7 +49,7 @@ export function PointsPanel({ character, derived }: PointsPanelProps) {
           terms={[
             { label: 'MIG × 5', value: derived.base('mig') * 5 },
             { label: 'Level', value: derived.level },
-            { label: 'Classes', value: derived.hpBonus },
+            { label: 'Bonuses', value: derived.hpBonus },
             { label: 'Other', path: 'hp.other' },
           ]}
         />
@@ -60,7 +60,7 @@ export function PointsPanel({ character, derived }: PointsPanelProps) {
           terms={[
             { label: 'WLP × 5', value: derived.base('wlp') * 5 },
             { label: 'Level', value: derived.level },
-            { label: 'Classes', value: derived.mpBonus },
+            { label: 'Bonuses', value: derived.mpBonus },
             { label: 'Other', path: 'mp.other' },
           ]}
         />
@@ -70,14 +70,14 @@ export function PointsPanel({ character, derived }: PointsPanelProps) {
           max={derived.maxIp}
           terms={[
             { label: 'Base', value: 6 },
-            { label: 'Classes', value: derived.ipBonus },
+            { label: 'Bonuses', value: derived.ipBonus },
             { label: 'Other', path: 'ip.other' },
           ]}
         />
       </div>
       {hp === 0 && <p className="fu-warning">0 HP: surrender or sacrifice (pp. 86–89).</p>}
       {over.length > 0 && <p className="fu-warning">Above the maximum: {over.join(', ')}.</p>}
-      <p className="fu-note">Classes includes free benefits and Heroic Skills such as Extra HP.</p>
+      <p className="fu-note">Bonuses are class free benefits, Heroic Skills such as Extra HP, and your Quirk.</p>
     </Panel>
   )
 }

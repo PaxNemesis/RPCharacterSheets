@@ -21,7 +21,7 @@ export function slotWarnings(equipment: FuCharacter['equipment'], martial: Recor
     const item = equipment[key]
     const kind = martialKind(item)
     if (!item.martial || !kind || martial[kind]) return []
-    return [`${item.name.trim() || label} is martial, but none of your classes let you equip ${MARTIAL_NAMES[kind]}.`]
+    return [`${item.name.trim() || label} is martial, but neither your classes nor your Quirk let you equip ${MARTIAL_NAMES[kind]}.`]
   })
   const { mainHand, offHand } = equipment
   if (mainHand.kind === 'weapon' && mainHand.hands === 'two' && offHand.kind !== '') {

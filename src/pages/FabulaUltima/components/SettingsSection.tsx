@@ -5,6 +5,13 @@ import { SUPPLEMENTS } from '../constants/books'
 export function SettingsSection() {
   return (
     <div className="fu-section">
+      <Panel title="Optional rules">
+        <CheckboxField
+          path="settings.quirks"
+          label="Quirks"
+          description="Show the Quirk panel on the Character tab, with the Quirks from the High, Natural and Techno Fantasy Atlases."
+        />
+      </Panel>
       <Panel title="Books">
         <p className="fu-note">
           Turn on the books your group uses. They are saved with the character, so each character can have its own. A class
@@ -15,7 +22,7 @@ export function SettingsSection() {
             key={book.id}
             path={`settings.books.${book.id}`}
             label={book.title}
-            description={`Offer its classes, Heroic Skills and spells. Page references are marked ${book.short}.`}
+            description={`Offer its classes, Heroic Skills, spells and Quirks. Page references are marked ${book.short}.`}
           />
         ))}
       </Panel>

@@ -11,6 +11,18 @@ export type SlotKey = 'mainHand' | 'offHand' | 'armor' | 'accessory'
 export type FuSettings = {
   /** Supplements whose classes, Heroic Skills and spells the sheet offers. */
   books: Record<SupplementId, boolean>
+  /** The Atlases' optional Quirk rule. */
+  quirks: boolean
+}
+
+export type FuQuirk = {
+  /** '' for none, 'custom', or "book:name" for a rulebook Quirk. */
+  id: string
+  /** Name of a custom Quirk. */
+  name: string
+  /** Survivor's option. */
+  choice: '' | 'martial' | 'spell' | 'ip'
+  notes: string
 }
 
 export type FuIdentity = {
@@ -91,6 +103,7 @@ export type FuCharacter = {
   settings: FuSettings
   identity: FuIdentity
   portrait: string
+  quirk: FuQuirk
   /** Base die size per attribute: '6', '8', '10' or '12'. */
   attributes: Record<AttributeKey, string>
   statuses: Record<StatusKey, boolean>

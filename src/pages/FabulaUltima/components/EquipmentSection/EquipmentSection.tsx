@@ -24,7 +24,7 @@ export function EquipmentSection() {
     <div className="fu-section">
       <Panel title="Equipped items">
         <p className="fu-note">
-          Your classes let you equip {allowed.length > 0 ? allowed.join(', ') : 'no martial items'}. Use Fill from rulebook
+          Your classes and Quirk let you equip {allowed.length > 0 ? allowed.join(', ') : 'no martial items'}. Use Fill from rulebook
           for basic weapons, armor and shields (pp. 130–133); Defense, Magic Defense and Initiative bonuses go to the
           Character tab.
         </p>

@@ -1,7 +1,7 @@
 import { sum } from '@/utils/sum'
 import { DICE, STATUSES } from '../constants/attributes'
 import type { AttributeKey, FuCharacter, FuDerived, FuItem, SlotKey } from '../types'
-import { classBenefits, heroicBonus } from './rules'
+import { classBenefits, heroicBonus, quirkBonus } from './rules'
 import { slotWarnings } from './slotWarnings'
 
 const dieSize = (value: string) => (DICE.includes(Number(value)) ? Number(value) : 6)
@@ -18,9 +18,11 @@ export function calculate(character: FuCharacter): FuDerived {
 
   const benefits = classBenefits(character)
   const heroic = heroicBonus(character, level)
-  const hpBonus = benefits.hp + heroic.hp
-  const mpBonus = benefits.mp + heroic.mp
-  const ipBonus = benefits.ip + heroic.ip
+  const quirk = quirkBonus(character)
+  const hpBonus = benefits.hp + heroic.hp + quirk.hp
+  const mpBonus = benefits.mp + heroic.mp + quirk.mp
+  const ipBonus = benefits.ip + heroic.ip + quirk.ip
+  const martial = quirk.martial ? { armor: true, shields: true, melee: true, ranged: true } : benefits.martial
   const maxHp = base('mig') * 5 + level + hpBonus + (character.hp.other ?? 0)
 
   const items = (Object.keys(character.equipment) as SlotKey[]).map((slot) => character.equipment[slot]).filter(filled)
@@ -45,7 +47,7 @@ export function calculate(character: FuCharacter): FuDerived {
     maxMp: base('wlp') * 5 + level + mpBonus + (character.mp.other ?? 0),
     maxIp: 6 + ipBonus + (character.ip.other ?? 0),
     crisis: Math.floor(maxHp / 2),
-    martial: benefits.martial,
+    martial,
     disciplines: benefits.disciplines,
     armorDefense,
     gear,
@@ -53,6 +55,6 @@ export function calculate(character: FuCharacter): FuDerived {
     magicDefense: current('ins') + gear.magicDefense + (modifiers.magicDefense ?? 0),
     initiative: gear.initiative + (modifiers.initiative ?? 0),
     tooManyClasses: nonMastered > 3,
-    equipmentWarnings: slotWarnings(character.equipment, benefits.martial),
+    equipmentWarnings: slotWarnings(character.equipment, martial),
   }
 }

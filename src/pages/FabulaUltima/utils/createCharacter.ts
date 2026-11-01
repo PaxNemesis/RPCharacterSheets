@@ -39,9 +39,11 @@ export const createBond = (): FuBond => ({ name: '', respect: '', trust: '', fee
 export const createCharacter = (): FuCharacter => ({
   settings: {
     books: { high: true, natural: true, techno: true, low: true, necromancer: true, aceOfCards: true },
+    quirks: true,
   },
   identity: { name: '', pronouns: '', player: '', identity: '', theme: '', origin: '' },
   portrait: '',
+  quirk: { id: '', name: '', choice: '', notes: '' },
   attributes: { dex: '8', ins: '8', mig: '8', wlp: '8' },
   statuses: { slow: false, dazed: false, weak: false, shaken: false, enraged: false, poisoned: false },
   hp: { current: null, other: null },

@@ -32,6 +32,16 @@ export type HeroicSkillData = {
   bonus?: { hp?: number; mp?: number; ip?: number }
 }
 
+export type QuirkData = {
+  name: string
+  book: SupplementId
+  page: number
+  /** Permanent increases to maximum HP and MP. */
+  bonus?: { hp?: number; mp?: number }
+  /** Survivor also lets the player pick martial equipment, a spell or +2 IP. */
+  survivor?: boolean
+}
+
 export type SpellData = {
   name: string
   className: string

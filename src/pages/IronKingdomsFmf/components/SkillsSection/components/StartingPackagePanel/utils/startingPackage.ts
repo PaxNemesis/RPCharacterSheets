@@ -1,6 +1,7 @@
 import { abilityRef } from '../../../../../constants/abilities'
 import { archetypeBenefitRef } from '../../../../../constants/archetypes'
 import { findRace } from '../../../../../constants/races'
+import { skillRef } from '../../../../../constants/skills'
 import type { CareerData, IkCharacter, SkillGrant } from '../../../../../types'
 import { careersOf, variantOf } from '../../../../../utils/rules'
 
@@ -58,7 +59,7 @@ export function applyStartingPackage(character: IkCharacter, pack: Package): { c
   for (const grant of pack.skills) {
     const index = skills.findIndex((skill) => same(skill.name, grant.name))
     if (index >= 0) skills[index] = { ...skills[index], level: Math.max(skills[index].level ?? 0, grant.level) }
-    else skills.push({ name: grant.name, stat: '', level: grant.level })
+    else skills.push({ name: grant.name, stat: '', level: grant.level, page: skillRef(grant.name) })
   }
   const missing = <T extends { name: string }>(rows: T[], names: string[]) =>
     names.filter((name) => !rows.some((row) => same(row.name, name)))

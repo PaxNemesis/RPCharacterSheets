@@ -62,7 +62,7 @@ export function ArchetypePanel() {
           </button>
         </p>
       )}
-      <RepeatTable path="archetypeBenefits" columns={entryColumns(suggestions)} createRow={createEntry} itemName="benefit" />
+      <RepeatTable path="archetypeBenefits" columns={entryColumns(suggestions, archetypeBenefitRef)} createRow={createEntry} itemName="benefit" />
     </Panel>
   )
 }

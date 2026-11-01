@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
-import { abilityNames } from '../../constants/abilities'
-import { knownSkillStat, SKILL_SUGGESTIONS } from '../../constants/skills'
+import { abilityNames, abilityRef } from '../../constants/abilities'
+import { knownSkillStat, SKILL_SUGGESTIONS, skillRef } from '../../constants/skills'
 import { SKILL_STAT_OPTIONS } from '../../constants/stats'
 import { useIkCharacter } from '../../hooks/useIkCharacter'
 import type { IkDerived, IkEntry, IkSkill } from '../../types'
@@ -20,7 +20,7 @@ const statValue = (stat: IkDerived['stat'], skill: IkSkill) => {
   return key && key !== 'social' ? stat(key) : null
 }
 
-const createSkill = (): IkSkill => ({ name: '', stat: '', level: null })
+const createSkill = (): IkSkill => ({ name: '', stat: '', level: null, page: '' })
 const createEntry = (): IkEntry => ({ name: '', description: '', page: '' })
 const STAT_OPTIONS = [{ value: '', label: 'Auto' }, ...SKILL_STAT_OPTIONS.slice(1)]
 
@@ -32,7 +32,13 @@ export function SkillsSection() {
 
   const skillColumns = useMemo<RepeatTableColumn[]>(
     () => [
-      { key: 'name', label: 'Skill', width: 'minmax(140px, 2fr)', suggestions: SKILL_SUGGESTIONS },
+      {
+        key: 'name',
+        label: 'Skill',
+        width: 'minmax(140px, 2fr)',
+        suggestions: SKILL_SUGGESTIONS,
+        onPick: (name, row) => ({ ...row, page: skillRef(name) || row.page }),
+      },
       { key: 'stat', label: 'Stat', width: '90px', type: 'select', options: STAT_OPTIONS },
       { key: 'statValue', label: 'Stat value', width: '70px', type: 'calculated', calculate: (row) => statValue(stat, row as IkSkill) },
       { key: 'level', label: 'Level', width: '64px', type: 'number' },
@@ -49,6 +55,7 @@ export function SkillsSection() {
           return effectiveStat(skill) === 'social' ? null : sum(statValue(stat, skill), skill.level)
         },
       },
+      { key: 'page', label: 'Page', width: '60px' },
     ],
     [stat, skillMax, careerRules],
   )
@@ -81,7 +88,7 @@ export function SkillsSection() {
         )}
       </Panel>
       <Panel title="Abilities">
-        <RepeatTable path="abilities" columns={entryColumns(abilitySuggestions)} createRow={createEntry} itemName="ability" />
+        <RepeatTable path="abilities" columns={entryColumns(abilitySuggestions, (name) => abilityRef(name, character.settings))} createRow={createEntry} itemName="ability" />
       </Panel>
       <Panel title="Connections">
         <RepeatTable path="connections" columns={entryColumns()} createRow={createEntry} itemName="connection" />

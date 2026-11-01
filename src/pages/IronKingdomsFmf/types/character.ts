@@ -67,7 +67,7 @@ export type IkMeleeWeapon = {
   notes: string
 }
 
-export type IkSkill = { name: string; stat: StatKey | 'social' | ''; level: Num }
+export type IkSkill = { name: string; stat: StatKey | 'social' | ''; level: Num; page: string }
 export type IkEntry = { name: string; description: string; page: string }
 export type IkGear = { name: string; notes: string; quantity: Num }
 export type IkArmor = { name: string; spd: Num; def: Num; arm: Num; notes: string }

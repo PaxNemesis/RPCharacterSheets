@@ -1,5 +1,6 @@
-import type { StatKey } from '../types'
+import type { BookId, StatKey } from '../types'
 import { compareNames } from '../utils/alphabetical'
+import { bookRef } from './books'
 
 type SkillStat = StatKey | 'social'
 
@@ -60,6 +61,31 @@ export const SKILL_STATS: Record<string, SkillStat> = {
   Lore: 'int',
   Riding: 'agl',
   Swimming: 'str',
+}
+
+const MILITARY = ['Archery', 'Crossbow', 'Great Weapon', 'Hand Weapon', 'Lance', 'Light Artillery', 'Pistol', 'Rifle', 'Shield', 'Thrown Weapon', 'Unarmed Combat']
+
+// Page of each skill's entry: military skills share p. 172, the others have their own (pp. 173–194).
+const SKILL_PAGES: Record<string, [BookId, number]> = {
+  ...Object.fromEntries(MILITARY.map((skill) => [skill, ['core', 172]])),
+  Alchemy: ['core', 173], 'Animal Handling': ['core', 174], Bribery: ['core', 174], Climbing: ['core', 175],
+  Command: ['core', 175], Craft: ['core', 176], Cryptography: ['core', 176], Deception: ['core', 177],
+  Detection: ['core', 177], Disguise: ['core', 178], Driving: ['core', 179], 'Escape Artist': ['core', 179],
+  Etiquette: ['core', 180], 'Fell Calling': ['core', 181], 'Forensic Science': ['core', 181], Forgery: ['core', 181],
+  Gambling: ['core', 182], Interrogation: ['core', 182], Intimidation: ['core', 183], Jumping: ['core', 183],
+  Law: ['core', 184], 'Lock Picking': ['core', 184], Lore: ['core', 185], 'Mechanikal Engineering': ['core', 186],
+  Medicine: ['core', 186], Navigation: ['core', 186], Negotiation: ['core', 187], Oratory: ['core', 189],
+  Pickpocket: ['core', 189], Research: ['core', 190], Riding: ['core', 190], 'Rope Use': ['core', 191],
+  Sailing: ['core', 191], Seduction: ['core', 192], Sneak: ['core', 193], Streetwise: ['core', 193],
+  Survival: ['core', 194], Swimming: ['core', 194], Tracking: ['core', 194],
+  'Heavy Artillery': ['kng', 305], Stormsmithing: ['kng', 90], 'Thrall Crafting': ['ua', 69],
+}
+
+/** Page reference for a skill, e.g. "185" or "KNG 90"; "Lore (Trollkin)" finds Lore. */
+export const skillRef = (name: string) => {
+  const base = baseSkillName(name).toLowerCase()
+  const match = Object.keys(SKILL_PAGES).find((skill) => skill.toLowerCase() === base)
+  return match ? bookRef(...SKILL_PAGES[match]) : ''
 }
 
 /** Skills any character can learn, capped only by experience level (p. 119). */

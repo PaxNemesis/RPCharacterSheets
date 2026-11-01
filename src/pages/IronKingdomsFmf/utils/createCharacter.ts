@@ -1,4 +1,5 @@
 import { POWER_ATTACKS } from '../constants/powerAttacks'
+import { skillRef } from '../constants/skills'
 import { GRID_COLUMNS, GRID_ROWS, JACK_STAT_KEYS } from '../constants/steamjack'
 import { STAT_KEYS } from '../constants/stats'
 import type { IkCharacter, IkMechanika, IkSkill, IkSteamjack } from '../types'
@@ -76,7 +77,7 @@ export const createCharacter = (): IkCharacter => ({
   meleeWeapons: [],
   damage: { marked: [0, 0, 0, 0, 0, 0], notes: '' },
   powerField: { size: null, marked: 0 },
-  skills: STARTING_SKILLS.map((skill) => ({ ...skill, level: null })),
+  skills: STARTING_SKILLS.map((skill) => ({ ...skill, level: null, page: skillRef(skill.name) })),
   abilities: [],
   archetypeBenefits: [],
   connections: [],

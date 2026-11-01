@@ -16,6 +16,24 @@
     align-items: start;
   }
 
+  .fu-portrait-layout {
+    display: grid;
+    grid-template-columns: minmax(240px, 2fr) minmax(0, 3fr);
+    gap: 12px;
+    align-items: start;
+
+    @media (max-width: 900px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .fu-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
   .fu-fields {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

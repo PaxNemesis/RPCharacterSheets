@@ -86,7 +86,17 @@ export function applyStartingPackage(character: IkCharacter, pack: Package): { c
       ],
       spells: [
         ...character.spells,
-        ...missing(character.spells, pack.spells).map((name) => ({ name, cost: null, rng: '', aoe: '', pow: null, up: '', off: '' })),
+        ...missing(character.spells, pack.spells).map((name) => ({
+          name,
+          cost: null,
+          rng: '',
+          aoe: '',
+          pow: null,
+          up: '',
+          off: '',
+          page: '',
+          description: '',
+        })),
       ],
       gear: [
         ...character.gear,

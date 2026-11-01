@@ -7,6 +7,8 @@ export type RepeatTableColumn = {
   label: string
   /** CSS grid track size, e.g. `2fr` or `64px`. Defaults to `1fr`. */
   width?: string
+  /** Shown on its own line under the row's other cells, with the label as placeholder instead of a header. */
+  wide?: boolean
 } & (
   | { type?: 'text'; rows?: number; suggestions?: string[] }
   | { type: 'number' }

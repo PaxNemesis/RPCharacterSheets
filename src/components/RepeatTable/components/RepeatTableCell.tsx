@@ -29,7 +29,14 @@ export function RepeatTableCell({ column, rowLabel }: RepeatTableCellProps) {
       )
     default:
       return (
-        <TextField path={column.key} label={label} hideLabel rows={column.rows} suggestions={column.suggestions} />
+        <TextField
+          path={column.key}
+          label={label}
+          hideLabel
+          rows={column.rows}
+          placeholder={column.wide ? column.label : undefined}
+          suggestions={column.suggestions}
+        />
       )
   }
 }

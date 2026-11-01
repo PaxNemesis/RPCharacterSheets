@@ -5,6 +5,8 @@
 
   .repeat-table-scroll {
     overflow-x: auto;
+    /* Contains the cells' visually hidden labels, which would otherwise widen the page. */
+    position: relative;
   }
 
   .repeat-table-grid {
@@ -26,6 +28,10 @@
     &:nth-child(even) {
       background: var(--surface-alt);
     }
+  }
+
+  .repeat-table-wide {
+    grid-column: 1 / -2;
   }
 
   .repeat-table-head {

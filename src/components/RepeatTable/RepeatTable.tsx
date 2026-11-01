@@ -15,7 +15,9 @@ type RepeatTableProps = {
 export function RepeatTable({ path, columns, createRow, itemName }: RepeatTableProps) {
   const [rows, setRows] = useSheetField<RepeatTableRow[] | undefined>(path)
   const list = rows ?? []
-  const template = `${columns.map((column) => column.width ?? '1fr').join(' ')} 28px`
+  const narrow = columns.filter((column) => !column.wide)
+  const wide = columns.filter((column) => column.wide)
+  const template = `${narrow.map((column) => column.width ?? '1fr').join(' ')} 28px`
 
   return (
     <div className="repeat-table-container">
@@ -23,7 +25,7 @@ export function RepeatTable({ path, columns, createRow, itemName }: RepeatTableP
         <div className="repeat-table-grid" style={{ gridTemplateColumns: template }} role="table">
           {list.length > 0 && (
             <div className="repeat-table-row repeat-table-head" role="row">
-              {columns.map((column) => (
+              {narrow.map((column) => (
                 <span key={column.key} role="columnheader">
                   {column.label}
                 </span>
@@ -34,7 +36,7 @@ export function RepeatTable({ path, columns, createRow, itemName }: RepeatTableP
           {list.map((_, index) => (
             <div key={index} className="repeat-table-row" role="row">
               <SheetProvider path={`${path}.${index}`}>
-                {columns.map((column) => (
+                {narrow.map((column) => (
                   <div key={column.key} role="cell">
                     <RepeatTableCell column={column} rowLabel={`${itemName} ${index + 1}`} />
                   </div>
@@ -49,6 +51,14 @@ export function RepeatTable({ path, columns, createRow, itemName }: RepeatTableP
               >
                 ×
               </button>
+              {/* After the remove button, so wide cells wrap onto their own lines. */}
+              <SheetProvider path={`${path}.${index}`}>
+                {wide.map((column) => (
+                  <div key={column.key} role="cell" className="repeat-table-wide">
+                    <RepeatTableCell column={column} rowLabel={`${itemName} ${index + 1}`} />
+                  </div>
+                ))}
+              </SheetProvider>
             </div>
           ))}
         </div>

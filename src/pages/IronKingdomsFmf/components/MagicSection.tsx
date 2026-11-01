@@ -12,6 +12,8 @@ const SPELL_COLUMNS: RepeatTableColumn[] = [
   { key: 'pow', label: 'POW', width: '52px', type: 'number' },
   { key: 'up', label: 'UP', width: '52px' },
   { key: 'off', label: 'OFF', width: '52px' },
+  { key: 'page', label: 'Page', width: '64px' },
+  { key: 'description', label: 'Description', rows: 2, wide: true },
 ]
 
 const MECHANIKA_COLUMNS: RepeatTableColumn[] = [
@@ -22,7 +24,17 @@ const MECHANIKA_COLUMNS: RepeatTableColumn[] = [
   { key: 'notes', label: 'Notes', width: 'minmax(160px, 2fr)', rows: 2 },
 ]
 
-const createSpell = (): IkSpell => ({ name: '', cost: null, rng: '', aoe: '', pow: null, up: '', off: '' })
+const createSpell = (): IkSpell => ({
+  name: '',
+  cost: null,
+  rng: '',
+  aoe: '',
+  pow: null,
+  up: '',
+  off: '',
+  page: '',
+  description: '',
+})
 const createMechanika = (): IkMechanika => ({ name: '', runePlate: '', capacitor: '', charges: null, notes: '' })
 
 export function MagicSection() {

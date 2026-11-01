@@ -71,7 +71,17 @@ export type IkSkill = { name: string; stat: StatKey | 'social' | ''; level: Num 
 export type IkEntry = { name: string; description: string; page: string }
 export type IkGear = { name: string; notes: string; quantity: Num }
 export type IkArmor = { name: string; spd: Num; def: Num; arm: Num; notes: string }
-export type IkSpell = { name: string; cost: Num; rng: string; aoe: string; pow: Num; up: string; off: string }
+export type IkSpell = {
+  name: string
+  cost: Num
+  rng: string
+  aoe: string
+  pow: Num
+  up: string
+  off: string
+  page: string
+  description: string
+}
 export type IkMechanika = { name: string; runePlate: string; capacitor: string; charges: Num; notes: string }
 
 export type JackGridCell = {

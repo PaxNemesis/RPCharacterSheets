@@ -1,19 +1,28 @@
 import type { RepeatTableColumn } from '@/components/RepeatTable'
 import type { IkMeleeWeapon, IkRangedWeapon, Num, StatKey } from '../types'
 import { sum } from '@/utils/sum'
+import type { WeaponPresets } from './weaponPresets'
 
 type StatLookup = (key: StatKey) => Num
 
 const LOCATION: RepeatTableColumn = { key: 'location', label: 'Loc', width: '52px' }
+
+const nameColumn = (presets?: WeaponPresets): RepeatTableColumn => ({
+  key: 'name',
+  label: 'Name',
+  width: 'minmax(120px, 2fr)',
+  suggestions: presets?.names,
+  onPick: presets?.pick,
+})
 const ATTACK_STATS = [
   { value: 'poi', label: 'POI' },
   { value: 'prw', label: 'PRW (thrown)' },
 ]
 
 /** RAT = POI (PRW for thrown weapons) + skill + attack modifier (p. 106). */
-export function rangedWeaponColumns(stat: StatLookup, withLocation = false): RepeatTableColumn[] {
+export function rangedWeaponColumns(stat: StatLookup, withLocation = false, presets?: WeaponPresets): RepeatTableColumn[] {
   return [
-    { key: 'name', label: 'Name', width: 'minmax(120px, 2fr)' },
+    nameColumn(presets),
     ...(withLocation ? [LOCATION] : []),
     { key: 'attackStat', label: 'Stat', width: '76px', type: 'select', options: ATTACK_STATS },
     { key: 'skill', label: 'Skill', width: '52px', type: 'number' },
@@ -37,9 +46,9 @@ export function rangedWeaponColumns(stat: StatLookup, withLocation = false): Rep
 }
 
 /** MAT = PRW + skill + attack modifier; P+S = POW + STR (p. 106, 215). */
-export function meleeWeaponColumns(stat: StatLookup, withLocation = false): RepeatTableColumn[] {
+export function meleeWeaponColumns(stat: StatLookup, withLocation = false, presets?: WeaponPresets): RepeatTableColumn[] {
   return [
-    { key: 'name', label: 'Name', width: 'minmax(120px, 2fr)' },
+    nameColumn(presets),
     ...(withLocation ? [LOCATION] : []),
     { key: 'skill', label: 'Skill', width: '52px', type: 'number' },
     { key: 'attackMod', label: 'Mod', width: '52px', type: 'number' },

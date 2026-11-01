@@ -10,7 +10,13 @@ export type RepeatTableColumn = {
   /** Shown on its own line under the row's other cells, with the label as placeholder instead of a header. */
   wide?: boolean
 } & (
-  | { type?: 'text'; rows?: number; suggestions?: string[] }
+  | {
+      type?: 'text'
+      rows?: number
+      suggestions?: string[]
+      /** Returns the whole row to store when a suggestion is picked, e.g. to fill in a preset's values. */
+      onPick?: (value: string, row: RepeatTableRow) => RepeatTableRow
+    }
   | { type: 'number' }
   | { type: 'select'; options: SelectOption[] }
   /** Read-only, worked out from the row's other values. */

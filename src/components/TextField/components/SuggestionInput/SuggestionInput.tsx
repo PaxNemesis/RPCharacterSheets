@@ -5,6 +5,8 @@ type SuggestionInputProps = {
   id: string
   value: string
   onChange: (value: string) => void
+  /** Called after onChange when a suggestion is picked from the list, not when it is typed. */
+  onPick?: (value: string) => void
   suggestions: string[]
   placeholder?: string
 }
@@ -13,7 +15,7 @@ const LIST_HEIGHT = 240
 
 // A text input with its own suggestion list. The browser's <datalist> popup is drawn by the
 // browser itself and lands in the wrong place in some embedded browsers, such as VS Code's.
-export function SuggestionInput({ id, value, onChange, suggestions, placeholder }: SuggestionInputProps) {
+export function SuggestionInput({ id, value, onChange, onPick, suggestions, placeholder }: SuggestionInputProps) {
   const listId = useId()
   const inputRef = useRef<HTMLInputElement>(null)
   const [rect, setRect] = useState<DOMRect>()
@@ -33,6 +35,7 @@ export function SuggestionInput({ id, value, onChange, suggestions, placeholder 
   }
   const pick = (suggestion: string) => {
     onChange(suggestion)
+    onPick?.(suggestion)
     close()
   }
 

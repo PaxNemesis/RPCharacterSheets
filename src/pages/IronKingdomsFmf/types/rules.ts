@@ -99,3 +99,17 @@ export type ArchetypeData = {
   summary: string
   benefits: { name: string; page: number }[]
 }
+
+/** A rulebook weapon. Ranged weapons have `rng`; `note` holds values that depend on how it is used. */
+export type WeaponData = {
+  name: string
+  book: BookId
+  page: number
+  skill: string
+  mod: number | null
+  pow: number | null
+  rng?: string
+  aoe?: string
+  ammo?: string
+  note?: string
+}

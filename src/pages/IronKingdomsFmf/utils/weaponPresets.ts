@@ -1,0 +1,53 @@
+import type { RepeatTableRow } from '@/components/RepeatTable'
+import { bookEnabled, bookRef } from '../constants/books'
+import { MELEE_WEAPONS, RANGED_WEAPONS } from '../constants/weapons'
+import type { IkCharacter, IkMeleeWeapon, IkRangedWeapon, Num, WeaponData } from '../types'
+import { compareNames } from './alphabetical'
+
+/** Rulebook weapons to suggest by name, and how to fill a row when one is picked. */
+export type WeaponPresets = {
+  names: string[]
+  pick: (name: string, row: RepeatTableRow) => RepeatTableRow
+}
+
+const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase()
+
+/** "Rifle, p. 269" or "Light Artillery, KNG 94", plus any one-handed or mounted values. */
+const describe = (weapon: WeaponData) => {
+  const ref = weapon.book === 'core' ? `p. ${weapon.page}` : bookRef(weapon.book, weapon.page)
+  return [`${weapon.skill}, ${ref}`, weapon.note].filter(Boolean).join('. ')
+}
+
+function presets(character: Pick<IkCharacter, 'settings' | 'skills'>, weapons: WeaponData[], fill: (weapon: WeaponData, skill: Num) => RepeatTableRow): WeaponPresets {
+  const available = weapons.filter((weapon) => bookEnabled(character.settings, weapon.book))
+  const skillLevel = (skill: string) => character.skills.find((row) => same(row.name ?? '', skill))?.level ?? null
+  return {
+    names: available.map((weapon) => weapon.name).sort(compareNames),
+    pick: (name, row) => {
+      const weapon = available.find((w) => same(w.name, name))
+      return weapon ? { ...row, ...fill(weapon, skillLevel(weapon.skill)) } : row
+    },
+  }
+}
+
+export const rangedPresets = (character: Pick<IkCharacter, 'settings' | 'skills'>) =>
+  presets(character, RANGED_WEAPONS, (weapon, skill): Partial<IkRangedWeapon> => ({
+    name: weapon.name,
+    attackStat: weapon.skill === 'Thrown Weapon' ? 'prw' : 'poi',
+    skill,
+    attackMod: weapon.mod,
+    rng: weapon.rng ?? '',
+    aoe: weapon.aoe ?? '',
+    pow: weapon.pow,
+    ammo: weapon.ammo ?? '',
+    notes: describe(weapon),
+  }))
+
+export const meleePresets = (character: Pick<IkCharacter, 'settings' | 'skills'>) =>
+  presets(character, MELEE_WEAPONS, (weapon, skill): Partial<IkMeleeWeapon> => ({
+    name: weapon.name,
+    skill,
+    attackMod: weapon.mod,
+    pow: weapon.pow,
+    notes: describe(weapon),
+  }))

@@ -11,10 +11,12 @@ type TextFieldProps = {
   placeholder?: string
   /** Values offered while typing; any other text is still allowed. */
   suggestions?: string[]
+  /** Called when one of the suggestions is picked. */
+  onPick?: (value: string) => void
   className?: string
 }
 
-export function TextField({ path, label, hideLabel, rows = 1, placeholder, suggestions, className }: TextFieldProps) {
+export function TextField({ path, label, hideLabel, rows = 1, placeholder, suggestions, onPick, className }: TextFieldProps) {
   const [value, setValue] = useSheetField<string | undefined>(path)
 
   return (
@@ -35,6 +37,7 @@ export function TextField({ path, label, hideLabel, rows = 1, placeholder, sugge
             placeholder={placeholder}
             suggestions={suggestions}
             onChange={setValue}
+            onPick={onPick}
           />
         ) : (
           <input

@@ -10,7 +10,7 @@ type RepeatTableCellProps = {
 }
 
 export function RepeatTableCell({ column, rowLabel }: RepeatTableCellProps) {
-  const { get } = useSheet()
+  const { get, set } = useSheet()
   const label = `${column.label}, ${rowLabel}`
 
   switch (column.type) {
@@ -27,7 +27,10 @@ export function RepeatTableCell({ column, rowLabel }: RepeatTableCellProps) {
           size="sm"
         />
       )
-    default:
+    default: {
+      const { onPick } = column
+      // The row as rendered still has the old value in this column, so merge in the picked one.
+      const pick = onPick && ((value: string) => set('', onPick(value, { ...((get('') ?? {}) as RepeatTableRow), [column.key]: value })))
       return (
         <TextField
           path={column.key}
@@ -36,7 +39,9 @@ export function RepeatTableCell({ column, rowLabel }: RepeatTableCellProps) {
           rows={column.rows}
           placeholder={column.wide ? column.label : undefined}
           suggestions={column.suggestions}
+          onPick={pick}
         />
       )
+    }
   }
 }

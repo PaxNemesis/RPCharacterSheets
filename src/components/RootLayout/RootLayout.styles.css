@@ -26,8 +26,25 @@
     }
   }
 
+  .root-layout-home {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: auto;
+  }
+
   .root-layout-brand {
     font-weight: 800;
-    margin-right: auto;
+  }
+
+  .root-layout-env {
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-contrast);
+    background: var(--accent);
   }
 }

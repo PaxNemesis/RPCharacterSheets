@@ -46,26 +46,4 @@
     grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
     gap: 6px 12px;
   }
-
-  .fu-pool {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 6px 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border);
-
-    &:last-of-type {
-      border-bottom: none;
-    }
-
-    .number-field-container {
-      width: 72px;
-    }
-  }
-
-  .fu-crisis input {
-    border-color: var(--danger);
-    color: var(--danger);
-  }
 }

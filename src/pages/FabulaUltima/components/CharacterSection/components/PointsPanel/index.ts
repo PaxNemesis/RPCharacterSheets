@@ -1,0 +1,1 @@
+export { PointsPanel } from './PointsPanel'

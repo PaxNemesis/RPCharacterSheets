@@ -1,0 +1,128 @@
+.points-panel-container {
+  --points-hp: #b8322c;
+  --points-mp: #2f7fc1;
+
+  .points-panel-grid {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .points-panel-head + .points-panel-head,
+  .points-panel-current {
+    padding-left: 14px;
+  }
+
+  .points-panel-head {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--text-soft);
+    padding-bottom: 4px;
+  }
+
+  .points-panel-row {
+    display: contents;
+  }
+
+  /* Each pool is two grid rows: label, max and current, then the breakdown of the max. */
+  .points-panel-label,
+  .points-panel-max,
+  .points-panel-current {
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .points-panel-label {
+    align-self: stretch;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.6;
+    color: var(--pool-color, var(--text-h));
+    grid-row: span 2;
+  }
+
+  .points-panel-hp {
+    --pool-color: var(--points-hp);
+  }
+
+  .points-panel-mp {
+    --pool-color: var(--points-mp);
+  }
+
+  .points-panel-max {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    > .number-field-lg {
+      flex: 1;
+    }
+  }
+
+  .points-panel-crisis {
+    width: 56px;
+
+    .field-label {
+      color: var(--points-hp);
+    }
+  }
+
+  .points-panel-current {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .points-panel-in-crisis input {
+    border-color: var(--points-hp);
+    color: var(--points-hp);
+  }
+
+  .points-panel-status {
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--points-hp);
+  }
+
+  .points-panel-formula {
+    grid-column: 2 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 2px 4px;
+    padding: 4px 0 10px;
+
+    .number-field-container {
+      width: 52px;
+    }
+
+    .field-label {
+      font-size: 10px;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .points-panel-formula .number-field-container {
+      width: 46px;
+    }
+  }
+
+  .points-panel-operator {
+    padding-bottom: 3px;
+    font-size: 12px;
+    color: var(--text-soft);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .points-panel-container {
+    --points-hp: #e0706a;
+    --points-mp: #6fb3ec;
+  }
+}

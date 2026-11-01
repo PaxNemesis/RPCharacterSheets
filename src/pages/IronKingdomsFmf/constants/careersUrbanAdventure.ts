@@ -98,6 +98,7 @@ export const UA_CAREERS: CareerData[] = [
     gold: 0,
     assets: ['Nyss claymore', 'Nyss bow'],
     special: 'Gains the Preternatural Awareness Skilled archetype benefit.',
+    archetypeBenefits: ['Preternatural Awareness'],
     maxima: skillMaxima('Archery 4, Great Weapon 4, Hand Weapon 3, Unarmed Combat 3', 'Bribery 2, Escape Artist 4, General Skills 4, Navigation 2, Sneak 4, Survival 4'),
     abilityList: ['Adaptable (Urban)', 'Archer', 'Crackshot', 'Fast Reload', 'Keen Eyed', 'Marksman', 'Night Fighter', 'Roll With It', 'Signal Language', 'Street Survivor', 'Swift Hunter', 'Targeteer'],
   },

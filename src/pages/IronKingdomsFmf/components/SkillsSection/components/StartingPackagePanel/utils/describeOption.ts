@@ -12,7 +12,12 @@ export function describeOption(option: CareerOption) {
   ]
   // A skill removed and added back, such as the Crucible Guard's Rifle, only shows as added.
   const readded = (skill: string) => add.skills?.some((grant) => grant.name === skill)
-  const removed = [...(remove.abilities ?? []), ...(remove.skills ?? []).filter((skill) => !readded(skill)), ...(remove.assets ?? [])]
+  const removed = [
+    ...(remove.abilities ?? []),
+    ...(remove.skills ?? []).filter((skill) => !readded(skill)),
+    ...(remove.assets ?? []),
+    ...(remove.archetypeBenefits ?? []).map((benefit) => `the ${benefit} archetype benefit`),
+  ]
   const learnable = [
     ...(add.abilityList ?? []).filter((ability) => !add.abilities?.includes(ability)),
     ...Object.entries(add.maxima ?? {}).map(([skill, max]) => `${skill} ${max}`),

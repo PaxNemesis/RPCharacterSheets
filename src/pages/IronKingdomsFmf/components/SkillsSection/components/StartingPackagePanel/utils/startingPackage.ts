@@ -1,4 +1,5 @@
 import { abilityRef } from '../../../../../constants/abilities'
+import { archetypeBenefitRef } from '../../../../../constants/archetypes'
 import { findRace } from '../../../../../constants/races'
 import type { CareerData, IkCharacter, SkillGrant } from '../../../../../types'
 import { careersOf, variantOf } from '../../../../../utils/rules'
@@ -11,7 +12,7 @@ export const choiceKey = (career: CareerData, index: number) => `${career.name}:
 const unique = (values: string[]) => [...new Set(values)]
 const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase()
 
-/** The starting careers' combined package (pp. 117–119), plus racial abilities and connections. */
+/** The starting careers' combined package (pp. 117–119), plus racial abilities, connections and archetype benefits. */
 export function startingPackage(character: IkCharacter, selection: PackageSelection) {
   const careers = careersOf(character).slice(0, 2)
   const race = character.settings.raceRules ? findRace(character.identity.race) : undefined
@@ -42,6 +43,7 @@ export function startingPackage(character: IkCharacter, selection: PackageSelect
     abilities: unique([...(race?.abilities ?? []), ...fromCareers('abilities')]),
     connections: unique([...(race?.connections ?? []), ...fromCareers('connections')]),
     spells: unique(fromCareers('spells')),
+    archetypeBenefits: unique([...(race?.archetypeBenefits ?? []), ...careers.flatMap((career) => career.archetypeBenefits ?? [])]),
     gold: careers.reduce((total, career) => total + career.gold, 0),
     assets: careers.flatMap((career) => career.assets.map((asset) => ({ name: asset, career: career.name }))),
   }
@@ -79,6 +81,10 @@ export function applyStartingPackage(character: IkCharacter, pack: Package): { c
       abilities: [
         ...character.abilities,
         ...missing(character.abilities, pack.abilities).map((name) => ({ name, description: '', page: abilityRef(name, character.settings) ?? '' })),
+      ],
+      archetypeBenefits: [
+        ...character.archetypeBenefits,
+        ...missing(character.archetypeBenefits, pack.archetypeBenefits).map((name) => ({ name, description: '', page: archetypeBenefitRef(name) })),
       ],
       connections: [
         ...character.connections,

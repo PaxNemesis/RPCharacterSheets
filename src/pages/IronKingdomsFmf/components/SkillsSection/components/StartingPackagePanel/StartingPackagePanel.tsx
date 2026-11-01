@@ -38,7 +38,7 @@ export function StartingPackagePanel() {
     const applied = applyStartingPackage(character, pack)
     set('', applied.character)
     setResult([
-      `Added the starting package: ${pack.skills.length} skills, ${pack.abilities.length} abilities, ${pack.connections.length} connections and ${pack.spells.length} spells. Nothing already on the sheet was removed.`,
+      `Added the starting package: ${pack.skills.length} skills, ${pack.abilities.length} abilities, ${pack.archetypeBenefits.length} archetype benefits, ${pack.connections.length} connections and ${pack.spells.length} spells. Nothing already on the sheet was removed.`,
       ...applied.notes,
     ])
   }

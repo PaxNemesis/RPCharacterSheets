@@ -67,6 +67,7 @@ export const createCharacter = (): IkCharacter => ({
   powerField: { size: null, marked: 0 },
   skills: STARTING_SKILLS.map((skill) => ({ ...skill, level: null })),
   abilities: [],
+  archetypeBenefits: [],
   connections: [],
   gear: [],
   armor: [],

@@ -121,6 +121,7 @@ export const KNG_CAREERS: CareerData[] = [
     gold: 0,
     assets: ['Exemplar plate', 'One weapon: blazing sword, consecrated halberd, or relic blade'],
     special: 'Gains the Righteous Anger Mighty archetype benefit.',
+    archetypeBenefits: ['Righteous Anger'],
     maxima: skillMaxima('Crossbow 3, Great Weapon 4, Hand Weapon 4, Lance 4, Shield 3, Unarmed Combat 3', 'Command 4, General Skills 4, Medicine 2, Navigation 2, Survival 2'),
     abilityList: ['Aegis', 'Chain Attack: Smite', 'Divine Fortitude', 'Imperishable Conviction', 'Iron Will', 'Load Bearing', 'Precision Strike', 'Relentless Advance', 'Restoration', 'Sanguine Bond', 'Two-Weapon Fighting'],
   },

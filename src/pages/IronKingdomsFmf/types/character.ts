@@ -125,6 +125,7 @@ export type IkCharacter = {
   powerField: { size: Num; marked: number }
   skills: IkSkill[]
   abilities: IkEntry[]
+  archetypeBenefits: IkEntry[]
   connections: IkEntry[]
   gear: IkGear[]
   armor: IkArmor[]

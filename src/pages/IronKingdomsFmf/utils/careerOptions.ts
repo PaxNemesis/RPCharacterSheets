@@ -37,6 +37,7 @@ function applyOption(career: CareerData, option: CareerOption): CareerData {
     abilities: without(career.abilities, remove.abilities),
     skills: removeSkills(career.skills, remove.skills),
     assets: without(career.assets, remove.assets),
+    archetypeBenefits: without(career.archetypeBenefits ?? [], remove.archetypeBenefits),
   }
   if (!target) return changed
   return {

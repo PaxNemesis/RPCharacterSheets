@@ -15,9 +15,10 @@ export type RaceData = {
   limits: Partial<Record<StatKey, [number, number, number]>>
   /** Racial DEF modifier, such as the gobber's +1. */
   defense?: number
-  /** Abilities and connections every character of the race starts with. */
+  /** Abilities, connections and archetype benefits every character of the race starts with. */
   abilities?: string[]
   connections?: string[]
+  archetypeBenefits?: string[]
   /** Short reminders of other racial rules, with page references. */
   notes: string[]
 }
@@ -47,6 +48,8 @@ export type CareerData = CareerPackage & {
   gold: number
   assets: string[]
   special?: string
+  /** Archetype benefits the career gives a starting character, such as the Arcanist's Rune Reader. */
+  archetypeBenefits?: string[]
   /** Mutually exclusive versions, such as a priest's faith or a sorcerer's element. */
   variants?: (Partial<CareerPackage> & { label: string })[]
   /** What the variant picker is called, e.g. "Faith". */
@@ -81,10 +84,18 @@ export type CareerOption = {
     abilityList?: string[]
     maxima?: Record<string, number>
   }
-  remove?: { abilities?: string[]; skills?: string[]; assets?: string[] }
+  remove?: { abilities?: string[]; skills?: string[]; assets?: string[]; archetypeBenefits?: string[] }
   /** Replaces the career's starting spells. */
   spells?: string[]
   /** Replaces the career's starting gold. */
   gold?: number
   note?: string
+}
+
+export type ArchetypeData = {
+  name: string
+  page: number
+  /** What every character of the archetype gets, in short. */
+  summary: string
+  benefits: { name: string; page: number }[]
 }

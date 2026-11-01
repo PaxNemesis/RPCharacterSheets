@@ -9,7 +9,8 @@ import type { IkDerived, IkEntry, IkSkill } from '../../types'
 import { careersOf } from '../../utils/rules'
 import { alphabetical } from '../../utils/alphabetical'
 import { sum } from '@/utils/sum'
-import { StartingPackagePanel } from './components'
+import { ArchetypePanel, StartingPackagePanel } from './components'
+import { entryColumns } from './utils/entryColumns'
 
 /** The skill's stat: the one picked, or the book's governing stat for a known skill. */
 const effectiveStat = (skill: IkSkill) => skill.stat || knownSkillStat(skill.name ?? '') || ''
@@ -22,12 +23,6 @@ const statValue = (stat: IkDerived['stat'], skill: IkSkill) => {
 const createSkill = (): IkSkill => ({ name: '', stat: '', level: null })
 const createEntry = (): IkEntry => ({ name: '', description: '', page: '' })
 const STAT_OPTIONS = [{ value: '', label: 'Auto' }, ...SKILL_STAT_OPTIONS.slice(1)]
-
-const entryColumns = (suggestions?: string[]): RepeatTableColumn[] => [
-  { key: 'name', label: 'Name', width: 'minmax(120px, 1fr)', suggestions },
-  { key: 'description', label: 'Description / notes', width: 'minmax(200px, 3fr)', rows: 2 },
-  { key: 'page', label: 'Page', width: '60px' },
-]
 
 export function SkillsSection() {
   const { character, derived } = useIkCharacter()
@@ -71,6 +66,7 @@ export function SkillsSection() {
   return (
     <div className="ik-section">
       {careerRules && <StartingPackagePanel />}
+      <ArchetypePanel />
       <Panel title="Skills">
         <p className="ik-note">
           Stat “Auto” uses the skill’s governing stat from the book (pp. 172–173). Social skills have no fixed stat; the

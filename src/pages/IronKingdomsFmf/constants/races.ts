@@ -33,6 +33,7 @@ export const RACES: RaceData[] = [
       poi: [5, 6, 7], int: [4, 5, 6], per: [4, 4, 5],
     },
     defense: 1,
+    archetypeBenefits: ['Deft'],
     notes: ['Starts with the Deft archetype benefit. +1 DEF. Cannot use great weapons or rifles. p. 110'],
   },
   {
@@ -73,6 +74,7 @@ export const RACES: RaceData[] = [
       phy: [8, 9, 10], spd: [6, 6, 6], str: [7, 8, 9], agl: [5, 6, 7], prw: [5, 6, 7],
       poi: [4, 5, 6], int: [4, 5, 6], arc: [4, 6, 7], per: [4, 5, 6],
     },
+    archetypeBenefits: ['Tough', 'Feat: Revitalize'],
     notes: ['Starts with the Tough and Feat: Revitalize archetype benefits. p. 114'],
   },
 ]

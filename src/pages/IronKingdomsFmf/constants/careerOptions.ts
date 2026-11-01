@@ -122,8 +122,11 @@ export const CAREER_OPTIONS: CareerOption[] = [
       skills: ['Crossbow 1', 'Hand Weapon 2', 'Shield 1'].map(grant),
       assets: ['Lawbringer crossbow with ten blessed bolts', 'Shield', 'Sword'],
     },
-    remove: { skills: ['Archery', 'Crossbow', 'Great Weapon', 'Hand Weapon', 'Pistol', 'Rifle'], assets: ['One weapon: blazing sword, consecrated halberd, or relic blade'] },
-    note: 'Does not gain the Righteous Anger archetype benefit.',
+    remove: {
+      skills: ['Archery', 'Crossbow', 'Great Weapon', 'Hand Weapon', 'Pistol', 'Rifle'],
+      assets: ['One weapon: blazing sword, consecrated halberd, or relic blade'],
+      archetypeBenefits: ['Righteous Anger'],
+    },
   },
   {
     name: 'Exemplar Venger', book: 'kng', page: 355, careers: ['Exemplar', 'Horseman'], requires: 'Starting careers Exemplar and Horseman',

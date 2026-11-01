@@ -1,75 +1,79 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { OpenCharacter, SheetSystem } from '../CharacterWorkspace.types'
-import { normalizeCharacter } from '../utils/characterFile'
-
-type StoreState<T> = {
-  characters: OpenCharacter<T>[]
-  activeId: string
-}
-
-type StoredState = {
-  version: number
-  characters: { id: string; data: unknown }[]
-  activeId: string
-}
-
-const storageKey = (systemId: string) => `rpcharactersheets:${systemId}`
-
-const blank = <T,>(system: SheetSystem<T>): OpenCharacter<T> => ({
-  id: crypto.randomUUID(),
-  data: system.createCharacter(),
-})
-
-function loadState<T>(system: SheetSystem<T>): StoreState<T> {
-  try {
-    const stored = JSON.parse(localStorage.getItem(storageKey(system.id)) ?? 'null') as StoredState | null
-    const characters = (stored?.characters ?? []).map((character) => ({
-      id: character.id,
-      data: normalizeCharacter(system, character.data, stored?.version ?? 1),
-    }))
-    if (stored && characters.length > 0) {
-      const activeId = characters.some((c) => c.id === stored.activeId) ? stored.activeId : characters[0].id
-      return { characters, activeId }
-    }
-  } catch {
-    // Unreadable or blocked storage: start with a blank character.
-  }
-  const first = blank(system)
-  return { characters: [first], activeId: first.id }
-}
+import type { SheetSystem } from '../CharacterWorkspace.types'
+import {
+  loadWorkspace,
+  requestPersistentStorage,
+  saveWorkspace,
+  saveWorkspaceOnExit,
+  type StoredState,
+} from '../utils/workspaceStorage'
+import { blank, fresh, restore, type StoreState } from '../utils/workspaceState'
 
 /** The open characters for one system, autosaved to this browser. */
 export function useCharacterStore<T>(system: SheetSystem<T>) {
-  const [state, setState] = useState(() => loadState(system))
+  const [initial] = useState(() => fresh(system))
+  const [state, setState] = useState<StoreState<T>>(initial)
+  const [loaded, setLoaded] = useState(false)
   const [storageFailed, setStorageFailed] = useState(false)
   const pending = useRef<StoredState | null>(null)
+  // The state as loaded, which needs no saving.
+  const unchanged = useRef<StoreState<T> | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    loadWorkspace(system.id)
+      .catch(() => null)
+      .then((stored) => {
+        if (cancelled) return
+        const restored = restore(system, stored) ?? initial
+        unchanged.current = restored
+        setState(restored)
+        setLoaded(true)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [system, initial])
 
   const flush = useCallback(() => {
-    if (!pending.current) return
-    try {
-      localStorage.setItem(storageKey(system.id), JSON.stringify(pending.current))
-      pending.current = null
-      setStorageFailed(false)
-    } catch {
-      setStorageFailed(true)
-    }
+    const next = pending.current
+    if (!next) return
+    pending.current = null
+    saveWorkspace(system.id, { ...next, savedAt: Date.now() })
+      .then(() => {
+        setStorageFailed(false)
+        requestPersistentStorage()
+      })
+      .catch(() => {
+        pending.current ??= next
+        setStorageFailed(true)
+      })
   }, [system.id])
 
   // Saving writes every open character, portraits included, so wait for a pause in typing.
   useEffect(() => {
+    if (!loaded || state === unchanged.current) return
     pending.current = { version: system.version, ...state }
     const timer = setTimeout(flush, 400)
     return () => clearTimeout(timer)
-  }, [state, system.version, flush])
+  }, [state, loaded, system.version, flush])
 
-  // Don't lose the last change when leaving the page or closing the tab.
+  // Don't lose the last change when leaving the page, closing the tab or switching away on a phone.
   useEffect(() => {
-    window.addEventListener('pagehide', flush)
+    const flushOnExit = () => {
+      if (!pending.current) return
+      saveWorkspaceOnExit(system.id, { ...pending.current, savedAt: Date.now() })
+      pending.current = null
+    }
+    const onVisibility = () => document.visibilityState === 'hidden' && flushOnExit()
+    window.addEventListener('pagehide', flushOnExit)
+    document.addEventListener('visibilitychange', onVisibility)
     return () => {
-      window.removeEventListener('pagehide', flush)
+      window.removeEventListener('pagehide', flushOnExit)
+      document.removeEventListener('visibilitychange', onVisibility)
       flush()
     }
-  }, [flush])
+  }, [system.id, flush])
 
   const add = useCallback(
     (data?: T) => {
@@ -118,5 +122,5 @@ export function useCharacterStore<T>(system: SheetSystem<T>) {
 
   const active = state.characters.find((c) => c.id === state.activeId) ?? state.characters[0]
 
-  return { characters: state.characters, active, add, update, remove, reset, select, storageFailed }
+  return { characters: state.characters, active, add, update, remove, reset, select, loaded, storageFailed }
 }

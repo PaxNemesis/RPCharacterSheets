@@ -12,7 +12,7 @@ type CharacterWorkspaceProps<T> = {
 }
 
 export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
-  const { characters, active, add, update, remove, reset, select, storageFailed } = useCharacterStore(system)
+  const { characters, active, add, update, remove, reset, select, loaded, storageFailed } = useCharacterStore(system)
   const [errors, setErrors] = useState<string[]>([])
   const nameOf = (data: T) => system.getName(data).trim() || 'Unnamed character'
 
@@ -46,6 +46,15 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
     const name = nameOf(active.data)
     const message = `Reset ${name}?\n\nEverything on this sheet will be cleared, including the portrait and settings. This can't be undone. Save it as JSON first if you want to keep a copy.`
     if (window.confirm(message)) reset(active.id)
+  }
+
+  if (!loaded) {
+    return (
+      <div className="character-workspace-container">
+        <h1>{system.title}</h1>
+        <p className="character-workspace-loading">Loading characters…</p>
+      </div>
+    )
   }
 
   return (

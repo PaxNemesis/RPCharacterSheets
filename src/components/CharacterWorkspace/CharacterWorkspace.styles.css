@@ -58,6 +58,10 @@
     line-height: 1.4;
   }
 
+  .character-workspace-loading {
+    color: var(--text-soft);
+  }
+
   .character-workspace-add {
     flex-shrink: 0;
     padding: 4px 12px;

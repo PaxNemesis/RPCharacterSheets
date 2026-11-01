@@ -1,0 +1,65 @@
+.identity-panel-container {
+  /* Identity fields on the left; level, XP and Fabula Points in a column on the right, one per row. */
+  .identity-panel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(120px, 160px);
+    grid-template-areas:
+      'name     name     pronouns player   level'
+      'identity identity identity identity xp'
+      'theme    origin   origin   origin   fabula';
+    gap: 8px 12px;
+    align-items: end;
+  }
+
+  .identity-panel-name {
+    grid-area: name;
+  }
+
+  .identity-panel-pronouns {
+    grid-area: pronouns;
+  }
+
+  .identity-panel-player {
+    grid-area: player;
+  }
+
+  .identity-panel-identity {
+    grid-area: identity;
+  }
+
+  .identity-panel-theme {
+    grid-area: theme;
+  }
+
+  .identity-panel-origin {
+    grid-area: origin;
+  }
+
+  .identity-panel-level {
+    grid-area: level;
+  }
+
+  .identity-panel-xp {
+    grid-area: xp;
+  }
+
+  .identity-panel-fabula {
+    grid-area: fabula;
+  }
+
+  .identity-panel-name input {
+    font-weight: 700;
+  }
+
+  @media (max-width: 700px) {
+    .identity-panel-grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-areas:
+        'name     name     name     name     name     name'
+        'pronouns pronouns pronouns player   player   player'
+        'identity identity identity identity identity identity'
+        'theme    theme    origin   origin   origin   origin'
+        'level    level    xp       xp       fabula   fabula';
+    }
+  }
+}

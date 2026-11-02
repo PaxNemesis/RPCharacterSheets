@@ -2,15 +2,15 @@
   .rituals-panel-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-    gap: 12px;
+    gap: var(--space-2);
   }
 
   /* Known disciplines stand out as cards with an accent edge. */
   .rituals-panel-card {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 10px 12px 12px;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2) var(--space-2);
     background: var(--surface-alt);
     border-left: 4px solid var(--accent);
     border-radius: 0 6px 6px 0;
@@ -21,7 +21,7 @@
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: 4px 10px;
+    gap: var(--space-xs) var(--space-1);
 
     h3 {
       font-size: 17px;

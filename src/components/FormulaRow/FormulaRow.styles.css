@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: 4px 6px;
+  gap: var(--space-xs) var(--space-1);
 
   .number-field-container {
     width: 64px;
@@ -20,7 +20,7 @@
   }
 
   .formula-row-operator {
-    padding-bottom: 5px;
+    padding-bottom: var(--space-xs);
     font-weight: 700;
     color: var(--text-soft);
   }

@@ -1,11 +1,11 @@
 .character-workspace-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-2);
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px;
+  padding: var(--space-2);
   box-sizing: border-box;
 
   .character-workspace-header {
@@ -13,13 +13,13 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: var(--space-2);
   }
 
   .character-workspace-toolbar {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: var(--space-1);
   }
 
   .character-workspace-danger {
@@ -28,7 +28,7 @@
   }
 
   .character-workspace-alert {
-    padding: 8px 12px;
+    padding: var(--space-1) var(--space-2);
     border: 1px solid var(--danger);
     border-radius: 6px;
     color: var(--danger);
@@ -38,8 +38,8 @@
   .character-workspace-notice {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 8px 12px;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-2);
     border: 1px solid var(--accent);
     border-left-width: 4px;
     border-radius: 6px;
@@ -53,7 +53,7 @@
 
   .character-workspace-notice-close {
     flex: none;
-    padding: 0 8px;
+    padding: 0 var(--space-1);
     font-size: 1.25rem;
     line-height: 1.4;
   }
@@ -64,11 +64,11 @@
 
   .character-workspace-add {
     flex-shrink: 0;
-    padding: 4px 12px;
+    padding: var(--space-1) var(--space-2);
     font-weight: 700;
   }
 
   .character-workspace-sheet {
-    margin-top: -12px;
+    margin-top: calc(-1 * var(--space-2));
   }
 }

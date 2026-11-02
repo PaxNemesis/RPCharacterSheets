@@ -1,7 +1,7 @@
 .repeat-table-container {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-1);
 
   .repeat-table-scroll {
     overflow-x: auto;
@@ -11,7 +11,7 @@
 
   .repeat-table-grid {
     display: grid;
-    gap: 4px 6px;
+    gap: var(--space-xs) var(--space-1);
     min-width: 520px;
     align-items: start;
   }
@@ -22,7 +22,7 @@
     grid-column: 1 / -1;
     grid-template-columns: subgrid;
     align-items: start;
-    padding: 3px 0;
+    padding: var(--space-xs) 0;
     border-radius: 4px;
 
     &:nth-child(even) {
@@ -99,7 +99,7 @@
     .repeat-table-grid {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: var(--space-1);
       min-width: 0;
     }
 
@@ -109,8 +109,8 @@
 
     .repeat-table-row {
       grid-template-columns: 28px repeat(2, minmax(0, 1fr)) 28px;
-      gap: 6px 8px;
-      padding: 6px 4px 8px;
+      gap: var(--space-1);
+      padding: var(--space-1) var(--space-xs) var(--space-1);
       background: var(--surface-alt);
     }
 
@@ -138,7 +138,7 @@
 
     .repeat-table-cell-label {
       display: block;
-      margin-bottom: 2px;
+      margin-bottom: var(--space-2xs);
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.06em;

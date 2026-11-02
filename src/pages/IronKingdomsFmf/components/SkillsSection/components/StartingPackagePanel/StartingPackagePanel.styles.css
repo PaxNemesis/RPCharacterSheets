@@ -1,20 +1,20 @@
 .starting-package-container {
   .starting-package-options {
-    margin: 0 0 12px;
-    padding: 8px 12px 10px;
+    margin: 0 0 var(--space-2);
+    padding: var(--space-1) var(--space-2) var(--space-1);
     border: 1px solid var(--border);
     border-radius: 6px;
 
     legend {
-      padding: 0 4px;
+      padding: 0 var(--space-xs);
       font-weight: 700;
     }
 
     label {
       display: flex;
-      gap: 8px;
+      gap: var(--space-1);
       align-items: flex-start;
-      margin-top: 6px;
+      margin-top: var(--space-1);
       font-size: 13px;
     }
 
@@ -22,7 +22,7 @@
       flex: none;
       width: 16px;
       height: 16px;
-      margin: 1px 0 0;
+      margin: var(--space-2xs) 0 0;
       accent-color: var(--accent);
     }
   }
@@ -30,24 +30,24 @@
   .starting-package-careers {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-    gap: 12px;
+    gap: var(--space-2);
   }
 
   .starting-package-career {
-    padding: 10px 12px;
+    padding: var(--space-1) var(--space-2);
     border: 1px solid var(--border);
     border-radius: 6px;
     background: var(--surface-alt);
 
     h3 {
       font-size: 15px;
-      margin-bottom: 6px;
+      margin-bottom: var(--space-1);
     }
 
     dl {
       display: grid;
       grid-template-columns: 90px 1fr;
-      gap: 4px 8px;
+      gap: var(--space-xs) var(--space-1);
       margin: 0;
       font-size: 13px;
     }
@@ -61,14 +61,14 @@
       margin: 0;
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 10px;
+      gap: var(--space-xs) var(--space-1);
       align-items: center;
     }
 
     select {
       width: auto;
       font-size: 13px;
-      padding: 2px 4px;
+      padding: var(--space-2xs) var(--space-xs);
     }
   }
 }

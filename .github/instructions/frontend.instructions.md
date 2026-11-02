@@ -120,6 +120,13 @@ export const useTheme = () => {
 - Create a separate stylesheet for a sub-component only for styles that are specific to it.
 - Stylesheets are private like everything else, so never import them from outside the main component folder.
 
+## Spacing
+
+- Spacing (`padding`, `margin`, `gap`) uses multiples of 8px. Use 2px or 4px only for tight spots, such as between a label and its input, an icon and its text, or table cells.
+- Use the spacing tokens from the global stylesheet instead of pixel values: `--space-2xs` (2px), `--space-xs` (4px), `--space-1` (8px), `--space-2` (16px), `--space-3` (24px), `--space-4` (32px). Add a larger token to the scale if one is needed, rather than a one-off value.
+- For a negative margin, use `calc(-1 * var(--space-2))`.
+- The rule covers spacing only. Borders, control sizes, widths and font sizes are not spacing, and a 1px margin that overlaps borders (as in a button group) stays as it is.
+
 ## Entry point: `index.ts`
 
 - `index.ts` is the only entry point into a component folder.

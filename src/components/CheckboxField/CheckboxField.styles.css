@@ -1,12 +1,12 @@
 .checkbox-field-container {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: var(--space-1);
 
   input {
     width: 16px;
     height: 16px;
-    margin: 2px 0 0;
+    margin: var(--space-2xs) 0 0;
     flex-shrink: 0;
     accent-color: var(--accent);
   }

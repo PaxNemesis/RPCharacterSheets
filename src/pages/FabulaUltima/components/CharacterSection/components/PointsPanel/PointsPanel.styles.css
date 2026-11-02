@@ -10,7 +10,7 @@
 
   .points-panel-head + .points-panel-head,
   .points-panel-current {
-    padding-left: 14px;
+    padding-left: var(--space-2);
   }
 
   .points-panel-head {
@@ -20,7 +20,7 @@
     text-transform: uppercase;
     text-align: center;
     color: var(--text-soft);
-    padding-bottom: 4px;
+    padding-bottom: var(--space-xs);
   }
 
   .points-panel-row {
@@ -31,7 +31,7 @@
   .points-panel-label,
   .points-panel-max,
   .points-panel-current {
-    padding-top: 10px;
+    padding-top: var(--space-1);
     border-top: 1px solid var(--border);
   }
 
@@ -55,7 +55,7 @@
   .points-panel-max {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--space-1);
 
     > .number-field-lg {
       flex: 1;
@@ -74,7 +74,7 @@
     align-self: stretch;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--space-2xs);
   }
 
   .points-panel-in-crisis input {
@@ -94,8 +94,8 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
-    gap: 2px 4px;
-    padding: 4px 0 10px;
+    gap: var(--space-2xs) var(--space-xs);
+    padding: var(--space-xs) 0 var(--space-1);
 
     .number-field-container {
       width: 52px;
@@ -114,7 +114,7 @@
   }
 
   .points-panel-operator {
-    padding-bottom: 3px;
+    padding-bottom: var(--space-xs);
     font-size: 12px;
     color: var(--text-soft);
   }

@@ -1,7 +1,7 @@
 .image-field-container {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-1);
   height: 100%;
 
   .image-field-drop {
@@ -30,7 +30,7 @@
 
   .image-field-hint {
     color: var(--text-soft);
-    padding: 12px;
+    padding: var(--space-2);
   }
 
   .image-field-error {

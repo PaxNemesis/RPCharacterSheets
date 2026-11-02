@@ -2,7 +2,7 @@
   --check-track-color: var(--accent);
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: var(--space-xs);
   align-items: center;
 
   .check-track-box {

@@ -19,6 +19,14 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  /* Spacing for padding, margin and gap: multiples of 8px, with 2px and 4px for tight spots. */
+  --space-2xs: 2px;
+  --space-xs: 4px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+
   font: 15px/1.4 var(--sans);
   color-scheme: light dark;
   color: var(--text);
@@ -93,7 +101,7 @@ select {
   background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 4px 6px;
+  padding: var(--space-xs) var(--space-1);
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
@@ -119,7 +127,7 @@ button {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 4px 10px;
+  padding: var(--space-xs) var(--space-1);
 
   &:hover {
     border-color: var(--border-strong);

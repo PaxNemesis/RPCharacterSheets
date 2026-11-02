@@ -8,9 +8,10 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
+    /* 56px in all with the padding, at every width: taller than the small-screen menu button. */
+    min-height: 40px;
     padding: var(--space-1) var(--space-2);
     background: var(--border-strong);
-
   }
 
   /* Links in the bar itself; the small-screen menu styles its own. */

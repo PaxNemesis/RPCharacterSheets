@@ -1,3 +1,4 @@
+import { Icon } from '@/components/Icon'
 import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
@@ -10,6 +11,7 @@ import { bookRef } from '../../../../constants/books'
 import type { ClassData, FuClass, FuClassSkill } from '../../../../types'
 import { classLevel } from '../../../../utils/rules'
 import { CustomBenefits } from './components'
+import './ClassCard.styles.css'
 
 const BENEFIT_CHOICES = [
   { value: '', label: 'Choose…' },
@@ -63,9 +65,16 @@ export function ClassCard({ index, entry, data, classNames, issues, onRemove }: 
     <SheetProvider path={`classes.${index}`}>
       <Panel
         title={entry.name.trim() || `Class ${index + 1}`}
+        className="class-card-container"
         actions={
-          <button type="button" onClick={onRemove}>
-            Remove
+          <button
+            type="button"
+            className="class-card-remove"
+            onClick={onRemove}
+            title="Remove class"
+            aria-label={`Remove ${entry.name.trim() || `class ${index + 1}`}`}
+          >
+            <Icon name="delete" className="class-card-icon" />
           </button>
         }
       >

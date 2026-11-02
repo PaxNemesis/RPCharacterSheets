@@ -80,10 +80,10 @@ export function ItemSlot({ slot, item, derived, open, onToggle, onUnequip, onDel
               aria-expanded={open}
               aria-controls={editorId}
               aria-label={`${open ? 'Done editing' : empty ? 'Add to' : 'Edit'} ${slot.label.toLowerCase()}`}
+              title={open ? 'Done' : empty ? 'Add' : 'Edit'}
               onClick={onToggle}
             >
               <Icon name={open ? 'check' : empty ? 'add' : 'edit'} className="equipment-section-icon" />
-              <span className="equipment-section-label">{open ? 'Done' : empty ? 'Add' : 'Edit'}</span>
             </button>
             {hasContent(item) && (
               <button
@@ -93,13 +93,11 @@ export function ItemSlot({ slot, item, derived, open, onToggle, onUnequip, onDel
                 aria-label={`Unequip ${label}`}
               >
                 <Icon name="archive" className="equipment-section-icon" />
-                <span className="equipment-section-label">Unequip</span>
               </button>
             )}
             {deletable && (
-              <button type="button" className="item-slot-delete" onClick={onDelete} aria-label={`Delete ${label}`}>
+              <button type="button" className="item-slot-delete" onClick={onDelete} title="Delete" aria-label={`Delete ${label}`}>
                 <Icon name="delete" className="equipment-section-icon" />
-                <span className="equipment-section-label">Delete</span>
               </button>
             )}
           </div>

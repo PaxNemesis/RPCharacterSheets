@@ -98,30 +98,16 @@
     color: var(--danger);
   }
 
-  /* Buttons show icon and label on larger screens, just the icon on small ones; each keeps an aria-label. */
-  .equipment-section-short {
-    display: none;
+  /* Action buttons are icons, with a title and aria-label; slot-specific Equip buttons add the slot's name. */
+  .equipment-section-icon {
+    width: 20px;
+    height: 20px;
   }
 
-  @media (max-width: 800px) {
-    .equipment-section-label {
-      display: none;
-    }
-
-    .equipment-section-short {
-      display: inline;
-    }
-
-    .equipment-section-icon {
-      width: 20px;
-      height: 20px;
-    }
-
-    .item-slot-actions button,
-    .equipment-section-stored-actions button {
-      min-height: 36px;
-      min-width: 40px;
-      justify-content: center;
-    }
+  .item-slot-actions button,
+  .equipment-section-stored-actions button {
+    min-height: 36px;
+    min-width: 40px;
+    justify-content: center;
   }
 }

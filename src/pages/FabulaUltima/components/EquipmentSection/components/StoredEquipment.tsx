@@ -49,11 +49,11 @@ export function StoredEquipment({ character }: StoredEquipmentProps) {
                     type="button"
                     onClick={() => apply(equip(character, index, slot))}
                     aria-label={`Equip ${item.name.trim() || 'item'}${named ? ` to ${where.toLowerCase()}` : ''}`}
+                    title={named ? `Equip: ${where.toLowerCase()}` : 'Equip'}
                   >
                     <Icon name="unarchive" className="equipment-section-icon" />
-                    <span className="equipment-section-label">{named ? `Equip: ${where.toLowerCase()}` : 'Equip'}</span>
-                    {/* On small screens the icon stands for "Equip", but which slot still needs saying. */}
-                    {named && <span className="equipment-section-short">{where}</span>}
+                    {/* The icon stands for "Equip", but which slot still needs saying. */}
+                    {named && where}
                   </button>
                 )
               })}
@@ -61,10 +61,10 @@ export function StoredEquipment({ character }: StoredEquipmentProps) {
                 type="button"
                 className="equipment-section-stored-delete"
                 onClick={() => remove(index)}
+                title="Delete"
                 aria-label={`Delete ${item.name.trim() || 'item'}`}
               >
                 <Icon name="delete" className="equipment-section-icon" />
-                <span className="equipment-section-label">Delete</span>
               </button>
             </span>
           </li>

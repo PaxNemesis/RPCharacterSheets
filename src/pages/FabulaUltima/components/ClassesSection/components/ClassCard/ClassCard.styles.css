@@ -1,0 +1,16 @@
+.class-card-container {
+  /* Same icon button as the equipment actions. */
+  .class-card-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 36px;
+    color: var(--danger);
+  }
+
+  .class-card-icon {
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -1,0 +1,91 @@
+.delicacy-panel-container {
+  .delicacy-panel-picks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: var(--space-1) var(--space-2);
+  }
+
+  .delicacy-panel-effects {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .delicacy-panel-effect {
+    display: grid;
+    grid-template-columns: 136px minmax(0, 1fr) minmax(120px, 200px);
+    gap: var(--space-1) var(--space-2);
+    align-items: center;
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .delicacy-panel-pair {
+    font-weight: 700;
+    color: var(--text-h);
+  }
+
+  .delicacy-panel-cook {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+  }
+
+  /* The cooked delicacy stands out until it's dismissed. */
+  .delicacy-panel-result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-1) var(--space-2) var(--space-2);
+    background: var(--surface-alt);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+
+    ul {
+      margin: 0;
+      padding-left: var(--space-3);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-h);
+    }
+  }
+
+  .delicacy-panel-result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1);
+
+    h3 {
+      font-size: 17px;
+      color: var(--accent);
+    }
+  }
+
+  .delicacy-panel-dismiss {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 36px;
+  }
+
+  .delicacy-panel-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 520px) {
+    .delicacy-panel-effect {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .delicacy-panel-pair {
+      grid-column: 1 / -1;
+    }
+  }
+}

@@ -3,13 +3,12 @@ import { SelectField } from '@/components/SelectField'
 import { TextField } from '@/components/TextField'
 import { DELICACY_EFFECTS, TASTE_PAIRS } from '../../../constants/gourmet'
 import type { FuGourmet } from '../../../types'
+import { effectOf } from '../utils/delicacies'
 
 const EFFECT_OPTIONS = [
   { value: '', label: 'Not found yet' },
   ...DELICACY_EFFECTS.map((effect) => ({ value: String(effect.roll), label: `${effect.roll}. ${effect.label}` })),
 ]
-
-const effectOf = (roll: string | undefined) => DELICACY_EFFECTS.find((effect) => String(effect.roll) === roll)
 
 type CombinationsPanelProps = {
   gourmet: FuGourmet

@@ -1,0 +1,1 @@
+export { PairEffect } from './PairEffect'

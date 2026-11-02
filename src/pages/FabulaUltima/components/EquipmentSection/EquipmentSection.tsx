@@ -9,7 +9,7 @@ import { SLOTS } from '../../constants/slots'
 import { useFuCharacter } from '../../hooks/useFuCharacter'
 import type { FuBackpackItem, SlotKey } from '../../types'
 import { ItemSlot, StoredEquipment } from './components'
-import { unequip } from './utils/equip'
+import { emptyFor, unequip } from './utils/equip'
 import './EquipmentSection.styles.css'
 
 const BACKPACK_COLUMNS: RepeatTableColumn[] = [
@@ -31,6 +31,13 @@ export function EquipmentSection() {
     set('equipment', next.equipment)
     set('stored', next.stored)
     setOpen((current) => current.filter((other) => other !== key))
+  }
+  const clear = (key: SlotKey) => {
+    const item = character.equipment[key]
+    const name = item.name.trim() || 'this item'
+    if (window.confirm(`Delete ${name}? It will be removed from the sheet. Use Unequip instead to keep it in the backpack.`)) {
+      set(`equipment.${key}`, emptyFor(key))
+    }
   }
 
   return (
@@ -59,6 +66,7 @@ export function EquipmentSection() {
               open={open.includes(slot.key)}
               onToggle={() => toggle(slot.key)}
               onUnequip={() => store(slot.key)}
+              onDelete={() => clear(slot.key)}
             />
           ))}
         </div>

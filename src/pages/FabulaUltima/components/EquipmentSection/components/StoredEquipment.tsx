@@ -1,3 +1,4 @@
+import { Icon } from '@/components/Icon'
 import { useSheet } from '@/components/SheetProvider'
 import { SLOTS } from '../../../constants/slots'
 import type { FuCharacter } from '../../../types'
@@ -40,15 +41,30 @@ export function StoredEquipment({ character }: StoredEquipmentProps) {
             </span>
             <span className="equipment-section-stored-actions">
               {slots.map((slot) => {
-                const label = twoHanded ? 'both hands' : SLOTS.find((entry) => entry.key === slot)?.label.toLowerCase()
+                const where = twoHanded ? 'Both hands' : (SLOTS.find((entry) => entry.key === slot)?.label ?? '')
+                const named = slots.length > 1 || twoHanded
                 return (
-                  <button key={slot} type="button" onClick={() => apply(equip(character, index, slot))}>
-                    {slots.length > 1 || twoHanded ? `Equip: ${label}` : 'Equip'}
+                  <button
+                    key={slot}
+                    type="button"
+                    onClick={() => apply(equip(character, index, slot))}
+                    aria-label={`Equip ${item.name.trim() || 'item'}${named ? ` to ${where.toLowerCase()}` : ''}`}
+                  >
+                    <Icon name="unarchive" className="equipment-section-icon" />
+                    <span className="equipment-section-label">{named ? `Equip: ${where.toLowerCase()}` : 'Equip'}</span>
+                    {/* On small screens the icon stands for "Equip", but which slot still needs saying. */}
+                    {named && <span className="equipment-section-short">{where}</span>}
                   </button>
                 )
               })}
-              <button type="button" onClick={() => remove(index)} aria-label={`Delete ${item.name.trim() || 'item'}`}>
-                Delete
+              <button
+                type="button"
+                className="equipment-section-stored-delete"
+                onClick={() => remove(index)}
+                aria-label={`Delete ${item.name.trim() || 'item'}`}
+              >
+                <Icon name="delete" className="equipment-section-icon" />
+                <span className="equipment-section-label">Delete</span>
               </button>
             </span>
           </li>

@@ -4,30 +4,66 @@
   .item-slot-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 8px 12px;
+    padding: 4px 0;
   }
 
-  .item-slot-unequip {
-    flex-shrink: 0;
-    font-size: 13px;
-  }
-
-  .item-slot-toggle {
+  .item-slot-overview {
     flex: 1;
     min-width: 0;
     display: grid;
-    grid-template-columns: 100px minmax(0, 1fr) auto;
+    grid-template-columns: 100px minmax(0, 1fr);
     gap: 12px;
     align-items: center;
-    padding: 10px 4px;
-    text-align: left;
-    background: none;
-    border: none;
+    padding: 6px 4px;
     border-radius: 4px;
+    cursor: pointer;
 
     &:hover {
       background: var(--surface-alt);
     }
+  }
+
+  /* Edit, Unequip and Delete joined into one segmented control. */
+  .item-slot-actions {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      border-radius: 0;
+      margin-left: -1px;
+
+      &:first-child {
+        margin-left: 0;
+        border-radius: 4px 0 0 4px;
+      }
+
+      &:last-child {
+        border-radius: 0 4px 4px 0;
+      }
+
+      &:only-child {
+        border-radius: 4px;
+      }
+
+      &:hover,
+      &:focus-visible {
+        position: relative;
+        z-index: 1;
+      }
+    }
+  }
+
+  .item-slot-edit {
+    font-weight: 600;
+  }
+
+  .item-slot-delete {
+    color: var(--danger);
   }
 
   .item-slot-label {
@@ -61,12 +97,6 @@
     color: var(--text-soft);
   }
 
-  .item-slot-action {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--accent);
-  }
-
   .item-slot-editor {
     display: flex;
     flex-direction: column;
@@ -98,12 +128,14 @@
   }
 
   @media (max-width: 520px) {
-    .item-slot-toggle {
-      grid-template-columns: minmax(0, 1fr) auto;
+    .item-slot-row {
+      flex-wrap: wrap;
     }
 
-    .item-slot-label {
-      grid-column: 1 / -1;
+    .item-slot-overview {
+      flex-basis: 100%;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2px;
     }
   }
 }

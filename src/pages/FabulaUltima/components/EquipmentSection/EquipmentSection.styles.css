@@ -86,7 +86,42 @@
     gap: 6px;
 
     button {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       font-size: 13px;
+    }
+  }
+
+  /* Matches the delete button in the equipment slots. */
+  .equipment-section-stored-delete {
+    color: var(--danger);
+  }
+
+  /* Buttons show icon and label on larger screens, just the icon on small ones; each keeps an aria-label. */
+  .equipment-section-short {
+    display: none;
+  }
+
+  @media (max-width: 800px) {
+    .equipment-section-label {
+      display: none;
+    }
+
+    .equipment-section-short {
+      display: inline;
+    }
+
+    .equipment-section-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .item-slot-actions button,
+    .equipment-section-stored-actions button {
+      min-height: 36px;
+      min-width: 40px;
+      justify-content: center;
     }
   }
 }

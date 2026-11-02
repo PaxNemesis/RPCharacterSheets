@@ -4,7 +4,8 @@ import { createItem } from '../../../utils/createCharacter'
 
 type Gear = Pick<FuCharacter, 'equipment' | 'stored'>
 
-const emptyFor = (slot: SlotKey) => createItem(slot === 'armor' ? 'armor' : slot === 'accessory' ? 'accessory' : '')
+/** A cleared slot: armor and accessory slots keep their kind, hands have none. */
+export const emptyFor = (slot: SlotKey) => createItem(slot === 'armor' ? 'armor' : slot === 'accessory' ? 'accessory' : '')
 
 /** Whether the slot holds anything worth keeping: an empty armor slot still has kind 'armor'. */
 export const hasContent = (item: FuItem) =>

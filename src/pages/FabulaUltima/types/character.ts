@@ -46,7 +46,6 @@ export type FuClassSkill = { name: string; level: Num; notes: string }
 
 export type FuClass = {
   name: string
-  level: Num
   /** For classes whose free benefit is +5 HP or MP: the player's pick. */
   benefitChoice: '' | 'hp' | 'mp'
   /** Free benefits of a class that isn't in the rulebooks turned on in Settings. */
@@ -94,6 +93,9 @@ export type FuSpell = {
 }
 
 export type FuEntry = { name: string; notes: string }
+
+/** `source` is the name of the mastered class that granted it, or ':other' for anything else. */
+export type FuHeroicSkill = { name: string; source: string; notes: string }
 export type FuBackpackItem = { name: string; quantity: Num; notes: string }
 
 /** Current and "other" bonus to a maximum, for HP, MP and IP. */
@@ -116,7 +118,7 @@ export type FuCharacter = {
   zenit: Num
   bonds: FuBond[]
   classes: FuClass[]
-  heroicSkills: FuEntry[]
+  heroicSkills: FuHeroicSkill[]
   equipment: Record<SlotKey, FuItem>
   backpack: FuBackpackItem[]
   spells: FuSpell[]

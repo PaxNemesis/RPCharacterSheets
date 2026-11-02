@@ -2,7 +2,7 @@ import { SelectField } from '@/components/SelectField'
 import { TextField } from '@/components/TextField'
 import { ARCHETYPES, findRace, RACES, TRADITIONS } from '../../../constants/races'
 import { useIkCharacter } from '../../../hooks/useIkCharacter'
-import { alphabetical } from '../../../utils/alphabetical'
+import { alphabetical } from '@/utils/alphabetical'
 
 const options = (values: string[], empty = 'Choose…') => [
   { value: '', label: empty },

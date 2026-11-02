@@ -1,4 +1,5 @@
 import { useSheet } from '@/components/SheetProvider'
+import { compareNames } from '@/utils/alphabetical'
 import { BASIC_DEFENSIVE_ITEMS, BASIC_WEAPONS } from '../../../../../constants/equipment'
 import type { ItemKind } from '../../../../../types'
 import { itemFromDefensive, itemFromWeapon } from '../utils/itemFromRulebook'
@@ -11,8 +12,9 @@ type ItemPickerProps = {
 /** Replaces the slot's item with a basic item from the core rules. */
 export function ItemPicker({ kinds, slotLabel }: ItemPickerProps) {
   const { set } = useSheet()
-  const weapons = kinds.includes('weapon') ? BASIC_WEAPONS : []
-  const defensive = BASIC_DEFENSIVE_ITEMS.filter((item) => kinds.includes(item.kind))
+  const byName = (a: { name: string }, b: { name: string }) => compareNames(a.name, b.name)
+  const weapons = kinds.includes('weapon') ? [...BASIC_WEAPONS].sort(byName) : []
+  const defensive = BASIC_DEFENSIVE_ITEMS.filter((item) => kinds.includes(item.kind)).sort(byName)
   if (weapons.length + defensive.length === 0) return null
 
   const pick = (value: string) => {

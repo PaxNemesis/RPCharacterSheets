@@ -21,7 +21,6 @@ export const createItem = (kind: ItemKind = ''): FuItem => ({
 
 export const createClass = (): FuClass => ({
   name: '',
-  level: 1,
   benefitChoice: '',
   custom: {
     hp: null,
@@ -31,7 +30,8 @@ export const createClass = (): FuClass => ({
     ritualism: false,
   },
   notes: '',
-  skills: [],
+  // Starts at level 1: a class's level is the total of its Skill Levels.
+  skills: [{ name: '', level: 1, notes: '' }],
 })
 
 export const createBond = (): FuBond => ({ name: '', respect: '', trust: '', feeling: '' })

@@ -7,8 +7,11 @@ import type { Discipline, FuCharacter, FuClass, MartialKey } from '../types'
 
 const DISCIPLINE_KEYS = DISCIPLINES.map((discipline) => discipline.key)
 
+/** Each class level gives one Skill Level, so a class's level is the total of its Skill Levels (p. 228). */
+export const classLevel = (entry: FuClass) => entry.skills.reduce((total, skill) => total + (skill.level ?? 0), 0)
+
 /** Free benefits only count once the character has a level in the class. */
-const hasClass = (entry: FuClass) => (entry.level ?? 0) >= 1
+const hasClass = (entry: FuClass) => classLevel(entry) >= 1
 
 /** Totals of the free benefits of every class, from the rulebook or typed in for custom classes. */
 export function classBenefits(character: FuCharacter) {
@@ -76,11 +79,10 @@ export function quirkBonus(character: FuCharacter) {
   }
 }
 
-/** Problems with one class: level range, Skill Levels against class level and Skill maximums. */
+/** Problems with one class: level range, Skill maximums and the HP or MP choice. */
 export function classIssues(character: FuCharacter, entry: FuClass): string[] {
   const data = findClass(character.settings, entry.name)
-  const level = entry.level ?? 0
-  const skillLevels = entry.skills.reduce((total, skill) => total + (skill.level ?? 0), 0)
+  const level = classLevel(entry)
   const overMax = data
     ? entry.skills.filter((skill) => {
         const max = data.skills.find((s) => s.name.toLowerCase() === skill.name.trim().toLowerCase())?.max
@@ -90,7 +92,6 @@ export function classIssues(character: FuCharacter, entry: FuClass): string[] {
 
   return [
     level > 10 && 'A class can be at most level 10.',
-    skillLevels !== level && `Skill Levels add up to ${skillLevels}; each class level gives one Skill Level, so they should add up to ${level}.`,
     overMax.length > 0 && `Above the maximum Skill Level: ${overMax.map((skill) => skill.name).join(', ')}.`,
     data?.benefits.hpOrMp && !entry.benefitChoice && 'Choose whether the free benefit raises HP or MP.',
   ].filter((issue): issue is string => Boolean(issue))

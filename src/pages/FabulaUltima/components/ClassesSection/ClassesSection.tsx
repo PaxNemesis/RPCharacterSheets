@@ -12,7 +12,6 @@ export function ClassesSection() {
   const { set } = useSheet()
   const { classes, settings } = character
   const classNames = CLASSES.filter((data) => bookEnabled(settings, data.book)).map((data) => data.name)
-  const mastered = classes.filter((entry) => (entry.level ?? 0) >= 10).length
 
   const remove = (index: number) => {
     const name = classes[index].name.trim() || `class ${index + 1}`
@@ -23,8 +22,8 @@ export function ClassesSection() {
     <div className="fu-section">
       <Panel title="Classes">
         <p className="fu-note">
-          Level {derived.level}. A new character puts 5 levels into two or three classes (p. 154). Each class level gives one
-          Skill Level, a class reaches at most level 10, and you can never have more than three non-mastered classes (p. 227).
+          Level {derived.level}. A new character puts 5 levels into two or three classes (p. 154). A class&apos;s level is the
+          total of its Skill Levels, a class reaches at most level 10, and you can never have more than three non-mastered classes (p. 227).
           Free benefits count toward HP, MP, IP and martial equipment automatically.
         </p>
         {derived.tooManyClasses && <p className="fu-warning">You have more than three non-mastered classes.</p>}
@@ -43,7 +42,7 @@ export function ClassesSection() {
           onRemove={() => remove(index)}
         />
       ))}
-      <HeroicSkillsPanel character={character} mastered={mastered} />
+      <HeroicSkillsPanel character={character} />
     </div>
   )
 }

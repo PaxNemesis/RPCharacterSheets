@@ -1,5 +1,5 @@
 import type { CareerOption } from '../../../../../types'
-import { alphabetical } from '../../../../../utils/alphabetical'
+import { alphabetical } from '@/utils/alphabetical'
 
 /** A one-line summary of what an option changes, e.g. "Adds Set Defense. Removes Blaster." */
 export function describeOption(option: CareerOption) {

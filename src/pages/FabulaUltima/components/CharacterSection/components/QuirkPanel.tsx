@@ -1,6 +1,7 @@
 import { Panel } from '@/components/Panel'
 import { SelectField } from '@/components/SelectField'
 import { TextField } from '@/components/TextField'
+import { compareNames } from '@/utils/alphabetical'
 import { bookEnabled, bookRef } from '../../../constants/books'
 import { QUIRKS, quirkId } from '../../../constants/quirks'
 import type { FuCharacter } from '../../../types'
@@ -24,7 +25,7 @@ export function QuirkPanel({ character }: QuirkPanelProps) {
   const options = [
     { value: '', label: 'None' },
     ...QUIRKS.filter((entry) => bookEnabled(settings, entry.book) || quirkId(entry) === quirk.id)
-      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => compareNames(a.name, b.name))
       .map((entry) => ({ value: quirkId(entry), label: `${entry.name} (${bookRef(entry.book, entry.page)})` })),
     { value: 'custom', label: 'Custom Quirk…' },
   ]

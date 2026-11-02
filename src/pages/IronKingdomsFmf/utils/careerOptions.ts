@@ -3,7 +3,7 @@ import { CAREER_ADDITIONS, CAREER_OPTIONS } from '../constants/careerOptions'
 import { findCareer } from '../constants/careers'
 import { baseSkillName } from '../constants/skills'
 import type { CareerData, CareerOption, IkCharacter, SkillChoice, SkillGrant } from '../types'
-import { compareNames } from './alphabetical'
+import { compareNames } from '@/utils/alphabetical'
 
 const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase()
 const unique = (values: string[]) => [...new Set(values)]

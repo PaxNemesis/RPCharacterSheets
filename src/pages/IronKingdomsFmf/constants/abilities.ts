@@ -1,5 +1,5 @@
 import type { BookId, IkSettings } from '../types'
-import { compareNames } from '../utils/alphabetical'
+import { compareNames } from '@/utils/alphabetical'
 import { bookEnabled, bookRef } from './books'
 
 // Page of each ability's entry: core rules pp. 157–168, Kings, Nations, and Gods and Urban Adventure.

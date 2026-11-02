@@ -1,5 +1,5 @@
 import type { BookId, StatKey } from '../types'
-import { compareNames } from '../utils/alphabetical'
+import { compareNames } from '@/utils/alphabetical'
 import { bookRef } from './books'
 
 type SkillStat = StatKey | 'social'

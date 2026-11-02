@@ -1,3 +1,4 @@
+import { compareNames } from '@/utils/alphabetical'
 import type { ClassData, FuSettings } from '../types'
 import { bookEnabled } from './books'
 import { SUPPLEMENT_CLASSES } from './classesSupplements'
@@ -98,7 +99,7 @@ const CORE_CLASSES: ClassData[] = [
   },
 ]
 
-export const CLASSES: ClassData[] = [...CORE_CLASSES, ...SUPPLEMENT_CLASSES].sort((a, b) => a.name.localeCompare(b.name))
+export const CLASSES: ClassData[] = [...CORE_CLASSES, ...SUPPLEMENT_CLASSES].sort((a, b) => compareNames(a.name, b.name))
 
 /** The rulebook class with this name, if its book is turned on. */
 export const findClass = (settings: FuSettings, name: string) => {

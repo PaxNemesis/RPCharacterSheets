@@ -1,6 +1,7 @@
 import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
 import { useSheet } from '@/components/SheetProvider'
+import { alphabetical, compareNames } from '@/utils/alphabetical'
 import { bookEnabled, bookRef } from '../../../constants/books'
 import { SPELLS } from '../../../constants/spells'
 import type { FuCharacter, FuSpell, SpellData } from '../../../types'
@@ -22,10 +23,12 @@ type SpellsPanelProps = {
 
 export function SpellsPanel({ character }: SpellsPanelProps) {
   const { set } = useSheet()
-  const spells = SPELLS.filter((spell) => bookEnabled(character.settings, spell.book))
-  const groups = [...new Set(spells.map((spell) => spell.className))]
+  const spells = SPELLS.filter((spell) => bookEnabled(character.settings, spell.book)).sort((a, b) =>
+    compareNames(a.name, b.name),
+  )
+  const groups = alphabetical([...new Set(spells.map((spell) => spell.className))])
   const columns: RepeatTableColumn[] = [
-    { key: 'name', label: 'Spell', width: 'minmax(140px, 2fr)', suggestions: spells.map((spell) => spell.name) },
+    { key: 'name', label: 'Spell', width: 'minmax(140px, 2fr)', suggestions: [...new Set(spells.map((spell) => spell.name))] },
     {
       key: 'offensive',
       label: 'Offensive',

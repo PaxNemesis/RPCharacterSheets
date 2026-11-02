@@ -2,7 +2,7 @@ import type { RepeatTableRow } from '@/components/RepeatTable'
 import { bookEnabled, bookRef } from '../constants/books'
 import { MELEE_WEAPONS, RANGED_WEAPONS } from '../constants/weapons'
 import type { IkCharacter, IkMeleeWeapon, IkRangedWeapon, Num, WeaponData } from '../types'
-import { compareNames } from './alphabetical'
+import { compareNames } from '@/utils/alphabetical'
 
 /** Rulebook weapons to suggest by name, and how to fill a row when one is picked. */
 export type WeaponPresets = {

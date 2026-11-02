@@ -5,7 +5,7 @@ import { bookEnabled, SUPPLEMENTS } from '../../../constants/books'
 import { CAREERS } from '../../../constants/careers'
 import { useIkCharacter } from '../../../hooks/useIkCharacter'
 import type { CareerData } from '../../../types'
-import { alphabetical, compareNames } from '../../../utils/alphabetical'
+import { alphabetical, compareNames } from '@/utils/alphabetical'
 import { resolveCareer } from '../../../utils/careerOptions'
 
 const careerLabel = (career: CareerData) => {

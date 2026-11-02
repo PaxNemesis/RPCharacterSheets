@@ -1,7 +1,7 @@
 import { sum } from '@/utils/sum'
 import { DICE, STATUSES } from '../constants/attributes'
 import type { AttributeKey, FuCharacter, FuDerived, FuItem, SlotKey } from '../types'
-import { classBenefits, heroicBonus, quirkBonus } from './rules'
+import { classBenefits, classLevel, heroicBonus, quirkBonus } from './rules'
 import { slotWarnings } from './slotWarnings'
 
 const dieSize = (value: string) => (DICE.includes(Number(value)) ? Number(value) : 6)
@@ -9,7 +9,7 @@ const filled = (item: FuItem) => item.kind !== ''
 
 /** Works out level, maximums, Defense and warnings from the core rules (pp. 94, 127, 163–164, 227). */
 export function calculate(character: FuCharacter): FuDerived {
-  const level = character.classes.reduce((total, entry) => total + (entry.level ?? 0), 0)
+  const level = character.classes.reduce((total, entry) => total + classLevel(entry), 0)
   const base = (key: AttributeKey) => dieSize(character.attributes[key])
   const current = (key: AttributeKey) => {
     const steps = STATUSES.filter((status) => character.statuses[status.key] && status.attributes.includes(key)).length
@@ -34,7 +34,7 @@ export function calculate(character: FuCharacter): FuDerived {
     initiative: sum(...items.map((item) => item.initiative)) ?? 0,
   }
   const { modifiers } = character
-  const nonMastered = character.classes.filter((entry) => entry.name.trim() && (entry.level ?? 0) < 10).length
+  const nonMastered = character.classes.filter((entry) => entry.name.trim() && classLevel(entry) < 10).length
 
   return {
     level,

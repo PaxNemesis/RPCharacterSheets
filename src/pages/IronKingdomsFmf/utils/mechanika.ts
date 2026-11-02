@@ -1,6 +1,6 @@
 import { CAPACITORS, findCapacitor, findRune, MAX_RUNE_POINTS, MECHANIKA_TYPES, RUNES } from '../constants/mechanika'
 import type { IkMechanika, IkRune, MechanikaType } from '../types'
-import { compareNames } from './alphabetical'
+import { compareNames } from '@/utils/alphabetical'
 
 type Row = Record<string, unknown>
 

@@ -1,34 +1,43 @@
 import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
-import { useSheet } from '@/components/SheetProvider'
-import { alphabetical, compareNames } from '@/utils/alphabetical'
+import { compareNames } from '@/utils/alphabetical'
 import { bookEnabled, bookRef } from '../../../constants/books'
 import { SPELLS } from '../../../constants/spells'
-import type { FuCharacter, FuSpell, SpellData } from '../../../types'
+import type { FuCharacter, FuSpell } from '../../../types'
 
-const createSpell = (): FuSpell => ({ name: '', offensive: '', mp: '', targets: '', duration: '', notes: '' })
-
-const spellFromRulebook = (spell: SpellData): FuSpell => ({
-  name: spell.name,
-  offensive: spell.offensive ? 'yes' : '',
-  mp: spell.mp,
-  targets: spell.targets,
-  duration: spell.duration,
-  notes: `${spell.className}, ${bookRef(spell.book, spell.page)}`,
-})
+const createSpell = (): FuSpell => ({ name: '', offensive: '', mp: '', targets: '', duration: '', page: '', notes: '' })
 
 type SpellsPanelProps = {
   character: FuCharacter
 }
 
 export function SpellsPanel({ character }: SpellsPanelProps) {
-  const { set } = useSheet()
   const spells = SPELLS.filter((spell) => bookEnabled(character.settings, spell.book)).sort((a, b) =>
     compareNames(a.name, b.name),
   )
-  const groups = alphabetical([...new Set(spells.map((spell) => spell.className))])
+  // Picking a rulebook spell fills in its values; the player's own notes are kept.
+  const pick = (value: string, row: Record<string, unknown>) => {
+    const spell = spells.find((entry) => entry.name === value)
+    if (!spell) return row
+    return {
+      ...row,
+      name: spell.name,
+      offensive: spell.offensive ? 'yes' : '',
+      mp: spell.mp,
+      targets: spell.targets,
+      duration: spell.duration,
+      page: bookRef(spell.book, spell.page),
+    }
+  }
+
   const columns: RepeatTableColumn[] = [
-    { key: 'name', label: 'Spell', width: 'minmax(140px, 2fr)', suggestions: [...new Set(spells.map((spell) => spell.name))] },
+    {
+      key: 'name',
+      label: 'Spell',
+      width: 'minmax(160px, 2fr)',
+      suggestions: [...new Set(spells.map((spell) => spell.name))],
+      onPick: pick,
+    },
     {
       key: 'offensive',
       label: 'Offensive',
@@ -40,39 +49,17 @@ export function SpellsPanel({ character }: SpellsPanelProps) {
       ],
     },
     { key: 'mp', label: 'MP', width: '80px' },
-    { key: 'targets', label: 'Targets', width: 'minmax(120px, 1.5fr)' },
-    { key: 'duration', label: 'Duration', width: 'minmax(100px, 1fr)', suggestions: ['Instantaneous', 'Scene'] },
-    { key: 'notes', label: 'Effect & notes', width: 'minmax(200px, 3fr)', rows: 2 },
+    { key: 'targets', label: 'Targets', width: 'minmax(170px, 2fr)' },
+    { key: 'duration', label: 'Duration', width: 'minmax(124px, 1fr)', suggestions: ['Instantaneous', 'Scene'] },
+    { key: 'page', label: 'Page', width: '84px' },
+    { key: 'notes', label: 'Effect & notes', rows: 2, wide: true },
   ]
 
-  const add = (index: string) => {
-    const spell = spells[Number(index)]
-    if (spell) set('spells', [...character.spells, spellFromRulebook(spell)])
-  }
-
   return (
-    <Panel
-      title="Spells"
-      actions={
-        <select aria-label="Add a spell from the rulebook" value="" onChange={(event) => add(event.target.value)}>
-          <option value="">Add from rulebook…</option>
-          {groups.map((group) => (
-            <optgroup key={group} label={group}>
-              {spells.map((spell, index) =>
-                spell.className === group ? (
-                  <option key={spell.name} value={index}>
-                    {spell.name} ({spell.mp} MP)
-                  </option>
-                ) : null,
-              )}
-            </optgroup>
-          ))}
-        </select>
-      }
-    >
+    <Panel title="Spells">
       <p className="fu-note">
-        Spells you have learned. Offensive spells need a Magic Check (p. 116). Classes like Chimerist learn spells from
-        other sources: type those in.
+        Spells you have learned. Start typing a name to pick a spell from the rulebooks and fill in its values. Offensive
+        spells need a Magic Check (p. 116). Classes like Chimerist learn spells from other sources: type those in.
       </p>
       <RepeatTable path="spells" columns={columns} createRow={createSpell} itemName="spell" />
     </Panel>

@@ -7,7 +7,7 @@ import { migrate } from './migrate'
 export const fabulaUltima: SheetSystem<FuCharacter> = {
   id: 'fabula-ultima',
   title: 'Fabula Ultima',
-  version: 2,
+  version: 4,
   createCharacter,
   migrate,
   getName: (character) => character.identity.name,

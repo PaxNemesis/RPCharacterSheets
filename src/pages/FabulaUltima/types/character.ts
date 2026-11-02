@@ -89,6 +89,8 @@ export type FuSpell = {
   mp: string
   targets: string
   duration: string
+  /** Book and page, e.g. "p. 208" or "LF p. 97". */
+  page: string
   notes: string
 }
 

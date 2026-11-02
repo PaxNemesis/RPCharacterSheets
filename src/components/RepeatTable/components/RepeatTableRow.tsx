@@ -40,6 +40,10 @@ export function RepeatTableRow({ id, path, rowLabel, itemName, narrow, wide, onR
       <SheetProvider path={path}>
         {narrow.map((column) => (
           <div key={column.key} role="cell">
+            {/* Shown instead of the column header when rows stack as cards; screen readers use the field's own label. */}
+            <span className="repeat-table-cell-label" aria-hidden="true">
+              {column.label}
+            </span>
             <RepeatTableCell column={column} rowLabel={rowLabel} />
           </div>
         ))}

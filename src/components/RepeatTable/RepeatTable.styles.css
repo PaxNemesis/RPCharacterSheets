@@ -88,4 +88,62 @@
     align-self: flex-start;
     font-size: 13px;
   }
+
+  .repeat-table-cell-label {
+    display: none;
+  }
+
+  /* Too narrow for the columns: each row becomes a card, handle and remove button on top,
+     cells in two labelled columns and wide cells across both. */
+  &.repeat-table-stacked {
+    .repeat-table-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .repeat-table-head {
+      display: none;
+    }
+
+    .repeat-table-row {
+      grid-template-columns: 28px repeat(2, minmax(0, 1fr)) 28px;
+      gap: 6px 8px;
+      padding: 6px 4px 8px;
+      background: var(--surface-alt);
+    }
+
+    .repeat-table-handle {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .repeat-table-remove {
+      grid-column: 4;
+      grid-row: 1;
+    }
+
+    .repeat-table-row > div[role='cell']:nth-of-type(odd) {
+      grid-column: 2;
+    }
+
+    .repeat-table-row > div[role='cell']:nth-of-type(even) {
+      grid-column: 3;
+    }
+
+    .repeat-table-row > div.repeat-table-wide[role='cell'] {
+      grid-column: 2 / 4;
+    }
+
+    .repeat-table-cell-label {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+  }
 }

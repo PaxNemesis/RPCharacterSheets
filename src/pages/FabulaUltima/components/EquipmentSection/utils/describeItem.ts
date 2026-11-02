@@ -1,5 +1,5 @@
-import { ATTRIBUTES } from '../../../../../constants/attributes'
-import type { FuItem, Num } from '../../../../../types'
+import { ATTRIBUTES } from '../../../constants/attributes'
+import type { FuItem, Num } from '../../../types'
 
 const signed = (value: Num) => (value ? `${value > 0 ? '+' : '−'}${Math.abs(value)}` : '')
 

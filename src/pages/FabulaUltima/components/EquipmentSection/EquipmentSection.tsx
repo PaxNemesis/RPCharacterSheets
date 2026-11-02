@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
+import { useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
 import { MARTIAL } from '../../constants/attributes'
 import { SLOTS } from '../../constants/slots'
 import { useFuCharacter } from '../../hooks/useFuCharacter'
 import type { FuBackpackItem, SlotKey } from '../../types'
-import { ItemSlot } from './components'
+import { ItemSlot, StoredEquipment } from './components'
+import { unequip } from './utils/equip'
 import './EquipmentSection.styles.css'
 
 const BACKPACK_COLUMNS: RepeatTableColumn[] = [
@@ -20,9 +22,16 @@ const createBackpackItem = (): FuBackpackItem => ({ name: '', quantity: null, no
 
 export function EquipmentSection() {
   const { character, derived } = useFuCharacter()
+  const { set } = useSheet()
   const [open, setOpen] = useState<SlotKey[]>([])
   const toggle = (key: SlotKey) =>
     setOpen((current) => (current.includes(key) ? current.filter((other) => other !== key) : [...current, key]))
+  const store = (key: SlotKey) => {
+    const next = unequip(character, key)
+    set('equipment', next.equipment)
+    set('stored', next.stored)
+    setOpen((current) => current.filter((other) => other !== key))
+  }
 
   return (
     <div className="fu-section equipment-section-container">
@@ -49,6 +58,7 @@ export function EquipmentSection() {
               derived={derived}
               open={open.includes(slot.key)}
               onToggle={() => toggle(slot.key)}
+              onUnequip={() => store(slot.key)}
             />
           ))}
         </div>
@@ -62,6 +72,9 @@ export function EquipmentSection() {
           <NumberField path="zenit" label="Zenit" />
           <TextField path="notes.wealth" label="Other valuables" />
         </div>
+        <h3 className="equipment-section-subheading">Stored equipment</h3>
+        <StoredEquipment character={character} />
+        <h3 className="equipment-section-subheading">Other items</h3>
         <RepeatTable path="backpack" columns={BACKPACK_COLUMNS} createRow={createBackpackItem} itemName="item" />
       </Panel>
     </div>

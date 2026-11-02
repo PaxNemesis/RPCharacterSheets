@@ -4,8 +4,9 @@ import { SelectField } from '@/components/SelectField'
 import { SheetProvider, useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
 import type { FuDerived, FuItem, ItemKind, SlotKey } from '../../../../types'
+import { describeItem } from '../../utils/describeItem'
+import { hasContent } from '../../utils/equip'
 import { DefenseFields, WeaponFields } from './components'
-import { describeItem } from './utils/describeItem'
 import { rulebookItems } from './utils/itemFromRulebook'
 import './ItemSlot.styles.css'
 
@@ -23,10 +24,12 @@ type ItemSlotProps = {
   derived: FuDerived
   open: boolean
   onToggle: () => void
+  /** Moves the item to stored equipment in the backpack. */
+  onUnequip: () => void
 }
 
 /** One row of the equipment list: a summary of the item, with its fields underneath while open. */
-export function ItemSlot({ slot, item, derived, open, onToggle }: ItemSlotProps) {
+export function ItemSlot({ slot, item, derived, open, onToggle, onUnequip }: ItemSlotProps) {
   const { set } = useSheet()
   const editorId = useId()
   const path = `equipment.${slot.key}`
@@ -51,14 +54,27 @@ export function ItemSlot({ slot, item, derived, open, onToggle }: ItemSlotProps)
   return (
     <SheetProvider path={path}>
       <div className="item-slot-container">
-        <button type="button" className="item-slot-toggle" aria-expanded={open} aria-controls={editorId} onClick={onToggle}>
-          <span className="item-slot-label">{slot.label}</span>
-          <span className="item-slot-summary">
-            <span className={empty ? 'item-slot-name item-slot-empty' : 'item-slot-name'}>{name}</span>
-            {details && <span className="item-slot-details">{details}</span>}
-          </span>
-          <span className="item-slot-action">{open ? 'Done' : empty ? 'Add' : 'Edit'}</span>
-        </button>
+        <div className="item-slot-row">
+          <button type="button" className="item-slot-toggle" aria-expanded={open} aria-controls={editorId} onClick={onToggle}>
+            <span className="item-slot-label">{slot.label}</span>
+            <span className="item-slot-summary">
+              <span className={empty ? 'item-slot-name item-slot-empty' : 'item-slot-name'}>{name}</span>
+              {details && <span className="item-slot-details">{details}</span>}
+            </span>
+            <span className="item-slot-action">{open ? 'Done' : empty ? 'Add' : 'Edit'}</span>
+          </button>
+          {hasContent(item) && (
+            <button
+              type="button"
+              className="item-slot-unequip"
+              onClick={onUnequip}
+              title="Move to stored equipment in the backpack"
+              aria-label={`Unequip ${item.name.trim() || slot.label.toLowerCase()}`}
+            >
+              Unequip
+            </button>
+          )}
+        </div>
         {open && (
           <div id={editorId} className="item-slot-editor">
             <div className="item-slot-name-row">

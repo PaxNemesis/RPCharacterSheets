@@ -121,6 +121,8 @@ export type FuCharacter = {
   heroicSkills: FuHeroicSkill[]
   equipment: Record<SlotKey, FuItem>
   backpack: FuBackpackItem[]
+  /** Unequipped weapons, armor and accessories, kept with their stats so they can be equipped again. */
+  stored: FuItem[]
   spells: FuSpell[]
   arcana: FuEntry[]
   rituals: { disciplines: Record<Discipline, boolean>; notes: string }

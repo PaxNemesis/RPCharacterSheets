@@ -63,6 +63,7 @@ export const createCharacter = (): FuCharacter => ({
     accessory: createItem('accessory'),
   },
   backpack: [],
+  stored: [],
   spells: [],
   arcana: [],
   rituals: {

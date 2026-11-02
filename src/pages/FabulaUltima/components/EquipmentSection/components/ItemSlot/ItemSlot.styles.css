@@ -1,12 +1,24 @@
 .item-slot-container {
   border-top: 1px solid var(--border);
 
+  .item-slot-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .item-slot-unequip {
+    flex-shrink: 0;
+    font-size: 13px;
+  }
+
   .item-slot-toggle {
+    flex: 1;
+    min-width: 0;
     display: grid;
     grid-template-columns: 100px minmax(0, 1fr) auto;
     gap: 12px;
     align-items: center;
-    width: 100%;
     padding: 10px 4px;
     text-align: left;
     background: none;

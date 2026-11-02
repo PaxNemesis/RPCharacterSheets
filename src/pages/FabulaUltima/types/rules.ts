@@ -1,4 +1,4 @@
-import type { AttributeKey, MartialKey } from './character'
+import type { AttributeKey, Discipline, MartialKey } from './character'
 
 /** The rulebooks the sheet has data from. */
 export type BookId = 'core' | 'high' | 'natural' | 'techno' | 'low' | 'necromancer' | 'aceOfCards'
@@ -20,8 +20,8 @@ export type ClassData = {
     /** Other free benefits, such as starting Projects. */
     other?: string
   }
-  /** The class's Skills and their maximum Skill Level. */
-  skills: { name: string; max: number }[]
+  /** The class's Skills, their maximum Skill Level, and any ritual discipline the Skill unlocks. */
+  skills: { name: string; max: number; ritual?: Discipline }[]
 }
 
 export type HeroicSkillData = {

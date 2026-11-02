@@ -1,6 +1,6 @@
-import type { ClassData } from '../types'
+import type { ClassData, Discipline } from '../types'
 
-const skills = (...list: [string, number][]) => list.map(([name, max]) => ({ name, max }))
+const skills = (...list: [string, number, Discipline?][]) => list.map(([name, max, ritual]) => ({ name, max, ritual }))
 
 // Classes from the Atlases and bonus PDFs: free benefits, and each Skill with its maximum level.
 export const SUPPLEMENT_CLASSES: ClassData[] = [
@@ -37,7 +37,7 @@ export const SUPPLEMENT_CLASSES: ClassData[] = [
     book: 'natural',
     page: 138,
     benefits: { hpOrMp: true },
-    skills: skills(['Battle Gardening', 3], ['Chloromancy', 10], ['Graft', 1], ['Tree of Life', 5], ['Verdant Sway', 1]),
+    skills: skills(['Battle Gardening', 3], ['Chloromancy', 10], ['Graft', 1], ['Tree of Life', 5], ['Verdant Sway', 1, 'ritualism']),
   },
   {
     name: 'Gourmet',

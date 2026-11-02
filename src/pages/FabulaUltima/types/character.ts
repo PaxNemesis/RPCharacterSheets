@@ -100,6 +100,29 @@ export type FuEntry = { name: string; notes: string }
 export type FuHeroicSkill = { name: string; source: string; notes: string }
 export type FuBackpackItem = { name: string; quantity: Num; notes: string }
 
+export type Taste = 'bitter' | 'salty' | 'sour' | 'sweet' | 'umami'
+
+/** The Floralist's discovered magiseeds and, during a conflict, the garden and its Growth Clock. */
+export type FuFloralist = {
+  discovered: string[]
+  /** The player's notes per discovered magiseed, by name. */
+  seedNotes: Record<string, string>
+  /** The magiseed in the garden, or '' when it's empty. */
+  garden: string
+  /** Filled sections of the Growth Clock, 0 to 4. */
+  growth: number
+}
+
+export type FuIngredient = { name: string; taste: Taste | ''; quantity: Num }
+
+/** The Gourmet's ingredients and cookbook: an effect per taste pair, found by rolling a d12. */
+export type FuGourmet = {
+  ingredients: FuIngredient[]
+  /** By taste pair, e.g. "bitter+salty": the d12 result ('' until found) and its choice. */
+  combinations: Record<string, { effect: string; choice: string }>
+  notes: string
+}
+
 /** Current and "other" bonus to a maximum, for HP, MP and IP. */
 export type FuPool = { current: Num; other: Num }
 
@@ -129,6 +152,8 @@ export type FuCharacter = {
   arcana: FuEntry[]
   /** Disciplines added by hand on top of those from classes, notes per discipline, and general notes. */
   rituals: { disciplines: Record<Discipline, boolean>; disciplineNotes: Partial<Record<Discipline, string>>; notes: string }
+  floralist: FuFloralist
+  gourmet: FuGourmet
   notes: { general: string; wealth: string }
 }
 

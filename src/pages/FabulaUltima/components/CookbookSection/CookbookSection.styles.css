@@ -1,0 +1,32 @@
+.cookbook-section-container {
+  /* The 15 taste pairs: pair, effect and choice per row; two rows side by side when there's room. */
+  .cookbook-section-combinations {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr));
+    gap: var(--space-1) var(--space-3);
+  }
+
+  .cookbook-section-pair {
+    display: grid;
+    grid-template-columns: 136px minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--space-1);
+    align-items: center;
+  }
+
+  .cookbook-section-pair-label {
+    font-weight: 700;
+    color: var(--text-h);
+  }
+
+  @media (max-width: 520px) {
+    .cookbook-section-pair {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      padding-bottom: var(--space-1);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cookbook-section-pair-label {
+      grid-column: 1 / -1;
+    }
+  }
+}

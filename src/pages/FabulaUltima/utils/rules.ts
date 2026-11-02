@@ -10,6 +10,19 @@ const DISCIPLINE_KEYS = DISCIPLINES.map((discipline) => discipline.key)
 /** Each class level gives one Skill Level, so a class's level is the total of its Skill Levels (p. 228). */
 export const classLevel = (entry: FuClass) => entry.skills.reduce((total, skill) => total + (skill.level ?? 0), 0)
 
+/** The character's level in a Skill of a class, e.g. the Floralist's Chloromancy; 0 if they don't have it. */
+export function skillLevel(character: FuCharacter, className: string, skillName: string) {
+  const entry = character.classes.find((candidate) => candidate.name.trim().toLowerCase() === className.toLowerCase())
+  const skill = entry?.skills.find((candidate) => candidate.name.trim().toLowerCase() === skillName.toLowerCase())
+  return skill?.level ?? 0
+}
+
+/** Whether the character has a level in this rulebook class, with its book turned on. */
+export const hasRulebookClass = (character: FuCharacter, className: string) =>
+  character.classes.some(
+    (entry) => findClass(character.settings, entry.name)?.name === className && classLevel(entry) >= 1,
+  )
+
 /** Free benefits only count once the character has a level in the class. */
 const hasClass = (entry: FuClass) => classLevel(entry) >= 1
 
@@ -38,11 +51,14 @@ export function classBenefits(character: FuCharacter) {
       for (const key of Object.keys(martial) as MartialKey[]) martial[key] ||= entry.custom.martial[key]
       if (entry.custom.ritualism) grant('ritualism', from)
     }
-    // Skills such as Ritual Elementalism unlock their own discipline.
-    for (const skill of entry.skills) {
-      const match = /^ritual\s+(\w+)$/i.exec(skill.name.trim())
-      const key = match?.[1].toLowerCase() as Discipline | undefined
-      if (key && DISCIPLINE_KEYS.includes(key) && (skill.level ?? 0) >= 1) grant(key, from)
+    // Skills such as Ritual Elementalism, or the Floralist's Verdant Sway, unlock a discipline.
+    for (const skill of entry.skills.filter((skill) => (skill.level ?? 0) >= 1)) {
+      const name = skill.name.trim().toLowerCase()
+      const match = /^ritual\s+(\w+)$/.exec(name)
+      const key = (data?.skills.find((known) => known.name.toLowerCase() === name)?.ritual ?? match?.[1]) as
+        | Discipline
+        | undefined
+      if (key && DISCIPLINE_KEYS.includes(key)) grant(key, from)
     }
   }
 

@@ -1,0 +1,1 @@
+export { MagiseedCard } from './MagiseedCard'

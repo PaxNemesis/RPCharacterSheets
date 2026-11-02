@@ -79,5 +79,7 @@ export const createCharacter = (): FuCharacter => ({
     disciplineNotes: {},
     notes: '',
   },
+  floralist: { discovered: [], seedNotes: {}, garden: '', growth: 0 },
+  gourmet: { ingredients: [], combinations: {}, notes: '' },
   notes: { general: '', wealth: '' },
 })

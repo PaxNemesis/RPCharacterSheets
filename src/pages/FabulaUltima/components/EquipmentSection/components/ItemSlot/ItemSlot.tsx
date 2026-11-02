@@ -1,10 +1,13 @@
+import { useId } from 'react'
 import { CheckboxField } from '@/components/CheckboxField'
-import { Panel } from '@/components/Panel'
 import { SelectField } from '@/components/SelectField'
-import { SheetProvider } from '@/components/SheetProvider'
+import { SheetProvider, useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
 import type { FuDerived, FuItem, ItemKind, SlotKey } from '../../../../types'
-import { DefenseFields, ItemPicker, WeaponFields } from './components'
+import { DefenseFields, WeaponFields } from './components'
+import { describeItem } from './utils/describeItem'
+import { rulebookItems } from './utils/itemFromRulebook'
+import './ItemSlot.styles.css'
 
 const KIND_LABELS: Record<ItemKind, string> = {
   '': 'Empty',
@@ -18,31 +21,76 @@ type ItemSlotProps = {
   slot: { key: SlotKey; label: string; kinds: ItemKind[] }
   item: FuItem
   derived: FuDerived
+  open: boolean
+  onToggle: () => void
 }
 
-export function ItemSlot({ slot, item, derived }: ItemSlotProps) {
-  const choosesKind = slot.kinds.length > 1
+/** One row of the equipment list: a summary of the item, with its fields underneath while open. */
+export function ItemSlot({ slot, item, derived, open, onToggle }: ItemSlotProps) {
+  const { set } = useSheet()
+  const editorId = useId()
+  const path = `equipment.${slot.key}`
+  const presets = rulebookItems(slot.kinds)
+  const holdsWeapons = slot.kinds.includes('weapon')
+  const details = item.kind === '' ? '' : describeItem(item)
+  const empty = !item.name.trim() && (item.kind === '' || item.kind === 'armor' || !details)
+  const name = item.name.trim() || (item.kind === 'armor' ? 'No armor' : empty ? 'Empty' : `Unnamed ${item.kind}`)
+
+  // Picking a basic item fills in its stats; the item's own notes are kept.
+  const pick = (value: string) => {
+    const preset = presets.get(value)
+    if (preset) set(path, { ...preset, quality: item.quality })
+  }
+  // Typing a name into an empty hand makes it a weapon, so the name isn't lost.
+  const rename = (value: string) => {
+    if (item.kind === '' && holdsWeapons && value.trim()) set(`${path}.kind`, 'weapon')
+  }
+  const placeholder =
+    item.kind === 'armor' ? 'No armor, or type to pick basic armor' : holdsWeapons ? 'Type to pick a basic weapon or shield' : undefined
 
   return (
-    <SheetProvider path={`equipment.${slot.key}`}>
-      <Panel title={slot.label} actions={<ItemPicker kinds={slot.kinds} slotLabel={slot.label} />}>
-        {choosesKind && (
-          <SelectField
-            path="kind"
-            label="Holding"
-            options={slot.kinds.map((kind) => ({ value: kind, label: KIND_LABELS[kind] }))}
-          />
+    <SheetProvider path={path}>
+      <div className="item-slot-container">
+        <button type="button" className="item-slot-toggle" aria-expanded={open} aria-controls={editorId} onClick={onToggle}>
+          <span className="item-slot-label">{slot.label}</span>
+          <span className="item-slot-summary">
+            <span className={empty ? 'item-slot-name item-slot-empty' : 'item-slot-name'}>{name}</span>
+            {details && <span className="item-slot-details">{details}</span>}
+          </span>
+          <span className="item-slot-action">{open ? 'Done' : empty ? 'Add' : 'Edit'}</span>
+        </button>
+        {open && (
+          <div id={editorId} className="item-slot-editor">
+            <div className="item-slot-name-row">
+              {slot.kinds.length > 1 && (
+                <SelectField
+                  path="kind"
+                  label="Holding"
+                  options={slot.kinds.map((kind) => ({ value: kind, label: KIND_LABELS[kind] }))}
+                  className="item-slot-kind"
+                />
+              )}
+              <TextField
+                path="name"
+                label="Name"
+                placeholder={placeholder}
+                suggestions={presets.size > 0 ? [...presets.keys()] : undefined}
+                onPick={pick}
+                onChange={rename}
+                className="item-slot-name-field"
+              />
+              {item.kind !== '' && item.kind !== 'accessory' && <CheckboxField path="martial" label="Martial" />}
+            </div>
+            {item.kind !== '' && (
+              <>
+                {item.kind === 'weapon' && <WeaponFields item={item} derived={derived} />}
+                <DefenseFields isArmor={item.kind === 'armor'} />
+                <TextField path="quality" label="Quality & notes" rows={2} />
+              </>
+            )}
+          </div>
         )}
-        {item.kind !== '' && (
-          <>
-            <TextField path="name" label="Name" placeholder={item.kind === 'armor' ? 'No armor' : undefined} />
-            <CheckboxField path="martial" label="Martial" />
-            {item.kind === 'weapon' && <WeaponFields item={item} derived={derived} />}
-            <DefenseFields isArmor={item.kind === 'armor'} />
-            <TextField path="quality" label="Quality & notes" rows={2} />
-          </>
-        )}
-      </Panel>
+      </div>
     </SheetProvider>
   )
 }

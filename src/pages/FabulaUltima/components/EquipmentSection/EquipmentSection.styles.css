@@ -1,0 +1,45 @@
+.equipment-section-container {
+  .equipment-section-martial {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .equipment-section-martial-label {
+    margin-right: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+
+  .equipment-section-tag {
+    padding: 1px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-contrast);
+    background: var(--border-strong);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+  }
+
+  /* Martial equipment the character can't use: outlined and struck through. */
+  .equipment-section-tag-off {
+    color: var(--text-soft);
+    background: none;
+    border-color: var(--border);
+    text-decoration: line-through;
+  }
+
+  .equipment-section-slots {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .equipment-section-wealth {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 10px;
+  }
+}

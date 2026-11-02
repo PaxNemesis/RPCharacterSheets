@@ -1,0 +1,97 @@
+.item-slot-container {
+  border-top: 1px solid var(--border);
+
+  .item-slot-toggle {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+    padding: 10px 4px;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: 4px;
+
+    &:hover {
+      background: var(--surface-alt);
+    }
+  }
+
+  .item-slot-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+
+  .item-slot-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .item-slot-name {
+    font-weight: 700;
+    color: var(--text-h);
+  }
+
+  .item-slot-empty {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-soft);
+  }
+
+  .item-slot-details {
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+
+  .item-slot-action {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .item-slot-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 12px;
+    padding: 12px;
+    background: var(--surface-alt);
+    border-radius: 6px;
+  }
+
+  /* Holding, Name and Martial on one line; Name takes the room. */
+  .item-slot-name-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    align-items: flex-end;
+
+    .item-slot-kind {
+      flex: 0 1 160px;
+    }
+
+    .item-slot-name-field {
+      flex: 1 1 240px;
+    }
+
+    .checkbox-field-container {
+      padding-bottom: 6px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .item-slot-toggle {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .item-slot-label {
+      grid-column: 1 / -1;
+    }
+  }
+}

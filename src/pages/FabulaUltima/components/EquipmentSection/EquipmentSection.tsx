@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
@@ -5,8 +6,9 @@ import { TextField } from '@/components/TextField'
 import { MARTIAL } from '../../constants/attributes'
 import { SLOTS } from '../../constants/slots'
 import { useFuCharacter } from '../../hooks/useFuCharacter'
-import type { FuBackpackItem } from '../../types'
+import type { FuBackpackItem, SlotKey } from '../../types'
 import { ItemSlot } from './components'
+import './EquipmentSection.styles.css'
 
 const BACKPACK_COLUMNS: RepeatTableColumn[] = [
   { key: 'name', label: 'Item', width: 'minmax(140px, 1fr)' },
@@ -18,36 +20,50 @@ const createBackpackItem = (): FuBackpackItem => ({ name: '', quantity: null, no
 
 export function EquipmentSection() {
   const { character, derived } = useFuCharacter()
-  const allowed = MARTIAL.filter(({ key }) => derived.martial[key]).map(({ label }) => label.toLowerCase())
+  const [open, setOpen] = useState<SlotKey[]>([])
+  const toggle = (key: SlotKey) =>
+    setOpen((current) => (current.includes(key) ? current.filter((other) => other !== key) : [...current, key]))
 
   return (
-    <div className="fu-section">
+    <div className="fu-section equipment-section-container">
       <Panel title="Equipped items">
-        <p className="fu-note">
-          Your classes and Quirk let you equip {allowed.length > 0 ? allowed.join(', ') : 'no martial items'}. Use Fill from rulebook
-          for basic weapons, armor and shields (pp. 130–133); Defense, Magic Defense and Initiative bonuses go to the
-          Character tab.
-        </p>
+        <div className="equipment-section-martial">
+          <span className="equipment-section-martial-label">May equip</span>
+          {MARTIAL.map(({ key, label }) => (
+            <span key={key} className={derived.martial[key] ? 'equipment-section-tag' : 'equipment-section-tag equipment-section-tag-off'}>
+              {label}
+            </span>
+          ))}
+        </div>
         {derived.equipmentWarnings.map((warning) => (
           <p key={warning} className="fu-warning">
             {warning}
           </p>
         ))}
+        <div className="equipment-section-slots">
+          {SLOTS.map((slot) => (
+            <ItemSlot
+              key={slot.key}
+              slot={slot}
+              item={character.equipment[slot.key]}
+              derived={derived}
+              open={open.includes(slot.key)}
+              onToggle={() => toggle(slot.key)}
+            />
+          ))}
+        </div>
+        <p className="fu-note">
+          Click a slot to edit it. Start typing a name to pick a basic weapon, armor or shield (pp. 130–133) and fill in
+          its stats. Defense, Magic Defense and Initiative bonuses are added on the Character tab. Martial equipment comes from your classes and Quirk.
+        </p>
       </Panel>
-      <div className="fu-columns">
-        {SLOTS.map((slot) => (
-          <ItemSlot key={slot.key} slot={slot} item={character.equipment[slot.key]} derived={derived} />
-        ))}
-      </div>
-      <div className="fu-columns">
-        <Panel title="Backpack & notes">
-          <RepeatTable path="backpack" columns={BACKPACK_COLUMNS} createRow={createBackpackItem} itemName="item" />
-        </Panel>
-        <Panel title="Zenit">
-          <NumberField path="zenit" label="Zenit" hideLabel size="lg" />
-          <TextField path="notes.wealth" label="Other valuables" rows={3} />
-        </Panel>
-      </div>
+      <Panel title="Backpack & notes">
+        <div className="equipment-section-wealth">
+          <NumberField path="zenit" label="Zenit" />
+          <TextField path="notes.wealth" label="Other valuables" />
+        </div>
+        <RepeatTable path="backpack" columns={BACKPACK_COLUMNS} createRow={createBackpackItem} itemName="item" />
+      </Panel>
     </div>
   )
 }

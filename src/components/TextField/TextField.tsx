@@ -13,11 +13,27 @@ type TextFieldProps = {
   suggestions?: string[]
   /** Called when one of the suggestions is picked. */
   onPick?: (value: string) => void
+  /** Called after each edit, once the new value is stored. */
+  onChange?: (value: string) => void
   className?: string
 }
 
-export function TextField({ path, label, hideLabel, rows = 1, placeholder, suggestions, onPick, className }: TextFieldProps) {
-  const [value, setValue] = useSheetField<string | undefined>(path)
+export function TextField({
+  path,
+  label,
+  hideLabel,
+  rows = 1,
+  placeholder,
+  suggestions,
+  onPick,
+  onChange,
+  className,
+}: TextFieldProps) {
+  const [value, store] = useSheetField<string | undefined>(path)
+  const setValue = (next: string) => {
+    store(next)
+    onChange?.(next)
+  }
 
   return (
     <Field label={label} hideLabel={hideLabel} className={className}>

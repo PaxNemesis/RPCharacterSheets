@@ -1,4 +1,6 @@
-import type { DefensiveItemData, FuItem, WeaponData } from '../../../../../types'
+import { compareNames } from '@/utils/alphabetical'
+import { BASIC_DEFENSIVE_ITEMS, BASIC_WEAPONS } from '../../../../../constants/equipment'
+import type { DefensiveItemData, FuItem, ItemKind, WeaponData } from '../../../../../types'
 import { createItem } from '../../../../../utils/createCharacter'
 
 export const itemFromWeapon = (weapon: WeaponData): FuItem => ({
@@ -23,3 +25,10 @@ export const itemFromDefensive = (item: DefensiveItemData): FuItem => ({
   magicDefenseBonus: item.magicDefenseBonus ?? null,
   initiative: item.initiative ?? null,
 })
+
+/** The basic items a slot can hold, by name, for the Name field's suggestions (pp. 130–133). */
+export function rulebookItems(kinds: ItemKind[]): Map<string, FuItem> {
+  const weapons = kinds.includes('weapon') ? BASIC_WEAPONS.map(itemFromWeapon) : []
+  const defensive = BASIC_DEFENSIVE_ITEMS.filter((item) => kinds.includes(item.kind)).map(itemFromDefensive)
+  return new Map([...weapons, ...defensive].sort((a, b) => compareNames(a.name, b.name)).map((item) => [item.name, item]))
+}

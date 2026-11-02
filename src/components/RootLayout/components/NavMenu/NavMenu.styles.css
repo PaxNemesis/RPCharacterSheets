@@ -1,0 +1,58 @@
+.nav-menu-container {
+  position: relative;
+
+  .nav-menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 36px;
+    padding: 0;
+    color: var(--bg);
+    background: transparent;
+    border-color: transparent;
+
+    &:hover,
+    &[aria-expanded='true'] {
+      border-color: var(--bg);
+    }
+  }
+
+  .nav-menu-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Drops down from the button, lined up with its right edge. */
+  .nav-menu-list {
+    position: absolute;
+    top: calc(100% + var(--space-xs));
+    right: 0;
+    z-index: 10;
+    min-width: 200px;
+    margin: 0;
+    padding: var(--space-xs) 0;
+    list-style: none;
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+
+    a {
+      display: block;
+      padding: var(--space-1) var(--space-2);
+      color: var(--text-h);
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        background: var(--surface-alt);
+      }
+    }
+
+    a.active {
+      font-weight: 700;
+      color: var(--accent);
+    }
+  }
+}

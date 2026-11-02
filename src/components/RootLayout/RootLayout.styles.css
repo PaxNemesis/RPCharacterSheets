@@ -11,18 +11,40 @@
     padding: var(--space-1) var(--space-2);
     background: var(--border-strong);
 
-    a {
-      color: var(--bg);
-      text-decoration: none;
+  }
 
-      &:hover {
-        text-decoration: underline;
-      }
+  /* Links in the bar itself; the small-screen menu styles its own. */
+  .root-layout-home a,
+  .root-layout-links a {
+    color: var(--bg);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
     }
+  }
 
-    a.active:not(.root-layout-brand) {
+  .root-layout-links {
+    display: flex;
+    gap: var(--space-2);
+
+    a.active {
       font-weight: 700;
       text-decoration: underline;
+    }
+  }
+
+  .root-layout-menu {
+    display: none;
+  }
+
+  @media (max-width: 800px) {
+    .root-layout-links {
+      display: none;
+    }
+
+    .root-layout-menu {
+      display: block;
     }
   }
 

@@ -1,0 +1,35 @@
+.rituals-panel-container {
+  .rituals-panel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 12px;
+  }
+
+  /* Known disciplines stand out as cards with an accent edge. */
+  .rituals-panel-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 12px 12px;
+    background: var(--surface-alt);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .rituals-panel-card-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 10px;
+
+    h3 {
+      font-size: 17px;
+    }
+  }
+
+  .rituals-panel-check {
+    font-weight: 700;
+    color: var(--text-h);
+  }
+}

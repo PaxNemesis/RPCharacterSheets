@@ -17,33 +17,43 @@ const hasClass = (entry: FuClass) => classLevel(entry) >= 1
 export function classBenefits(character: FuCharacter) {
   const totals = { hp: 0, mp: 0, ip: 0 }
   const martial: Record<MartialKey, boolean> = { armor: false, shields: false, melee: false, ranged: false }
-  const disciplines = new Set<Discipline>()
+  // Each discipline with the classes that grant it.
+  const sources = new Map<Discipline, Set<string>>()
+  const grant = (key: Discipline, from: string) => sources.set(key, (sources.get(key) ?? new Set()).add(from))
 
   for (const entry of character.classes.filter(hasClass)) {
     const data = findClass(character.settings, entry.name)
+    const from = entry.name.trim() || 'Unnamed class'
     const benefits = data?.benefits
     if (benefits) {
       totals.hp += (benefits.hp ?? 0) + (benefits.hpOrMp && entry.benefitChoice === 'hp' ? 5 : 0)
       totals.mp += (benefits.mp ?? 0) + (benefits.hpOrMp && entry.benefitChoice === 'mp' ? 5 : 0)
       totals.ip += benefits.ip ?? 0
       benefits.martial?.forEach((key) => (martial[key] = true))
-      if (benefits.ritualism) disciplines.add('ritualism')
+      if (benefits.ritualism) grant('ritualism', from)
     } else {
       totals.hp += entry.custom.hp ?? 0
       totals.mp += entry.custom.mp ?? 0
       totals.ip += entry.custom.ip ?? 0
       for (const key of Object.keys(martial) as MartialKey[]) martial[key] ||= entry.custom.martial[key]
-      if (entry.custom.ritualism) disciplines.add('ritualism')
+      if (entry.custom.ritualism) grant('ritualism', from)
     }
     // Skills such as Ritual Elementalism unlock their own discipline.
     for (const skill of entry.skills) {
       const match = /^ritual\s+(\w+)$/i.exec(skill.name.trim())
       const key = match?.[1].toLowerCase() as Discipline | undefined
-      if (key && DISCIPLINE_KEYS.includes(key) && (skill.level ?? 0) >= 1) disciplines.add(key)
+      if (key && DISCIPLINE_KEYS.includes(key) && (skill.level ?? 0) >= 1) grant(key, from)
     }
   }
 
-  return { ...totals, martial, disciplines: DISCIPLINE_KEYS.filter((key) => disciplines.has(key)) }
+  return {
+    ...totals,
+    martial,
+    disciplines: DISCIPLINE_KEYS.filter((key) => sources.has(key)),
+    disciplineSources: Object.fromEntries([...sources].map(([key, from]) => [key, [...from]])) as Partial<
+      Record<Discipline, string[]>
+    >,
+  }
 }
 
 /** Extra HP, MP and IP from Heroic Skills; Extra HP and MP double at level 40 (pp. 235–236). */

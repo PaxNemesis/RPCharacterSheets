@@ -31,12 +31,13 @@ export const MARTIAL: { key: MartialKey; label: string }[] = [
   { key: 'ranged', label: 'Martial ranged weapons' },
 ]
 
-export const DISCIPLINES: { key: Discipline; label: string }[] = [
-  { key: 'arcanism', label: 'Arcanism' },
-  { key: 'chimerism', label: 'Chimerism' },
-  { key: 'elementalism', label: 'Elementalism' },
-  { key: 'entropism', label: 'Entropism' },
-  { key: 'illusionism', label: 'Illusionism' },
-  { key: 'ritualism', label: 'Ritualism' },
-  { key: 'spiritism', label: 'Spiritism' },
+/** Ritual disciplines, the Attributes their Magic Check uses, and where that is stated (core p. 118, LF p. 95). */
+export const DISCIPLINES: { key: Discipline; label: string; check: string; page: string }[] = [
+  { key: 'arcanism', label: 'Arcanism', check: '【WLP + WLP】', page: 'p. 177' },
+  { key: 'chimerism', label: 'Chimerism', check: '【INS + WLP】 or 【MIG + WLP】, chosen with the Skill', page: 'p. 183' },
+  { key: 'elementalism', label: 'Elementalism', check: '【INS + WLP】', page: 'p. 187' },
+  { key: 'entropism', label: 'Entropism', check: '【INS + WLP】', page: 'p. 191' },
+  { key: 'illusionism', label: 'Illusionism', check: '【INS + WLP】', page: 'LF p. 95' },
+  { key: 'ritualism', label: 'Ritualism', check: '【INS + WLP】', page: 'p. 118' },
+  { key: 'spiritism', label: 'Spiritism', check: '【INS + WLP】', page: 'p. 207' },
 ]

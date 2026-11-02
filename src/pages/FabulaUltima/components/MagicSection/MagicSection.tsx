@@ -29,7 +29,7 @@ export function MagicSection() {
           <RepeatTable path="arcana" columns={ARCANA_COLUMNS} createRow={createArcanum} itemName="Arcanum" />
         </Panel>
       )}
-      <RitualsPanel disciplines={derived.disciplines} />
+      <RitualsPanel character={character} derived={derived} />
     </div>
   )
 }

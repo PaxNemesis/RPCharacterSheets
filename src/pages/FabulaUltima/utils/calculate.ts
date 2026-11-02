@@ -49,6 +49,7 @@ export function calculate(character: FuCharacter): FuDerived {
     crisis: Math.floor(maxHp / 2),
     martial,
     disciplines: benefits.disciplines,
+    disciplineSources: benefits.disciplineSources,
     armorDefense,
     gear,
     defense: (armorDefense ?? current('dex')) + gear.defense + (modifiers.defense ?? 0),

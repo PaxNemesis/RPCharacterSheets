@@ -125,7 +125,8 @@ export type FuCharacter = {
   stored: FuItem[]
   spells: FuSpell[]
   arcana: FuEntry[]
-  rituals: { disciplines: Record<Discipline, boolean>; notes: string }
+  /** Disciplines added by hand on top of those from classes, notes per discipline, and general notes. */
+  rituals: { disciplines: Record<Discipline, boolean>; disciplineNotes: Partial<Record<Discipline, string>>; notes: string }
   notes: { general: string; wealth: string }
 }
 
@@ -146,6 +147,8 @@ export type FuDerived = {
   martial: Record<MartialKey, boolean>
   /** Ritual disciplines granted by classes. */
   disciplines: Discipline[]
+  /** The classes that grant each of those disciplines. */
+  disciplineSources: Partial<Record<Discipline, string[]>>
   armorDefense: Num
   /** Bonuses from everything equipped. */
   gear: { defense: number; magicDefense: number; initiative: number }

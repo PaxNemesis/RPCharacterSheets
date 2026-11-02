@@ -76,6 +76,7 @@ export const createCharacter = (): FuCharacter => ({
       ritualism: false,
       spiritism: false,
     },
+    disciplineNotes: {},
     notes: '',
   },
   notes: { general: '', wealth: '' },

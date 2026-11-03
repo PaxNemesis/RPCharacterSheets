@@ -17,15 +17,64 @@ Saved files look like `{ "system": "<id>", "version": 1, "savedAt": "…", "id":
 
 When the data shape changes, bump `version` and upgrade old data in the system's `migrate` function. On load, missing fields are filled from `createCharacter`, values of the wrong type are replaced by the default, and list entries are checked against `listItems`, so a damaged or hand-edited file can't break the sheet. See [AGENTS.md](AGENTS.md) for the full checklist.
 
-## Development
+## Getting started
+
+The app is written in [TypeScript](https://www.typescriptlang.org/) (JavaScript with types) using [React](https://react.dev/) for the UI. [Vite](https://vite.dev/) runs the dev server and builds the site, and [pnpm](https://pnpm.io/) installs the libraries it depends on. All of them run on [Node.js](https://nodejs.org/).
+
+### Prerequisites
+
+- [Git](https://git-scm.com/)
+- Node.js 24 (the version in `.nvmrc`). Install it from [nodejs.org](https://nodejs.org/), or with a version manager such as [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm), which can read `.nvmrc` (`nvm use`, `fnm use`).
+
+### Setup
+
+Run these in a terminal:
 
 ```sh
-corepack enable pnpm   # once, if pnpm isn't installed
-pnpm install
-pnpm dev               # http://localhost:5173
+git clone https://github.com/PaxNemesis/RPCharacterSheets.git
+cd RPCharacterSheets
+corepack enable pnpm   # once; makes the pnpm command available
+pnpm install           # downloads dependencies into node_modules/
 ```
 
-Other scripts: `pnpm build`, `pnpm preview`, `pnpm lint`.
+Corepack comes with Node 24. Newer Node versions no longer include it, so there you'd run `npm install -g corepack` first.
+
+`node_modules/` isn't committed. Run `pnpm install` again after pulling changes to `package.json` or `pnpm-lock.yaml`. If you see errors about a missing module or package, that's usually the fix.
+
+### Running the app
+
+```sh
+pnpm dev
+```
+
+This starts a dev server and prints its address, usually http://localhost:5173 (Vite picks another port if that one is taken). Open it in a browser. It keeps running until you press Ctrl+C, and the page updates by itself when you save a file.
+
+### Scripts
+
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Starts the dev server. |
+| `pnpm build` | Builds the site into `dist/`, then type-checks the code. |
+| `pnpm preview` | Serves the built `dist/` locally, to check the production build. |
+| `pnpm lint` | Checks the code for common mistakes with oxlint. |
+| `pnpm test` | Runs the unit tests once (`pnpm test:watch` reruns them as you edit). |
+
+Make sure `pnpm build`, `pnpm lint` and `pnpm test` pass before pushing. The deploy runs the tests and the build, and stops if either fails.
+
+### Where things are
+
+- `src/pages/<System>/`: a game system's sheet, plus its rules data and formulas.
+- `src/components/`: shared pieces, such as the field components, the character tabs and save/load (`CharacterWorkspace`) and the page layout (`RootLayout`).
+- `src/routes/`: one small file per URL, pointing at a page. See [Routing](#routing).
+- `src/index.css`: global styles, colours and spacing.
+
+Code conventions (folder layout, naming, styles) are in [.github/instructions/frontend.instructions.md](.github/instructions/frontend.instructions.md).
+
+Any editor works. [VS Code](https://code.visualstudio.com/) understands TypeScript with no setup, and its oxlint extension shows lint warnings as you type.
+
+### Where characters are saved
+
+Open characters autosave to the browser's local storage, so they stay in that browser on that device. Clearing the site's data deletes them. The dev server (`localhost`) and the deployed site each have their own storage, so characters made in one don't show up in the other. To keep a character or move it somewhere else, save it to a JSON file.
 
 ## Routing
 

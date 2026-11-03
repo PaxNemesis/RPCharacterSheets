@@ -10,7 +10,8 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--space-1);
-    padding: var(--space-1) var(--space-2) 0;
+    /* The same 16px from the top as from the side, so the title badge doesn't crowd the border. */
+    padding: var(--space-2) var(--space-2) 0;
 
     h2 {
       font-size: 12px;
@@ -24,9 +25,11 @@
     }
   }
 
+  /* Buttons reach into the header's padding, so a panel with actions keeps the same title height. */
   .panel-actions {
     display: flex;
     gap: var(--space-1);
+    margin: calc(-1 * var(--space-1)) 0;
   }
 
   .panel-body {

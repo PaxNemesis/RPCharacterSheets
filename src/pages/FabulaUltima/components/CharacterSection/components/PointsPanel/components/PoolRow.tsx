@@ -19,8 +19,14 @@ export function PoolRow({ pool, label, max, crisis, inCrisis, terms }: PoolRowPr
       <span className="points-panel-label">{label}</span>
       <div className="points-panel-max">
         <NumberField value={max} label={`Max ${label}`} hideLabel size="lg" />
+        {/* Being in Crisis lights up this box rather than adding a line, so the rows never move. */}
         {crisis !== undefined && (
-          <NumberField value={crisis} label="Crisis" size="sm" className="points-panel-crisis" />
+          <NumberField
+            value={crisis}
+            label={inCrisis ? 'In Crisis' : 'Crisis'}
+            size="sm"
+            className={inCrisis ? 'points-panel-crisis points-panel-crisis-on' : 'points-panel-crisis'}
+          />
         )}
       </div>
       <div className="points-panel-current">
@@ -31,7 +37,6 @@ export function PoolRow({ pool, label, max, crisis, inCrisis, terms }: PoolRowPr
           size="lg"
           className={inCrisis ? 'points-panel-in-crisis' : undefined}
         />
-        {inCrisis && <span className="points-panel-status">In Crisis</span>}
       </div>
       <div className="points-panel-formula" role="group" aria-label={`Max ${label} breakdown`}>
         {terms.map((term, index) => (

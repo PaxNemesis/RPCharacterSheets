@@ -62,12 +62,22 @@
     }
   }
 
+  /* Wide enough for "In Crisis", so the label change doesn't resize the max field. */
   .points-panel-crisis {
-    width: 56px;
+    width: 72px;
 
     .field-label {
       color: var(--points-hp);
+      text-align: center;
+      white-space: nowrap;
     }
+  }
+
+  .points-panel-crisis-on input {
+    font-weight: 700;
+    color: var(--surface);
+    background: var(--points-hp);
+    border-color: var(--points-hp);
   }
 
   .points-panel-current {
@@ -79,13 +89,6 @@
 
   .points-panel-in-crisis input {
     border-color: var(--points-hp);
-    color: var(--points-hp);
-  }
-
-  .points-panel-status {
-    font-size: 12px;
-    font-weight: 700;
-    text-align: center;
     color: var(--points-hp);
   }
 

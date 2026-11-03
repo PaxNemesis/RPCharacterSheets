@@ -146,7 +146,8 @@ export type FuCharacter = {
   hp: FuPool
   mp: FuPool
   ip: FuPool
-  modifiers: { defense: Num; magicDefense: Num; initiative: Num }
+  /** Extra bonuses, and martial equipment allowed by something other than classes or the Quirk. */
+  modifiers: { defense: Num; magicDefense: Num; initiative: Num; martial: Record<MartialKey, boolean> }
   xp: Num
   fabulaPoints: Num
   zenit: Num
@@ -180,7 +181,10 @@ export type FuDerived = {
   maxMp: number
   maxIp: number
   crisis: number
+  /** Martial equipment the character may equip, including what was allowed by hand. */
   martial: Record<MartialKey, boolean>
+  /** Martial equipment granted by classes and the Quirk alone. */
+  martialGranted: Record<MartialKey, boolean>
   /** Ritual disciplines granted by classes. */
   disciplines: Discipline[]
   /** The classes that grant each of those disciplines. */

@@ -17,12 +17,25 @@
 
   .equipment-section-tag {
     padding: var(--space-2xs) var(--space-1);
+    font: inherit;
     font-size: 12px;
     font-weight: 600;
     color: var(--accent-contrast);
     background: var(--border-strong);
     border: 1px solid var(--border-strong);
     border-radius: 999px;
+  }
+
+  /* Granted by a class or the Quirk, so it can't be switched off here. */
+  .equipment-section-tag:disabled {
+    cursor: default;
+  }
+
+  /* Allowed by hand rather than by a class: outlined with a dashed edge instead of filled. */
+  .equipment-section-tag-added {
+    color: var(--text-h);
+    background: none;
+    border-style: dashed;
   }
 
   /* Martial equipment the character can't use: outlined and struck through. */

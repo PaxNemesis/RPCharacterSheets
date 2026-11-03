@@ -22,7 +22,14 @@ export function calculate(character: FuCharacter): FuDerived {
   const hpBonus = benefits.hp + heroic.hp + quirk.hp
   const mpBonus = benefits.mp + heroic.mp + quirk.mp
   const ipBonus = benefits.ip + heroic.ip + quirk.ip
-  const martial = quirk.martial ? { armor: true, shields: true, melee: true, ranged: true } : benefits.martial
+  const martialGranted = quirk.martial ? { armor: true, shields: true, melee: true, ranged: true } : benefits.martial
+  const allowed = character.modifiers.martial
+  const martial = {
+    armor: martialGranted.armor || allowed.armor,
+    shields: martialGranted.shields || allowed.shields,
+    melee: martialGranted.melee || allowed.melee,
+    ranged: martialGranted.ranged || allowed.ranged,
+  }
   const maxHp = base('mig') * 5 + level + hpBonus + (character.hp.other ?? 0)
 
   const items = (Object.keys(character.equipment) as SlotKey[]).map((slot) => character.equipment[slot]).filter(filled)
@@ -48,6 +55,7 @@ export function calculate(character: FuCharacter): FuDerived {
     maxIp: 6 + ipBonus + (character.ip.other ?? 0),
     crisis: Math.floor(maxHp / 2),
     martial,
+    martialGranted,
     disciplines: benefits.disciplines,
     disciplineSources: benefits.disciplineSources,
     armorDefense,

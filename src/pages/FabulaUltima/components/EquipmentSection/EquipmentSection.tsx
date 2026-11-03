@@ -4,11 +4,10 @@ import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
 import { useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
-import { MARTIAL } from '../../constants/attributes'
 import { SLOTS } from '../../constants/slots'
 import { useFuCharacter } from '../../hooks/useFuCharacter'
 import type { FuBackpackItem, SlotKey } from '../../types'
-import { ItemSlot, StoredEquipment } from './components'
+import { ItemSlot, MayEquip, StoredEquipment } from './components'
 import { emptyFor, unequip } from './utils/equip'
 import './EquipmentSection.styles.css'
 
@@ -43,14 +42,7 @@ export function EquipmentSection() {
   return (
     <div className="fu-section equipment-section-container">
       <Panel title="Equipped items">
-        <div className="equipment-section-martial">
-          <span className="equipment-section-martial-label">May equip</span>
-          {MARTIAL.map(({ key, label }) => (
-            <span key={key} className={derived.martial[key] ? 'equipment-section-tag' : 'equipment-section-tag equipment-section-tag-off'}>
-              {label}
-            </span>
-          ))}
-        </div>
+        <MayEquip derived={derived} />
         {derived.equipmentWarnings.map((warning) => (
           <p key={warning} className="fu-warning">
             {warning}
@@ -73,7 +65,7 @@ export function EquipmentSection() {
         </div>
         <p className="fu-note">
           Click a slot to edit it. Start typing a name to pick a basic weapon, armor or shield (pp. 130–133), a rare
-          armor, shield or accessory, or a custom weapon from the Atlases, and fill in its stats. Defense, Magic Defense and Initiative bonuses are added on the Character tab. Martial equipment comes from your classes and Quirk.
+          armor, shield or accessory, or a custom weapon from the Atlases, and fill in its stats. Defense, Magic Defense and Initiative bonuses are added on the Character tab. Martial equipment comes from your classes and Quirk; click a crossed-out type to allow it anyway.
         </p>
       </Panel>
       <Panel title="Backpack & notes">

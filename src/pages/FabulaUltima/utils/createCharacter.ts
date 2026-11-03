@@ -49,7 +49,7 @@ export const createCharacter = (): FuCharacter => ({
   hp: { current: null, other: null },
   mp: { current: null, other: null },
   ip: { current: null, other: null },
-  modifiers: { defense: null, magicDefense: null, initiative: null },
+  modifiers: { defense: null, magicDefense: null, initiative: null, martial: { armor: false, shields: false, melee: false, ranged: false } },
   xp: null,
   fabulaPoints: 3,
   zenit: null,

@@ -12,10 +12,10 @@ export function WorkspaceToolbar({ onOpen, onSave, onReset }: WorkspaceToolbarPr
   return (
     <div className="character-workspace-toolbar">
       <button type="button" onClick={() => inputRef.current?.click()}>
-        Open JSON…
+        Open character…
       </button>
       <button type="button" onClick={onSave}>
-        Save JSON
+        Save character
       </button>
       <button type="button" className="character-workspace-danger" onClick={onReset}>
         Reset sheet…

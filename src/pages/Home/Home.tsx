@@ -7,7 +7,7 @@ export function Home() {
       <h1>RPCharacterSheets</h1>
       <p className="home-intro">
         Fillable character sheets for tabletop roleplaying games. Totals and derived stats fill in as you type, you can
-        keep several characters open in tabs, and each character saves to a JSON file you can open again later.
+        keep several characters open in tabs, and each character saves to a file you can open again later.
       </p>
       <ul className="home-systems">
         <li>

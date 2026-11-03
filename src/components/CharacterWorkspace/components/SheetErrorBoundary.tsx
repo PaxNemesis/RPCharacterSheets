@@ -25,12 +25,12 @@ export class SheetErrorBoundary extends Component<SheetErrorBoundaryProps, Sheet
     return (
       <div className="character-workspace-alert" role="alert">
         <p>
-          {this.props.name} couldn&apos;t be shown. Its data may be damaged, for example by editing the JSON by hand. Your
+          {this.props.name} couldn&apos;t be shown. Its data may be damaged, for example by editing the saved file by hand. Your
           other characters are fine.
         </p>
         <div className="character-workspace-toolbar">
           <button type="button" onClick={this.props.onSave}>
-            Save JSON
+            Save character
           </button>
           <button type="button" className="character-workspace-danger" onClick={this.props.onClose}>
             Close character…

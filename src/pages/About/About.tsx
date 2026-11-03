@@ -6,7 +6,7 @@ export function About() {
       <h1>About</h1>
       <p>
         RPCharacterSheets is an unofficial, fan-made set of character sheets. Your characters are kept in this
-        browser and can be saved to and opened from JSON files; nothing is sent to a server.
+        browser and can be saved to and opened from files on your device; nothing is sent to a server.
       </p>
       <p>
         Game rules referenced on the sheets belong to their publishers. Use the sheets alongside your own copy of each

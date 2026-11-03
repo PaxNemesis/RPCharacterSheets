@@ -28,7 +28,7 @@ export function StorageNotice() {
     <div className="character-workspace-notice" role="note">
       <p>
         <strong>Your characters are only saved in this browser.</strong> Clearing browsing data, using a private window
-        or switching browser or device will lose them. Use Save JSON to download a copy and keep it somewhere safe.
+        or switching browser or device will lose them. Use Save character to download a copy and keep it somewhere safe.
       </p>
       <button type="button" className="character-workspace-notice-close" aria-label="Dismiss" title="Dismiss" onClick={dismiss}>
         ×

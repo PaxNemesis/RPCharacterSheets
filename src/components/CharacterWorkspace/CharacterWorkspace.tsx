@@ -45,13 +45,13 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
     const character = characters.find((c) => c.id === id)
     if (!character) return
     const name = nameOf(character.data)
-    const message = `Close ${name}?\n\nIt will be removed from this browser. Save it as JSON first if you want to keep it.`
+    const message = `Close ${name}?\n\nIt will be removed from this browser. Use Save character first if you want to keep it.`
     if (window.confirm(message)) remove(id)
   }
 
   const confirmReset = () => {
     const name = nameOf(active.data)
-    const message = `Reset ${name}?\n\nEverything on this sheet will be cleared, including the portrait and settings. This can't be undone. Save it as JSON first if you want to keep a copy.`
+    const message = `Reset ${name}?\n\nEverything on this sheet will be cleared, including the portrait and settings. This can't be undone. Use Save character first if you want to keep a copy.`
     if (window.confirm(message)) reset(active.id)
   }
 
@@ -78,7 +78,7 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
       {storageFailed && (
         <p className="character-workspace-alert" role="alert">
           This browser couldn&apos;t store your characters, possibly because storage is full or blocked. Use Save
-          JSON to keep your changes.
+          character to keep your changes.
         </p>
       )}
       {errors.map((error) => (

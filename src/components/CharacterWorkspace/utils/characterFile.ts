@@ -12,7 +12,7 @@ export function parseCharacterFile<T>(system: SheetSystem<T>, text: string): T {
   try {
     file = JSON.parse(text) as Partial<CharacterFile>
   } catch {
-    throw new Error('is not a valid JSON file')
+    throw new Error('is not a character file')
   }
   if (file === null || typeof file !== 'object' || typeof file.data !== 'object') {
     throw new Error('is not a character file')

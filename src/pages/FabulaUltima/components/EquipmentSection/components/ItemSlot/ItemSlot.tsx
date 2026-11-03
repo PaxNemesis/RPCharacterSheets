@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from 'react'
+import { useId, useState } from 'react'
 import { CheckboxField } from '@/components/CheckboxField'
 import { SelectField } from '@/components/SelectField'
 import { SheetProvider, useSheet } from '@/components/SheetProvider'
@@ -39,12 +39,15 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
   const [showAll, setShowAll] = useState(false)
   const allowed = [...presets].filter(([, preset]) => canEquip(preset, derived.martial)).map(([key]) => key)
   const suggestions = showAll ? [...presets.keys()] : allowed
-  const holdsWeapons = slot.kinds.includes('weapon')
   const details = item.kind === '' ? '' : describeItem(item)
-  const empty = !item.name.trim() && (item.kind === '' || item.kind === 'armor' || !details)
-  const name = item.name.trim() || (item.kind === 'armor' ? 'No armor' : empty ? 'Empty' : `Unnamed ${item.kind}`)
+  // A slot is empty when it holds nothing worth keeping and isn't being filled in; while it is,
+  // it reads "Unnamed armor" and so on.
+  const empty = !open && !hasContent(item)
+  const name = item.name.trim() || (empty ? (item.kind === 'armor' ? 'No armor' : 'Empty') : `Unnamed ${item.kind || 'item'}`)
   // Leftovers without a type (from before Holding lost its Empty option) can still be deleted.
-  const deletable = hasContent(item) || Boolean(item.name.trim() || item.quality.trim())
+  // A new item can't be closed until it has something worth keeping; Cancel discards it.
+  const unfinished = open && !hasContent(item)
+  const deletable = open || hasContent(item) || Boolean(item.name.trim() || item.quality.trim())
   const label = item.name.trim() || slot.label.toLowerCase()
   const kindOptions = [
     ...(item.kind === '' ? [{ value: '', label: 'Choose…' }] : []),
@@ -56,18 +59,10 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
   // that a preset wrote, rather than the player, are dropped. A rare item or custom weapon brings its
   // own notes (and forms), so it replaces the item.
   const pick = (value: string) => {
-    picked.current = true
     const preset = presets.get(value)
     const notes = presetNotes(everything).has(item.quality) ? '' : item.quality
     if (preset?.quality) set(path, preset)
     else if (preset) set(path, { ...preset, quality: notes, forms: item.forms, form: item.form })
-  }
-  // A name typed into an empty hand makes it a weapon once the name is done, so it isn't lost. Not
-  // while typing, which would hide the shields, nor after a pick, which sets the kind itself.
-  const picked = useRef(false)
-  const commitName = () => {
-    if (!picked.current && item.kind === '' && holdsWeapons && item.name.trim()) set(`${path}.kind`, 'weapon')
-    picked.current = false
   }
 
   return (
@@ -75,7 +70,7 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
       <div className="item-slot-container">
         <div className="item-slot-row">
           {/* Clicking the summary is a shortcut for the Edit button, which is what keyboards and screen readers use. */}
-          <div className="item-slot-overview" onClick={onToggle}>
+          <div className="item-slot-overview" onClick={unfinished ? undefined : onToggle}>
             <span className="item-slot-label">{slot.label}</span>
             <span className="item-slot-summary">
               <span className={empty ? 'item-slot-name item-slot-empty' : 'item-slot-name'}>
@@ -94,6 +89,8 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
             nextForm={forms ? formLabel(item, nextForm(item)) : undefined}
             canUnequip={hasContent(item)}
             canDelete={deletable}
+            cancels={!hasContent(item)}
+            unfinished={unfinished}
             onToggle={onToggle}
             onSwitch={() => set(path, switchForm(item, nextForm(item)))}
             onUnequip={onUnequip}
@@ -117,7 +114,6 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
                 placeholder={NAME_PLACEHOLDERS[item.kind]}
                 suggestions={presets.size > 0 ? suggestions : undefined}
                 onPick={pick}
-                onCommit={commitName}
                 className="item-slot-name-field"
               />
               {item.kind !== '' && item.kind !== 'accessory' && <CheckboxField path="martial" label="Martial" />}

@@ -29,6 +29,7 @@
   /* Granted by a class or the Quirk, so it can't be switched off here. */
   .equipment-section-tag:disabled {
     cursor: default;
+    opacity: 1;
   }
 
   /* Allowed by hand rather than by a class: outlined with a dashed edge instead of filled. */

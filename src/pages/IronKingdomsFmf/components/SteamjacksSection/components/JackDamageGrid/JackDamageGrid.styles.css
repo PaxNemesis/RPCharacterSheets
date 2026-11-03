@@ -28,8 +28,10 @@
     border-radius: 3px;
     background: var(--input-bg);
 
+    /* Cells without a box can't be clicked, but keep their look. */
     &:disabled {
       cursor: default;
+      opacity: 1;
     }
   }
 

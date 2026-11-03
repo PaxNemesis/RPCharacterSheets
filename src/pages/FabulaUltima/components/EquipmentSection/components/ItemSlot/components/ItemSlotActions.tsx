@@ -11,6 +11,10 @@ type ItemSlotActionsProps = {
   nextForm?: string
   canUnequip: boolean
   canDelete: boolean
+  /** Nothing is filled in yet, so the delete button cancels adding the item. */
+  cancels: boolean
+  /** A new item without a name or stats yet, so Done is disabled. */
+  unfinished: boolean
   onToggle: () => void
   onSwitch: () => void
   onUnequip: () => void
@@ -19,7 +23,7 @@ type ItemSlotActionsProps = {
 
 /** Edit, switch form, unequip and delete, joined into one button group. */
 export function ItemSlotActions(props: ItemSlotActionsProps) {
-  const { slotLabel, label, empty, open, editorId, nextForm, canUnequip, canDelete } = props
+  const { slotLabel, label, empty, open, editorId, nextForm, canUnequip, canDelete, cancels, unfinished } = props
   const slot = slotLabel.toLowerCase()
 
   return (
@@ -30,7 +34,8 @@ export function ItemSlotActions(props: ItemSlotActionsProps) {
         aria-expanded={open}
         aria-controls={editorId}
         aria-label={`${open ? 'Done editing' : empty ? 'Add to' : 'Edit'} ${slot}`}
-        title={open ? 'Done' : empty ? 'Add' : 'Edit'}
+        title={unfinished ? 'Enter a name or stats first' : open ? 'Done' : empty ? 'Add' : 'Edit'}
+        disabled={unfinished}
         onClick={props.onToggle}
       >
         <Icon name={open ? 'check' : empty ? 'add' : 'edit'} className="equipment-section-icon" />
@@ -46,7 +51,13 @@ export function ItemSlotActions(props: ItemSlotActionsProps) {
         </button>
       )}
       {canDelete && (
-        <button type="button" className="item-slot-delete" onClick={props.onDelete} title="Delete" aria-label={`Delete ${label}`}>
+        <button
+          type="button"
+          className="item-slot-delete"
+          onClick={props.onDelete}
+          title={cancels ? 'Cancel' : 'Delete'}
+          aria-label={cancels ? `Cancel adding to ${slot}` : `Delete ${label}`}
+        >
           <Icon name="delete" className="equipment-section-icon" />
         </button>
       )}

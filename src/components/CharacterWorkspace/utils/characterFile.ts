@@ -38,7 +38,8 @@ export function downloadCharacterFile<T>(system: SheetSystem<T>, data: T) {
 
   const link = document.createElement('a')
   link.href = URL.createObjectURL(blob)
-  link.download = `${slug || 'character'}.json`
+  // The system's id tells files from different games apart, e.g. "eryon-fabula-ultima.json".
+  link.download = `${slug || 'character'}-${system.id}.json`
   link.click()
   // Revoking straight away can cancel the download in some browsers.
   setTimeout(() => URL.revokeObjectURL(link.href), 1000)

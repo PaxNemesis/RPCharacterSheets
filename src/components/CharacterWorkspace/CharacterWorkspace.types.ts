@@ -23,13 +23,22 @@ export type SheetSystem<T> = {
 
 export type ListItems = Record<string, unknown>
 
-/** The JSON file format for a saved character, or for all open characters at once (`characters`). */
+/**
+ * The JSON file format: one character (`id` and `data`) or all open characters at once
+ * (`characters`). The ids let a file that is opened again be matched with its open tab.
+ */
 export type CharacterFile = {
   system: string
   version: number
+  /** When the file was saved, as an ISO date; missing in older files. */
+  savedAt?: string
+  id?: string
   data?: unknown
-  characters?: unknown[]
+  characters?: { id?: string; data: unknown }[]
 }
+
+/** A character read from a file; `id` is missing in files saved before ids were written. */
+export type FileCharacter<T> = { id?: string; data: T }
 
 export type OpenCharacter<T> = {
   id: string

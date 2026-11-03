@@ -1,14 +1,12 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { SheetProvider, type SheetUpdater } from '@/components/SheetProvider'
 import { Tabs } from '@/components/Tabs'
 import type { SheetSystem } from './CharacterWorkspace.types'
-import { SheetErrorBoundary, StorageNotice, WorkspaceToolbar } from './components'
+import { ConflictDialog, SheetErrorBoundary, StorageNotice, WorkspaceToolbar } from './components'
 import { useCharacterStore } from './hooks/useCharacterStore'
-import { downloadAllCharacters, downloadCharacterFile, parseCharacterFile } from './utils/characterFile'
+import { useOpenCharacters } from './hooks/useOpenCharacters'
+import { downloadAllCharacters, downloadCharacterFile } from './utils/characterFile'
 import './CharacterWorkspace.styles.css'
-
-// Far more than any character with a portrait; anything bigger isn't worth freezing the tab over.
-const MAX_FILE_SIZE = 10 * 1024 * 1024
 
 type CharacterWorkspaceProps<T> = {
   system: SheetSystem<T>
@@ -16,7 +14,7 @@ type CharacterWorkspaceProps<T> = {
 
 export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
   const { characters, active, add, update, remove, select, loaded, storageFailed } = useCharacterStore(system)
-  const [errors, setErrors] = useState<string[]>([])
+  const { open, errors, clashes, opened, resolve } = useOpenCharacters(system, { characters, add, update, select })
   const nameOf = (data: T) => system.getName(data).trim() || 'Unnamed character'
 
   const activeId = active.id
@@ -24,22 +22,6 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
     (updater: SheetUpdater) => update(activeId, updater as (data: T) => T),
     [update, activeId],
   )
-
-  const open = async (files: File[]) => {
-    const problems: string[] = []
-    for (const file of files) {
-      if (file.size > MAX_FILE_SIZE) {
-        problems.push(`${file.name} is larger than 10 MB, which is too big for a character file.`)
-        continue
-      }
-      try {
-        parseCharacterFile(system, await file.text()).forEach((data) => add(data))
-      } catch (error) {
-        problems.push(`${file.name} ${(error as Error).message}.`)
-      }
-    }
-    setErrors(problems)
-  }
 
   const close = (id: string) => {
     const character = characters.find((c) => c.id === id)
@@ -64,8 +46,8 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
         <h1>{system.title}</h1>
         <WorkspaceToolbar
           onOpen={open}
-          onSave={() => downloadCharacterFile(system, active.data)}
-          onSaveAll={characters.length > 1 ? () => downloadAllCharacters(system, characters.map((c) => c.data)) : undefined}
+          onSave={() => downloadCharacterFile(system, active)}
+          onSaveAll={characters.length > 1 ? () => downloadAllCharacters(system, characters) : undefined}
         />
       </header>
       <StorageNotice />
@@ -102,7 +84,7 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
         <SheetErrorBoundary
           key={active.id}
           name={nameOf(active.data)}
-          onSave={() => downloadCharacterFile(system, active.data)}
+          onSave={() => downloadCharacterFile(system, active)}
           onClose={() => close(active.id)}
         >
           <SheetProvider data={active.data} onChange={onChange}>
@@ -110,6 +92,17 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
           </SheetProvider>
         </SheetErrorBoundary>
       </div>
+      {clashes.length > 0 && (
+        <ConflictDialog
+          items={clashes.map((clash, index) => {
+            const tab = characters.find((c) => c.id === clash.id)
+            const name = nameOf(clash.data)
+            return { key: `${clash.id}-${index}`, name, openName: tab ? nameOf(tab.data) : name, savedAt: clash.savedAt }
+          })}
+          opened={opened}
+          onChoose={resolve}
+        />
+      )}
     </div>
   )
 }

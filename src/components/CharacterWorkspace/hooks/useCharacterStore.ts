@@ -75,10 +75,14 @@ export function useCharacterStore<T>(system: SheetSystem<T>) {
     }
   }, [system.id, flush])
 
+  // A character from a file keeps the file's id, so opening the file again can find its tab.
   const add = useCallback(
-    (data?: T) => {
-      const character = data === undefined ? blank(system) : { id: crypto.randomUUID(), data }
-      setState((s) => ({ characters: [...s.characters, character], activeId: character.id }))
+    (data?: T, id?: string) => {
+      setState((s) => {
+        const keepId = id !== undefined && !s.characters.some((c) => c.id === id)
+        const character = data === undefined ? blank(system) : { id: keepId ? id : crypto.randomUUID(), data }
+        return { characters: [...s.characters, character], activeId: character.id }
+      })
     },
     [system],
   )

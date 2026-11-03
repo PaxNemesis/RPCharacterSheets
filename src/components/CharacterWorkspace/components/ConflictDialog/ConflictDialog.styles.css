@@ -1,0 +1,46 @@
+.conflict-dialog-container {
+  width: min(480px, calc(100vw - 2 * var(--space-2)));
+  box-sizing: border-box;
+  padding: var(--space-3);
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  h2 {
+    margin: 0 0 var(--space-2);
+    font-size: 18px;
+    color: var(--text-h);
+  }
+
+  ul {
+    margin: 0 0 var(--space-2);
+    padding-left: var(--space-3);
+  }
+
+  p {
+    margin: 0 0 var(--space-3);
+  }
+
+  .conflict-dialog-saved {
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+
+  .conflict-dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-1);
+  }
+
+  .conflict-dialog-danger {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+}

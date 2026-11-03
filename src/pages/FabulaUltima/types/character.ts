@@ -9,7 +9,7 @@ export type Discipline = 'arcanism' | 'chimerism' | 'elementalism' | 'entropism'
 export type SlotKey = 'mainHand' | 'offHand' | 'armor' | 'accessory'
 
 export type FuSettings = {
-  /** Supplements whose classes, Heroic Skills and spells the sheet offers. */
+  /** Supplements whose classes, Heroic Skills, spells and custom weapons the sheet offers. */
   books: Record<SupplementId, boolean>
   /** The Atlases' optional Quirk rule. */
   quirks: boolean

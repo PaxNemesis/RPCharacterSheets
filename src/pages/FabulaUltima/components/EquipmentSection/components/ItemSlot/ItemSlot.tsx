@@ -3,7 +3,7 @@ import { CheckboxField } from '@/components/CheckboxField'
 import { SelectField } from '@/components/SelectField'
 import { SheetProvider, useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
-import type { FuDerived, FuItem, ItemKind, SlotKey } from '../../../../types'
+import type { FuDerived, FuItem, FuSettings, ItemKind, SlotKey } from '../../../../types'
 import { describeItem } from '../../utils/describeItem'
 import { hasContent } from '../../utils/equip'
 import { formLabel, hasForms, nextForm, switchForm } from '../../utils/forms'
@@ -23,6 +23,8 @@ type ItemSlotProps = {
   slot: { key: SlotKey; label: string; kinds: ItemKind[] }
   item: FuItem
   derived: FuDerived
+  /** Which Atlases' custom weapons to suggest. */
+  settings: FuSettings
   open: boolean
   onToggle: () => void
   /** Moves the item to stored equipment in the backpack. */
@@ -32,11 +34,11 @@ type ItemSlotProps = {
 }
 
 /** One row of the equipment list: a summary of the item, with its fields underneath while open. */
-export function ItemSlot({ slot, item, derived, open, onToggle, onUnequip, onDelete }: ItemSlotProps) {
+export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUnequip, onDelete }: ItemSlotProps) {
   const { set } = useSheet()
   const editorId = useId()
   const path = `equipment.${slot.key}`
-  const presets = rulebookItems(slot.kinds)
+  const presets = rulebookItems(slot.kinds, settings)
   const holdsWeapons = slot.kinds.includes('weapon')
   const details = item.kind === '' ? '' : describeItem(item)
   const empty = !item.name.trim() && (item.kind === '' || item.kind === 'armor' || !details)
@@ -50,10 +52,12 @@ export function ItemSlot({ slot, item, derived, open, onToggle, onUnequip, onDel
   ]
 
   const forms = hasForms(item)
-  // Picking a basic item fills in the current form's stats; the item's own notes and other forms are kept.
+  // A basic item fills in the current form's stats, keeping the item's notes and other forms.
+  // A custom weapon brings its own forms and notes, so it replaces the item.
   const pick = (value: string) => {
     const preset = presets.get(value)
-    if (preset) set(path, { ...preset, quality: item.quality, forms: item.forms, form: item.form })
+    if (preset?.quality) set(path, preset)
+    else if (preset) set(path, { ...preset, quality: item.quality, forms: item.forms, form: item.form })
   }
   // Typing a name into an empty hand makes it a weapon, so the name isn't lost.
   const rename = (value: string) => {

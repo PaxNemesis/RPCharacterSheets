@@ -76,3 +76,27 @@ export type DefensiveItemData = {
   magicDefenseBonus?: number
   initiative?: number
 }
+
+/** One form of a custom weapon; all custom weapons are two-handed (HF p. 105). */
+export type CustomWeaponForm = {
+  martial: boolean
+  category: string
+  range: 'melee' | 'ranged'
+  accuracy: [AttributeKey, AttributeKey]
+  accuracyBonus: number
+  damage: number
+  damageType: string
+  /** Customization names, e.g. "accurate, defense boost, powerful". */
+  customizations: string
+  defenseBonus?: number
+  magicDefenseBonus?: number
+}
+
+/** A sample custom weapon from an Atlas; a rare evolution also has a Quality, described on its page. */
+export type CustomWeaponData = {
+  name: string
+  book: SupplementId
+  page: number
+  quality: boolean
+  forms: CustomWeaponForm[]
+}

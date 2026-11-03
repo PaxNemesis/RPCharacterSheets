@@ -109,16 +109,14 @@ export function quirkBonus(character: FuCharacter) {
 export function classIssues(character: FuCharacter, entry: FuClass): string[] {
   const data = findClass(character.settings, entry.name)
   const level = classLevel(entry)
-  const overMax = data
-    ? entry.skills.filter((skill) => {
-        const max = data.skills.find((s) => s.name.toLowerCase() === skill.name.trim().toLowerCase())?.max
-        return max !== undefined && (skill.level ?? 0) > max
-      })
-    : []
+  const overMax = entry.skills.filter((skill) => {
+    const max = data ? data.skills.find((s) => s.name.toLowerCase() === skill.name.trim().toLowerCase())?.max : skill.max
+    return typeof max === 'number' && (skill.level ?? 0) > max
+  })
 
   return [
     level > 10 && 'A class can be at most level 10.',
-    overMax.length > 0 && `Above the maximum Skill Level: ${overMax.map((skill) => skill.name).join(', ')}.`,
+    overMax.length > 0 && `Above the maximum Skill Level: ${overMax.map((skill) => skill.name.trim() || 'unnamed Skill').join(', ')}.`,
     data?.benefits.hpOrMp && !entry.benefitChoice && 'Choose whether the free benefit raises HP or MP.',
   ].filter((issue): issue is string => Boolean(issue))
 }

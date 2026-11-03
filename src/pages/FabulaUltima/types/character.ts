@@ -42,7 +42,8 @@ export type FuBond = {
   feeling: '' | 'affection' | 'hatred'
 }
 
-export type FuClassSkill = { name: string; level: Num; notes: string }
+/** `max` is typed in for a custom class; a rulebook class's maximums come from its data. */
+export type FuClassSkill = { name: string; level: Num; max?: Num; notes: string }
 
 export type FuClass = {
   name: string

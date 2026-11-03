@@ -48,16 +48,19 @@ export function ClassCard({ index, entry, data, classNames, issues, onRemove }: 
   const columns: RepeatTableColumn[] = [
     { key: 'name', label: 'Skill', width: 'minmax(150px, 2fr)', suggestions: data && alphabetical(data.skills.map((skill) => skill.name)) },
     { key: 'level', label: 'SL', width: '56px', type: 'number' },
-    {
-      key: 'max',
-      label: 'Max',
-      width: '56px',
-      type: 'calculated',
-      calculate: (row) => {
-        const name = String(row.name ?? '').trim().toLowerCase()
-        return data?.skills.find((skill) => skill.name.toLowerCase() === name)?.max ?? null
-      },
-    },
+    // A rulebook class knows each Skill's maximum; a custom class's are typed in.
+    data
+      ? {
+          key: 'max',
+          label: 'Max',
+          width: '56px',
+          type: 'calculated',
+          calculate: (row) => {
+            const name = String(row.name ?? '').trim().toLowerCase()
+            return data.skills.find((skill) => skill.name.toLowerCase() === name)?.max ?? null
+          },
+        }
+      : { key: 'max', label: 'Max', width: '56px', type: 'number' },
     { key: 'notes', label: 'Notes', width: 'minmax(200px, 3fr)', rows: 2 },
   ]
 

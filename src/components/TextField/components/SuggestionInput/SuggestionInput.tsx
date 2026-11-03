@@ -7,6 +7,8 @@ type SuggestionInputProps = {
   onChange: (value: string) => void
   /** Called after onChange when a suggestion is picked from the list, not when it is typed. */
   onPick?: (value: string) => void
+  /** Called when the user is done with the value: Enter, leaving the field, or picking a suggestion. */
+  onCommit?: () => void
   suggestions: string[]
   placeholder?: string
 }
@@ -15,7 +17,7 @@ const LIST_HEIGHT = 240
 
 // A text input with its own suggestion list. The browser's <datalist> popup is drawn by the
 // browser itself and lands in the wrong place in some embedded browsers, such as VS Code's.
-export function SuggestionInput({ id, value, onChange, onPick, suggestions, placeholder }: SuggestionInputProps) {
+export function SuggestionInput({ id, value, onChange, onPick, onCommit, suggestions, placeholder }: SuggestionInputProps) {
   const listId = useId()
   const inputRef = useRef<HTMLInputElement>(null)
   const [rect, setRect] = useState<DOMRect>()
@@ -37,6 +39,7 @@ export function SuggestionInput({ id, value, onChange, onPick, suggestions, plac
     onChange(suggestion)
     onPick?.(suggestion)
     close()
+    onCommit?.()
   }
 
   // The list is fixed-positioned so table scroll areas don't clip it; follow the input while open.
@@ -60,6 +63,9 @@ export function SuggestionInput({ id, value, onChange, onPick, suggestions, plac
     } else if (event.key === 'Enter' && showList && active >= 0) {
       event.preventDefault()
       pick(matches[active])
+    } else if (event.key === 'Enter') {
+      close()
+      onCommit?.()
     } else if (event.key === 'Escape' && open) {
       close()
     }
@@ -92,7 +98,10 @@ export function SuggestionInput({ id, value, onChange, onPick, suggestions, plac
           openList()
         }}
         onFocus={openList}
-        onBlur={close}
+        onBlur={() => {
+          close()
+          onCommit?.()
+        }}
         onKeyDown={onKeyDown}
       />
       {showList && (

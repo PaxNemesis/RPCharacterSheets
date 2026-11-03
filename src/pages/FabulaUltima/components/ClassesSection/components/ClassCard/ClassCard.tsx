@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Icon } from '@/components/Icon'
 import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
@@ -45,6 +46,9 @@ type ClassCardProps = {
 }
 
 export function ClassCard({ index, entry, data, classNames, issues, onRemove }: ClassCardProps) {
+  // While the class name is being typed it rarely matches a rulebook class yet, so the custom
+  // benefits wait until the name is done (Enter, leaving the field, or picking a suggestion).
+  const [typing, setTyping] = useState(false)
   const columns: RepeatTableColumn[] = [
     { key: 'name', label: 'Skill', width: 'minmax(150px, 2fr)', suggestions: data && alphabetical(data.skills.map((skill) => skill.name)) },
     { key: 'level', label: 'SL', width: '56px', type: 'number' },
@@ -82,7 +86,13 @@ export function ClassCard({ index, entry, data, classNames, issues, onRemove }: 
         }
       >
         <div className="fu-fields">
-          <TextField path="name" label="Class" suggestions={classNames} />
+          <TextField
+            path="name"
+            label="Class"
+            suggestions={classNames}
+            onChange={() => setTyping(true)}
+            onCommit={() => setTyping(false)}
+          />
           <NumberField value={classLevel(entry)} label="Class level" />
           {data?.benefits.hpOrMp && <SelectField path="benefitChoice" label="Free benefit" options={BENEFIT_CHOICES} />}
         </div>
@@ -91,7 +101,7 @@ export function ClassCard({ index, entry, data, classNames, issues, onRemove }: 
             Free benefits: {describeBenefits(data)}. Skills and their maximum levels: {bookRef(data.book, data.page)}.
           </p>
         )}
-        {!data && entry.name.trim() && <CustomBenefits />}
+        {!data && !typing && entry.name.trim() && <CustomBenefits />}
         {classLevel(entry) >= 10 && <p className="fu-note">Mastered: acquire one Heroic Skill (p. 228).</p>}
         <RepeatTable path="skills" columns={columns} createRow={createSkill} itemName="skill" />
         <TextField path="notes" label="Class notes" rows={2} />

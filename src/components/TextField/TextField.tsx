@@ -15,6 +15,8 @@ type TextFieldProps = {
   onPick?: (value: string) => void
   /** Called after each edit, once the new value is stored. */
   onChange?: (value: string) => void
+  /** Called when the user is done editing: Enter or leaving the field (and picking a suggestion). */
+  onCommit?: () => void
   className?: string
 }
 
@@ -27,6 +29,7 @@ export function TextField({
   suggestions,
   onPick,
   onChange,
+  onCommit,
   className,
 }: TextFieldProps) {
   const [value, store] = useSheetField<string | undefined>(path)
@@ -45,6 +48,7 @@ export function TextField({
             value={value ?? ''}
             placeholder={placeholder}
             onChange={(event) => setValue(event.target.value)}
+            onBlur={onCommit}
           />
         ) : suggestions ? (
           <SuggestionInput
@@ -54,6 +58,7 @@ export function TextField({
             suggestions={suggestions}
             onChange={setValue}
             onPick={onPick}
+            onCommit={onCommit}
           />
         ) : (
           <input
@@ -62,6 +67,8 @@ export function TextField({
             value={value ?? ''}
             placeholder={placeholder}
             onChange={(event) => setValue(event.target.value)}
+            onBlur={onCommit}
+            onKeyDown={(event) => event.key === 'Enter' && onCommit?.()}
           />
         )
       }

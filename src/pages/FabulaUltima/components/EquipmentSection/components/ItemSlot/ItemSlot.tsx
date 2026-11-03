@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import { CheckboxField } from '@/components/CheckboxField'
 import { SelectField } from '@/components/SelectField'
 import { SheetProvider, useSheet } from '@/components/SheetProvider'
@@ -9,16 +9,9 @@ import { hasContent } from '../../utils/equip'
 import { formLabel, hasForms, nextForm, switchForm } from '../../utils/forms'
 import { canEquip } from '../../../../utils/martial'
 import { DefenseFields, ItemForms, ItemSlotActions, MartialFilterNote, WeaponFields } from './components'
-import { rulebookItems } from './utils/itemFromRulebook'
+import { presetNotes, rulebookItems } from './utils/itemFromRulebook'
+import { KIND_LABELS, NAME_PLACEHOLDERS } from './ItemSlot.constants'
 import './ItemSlot.styles.css'
-
-const KIND_LABELS: Record<ItemKind, string> = {
-  '': 'Empty',
-  weapon: 'Weapon',
-  shield: 'Shield',
-  armor: 'Armor',
-  accessory: 'Accessory',
-}
 
 type ItemSlotProps = {
   slot: { key: SlotKey; label: string; kinds: ItemKind[] }
@@ -39,7 +32,9 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
   const { set } = useSheet()
   const editorId = useId()
   const path = `equipment.${slot.key}`
-  const presets = rulebookItems(slot.kinds, settings)
+  const everything = rulebookItems(slot.kinds, settings)
+  // Once Holding is chosen, only items of that kind are suggested; an empty hand offers both.
+  const presets = item.kind ? new Map([...everything].filter(([, preset]) => preset.kind === item.kind)) : everything
   // Martial items the character can't equip are left out of the suggestions unless asked for.
   const [showAll, setShowAll] = useState(false)
   const allowed = [...presets].filter(([, preset]) => canEquip(preset, derived.martial)).map(([key]) => key)
@@ -57,19 +52,23 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
   ]
 
   const forms = hasForms(item)
-  // A basic item fills in the current form's stats, keeping the item's notes and other forms.
-  // A rare item or custom weapon brings its own notes (and forms), so it replaces the item.
+  // A basic item fills in the current form's stats, keeping the item's notes and other forms; notes
+  // that a preset wrote, rather than the player, are dropped. A rare item or custom weapon brings its
+  // own notes (and forms), so it replaces the item.
   const pick = (value: string) => {
+    picked.current = true
     const preset = presets.get(value)
+    const notes = presetNotes(everything).has(item.quality) ? '' : item.quality
     if (preset?.quality) set(path, preset)
-    else if (preset) set(path, { ...preset, quality: item.quality, forms: item.forms, form: item.form })
+    else if (preset) set(path, { ...preset, quality: notes, forms: item.forms, form: item.form })
   }
-  // Typing a name into an empty hand makes it a weapon, so the name isn't lost.
-  const rename = (value: string) => {
-    if (item.kind === '' && holdsWeapons && value.trim()) set(`${path}.kind`, 'weapon')
+  // A name typed into an empty hand makes it a weapon once the name is done, so it isn't lost. Not
+  // while typing, which would hide the shields, nor after a pick, which sets the kind itself.
+  const picked = useRef(false)
+  const commitName = () => {
+    if (!picked.current && item.kind === '' && holdsWeapons && item.name.trim()) set(`${path}.kind`, 'weapon')
+    picked.current = false
   }
-  const placeholder =
-    item.kind === 'armor' ? 'No armor, or type to pick armor' : holdsWeapons ? 'Type to pick a weapon or shield' : 'Type to pick an accessory'
 
   return (
     <SheetProvider path={path}>
@@ -115,10 +114,10 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
               <TextField
                 path="name"
                 label="Name"
-                placeholder={placeholder}
+                placeholder={NAME_PLACEHOLDERS[item.kind]}
                 suggestions={presets.size > 0 ? suggestions : undefined}
                 onPick={pick}
-                onChange={rename}
+                onCommit={commitName}
                 className="item-slot-name-field"
               />
               {item.kind !== '' && item.kind !== 'accessory' && <CheckboxField path="martial" label="Martial" />}

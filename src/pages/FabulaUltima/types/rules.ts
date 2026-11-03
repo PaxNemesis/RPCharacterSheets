@@ -63,6 +63,12 @@ export type WeaponData = {
   accuracy: [AttributeKey, AttributeKey]
   accuracyBonus?: number
   damage: number
+  /** Missing means physical. */
+  damageType?: string
+  /** Rare weapons have a Quality, described on their page. */
+  quality?: boolean
+  defenseBonus?: number
+  magicDefenseBonus?: number
 }
 
 /** Basic armor and shields, and the books' sample rare armor, shields and accessories. */

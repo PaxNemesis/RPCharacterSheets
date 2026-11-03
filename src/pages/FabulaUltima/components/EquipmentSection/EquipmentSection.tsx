@@ -65,7 +65,7 @@ export function EquipmentSection() {
         </div>
         <p className="fu-note">
           Click a slot to edit it. Start typing a name to pick a basic weapon, armor or shield (pp. 130–133), a rare
-          armor, shield or accessory, or a custom weapon from the Atlases, and fill in its stats. Defense, Magic Defense and Initiative bonuses are added on the Character tab. Martial equipment comes from your classes and Quirk; click a crossed-out type to allow it anyway.
+          weapon, armor, shield or accessory, or a custom weapon from the Atlases, and fill in its stats. Defense, Magic Defense and Initiative bonuses are added on the Character tab. Martial equipment comes from your classes and Quirk; click a crossed-out type to allow it anyway.
         </p>
       </Panel>
       <Panel title="Backpack & notes">

@@ -4,7 +4,7 @@ import { mergeDefaults } from './mergeDefaults'
 /** Upgrades data from an older version and fills in any missing fields. */
 export function normalizeCharacter<T>(system: SheetSystem<T>, data: unknown, version: number): T {
   const upgraded = version < system.version && system.migrate ? system.migrate(data, version) : data
-  return mergeDefaults(system.createCharacter(), upgraded)
+  return mergeDefaults(system.createCharacter(), upgraded, system.listItems)
 }
 
 export function parseCharacterFile<T>(system: SheetSystem<T>, text: string): T {

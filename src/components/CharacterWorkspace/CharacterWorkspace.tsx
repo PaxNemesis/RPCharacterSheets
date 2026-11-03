@@ -2,10 +2,13 @@ import { useCallback, useState } from 'react'
 import { SheetProvider, type SheetUpdater } from '@/components/SheetProvider'
 import { Tabs } from '@/components/Tabs'
 import type { SheetSystem } from './CharacterWorkspace.types'
-import { StorageNotice, WorkspaceToolbar } from './components'
+import { SheetErrorBoundary, StorageNotice, WorkspaceToolbar } from './components'
 import { useCharacterStore } from './hooks/useCharacterStore'
 import { downloadCharacterFile, parseCharacterFile } from './utils/characterFile'
 import './CharacterWorkspace.styles.css'
+
+// Far more than any character with a portrait; anything bigger isn't worth freezing the tab over.
+const MAX_FILE_SIZE = 10 * 1024 * 1024
 
 type CharacterWorkspaceProps<T> = {
   system: SheetSystem<T>
@@ -25,6 +28,10 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
   const open = async (files: File[]) => {
     const problems: string[] = []
     for (const file of files) {
+      if (file.size > MAX_FILE_SIZE) {
+        problems.push(`${file.name} is larger than 10 MB, which is too big for a character file.`)
+        continue
+      }
       try {
         add(parseCharacterFile(system, await file.text()))
       } catch (error) {
@@ -98,9 +105,16 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
         }
       />
       <div className="character-workspace-sheet">
-        <SheetProvider key={active.id} data={active.data} onChange={onChange}>
-          <system.Sheet />
-        </SheetProvider>
+        <SheetErrorBoundary
+          key={active.id}
+          name={nameOf(active.data)}
+          onSave={() => downloadCharacterFile(system, active.data)}
+          onClose={() => close(active.id)}
+        >
+          <SheetProvider data={active.data} onChange={onChange}>
+            <system.Sheet />
+          </SheetProvider>
+        </SheetErrorBoundary>
       </div>
     </div>
   )

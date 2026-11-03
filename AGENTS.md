@@ -30,3 +30,13 @@ Before creating or editing any `.ts` or `.tsx` file, read and follow [.github/in
 - `pnpm build` runs `vite build` before `tsc -b`, because the Vite build generates the route tree that type checking needs. Keep that order.
 - The site is served from `/<repo-name>/` on GitHub Pages. Never hardcode root-relative URLs like `/icons.svg`: use imports, `import.meta.env.BASE_URL`, or router `<Link>`s.
 - Deployment is `.github/workflows/deploy.yml`. It runs on every push to `main`, sets `BASE_PATH` from the repo name, and copies `index.html` to `404.html` so deep links work.
+
+## Character data
+
+Each game system is a `SheetSystem` (in `<System>/utils/<system>.ts`). Characters are saved to the browser and to JSON files. Loading a JSON file or the browser's copy goes through the system's `migrate`, then `mergeDefaults`, which fills in missing fields and replaces values of the wrong type with the default.
+
+- When you change the shape of saved data (renaming, moving or retyping a field), bump the system's `version` and add a step to its `utils/migrate.ts`. Write steps so they are safe to run twice. A new field with a default needs no migration.
+- When you add a list to the character, add a blank entry for it to the system's `utils/listItems.ts`, keyed by its path without indexes (`classes.skills`). Without one, entries in that list are loaded unchecked.
+- Optional fields that aren't in `createCharacter` (such as an item's `forms`) aren't type-checked on load. Code reading them should cope with a wrong value, or the field should get a default.
+- Treat every loaded value as untrusted: a file can be edited by hand. Render data as text through React, never with `dangerouslySetInnerHTML`, and never put it in `href`, `src` or `style`. Images are shown only through `ImageField`, which accepts raster `data:image/` URLs and hides anything else.
+- `CharacterWorkspace` wraps each sheet in an error boundary, so a character that still fails to render shows a recovery message instead of breaking the page. That is a safety net, not a substitute for the checks above.

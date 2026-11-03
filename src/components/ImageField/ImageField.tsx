@@ -1,5 +1,6 @@
 import { useRef, useState, type DragEvent } from 'react'
 import { useSheetField } from '@/components/SheetProvider'
+import { isImageData } from './utils/isImageData'
 import { shrinkImage } from './utils/shrinkImage'
 import './ImageField.styles.css'
 
@@ -10,7 +11,8 @@ type ImageFieldProps = {
 }
 
 export function ImageField({ path, label }: ImageFieldProps) {
-  const [image, setImage] = useSheetField<string | undefined>(path)
+  const [stored, setImage] = useSheetField<string | undefined>(path)
+  const image = isImageData(stored) ? stored : undefined
   const [error, setError] = useState<string>()
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -66,7 +68,8 @@ export function ImageField({ path, label }: ImageFieldProps) {
         }}
       />
       {error && <p className="image-field-error">{error}</p>}
-      {image && (
+      {stored && !image && <p className="image-field-error">The saved image isn&apos;t a supported picture, so it isn&apos;t shown.</p>}
+      {stored && (
         <button type="button" className="image-field-remove" onClick={() => setImage('')}>
           Remove image
         </button>

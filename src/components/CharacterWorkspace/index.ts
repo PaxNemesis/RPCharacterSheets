@@ -1,2 +1,2 @@
 export { CharacterWorkspace } from './CharacterWorkspace'
-export type { SheetSystem } from './CharacterWorkspace.types'
+export type { ListItems, SheetSystem } from './CharacterWorkspace.types'

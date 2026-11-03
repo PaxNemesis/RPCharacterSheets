@@ -30,6 +30,12 @@ export function parseCharacterFile<T>(system: SheetSystem<T>, text: string): T[]
   return entries.map((entry) => normalizeCharacter(system, entry, version))
 }
 
+// Local date and time to the minute, without characters file systems reject: "2026-11-03-1542".
+function timestamp(date = new Date()) {
+  const pad = (value: number) => String(value).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}-${pad(date.getHours())}${pad(date.getMinutes())}`
+}
+
 function download(file: CharacterFile, name: string) {
   const blob = new Blob([JSON.stringify(file, null, 2)], { type: 'application/json' })
   const link = document.createElement('a')
@@ -46,11 +52,12 @@ export function downloadCharacterFile<T>(system: SheetSystem<T>, data: T) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
-  // The system's id tells files from different games apart, e.g. "eryon-fabula-ultima.json".
-  download({ system: system.id, version: system.version, data }, `${slug || 'character'}-${system.id}.json`)
+  // The system's id tells files from different games apart and the time tells saves apart,
+  // e.g. "eryon-fabula-ultima-2026-11-03-1542.json".
+  download({ system: system.id, version: system.version, data }, `${slug || 'character'}-${system.id}-${timestamp()}.json`)
 }
 
 /** One file with every open character, so they can be backed up or moved to another device together. */
 export function downloadAllCharacters<T>(system: SheetSystem<T>, characters: T[]) {
-  download({ system: system.id, version: system.version, characters }, `characters-${system.id}.json`)
+  download({ system: system.id, version: system.version, characters }, `characters-${system.id}-${timestamp()}.json`)
 }

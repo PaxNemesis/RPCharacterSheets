@@ -1,6 +1,6 @@
 import { CheckboxField } from '@/components/CheckboxField'
 import { NumberField } from '@/components/NumberField'
-import { MARTIAL } from '../../../../../constants/attributes'
+import { DISCIPLINES, MARTIAL } from '../../../../../constants/attributes'
 
 /** Free benefits typed in by hand, for a class that isn't in the enabled rulebooks. */
 export function CustomBenefits() {
@@ -18,8 +18,16 @@ export function CustomBenefits() {
         {MARTIAL.map(({ key, label }) => (
           <CheckboxField key={key} path={`custom.martial.${key}`} label={label} />
         ))}
-        <CheckboxField path="custom.ritualism" label="Ritualism rituals" />
       </div>
+      <div className="fu-checks" role="group" aria-label="Ritual disciplines">
+        {DISCIPLINES.map(({ key, label }) => (
+          <CheckboxField key={key} path={`custom.disciplines.${key}`} label={`${label} rituals`} />
+        ))}
+      </div>
+      <p className="fu-note">
+        Tick the disciplines the class grants for free. A Skill named after a discipline, such as Ritual Elementalism,
+        unlocks it too once it has a Skill Level.
+      </p>
     </>
   )
 }

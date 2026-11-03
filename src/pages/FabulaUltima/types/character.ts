@@ -55,7 +55,8 @@ export type FuClass = {
     mp: Num
     ip: Num
     martial: Record<MartialKey, boolean>
-    ritualism: boolean
+    /** Ritual disciplines granted as a free benefit; others can come from a "Ritual …" Skill. */
+    disciplines: Partial<Record<Discipline, boolean>>
   }
   notes: string
   skills: FuClassSkill[]

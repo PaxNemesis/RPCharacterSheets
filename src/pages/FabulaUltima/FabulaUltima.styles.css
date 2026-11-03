@@ -59,9 +59,10 @@
     font-weight: 600;
   }
 
+  /* Four columns, dropping to fewer once a column would be narrower than 190px. */
   .fu-checks {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(max(190px, calc((100% - 3 * var(--space-2)) / 4)), 1fr));
     gap: var(--space-1) var(--space-2);
   }
 }

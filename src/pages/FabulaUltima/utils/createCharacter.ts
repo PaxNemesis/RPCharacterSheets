@@ -27,7 +27,7 @@ export const createClass = (): FuClass => ({
     mp: null,
     ip: null,
     martial: { armor: false, shields: false, melee: false, ranged: false },
-    ritualism: false,
+    disciplines: {},
   },
   notes: '',
   // Starts at level 1: a class's level is the total of its Skill Levels.

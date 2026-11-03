@@ -34,10 +34,23 @@ function spellPages(character: Data): Data {
   return { ...character, spells }
 }
 
+/** Version 5 lets a custom class grant any ritual discipline, not only Ritualism. */
+function customDisciplines(character: Data): Data {
+  if (!Array.isArray(character.classes)) return character
+  const classes = (character.classes as Data[]).map((entry) => {
+    if (entry.custom === null || typeof entry.custom !== 'object') return entry
+    const { ritualism, ...custom } = entry.custom as Data
+    const disciplines = typeof custom.disciplines === 'object' && custom.disciplines !== null ? custom.disciplines : {}
+    return { ...entry, custom: { ...custom, disciplines: ritualism === true ? { ...disciplines, ritualism: true } : disciplines } }
+  })
+  return { ...character, classes }
+}
+
 const STEPS: [version: number, upgrade: (character: Data) => Data][] = [
   [2, classLevelsFromSkills],
   // Version 3 ran this step too, but characters loaded before it could be saved as 3 without it.
   [4, spellPages],
+  [5, customDisciplines],
 ]
 
 /** Upgrades characters saved by older versions of the sheet, one version at a time. */

@@ -49,7 +49,7 @@ export function classBenefits(character: FuCharacter) {
       totals.mp += entry.custom.mp ?? 0
       totals.ip += entry.custom.ip ?? 0
       for (const key of Object.keys(martial) as MartialKey[]) martial[key] ||= entry.custom.martial[key]
-      if (entry.custom.ritualism) grant('ritualism', from)
+      for (const key of DISCIPLINE_KEYS) if (entry.custom.disciplines[key]) grant(key, from)
     }
     // Skills such as Ritual Elementalism, or the Floralist's Verdant Sway, unlock a discipline.
     for (const skill of entry.skills.filter((skill) => (skill.level ?? 0) >= 1)) {

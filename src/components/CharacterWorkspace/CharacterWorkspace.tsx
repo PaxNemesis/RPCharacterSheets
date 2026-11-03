@@ -18,9 +18,14 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
   const nameOf = (data: T) => system.getName(data).trim() || 'Unnamed character'
 
   const activeId = active.id
+  const { normalize } = system
   const onChange = useCallback(
-    (updater: SheetUpdater) => update(activeId, updater as (data: T) => T),
-    [update, activeId],
+    (updater: SheetUpdater) =>
+      update(activeId, (data) => {
+        const next = (updater as (data: T) => T)(data)
+        return normalize ? normalize(next) : next
+      }),
+    [update, activeId, normalize],
   )
 
   const close = (id: string) => {

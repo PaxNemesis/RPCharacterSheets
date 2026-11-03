@@ -2,6 +2,7 @@ import type { SheetSystem } from '@/components/CharacterWorkspace'
 import { FuSheet } from '../components'
 import type { FuCharacter } from '../types'
 import { createCharacter } from './createCharacter'
+import { normalizeCharacter } from './equip'
 import { LIST_ITEMS } from './listItems'
 import { migrate } from './migrate'
 
@@ -11,6 +12,7 @@ export const fabulaUltima: SheetSystem<FuCharacter> = {
   version: 5,
   createCharacter,
   listItems: LIST_ITEMS,
+  normalize: normalizeCharacter,
   migrate,
   getName: (character) => character.identity.name,
   Sheet: FuSheet,

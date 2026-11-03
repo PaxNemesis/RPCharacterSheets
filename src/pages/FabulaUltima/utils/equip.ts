@@ -1,6 +1,6 @@
-import { SLOTS } from '../../../constants/slots'
-import type { FuCharacter, FuItem, SlotKey } from '../../../types'
-import { createItem } from '../../../utils/createCharacter'
+import { SLOTS } from '../constants/slots'
+import type { FuCharacter, FuItem, SlotKey } from '../types'
+import { createItem } from './createCharacter'
 
 type Gear = Pick<FuCharacter, 'equipment' | 'stored'>
 
@@ -20,7 +20,7 @@ export const hasContent = (item: FuItem) =>
       (item.kind === 'weapon' && item.damage !== null),
   )
 
-const isTwoHanded = (item: FuItem) => item.kind === 'weapon' && item.hands === 'two'
+export const isTwoHanded = (item: FuItem) => item.kind === 'weapon' && item.hands === 'two'
 
 /** The slots a stored item can be equipped to; a two-handed weapon only goes in the main hand. */
 export const slotsFor = (item: FuItem): SlotKey[] =>
@@ -45,4 +45,17 @@ export function equip({ equipment, stored }: Gear, index: number, slot: SlotKey)
     if (key !== slot) nextEquipment[key] = emptyFor(key)
   }
   return { equipment: nextEquipment, stored: [...stored.filter((_, other) => other !== index), ...moved] }
+}
+
+/**
+ * Runs after every change: a two-handed weapon in the main hand uses both hands, however it got
+ * there (a preset, the Hands field, a form), so whatever the off-hand held moves to storage.
+ */
+export function normalizeCharacter(character: FuCharacter): FuCharacter {
+  const { mainHand, offHand } = character.equipment
+  if (!isTwoHanded(mainHand) || offHand.kind === '') return character
+  const next = hasContent(offHand)
+    ? unequip(character, 'offHand')
+    : { equipment: { ...character.equipment, offHand: emptyFor('offHand') } }
+  return { ...character, ...next }
 }

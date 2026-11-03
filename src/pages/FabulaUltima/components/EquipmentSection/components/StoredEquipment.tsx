@@ -3,7 +3,7 @@ import { useSheet } from '@/components/SheetProvider'
 import { SLOTS } from '../../../constants/slots'
 import type { FuCharacter } from '../../../types'
 import { describeItem } from '../utils/describeItem'
-import { equip, slotsFor } from '../utils/equip'
+import { equip, isTwoHanded, slotsFor } from '../../../utils/equip'
 import { formLabel, hasForms } from '../utils/forms'
 
 type StoredEquipmentProps = {
@@ -32,7 +32,8 @@ export function StoredEquipment({ character }: StoredEquipmentProps) {
   return (
     <ul className="equipment-section-stored">
       {stored.map((item, index) => {
-        const slots = slotsFor(item)
+        // A two-handed weapon in the main hand leaves no off-hand to equip to.
+        const slots = slotsFor(item).filter((slot) => !(slot === 'offHand' && isTwoHanded(character.equipment.mainHand)))
         const twoHanded = item.kind === 'weapon' && item.hands === 'two'
         return (
           <li key={index} className="equipment-section-stored-item">

@@ -7,8 +7,8 @@ import { TextField } from '@/components/TextField'
 import { SLOTS } from '../../constants/slots'
 import { useFuCharacter } from '../../hooks/useFuCharacter'
 import type { FuBackpackItem, SlotKey } from '../../types'
-import { ItemSlot, MayEquip, StoredEquipment } from './components'
-import { emptyFor, unequip } from './utils/equip'
+import { BlockedSlot, ItemSlot, MayEquip, StoredEquipment } from './components'
+import { emptyFor, isTwoHanded, unequip } from '../../utils/equip'
 import './EquipmentSection.styles.css'
 
 const BACKPACK_COLUMNS: RepeatTableColumn[] = [
@@ -31,6 +31,10 @@ export function EquipmentSection() {
     set('stored', next.stored)
     setOpen((current) => current.filter((other) => other !== key))
   }
+  // The system's normalize empties the off-hand while a two-handed weapon is held.
+  const { mainHand } = character.equipment
+  const bothHands = isTwoHanded(mainHand)
+
   const clear = (key: SlotKey) => {
     const item = character.equipment[key]
     const name = item.name.trim() || 'this item'
@@ -49,19 +53,23 @@ export function EquipmentSection() {
           </p>
         ))}
         <div className="equipment-section-slots">
-          {SLOTS.map((slot) => (
-            <ItemSlot
-              key={slot.key}
-              slot={slot}
-              item={character.equipment[slot.key]}
-              derived={derived}
-              settings={character.settings}
-              open={open.includes(slot.key)}
-              onToggle={() => toggle(slot.key)}
-              onUnequip={() => store(slot.key)}
-              onDelete={() => clear(slot.key)}
-            />
-          ))}
+          {SLOTS.map((slot) =>
+            slot.key === 'offHand' && bothHands ? (
+              <BlockedSlot key={slot.key} label={slot.label} weapon={mainHand.name.trim() || 'two-handed weapon'} />
+            ) : (
+              <ItemSlot
+                key={slot.key}
+                slot={slot}
+                item={character.equipment[slot.key]}
+                derived={derived}
+                settings={character.settings}
+                open={open.includes(slot.key)}
+                onToggle={() => toggle(slot.key)}
+                onUnequip={() => store(slot.key)}
+                onDelete={() => clear(slot.key)}
+              />
+            ),
+          )}
         </div>
         <p className="fu-note">
           Click a slot to edit it. Start typing a name to pick a basic weapon, armor or shield (pp. 130–133), a rare

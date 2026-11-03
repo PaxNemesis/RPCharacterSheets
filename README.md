@@ -11,7 +11,7 @@ Rules data is limited to names, numbers and page references; the sheets point to
 
 ## Adding a game system
 
-Each system is a page in `src/pages/<System>/` that renders the shared `CharacterWorkspace` with a `SheetSystem` definition: an id, a data `version`, `createCharacter`, `getName`, a `Sheet` component, and optionally `migrate` and `listItems` (blank entries for the character's lists). The sheet is built from the shared field components (`TextField`, `NumberField`, `RepeatTable`, `CheckTrack`, `ImageField`, …), which read and write the character by path through `SheetProvider`. Calculated values are worked out from the data on every render and never saved.
+Each system is a page in `src/pages/<System>/` that renders the shared `CharacterWorkspace` with a `SheetSystem` definition: an id, a data `version`, `createCharacter`, `getName`, a `Sheet` component, and optionally `migrate`, `listItems` (blank entries for the character's lists) and `normalize` (keeps the data consistent after every change). The sheet is built from the shared field components (`TextField`, `NumberField`, `RepeatTable`, `CheckTrack`, `ImageField`, …), which read and write the character by path through `SheetProvider`. Calculated values are worked out from the data on every render and never saved.
 
 Saved files look like `{ "system": "<id>", "version": 1, "savedAt": "…", "id": "…", "data": { … } }`, or with `"characters": [{ "id": "…", "data": { … } }, …]` when all open characters are saved at once. The `id` lets the sheet notice when an opened character is already open in a tab, and ask whether to replace it, open a copy, or skip it.
 

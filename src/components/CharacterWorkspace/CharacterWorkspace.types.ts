@@ -14,6 +14,8 @@ export type SheetSystem<T> = {
    * first entry of its default list, if any.
    */
   listItems?: ListItems
+  /** Keeps the data consistent after every change, such as emptying a hand a two-handed weapon needs. */
+  normalize?: (data: T) => T
   /** Upgrades data saved by an older version of this system's sheet. */
   migrate?: (data: unknown, fromVersion: number) => unknown
   getName: (data: T) => string

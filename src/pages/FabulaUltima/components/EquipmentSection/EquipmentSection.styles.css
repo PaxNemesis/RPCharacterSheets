@@ -50,6 +50,29 @@
     border-bottom: 1px solid var(--border);
   }
 
+  /* Lined up with the other slots' label and summary columns. */
+  .equipment-section-blocked {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-2) var(--space-xs);
+    border-top: 1px solid var(--border);
+  }
+
+  .equipment-section-blocked-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+
+  .equipment-section-blocked-text {
+    font-style: italic;
+    color: var(--text-soft);
+  }
+
   .equipment-section-wealth {
     display: grid;
     grid-template-columns: 120px minmax(0, 1fr);

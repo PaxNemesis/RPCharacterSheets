@@ -8,8 +8,15 @@ Multi-system tabletop RPG character sheets. React 19 + TypeScript single-page ap
 - `pnpm dev` — dev server at http://localhost:5173
 - `pnpm build` — production build, then type check
 - `pnpm lint` — lint with oxlint
+- `pnpm test` — run the unit tests once with Vitest (`pnpm test:watch` to rerun on changes)
 
-Before finishing a change, run `pnpm build` and `pnpm lint` and make sure both pass. There is no test suite yet.
+Before finishing a change, run `pnpm build`, `pnpm lint` and `pnpm test` and make sure all three pass. The deploy workflow runs the tests before building.
+
+## Tests
+
+- Vitest with jsdom and Testing Library, configured in the `test` block of `vite.config.ts`. `src/test/setup.ts` adds the jest-dom matchers and clears the DOM and localStorage after each test.
+- Tests go in a `__tests__/` folder inside the component or page folder they cover (`src/pages/IronKingdomsFmf/__tests__/migrate.test.ts`), and may import that folder's internals with relative paths.
+- Add tests for rules, formulas and migrations whenever you change them.
 
 ## Code conventions
 

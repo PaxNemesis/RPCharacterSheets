@@ -58,6 +58,13 @@
     }
   }
 
+  /* The form being shown, in a group of form buttons. */
+  .item-slot-actions button[aria-pressed='true'] {
+    color: var(--accent-contrast);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
   .item-slot-edit {
     font-weight: 600;
   }
@@ -84,6 +91,16 @@
   .item-slot-name {
     font-weight: 700;
     color: var(--text-h);
+  }
+
+  .item-slot-form {
+    margin-left: var(--space-1);
+    padding: 0 var(--space-1);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-soft);
+    border: 1px solid var(--border);
+    border-radius: 999px;
   }
 
   .item-slot-empty {
@@ -124,6 +141,18 @@
 
     .checkbox-field-container {
       padding-bottom: var(--space-1);
+    }
+  }
+
+  /* Form buttons, the form's name and its delete button. */
+  .item-slot-forms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+    align-items: flex-end;
+
+    .item-slot-form-name {
+      flex: 0 1 200px;
     }
   }
 

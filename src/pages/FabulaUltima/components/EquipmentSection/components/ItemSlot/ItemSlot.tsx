@@ -1,13 +1,13 @@
 import { useId } from 'react'
 import { CheckboxField } from '@/components/CheckboxField'
-import { Icon } from '@/components/Icon'
 import { SelectField } from '@/components/SelectField'
 import { SheetProvider, useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
 import type { FuDerived, FuItem, ItemKind, SlotKey } from '../../../../types'
 import { describeItem } from '../../utils/describeItem'
 import { hasContent } from '../../utils/equip'
-import { DefenseFields, WeaponFields } from './components'
+import { formLabel, hasForms, nextForm, switchForm } from '../../utils/forms'
+import { DefenseFields, ItemForms, ItemSlotActions, WeaponFields } from './components'
 import { rulebookItems } from './utils/itemFromRulebook'
 import './ItemSlot.styles.css'
 
@@ -49,10 +49,11 @@ export function ItemSlot({ slot, item, derived, open, onToggle, onUnequip, onDel
     ...slot.kinds.map((kind) => ({ value: kind, label: KIND_LABELS[kind] })),
   ]
 
-  // Picking a basic item fills in its stats; the item's own notes are kept.
+  const forms = hasForms(item)
+  // Picking a basic item fills in the current form's stats; the item's own notes and other forms are kept.
   const pick = (value: string) => {
     const preset = presets.get(value)
-    if (preset) set(path, { ...preset, quality: item.quality })
+    if (preset) set(path, { ...preset, quality: item.quality, forms: item.forms, form: item.form })
   }
   // Typing a name into an empty hand makes it a weapon, so the name isn't lost.
   const rename = (value: string) => {
@@ -69,38 +70,27 @@ export function ItemSlot({ slot, item, derived, open, onToggle, onUnequip, onDel
           <div className="item-slot-overview" onClick={onToggle}>
             <span className="item-slot-label">{slot.label}</span>
             <span className="item-slot-summary">
-              <span className={empty ? 'item-slot-name item-slot-empty' : 'item-slot-name'}>{name}</span>
+              <span className={empty ? 'item-slot-name item-slot-empty' : 'item-slot-name'}>
+                {name}
+                {forms && <span className="item-slot-form">{formLabel(item)}</span>}
+              </span>
               {details && <span className="item-slot-details">{details}</span>}
             </span>
           </div>
-          <div className="item-slot-actions" role="group" aria-label={`${slot.label} actions`}>
-            <button
-              type="button"
-              className="item-slot-edit"
-              aria-expanded={open}
-              aria-controls={editorId}
-              aria-label={`${open ? 'Done editing' : empty ? 'Add to' : 'Edit'} ${slot.label.toLowerCase()}`}
-              title={open ? 'Done' : empty ? 'Add' : 'Edit'}
-              onClick={onToggle}
-            >
-              <Icon name={open ? 'check' : empty ? 'add' : 'edit'} className="equipment-section-icon" />
-            </button>
-            {hasContent(item) && (
-              <button
-                type="button"
-                onClick={onUnequip}
-                title="Move to stored equipment in the backpack"
-                aria-label={`Unequip ${label}`}
-              >
-                <Icon name="archive" className="equipment-section-icon" />
-              </button>
-            )}
-            {deletable && (
-              <button type="button" className="item-slot-delete" onClick={onDelete} title="Delete" aria-label={`Delete ${label}`}>
-                <Icon name="delete" className="equipment-section-icon" />
-              </button>
-            )}
-          </div>
+          <ItemSlotActions
+            slotLabel={slot.label}
+            label={label}
+            empty={empty}
+            open={open}
+            editorId={editorId}
+            nextForm={forms ? formLabel(item, nextForm(item)) : undefined}
+            canUnequip={hasContent(item)}
+            canDelete={deletable}
+            onToggle={onToggle}
+            onSwitch={() => set(path, switchForm(item, nextForm(item)))}
+            onUnequip={onUnequip}
+            onDelete={onDelete}
+          />
         </div>
         {open && (
           <div id={editorId} className="item-slot-editor">
@@ -126,6 +116,7 @@ export function ItemSlot({ slot, item, derived, open, onToggle, onUnequip, onDel
             </div>
             {item.kind !== '' && (
               <>
+                <ItemForms item={item} onChange={(next) => set(path, next)} />
                 {item.kind === 'weapon' && <WeaponFields item={item} derived={derived} />}
                 <DefenseFields isArmor={item.kind === 'armor'} />
                 <TextField path="quality" label="Quality & notes" rows={2} />

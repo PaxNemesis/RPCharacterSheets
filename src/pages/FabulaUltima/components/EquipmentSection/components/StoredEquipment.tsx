@@ -4,6 +4,7 @@ import { SLOTS } from '../../../constants/slots'
 import type { FuCharacter } from '../../../types'
 import { describeItem } from '../utils/describeItem'
 import { equip, slotsFor } from '../utils/equip'
+import { formLabel, hasForms } from '../utils/forms'
 
 type StoredEquipmentProps = {
   character: FuCharacter
@@ -36,7 +37,10 @@ export function StoredEquipment({ character }: StoredEquipmentProps) {
         return (
           <li key={index} className="equipment-section-stored-item">
             <span className="equipment-section-stored-summary">
-              <span className="equipment-section-stored-name">{item.name.trim() || 'Unnamed item'}</span>
+              <span className="equipment-section-stored-name">
+                {item.name.trim() || 'Unnamed item'}
+                {hasForms(item) && ` (${formLabel(item)})`}
+              </span>
               <span className="fu-note">{describeItem(item)}</span>
             </span>
             <span className="equipment-section-stored-actions">

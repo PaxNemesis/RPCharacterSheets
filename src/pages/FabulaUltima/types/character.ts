@@ -81,7 +81,16 @@ export type FuItem = {
   defenseBonus: Num
   magicDefenseBonus: Num
   initiative: Num
+  /**
+   * Other forms of an item that transforms, such as a gunbrella. The fields above are always the
+   * current form's stats; `forms[form]` only holds its label until the item switches away from it.
+   */
+  forms?: FuItemForm[]
+  form?: number
 }
+
+/** A form's own stats; the name and kind are shared by every form. */
+export type FuItemForm = { label: string } & Omit<FuItem, 'kind' | 'name' | 'forms' | 'form'>
 
 export type FuSpell = {
   name: string

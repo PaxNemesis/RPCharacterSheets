@@ -45,7 +45,7 @@ export const CUSTOM_WEAPONS: CustomWeaponData[] = [
     ['Blazing Chains', 109, true, [true, 'Dagger', 'melee', dm, 0, 9, 'fire', 'quick, transforming'], [true, 'Flail', 'ranged', dm, 2, 14, 'fire', 'accurate, powerful, transforming']],
     ['Grimoire of Force', 110, false, [true, 'Arcane', 'ranged', di, 0, 5, 'physical', 'magic defense boost, quick']],
     ['Grimoire of Wind', 110, true, [true, 'Arcane', 'ranged', di, 1, 9, 'air', 'magic defense boost, quick']],
-    ['Hoplite’s Axe', 110, false, [false, 'Spear', 'melee', dm, 2, 5, 'physical', 'accurate, defense boost, transforming'], [true, 'Heavy', 'melee', dm, 0, 14, 'bolt', 'elemental, powerful, transforming']],
+    ["Hoplite's Axe", 110, false, [false, 'Spear', 'melee', dm, 2, 5, 'physical', 'accurate, defense boost, transforming'], [true, 'Heavy', 'melee', dm, 0, 14, 'bolt', 'elemental, powerful, transforming']],
     ['Dragonspine', 111, true, [true, 'Spear', 'melee', dm, 2, 9, 'physical', 'accurate, defense boost, transforming'], [true, 'Heavy', 'melee', dm, 0, 18, 'physical', 'elemental, powerful, transforming']],
     // The book lists both greatswords as ranged and both crossbows as melee.
     ['Guardian Claymore', 111, false, [true, 'Sword', 'ranged', dm, 0, 10, 'physical', 'defense boost, magic defense boost, powerful']],

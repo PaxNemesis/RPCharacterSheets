@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, useState } from 'react'
 import { CheckboxField } from '@/components/CheckboxField'
 import { SelectField } from '@/components/SelectField'
 import { SheetProvider, useSheet } from '@/components/SheetProvider'
@@ -7,7 +7,8 @@ import type { FuDerived, FuItem, FuSettings, ItemKind, SlotKey } from '../../../
 import { describeItem } from '../../utils/describeItem'
 import { hasContent } from '../../utils/equip'
 import { formLabel, hasForms, nextForm, switchForm } from '../../utils/forms'
-import { DefenseFields, ItemForms, ItemSlotActions, WeaponFields } from './components'
+import { canEquip } from '../../../../utils/martial'
+import { DefenseFields, ItemForms, ItemSlotActions, MartialFilterNote, WeaponFields } from './components'
 import { rulebookItems } from './utils/itemFromRulebook'
 import './ItemSlot.styles.css'
 
@@ -39,6 +40,10 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
   const editorId = useId()
   const path = `equipment.${slot.key}`
   const presets = rulebookItems(slot.kinds, settings)
+  // Martial items the character can't equip are left out of the suggestions unless asked for.
+  const [showAll, setShowAll] = useState(false)
+  const allowed = [...presets].filter(([, preset]) => canEquip(preset, derived.martial)).map(([key]) => key)
+  const suggestions = showAll ? [...presets.keys()] : allowed
   const holdsWeapons = slot.kinds.includes('weapon')
   const details = item.kind === '' ? '' : describeItem(item)
   const empty = !item.name.trim() && (item.kind === '' || item.kind === 'armor' || !details)
@@ -53,7 +58,7 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
 
   const forms = hasForms(item)
   // A basic item fills in the current form's stats, keeping the item's notes and other forms.
-  // A custom weapon brings its own forms and notes, so it replaces the item.
+  // A rare item or custom weapon brings its own notes (and forms), so it replaces the item.
   const pick = (value: string) => {
     const preset = presets.get(value)
     if (preset?.quality) set(path, preset)
@@ -64,7 +69,7 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
     if (item.kind === '' && holdsWeapons && value.trim()) set(`${path}.kind`, 'weapon')
   }
   const placeholder =
-    item.kind === 'armor' ? 'No armor, or type to pick basic armor' : holdsWeapons ? 'Type to pick a basic weapon or shield' : undefined
+    item.kind === 'armor' ? 'No armor, or type to pick armor' : holdsWeapons ? 'Type to pick a weapon or shield' : 'Type to pick an accessory'
 
   return (
     <SheetProvider path={path}>
@@ -111,13 +116,14 @@ export function ItemSlot({ slot, item, derived, settings, open, onToggle, onUneq
                 path="name"
                 label="Name"
                 placeholder={placeholder}
-                suggestions={presets.size > 0 ? [...presets.keys()] : undefined}
+                suggestions={presets.size > 0 ? suggestions : undefined}
                 onPick={pick}
                 onChange={rename}
                 className="item-slot-name-field"
               />
               {item.kind !== '' && item.kind !== 'accessory' && <CheckboxField path="martial" label="Martial" />}
             </div>
+            <MartialFilterNote blocked={presets.size - allowed.length} showAll={showAll} onToggle={() => setShowAll(!showAll)} />
             {item.kind !== '' && (
               <>
                 <ItemForms item={item} onChange={(next) => set(path, next)} />

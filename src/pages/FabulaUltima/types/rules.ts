@@ -65,10 +65,15 @@ export type WeaponData = {
   damage: number
 }
 
+/** Basic armor and shields, and the books' sample rare armor, shields and accessories. */
 export type DefensiveItemData = {
   name: string
-  kind: 'armor' | 'shield'
+  kind: 'armor' | 'shield' | 'accessory'
+  /** Missing for the core rules. */
+  book?: SupplementId
   page: number
+  /** Rare items have a Quality, described on their page. */
+  quality?: boolean
   martial: boolean
   /** Fixed Defense; missing means the DEX die. */
   defense?: number

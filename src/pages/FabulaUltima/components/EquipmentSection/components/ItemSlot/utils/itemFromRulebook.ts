@@ -2,8 +2,10 @@ import { compareNames } from '@/utils/alphabetical'
 import { bookEnabled, bookRef } from '../../../../../constants/books'
 import { CUSTOM_WEAPONS } from '../../../../../constants/customWeapons'
 import { BASIC_DEFENSIVE_ITEMS, BASIC_WEAPONS } from '../../../../../constants/equipment'
-import type { CustomWeaponData, DefensiveItemData, FuItem, FuSettings, ItemKind, WeaponData } from '../../../../../types'
+import { RARE_ITEMS } from '../../../../../constants/rareItems'
+import type { BookId, CustomWeaponData, DefensiveItemData, FuItem, FuSettings, ItemKind, WeaponData } from '../../../../../types'
 import { createItem } from '../../../../../utils/createCharacter'
+import { martialNeeds } from '../../../../../utils/martial'
 import { defaultFormLabel } from '../../../utils/forms'
 
 export const itemFromWeapon = (weapon: WeaponData): FuItem => ({
@@ -27,6 +29,7 @@ export const itemFromDefensive = (item: DefensiveItemData): FuItem => ({
   defenseBonus: item.defenseBonus ?? null,
   magicDefenseBonus: item.magicDefenseBonus ?? null,
   initiative: item.initiative ?? null,
+  quality: item.quality ? `Quality: see ${bookRef(item.book, item.page)}.` : '',
 })
 
 /** A custom weapon in its first form, with each form's stats; a Quality is only referred to by page. */
@@ -50,19 +53,30 @@ export function itemFromCustomWeapon(weapon: CustomWeaponData): FuItem {
   return { kind: 'weapon', name: weapon.name, ...first, ...(forms.length > 1 ? { forms, form: 0 } : {}) }
 }
 
+/** The suggestion for an item: its name, then "martial" if it needs martial equipment, then its book and page. */
+const labelled = (item: FuItem, source?: { book?: BookId; page: number }) => {
+  const notes = [martialNeeds(item).length > 0 && 'martial', source && bookRef(source.book, source.page)].filter(Boolean)
+  return notes.length > 0 ? `${item.name} (${notes.join(', ')})` : item.name
+}
+
 /**
  * The rulebook items a slot can hold, for the Name field's suggestions: basic items (pp. 130–133) by
- * name, and the enabled Atlases' custom weapons with their book and page, e.g. "Eyre (NF p. 117)".
+ * name, and the enabled books' rare items and custom weapons with their book and page, e.g.
+ * "Eyre (martial, NF p. 117)".
  */
 export function rulebookItems(kinds: ItemKind[], settings: FuSettings): Map<string, FuItem> {
-  const weapons = kinds.includes('weapon') ? BASIC_WEAPONS.map((weapon) => [weapon.name, itemFromWeapon(weapon)] as const) : []
+  const weapons = kinds.includes('weapon') ? BASIC_WEAPONS.map((weapon) => itemFromWeapon(weapon)).map((item) => [labelled(item), item] as const) : []
   const custom = kinds.includes('weapon')
-    ? CUSTOM_WEAPONS.filter((weapon) => bookEnabled(settings, weapon.book)).map(
-        (weapon) => [`${weapon.name} (${bookRef(weapon.book, weapon.page)})`, itemFromCustomWeapon(weapon)] as const,
-      )
+    ? CUSTOM_WEAPONS.filter((weapon) => bookEnabled(settings, weapon.book)).map((weapon) => {
+        const item = itemFromCustomWeapon(weapon)
+        return [labelled(item, weapon), item] as const
+      })
     : []
-  const defensive = BASIC_DEFENSIVE_ITEMS.filter((item) => kinds.includes(item.kind)).map(
-    (item) => [item.name, itemFromDefensive(item)] as const,
-  )
+  const defensive = [...BASIC_DEFENSIVE_ITEMS, ...RARE_ITEMS]
+    .filter((data) => kinds.includes(data.kind) && bookEnabled(settings, data.book))
+    .map((data) => {
+      const item = itemFromDefensive(data)
+      return [labelled(item, data.quality ? data : undefined), item] as const
+    })
   return new Map([...weapons, ...custom, ...defensive].sort(([a], [b]) => compareNames(a, b)))
 }

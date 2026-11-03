@@ -144,6 +144,23 @@
     }
   }
 
+  .item-slot-martial-note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-xs) var(--space-1);
+  }
+
+  /* A button that reads as a link, inside a line of text. */
+  .item-slot-text-button {
+    padding: 0;
+    font-size: inherit;
+    color: var(--accent);
+    text-decoration: underline;
+    background: none;
+    border: none;
+  }
+
   /* Form buttons, the form's name and its delete button. */
   .item-slot-forms {
     display: flex;

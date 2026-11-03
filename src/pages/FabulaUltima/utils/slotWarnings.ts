@@ -1,27 +1,15 @@
 import { SLOTS } from '../constants/slots'
-import type { FuCharacter, FuItem, MartialKey } from '../types'
-
-const martialKind = (item: FuItem): MartialKey | undefined => {
-  if (item.kind === 'armor') return 'armor'
-  if (item.kind === 'shield') return 'shields'
-  if (item.kind === 'weapon' && item.range) return item.range
-  return undefined
-}
-
-const MARTIAL_NAMES: Record<MartialKey, string> = {
-  armor: 'martial armor',
-  shields: 'martial shields',
-  melee: 'martial melee weapons',
-  ranged: 'martial ranged weapons',
-}
+import type { FuCharacter, MartialKey } from '../types'
+import { MARTIAL_NAMES, martialNeeds } from './martial'
 
 /** Martial items the character's classes don't allow, and a two-handed weapon with a full off-hand. */
 export function slotWarnings(equipment: FuCharacter['equipment'], martial: Record<MartialKey, boolean>): string[] {
   const warnings = SLOTS.flatMap(({ key, label }) => {
     const item = equipment[key]
-    const kind = martialKind(item)
-    if (!item.martial || !kind || martial[kind]) return []
-    return [`${item.name.trim() || label} is martial, but neither your classes nor your Quirk let you equip ${MARTIAL_NAMES[kind]}.`]
+    const missing = martialNeeds(item).filter((need) => !martial[need])
+    if (missing.length === 0) return []
+    const names = missing.map((need) => MARTIAL_NAMES[need]).join(' or ')
+    return [`${item.name.trim() || label} is martial, but neither your classes nor your Quirk let you equip ${names}.`]
   })
   const { mainHand, offHand } = equipment
   if (mainHand.kind === 'weapon' && mainHand.hands === 'two' && offHand.kind !== '') {

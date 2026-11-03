@@ -114,7 +114,11 @@ export function classIssues(character: FuCharacter, entry: FuClass): string[] {
     return typeof max === 'number' && (skill.level ?? 0) > max
   })
 
+  const name = entry.name.trim().toLowerCase()
+  const twice = name !== '' && character.classes.some((other) => other !== entry && other.name.trim().toLowerCase() === name)
+
   return [
+    twice && 'You already have this class; a character can only take each class once.',
     level > 10 && 'A class can be at most level 10.',
     overMax.length > 0 && `Above the maximum Skill Level: ${overMax.map((skill) => skill.name.trim() || 'unnamed Skill').join(', ')}.`,
     data?.benefits.hpOrMp && !entry.benefitChoice && 'Choose whether the free benefit raises HP or MP.',

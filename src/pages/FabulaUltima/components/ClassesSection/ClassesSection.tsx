@@ -12,6 +12,12 @@ export function ClassesSection() {
   const { set } = useSheet()
   const { classes, settings } = character
   const classNames = CLASSES.filter((data) => bookEnabled(settings, data.book)).map((data) => data.name)
+  const key = (name: string) => name.trim().toLowerCase()
+  // Each card only suggests classes the other cards don't have yet.
+  const available = (index: number) => {
+    const taken = new Set(classes.filter((_, other) => other !== index).map((entry) => key(entry.name)))
+    return classNames.filter((name) => !taken.has(key(name)))
+  }
 
   const remove = (index: number) => {
     const name = classes[index].name.trim() || `class ${index + 1}`
@@ -37,7 +43,7 @@ export function ClassesSection() {
           index={index}
           entry={entry}
           data={findClass(settings, entry.name)}
-          classNames={classNames}
+          classNames={available(index)}
           issues={classIssues(character, entry)}
           onRemove={() => remove(index)}
         />

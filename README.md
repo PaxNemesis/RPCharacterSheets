@@ -1,14 +1,21 @@
 # RPCharacterSheets
 
-Fillable character sheets for tabletop roleplaying games, with automatic totals, several characters open in tabs, and JSON save/load. React + TypeScript app built with Vite and pnpm, deployed to GitHub Pages.
+Fillable character sheets for tabletop roleplaying games, with automatic totals, several characters open in tabs, browser autosave, and saving to and opening from files. React + TypeScript app built with Vite and pnpm, deployed to GitHub Pages.
 
-Supported systems: Iron Kingdoms: Full Metal Fantasy. Fabula Ultima is planned.
+Supported systems:
+
+- **Iron Kingdoms: Full Metal Fantasy**: core rules, plus Kings, Nations, and Gods and Urban Adventure.
+- **Fabula Ultima**: core rules, the High, Natural, Techno and Low Fantasy Atlases, and the Necromancer and Ace of Cards bonus classes.
+
+Rules data is limited to names, numbers and page references; the sheets point to the rulebooks for rules text.
 
 ## Adding a game system
 
-Each system is a page in `src/pages/<System>/` that renders the shared `CharacterWorkspace` with a `SheetSystem` definition: an id, a data `version`, `createCharacter`, `getName` and a `Sheet` component. The sheet is built from the shared field components (`TextField`, `NumberField`, `RepeatTable`, `CheckTrack`, `ImageField`, …), which read and write the character by path through `SheetProvider`. Calculated values are worked out from the data on every render and never saved.
+Each system is a page in `src/pages/<System>/` that renders the shared `CharacterWorkspace` with a `SheetSystem` definition: an id, a data `version`, `createCharacter`, `getName`, a `Sheet` component, and optionally `migrate` and `listItems` (blank entries for the character's lists). The sheet is built from the shared field components (`TextField`, `NumberField`, `RepeatTable`, `CheckTrack`, `ImageField`, …), which read and write the character by path through `SheetProvider`. Calculated values are worked out from the data on every render and never saved.
 
-Saved files look like `{ "system": "<id>", "version": 1, "data": { … } }`. When the data shape changes, bump `version` and upgrade old data in the system's `migrate` function; missing fields are filled from `createCharacter` automatically.
+Saved files look like `{ "system": "<id>", "version": 1, "savedAt": "…", "id": "…", "data": { … } }`, or with `"characters": [{ "id": "…", "data": { … } }, …]` when all open characters are saved at once. The `id` lets the sheet notice when an opened character is already open in a tab, and ask whether to replace it, open a copy, or skip it.
+
+When the data shape changes, bump `version` and upgrade old data in the system's `migrate` function. On load, missing fields are filled from `createCharacter`, values of the wrong type are replaced by the default, and list entries are checked against `listItems`, so a damaged or hand-edited file can't break the sheet. See [AGENTS.md](AGENTS.md) for the full checklist.
 
 ## Development
 
@@ -19,7 +26,6 @@ pnpm dev               # http://localhost:5173
 ```
 
 Other scripts: `pnpm build`, `pnpm preview`, `pnpm lint`.
-
 
 ## Routing
 

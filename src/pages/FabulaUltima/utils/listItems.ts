@@ -13,4 +13,5 @@ export const LIST_ITEMS: ListItems = {
   arcana: { name: '', notes: '' },
   'floralist.discovered': '',
   'gourmet.ingredients': { name: '', taste: '', quantity: 1 },
+  'monk.clarity': { kind: '', choice: '', shared: false },
 }

@@ -11,6 +11,7 @@ import { GardenSection } from './GardenSection'
 import { MagicSection } from './MagicSection'
 import { NotesSection } from './NotesSection'
 import { SettingsSection } from './SettingsSection'
+import { SoulBeadsSection } from './SoulBeadsSection'
 
 type Section = {
   id: string
@@ -27,6 +28,7 @@ const SECTIONS: Section[] = [
   { id: 'magic', label: 'Spells & rituals', Component: MagicSection },
   { id: 'garden', label: 'Garden', Component: GardenSection, isVisible: (c) => hasRulebookClass(c, 'Floralist') },
   { id: 'cookbook', label: 'Cookbook', Component: CookbookSection, isVisible: (c) => hasRulebookClass(c, 'Gourmet') },
+  { id: 'soul-beads', label: 'Soul Beads', Component: SoulBeadsSection, isVisible: (c) => hasRulebookClass(c, 'Monk') },
   { id: 'notes', label: 'Notes', Component: NotesSection },
   { id: 'settings', label: 'Settings', Component: SettingsSection },
 ]

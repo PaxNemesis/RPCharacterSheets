@@ -21,6 +21,11 @@
       var(--check-track-color);
   }
 
+  /* A solid pip: the box holds something, rather than being spent. */
+  &.check-track-fill .check-track-box-marked {
+    background: var(--check-track-color);
+  }
+
   .check-track-empty {
     color: var(--text-soft);
   }

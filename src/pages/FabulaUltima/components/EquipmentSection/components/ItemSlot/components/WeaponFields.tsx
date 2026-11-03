@@ -2,12 +2,11 @@ import { NumberField } from '@/components/NumberField'
 import { SelectField } from '@/components/SelectField'
 import { TextField } from '@/components/TextField'
 import { alphabetical } from '@/utils/alphabetical'
-import { ATTRIBUTE_KEYS, ATTRIBUTES } from '../../../../../constants/attributes'
+import { ATTRIBUTE_KEYS, ATTRIBUTES, DAMAGE_TYPES } from '../../../../../constants/attributes'
 import { BASIC_WEAPONS } from '../../../../../constants/equipment'
 import type { FuDerived, FuItem } from '../../../../../types'
 
 const CATEGORIES = alphabetical([...new Set(BASIC_WEAPONS.map((weapon) => weapon.category))])
-const DAMAGE_TYPES = ['air', 'bolt', 'dark', 'earth', 'fire', 'ice', 'light', 'physical', 'poison']
 const ATTRIBUTE_OPTIONS = ATTRIBUTE_KEYS.map((key) => ({ value: key, label: ATTRIBUTES[key].short }))
 const HANDS = [
   { value: '', label: '—' },

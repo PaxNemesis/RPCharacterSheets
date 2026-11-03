@@ -24,6 +24,9 @@ export const STATUSES: { key: StatusKey; label: string; attributes: AttributeKey
   { key: 'poisoned', label: 'Poisoned', attributes: ['mig', 'wlp'] },
 ]
 
+/** The damage types, alphabetically. */
+export const DAMAGE_TYPES = ['air', 'bolt', 'dark', 'earth', 'fire', 'ice', 'light', 'physical', 'poison']
+
 export const MARTIAL: { key: MartialKey; label: string }[] = [
   { key: 'armor', label: 'Martial armor' },
   { key: 'shields', label: 'Martial shields' },

@@ -21,6 +21,8 @@
     display: grid;
     grid-column: 1 / -1;
     grid-template-columns: subgrid;
+    /* Space between a row's lines when a wide cell, such as notes, sits on its own line. */
+    row-gap: var(--space-1);
     align-items: start;
     padding: var(--space-xs) 0;
     border-radius: 4px;

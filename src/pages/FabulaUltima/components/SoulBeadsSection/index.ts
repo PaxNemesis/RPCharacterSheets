@@ -1,0 +1,1 @@
+export { SoulBeadsSection } from './SoulBeadsSection'

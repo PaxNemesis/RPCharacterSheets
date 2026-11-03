@@ -137,6 +137,19 @@ export type FuGourmet = {
 /** Current and "other" bonus to a maximum, for HP, MP and IP. */
 export type FuPool = { current: Num; other: Num }
 
+export type ClarityKind = 'immunity' | 'pierce' | 'resistance'
+
+/** One Clarity benefit: immunity to a status effect, or ignoring or resisting a damage type. */
+export type FuClarity = { kind: ClarityKind | ''; choice: string; shared: boolean }
+
+/** The Monk's Soul Beads during a conflict, and the Clarity benefits they power (LF pp. 101–102). */
+export type FuMonk = {
+  core: number
+  resolve: number
+  /** In the player's order; only the first ones, as many as the Resolve Beads allow, are active. */
+  clarity: FuClarity[]
+}
+
 export type FuCharacter = {
   settings: FuSettings
   identity: FuIdentity
@@ -166,6 +179,7 @@ export type FuCharacter = {
   rituals: { disciplines: Record<Discipline, boolean>; disciplineNotes: Partial<Record<Discipline, string>>; notes: string }
   floralist: FuFloralist
   gourmet: FuGourmet
+  monk: FuMonk
   notes: { general: string; wealth: string }
 }
 

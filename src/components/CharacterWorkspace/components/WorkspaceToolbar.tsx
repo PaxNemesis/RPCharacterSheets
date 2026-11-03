@@ -3,10 +3,9 @@ import { useRef } from 'react'
 type WorkspaceToolbarProps = {
   onOpen: (files: File[]) => void
   onSave: () => void
-  onReset: () => void
 }
 
-export function WorkspaceToolbar({ onOpen, onSave, onReset }: WorkspaceToolbarProps) {
+export function WorkspaceToolbar({ onOpen, onSave }: WorkspaceToolbarProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   return (
@@ -16,9 +15,6 @@ export function WorkspaceToolbar({ onOpen, onSave, onReset }: WorkspaceToolbarPr
       </button>
       <button type="button" onClick={onSave}>
         Save character
-      </button>
-      <button type="button" className="character-workspace-danger" onClick={onReset}>
-        Reset sheet…
       </button>
       <input
         ref={inputRef}

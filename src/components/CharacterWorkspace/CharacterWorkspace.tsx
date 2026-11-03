@@ -15,7 +15,7 @@ type CharacterWorkspaceProps<T> = {
 }
 
 export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
-  const { characters, active, add, update, remove, reset, select, loaded, storageFailed } = useCharacterStore(system)
+  const { characters, active, add, update, remove, select, loaded, storageFailed } = useCharacterStore(system)
   const [errors, setErrors] = useState<string[]>([])
   const nameOf = (data: T) => system.getName(data).trim() || 'Unnamed character'
 
@@ -49,12 +49,6 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
     if (window.confirm(message)) remove(id)
   }
 
-  const confirmReset = () => {
-    const name = nameOf(active.data)
-    const message = `Reset ${name}?\n\nEverything on this sheet will be cleared, including the portrait and settings. This can't be undone. Use Save character first if you want to keep a copy.`
-    if (window.confirm(message)) reset(active.id)
-  }
-
   if (!loaded) {
     return (
       <div className="character-workspace-container">
@@ -71,7 +65,6 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
         <WorkspaceToolbar
           onOpen={open}
           onSave={() => downloadCharacterFile(system, active.data)}
-          onReset={confirmReset}
         />
       </header>
       <StorageNotice />

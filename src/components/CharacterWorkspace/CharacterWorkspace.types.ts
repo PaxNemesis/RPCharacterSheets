@@ -23,11 +23,12 @@ export type SheetSystem<T> = {
 
 export type ListItems = Record<string, unknown>
 
-/** The JSON file format for a saved character. */
+/** The JSON file format for a saved character, or for all open characters at once (`characters`). */
 export type CharacterFile = {
   system: string
   version: number
-  data: unknown
+  data?: unknown
+  characters?: unknown[]
 }
 
 export type OpenCharacter<T> = {

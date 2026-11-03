@@ -4,7 +4,7 @@ import { Tabs } from '@/components/Tabs'
 import type { SheetSystem } from './CharacterWorkspace.types'
 import { SheetErrorBoundary, StorageNotice, WorkspaceToolbar } from './components'
 import { useCharacterStore } from './hooks/useCharacterStore'
-import { downloadCharacterFile, parseCharacterFile } from './utils/characterFile'
+import { downloadAllCharacters, downloadCharacterFile, parseCharacterFile } from './utils/characterFile'
 import './CharacterWorkspace.styles.css'
 
 // Far more than any character with a portrait; anything bigger isn't worth freezing the tab over.
@@ -33,7 +33,7 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
         continue
       }
       try {
-        add(parseCharacterFile(system, await file.text()))
+        parseCharacterFile(system, await file.text()).forEach((data) => add(data))
       } catch (error) {
         problems.push(`${file.name} ${(error as Error).message}.`)
       }
@@ -65,6 +65,7 @@ export function CharacterWorkspace<T>({ system }: CharacterWorkspaceProps<T>) {
         <WorkspaceToolbar
           onOpen={open}
           onSave={() => downloadCharacterFile(system, active.data)}
+          onSaveAll={characters.length > 1 ? () => downloadAllCharacters(system, characters.map((c) => c.data)) : undefined}
         />
       </header>
       <StorageNotice />

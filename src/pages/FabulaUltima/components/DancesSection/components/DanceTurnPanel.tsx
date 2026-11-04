@@ -1,6 +1,6 @@
 import { Panel } from '@/components/Panel'
 import { useSheet } from '@/components/SheetProvider'
-import { DANCE_MP_AFTER_OTHER, FOLLOW_MY_LEAD_MP } from '../../../constants/dancer'
+import { DANCE_MP, DANCE_MP_AFTER_OTHER, FOLLOW_MY_LEAD_MP } from '../../../constants/dancer'
 import type { FuCharacter, FuDerived } from '../../../types'
 import { canDance, dancerSkills, findDance } from '../../../utils/dancer'
 import { hasWeaponCategory } from '../../../utils/equip'
@@ -63,7 +63,7 @@ export function DanceTurnPanel({ character, derived, shared, onShare }: DanceTur
       </p>
       {previous && (
         <p className="fu-note">
-          Last turn: {previous}. A different dance costs {DANCE_MP_AFTER_OTHER} MP.
+          Last turn: {previous}. A different dance costs {DANCE_MP_AFTER_OTHER} MP; {previous} again costs {DANCE_MP} MP.
         </p>
       )}
       {sl.followMyLead > 0 && (

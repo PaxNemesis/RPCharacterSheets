@@ -3,7 +3,7 @@ import { useSheet } from '@/components/SheetProvider'
 import { bookRef } from '../../constants/books'
 import { DANCES, DURATION_LABELS } from '../../constants/dancer'
 import { useFuCharacter } from '../../hooks/useFuCharacter'
-import { canDance, danceAmount, danceCost, dancerSkills } from '../../utils/dancer'
+import { canDance, danceAmount, danceCost, dancerSkills, isDiscounted } from '../../utils/dancer'
 import { LearnedList } from '../LearnedList'
 import { DanceTurnPanel } from './components'
 import './DancesSection.styles.css'
@@ -44,12 +44,19 @@ export function DancesSection() {
         highlight={dancer.current}
         renderActions={(name) => {
           const cost = danceCost(dancer, name, shared)
+          const discounted = isDiscounted(dancer, name)
+          const title = dancer.current
+            ? 'Only one dance per turn'
+            : discounted ? `Cheaper: a different dance from last turn's ${dancer.previous}`
+            : name === dancer.previous ? 'Full cost: the same dance as last turn'
+            : undefined
           return (
             <button
               type="button"
+              className={discounted ? 'dances-section-discount' : undefined}
               onClick={() => perform(name)}
               disabled={!canDance(character) || dancer.current !== '' || mp < cost}
-              title={dancer.current ? 'Only one dance per turn' : undefined}
+              title={title}
             >
               Perform (−{cost} MP)
             </button>

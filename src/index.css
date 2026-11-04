@@ -12,6 +12,8 @@
   --accent: #8c2f2f;
   --accent-contrast: #fff;
   --danger: #a12a2a;
+  /* Something in the player's favour, such as a lower cost. */
+  --positive: #4f6b3a;
   --focus: #2f5e8c;
   --shadow: rgba(42, 34, 26, 0.12) 0 4px 10px -4px;
 
@@ -52,6 +54,7 @@
     --accent: #d0675b;
     --accent-contrast: #17140f;
     --danger: #e06a6a;
+    --positive: #9cb57a;
     --focus: #7fb0e0;
     --shadow: rgba(0, 0, 0, 0.4) 0 4px 10px -4px;
   }

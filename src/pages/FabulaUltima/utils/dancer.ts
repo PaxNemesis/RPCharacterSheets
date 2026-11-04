@@ -16,12 +16,15 @@ export function dancerSkills(character: FuCharacter) {
   }
 }
 
+/** Whether a dance costs less, for following a different dance on your previous turn (HF p. 143). */
+export const isDiscounted = (dancer: FuDancer, name: string) => dancer.previous !== '' && dancer.previous !== name
+
 /**
  * MP to perform a dance: 10, or 5 after a different dance on your previous turn, plus 10 to share
  * a dance that lasts until your next turn with Follow My Lead (HF p. 143).
  */
 export function danceCost(dancer: FuDancer, name: string, shared = false) {
-  const base = dancer.previous && dancer.previous !== name ? DANCE_MP_AFTER_OTHER : DANCE_MP
+  const base = isDiscounted(dancer, name) ? DANCE_MP_AFTER_OTHER : DANCE_MP
   return base + (shared && findDance(name)?.duration === 'turn' ? FOLLOW_MY_LEAD_MP : 0)
 }
 

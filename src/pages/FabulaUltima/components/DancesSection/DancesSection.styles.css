@@ -11,6 +11,18 @@
     }
   }
 
+  /* Perform buttons that cost less after a different dance last turn: filled, so the text stays easy to read. */
+  .dances-section-discount {
+    color: var(--accent-contrast);
+    background: var(--positive);
+    border-color: var(--positive);
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      border-color: var(--border-strong);
+    }
+  }
+
   .dances-section-bonuses {
     display: flex;
     flex-direction: column;

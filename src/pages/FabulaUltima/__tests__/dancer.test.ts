@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { calculate } from '../utils/calculate'
 import { createItem } from '../utils/createCharacter'
-import { canDance, danceAmount, danceCost } from '../utils/dancer'
+import { canDance, danceAmount, danceCost, isDiscounted } from '../utils/dancer'
 import { character, classWith } from './character'
 
 const dancer = (previous: string) => ({ learned: [], notes: {}, current: '', previous })
@@ -11,6 +11,7 @@ describe('dancer', () => {
     expect(danceCost(dancer(''), 'Lion Dance')).toBe(10)
     expect(danceCost(dancer('Lion Dance'), 'Lion Dance')).toBe(10)
     expect(danceCost(dancer('Bat Dance'), 'Lion Dance')).toBe(5)
+    expect([isDiscounted(dancer(''), 'Bat Dance'), isDiscounted(dancer('Bat Dance'), 'Bat Dance'), isDiscounted(dancer('Bat Dance'), 'Lion Dance')]).toEqual([false, false, true])
   })
 
   it('adds 10 MP to share a dance with Follow My Lead, only for dances lasting until the next turn', () => {

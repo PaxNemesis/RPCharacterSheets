@@ -1,6 +1,5 @@
 import { CheckTrack } from '@/components/CheckTrack'
 import { Panel } from '@/components/Panel'
-import { SelectField } from '@/components/SelectField'
 import { useSheet } from '@/components/SheetProvider'
 import { GROWTH_CLOCK_SIZE, MAGISEEDS } from '../../constants/floralist'
 import { useFuCharacter } from '../../hooks/useFuCharacter'
@@ -21,6 +20,11 @@ export function GardenSection() {
     set('floralist.garden', '')
     set('floralist.growth', 0)
   }
+  // A new magiseed starts with an empty Growth Clock.
+  const plant = (name: string) => {
+    set('floralist.garden', name)
+    set('floralist.growth', 0)
+  }
   const forget = (name: string) => {
     set('floralist.discovered', floralist.discovered.filter((other) => other !== name))
     if (floralist.garden === name) clearGarden()
@@ -37,13 +41,13 @@ export function GardenSection() {
         }
       >
         <div className="garden-section-garden">
-          <SelectField
-            path="floralist.garden"
-            label="In the garden"
-            options={[{ value: '', label: 'Empty' }, ...discovered.map((seed) => ({ value: seed.name, label: seed.name }))]}
-          />
+          <div className="garden-section-planted-seed">
+            <span className="garden-section-label">In the garden</span>
+            {/* Only a discovered magiseed counts, in case a file names another. */}
+            <strong>{discovered.find((seed) => seed.name === floralist.garden)?.name ?? 'Empty'}</strong>
+          </div>
           <div className="garden-section-clock">
-            <span className="garden-section-clock-label">Growth Clock</span>
+            <span className="garden-section-label">Growth Clock</span>
             <CheckTrack path="floralist.growth" size={GROWTH_CLOCK_SIZE} label="Growth Clock" />
           </div>
         </div>
@@ -85,6 +89,7 @@ export function GardenSection() {
                 key={seed.name}
                 seed={seed}
                 planted={floralist.garden === seed.name}
+                onPlant={() => plant(seed.name)}
                 onForget={() => forget(seed.name)}
               />
             ))}

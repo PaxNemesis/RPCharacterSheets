@@ -4,10 +4,22 @@
     flex-wrap: wrap;
     align-items: flex-end;
     gap: var(--space-1) var(--space-3);
+  }
 
-    .field-container {
-      flex: 0 1 280px;
+  .garden-section-planted-seed {
+    display: flex;
+    flex: 0 1 280px;
+    flex-direction: column;
+    gap: var(--space-2xs);
+
+    strong {
+      font-size: 17px;
+      color: var(--text-h);
     }
+  }
+
+  .garden-section-plant {
+    align-self: flex-start;
   }
 
   .garden-section-clock {
@@ -16,7 +28,7 @@
     gap: var(--space-2xs);
   }
 
-  .garden-section-clock-label {
+  .garden-section-label {
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.06em;

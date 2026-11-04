@@ -9,7 +9,7 @@ export const SUPPLEMENT_CLASSES: ClassData[] = [
     book: 'high',
     page: 136,
     benefits: { mp: 5 },
-    skills: skills(['Magichant', 10], ['Resonance', 3], ["Siren's Song", 1], ['Sound Barrier', 5], ['Vibrato', 1]),
+    skills: skills(['Magichant', 10], ['Resonance', 3], ["Siren's Song", 1, 'ritualism'], ['Sound Barrier', 5], ['Vibrato', 1]),
   },
   {
     name: 'Commander',
@@ -30,7 +30,7 @@ export const SUPPLEMENT_CLASSES: ClassData[] = [
     book: 'high',
     page: 146,
     benefits: { ip: 2 },
-    skills: skills(['Magic Symbols', 3], ['Mirage', 1], ['Personal Touch', 5], ['Symbolic Connection', 1], ['Symbolism', 5]),
+    skills: skills(['Magic Symbols', 3], ['Mirage', 1, 'ritualism'], ['Personal Touch', 5], ['Symbolic Connection', 1], ['Symbolism', 5]),
   },
   {
     name: 'Floralist',

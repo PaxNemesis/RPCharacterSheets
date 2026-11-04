@@ -1,0 +1,1 @@
+export { VersePanel } from './VersePanel'

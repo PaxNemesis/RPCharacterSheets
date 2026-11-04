@@ -150,6 +150,36 @@ export type FuMonk = {
   clarity: FuClarity[]
 }
 
+/** The Dancer's learned dances, and which were performed this turn and last turn (HF pp. 142–145). */
+export type FuDancer = {
+  learned: string[]
+  /** The player's notes per learned dance, by name. */
+  notes: Record<string, string>
+  /** The dance performed this turn, or ''. */
+  current: string
+  /** The dance performed on the previous turn of this scene, or '': a different one costs less. */
+  previous: string
+}
+
+/** A symbol on a creature: who bears it, and the damage type, status, action or Species chosen for it. */
+export type FuActiveSymbol = { name: string; bearer: string; choice: string }
+
+/** The Symbolist's learned symbols and those active right now (HF pp. 146–151). */
+export type FuSymbolist = {
+  learned: string[]
+  notes: Record<string, string>
+  active: FuActiveSymbol[]
+}
+
+/** The Chanter's learned keys and tones, and the verse being put together (HF pp. 136–139). */
+export type FuChanter = {
+  keys: string[]
+  tones: string[]
+  /** The player's notes per learned key or tone, by name. */
+  notes: Record<string, string>
+  verse: { volume: string; key: string; tone: string }
+}
+
 export type FuCharacter = {
   settings: FuSettings
   identity: FuIdentity
@@ -180,6 +210,9 @@ export type FuCharacter = {
   floralist: FuFloralist
   gourmet: FuGourmet
   monk: FuMonk
+  dancer: FuDancer
+  symbolist: FuSymbolist
+  chanter: FuChanter
   notes: { general: string; wealth: string }
 }
 

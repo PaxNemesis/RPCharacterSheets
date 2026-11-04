@@ -114,6 +114,12 @@ select {
   &:read-only:not(select) {
     background: var(--input-auto-bg);
   }
+
+  /* Same as disabled buttons. */
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
 }
 
 textarea {

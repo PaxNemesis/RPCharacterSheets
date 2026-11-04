@@ -14,4 +14,9 @@ export const LIST_ITEMS: ListItems = {
   'floralist.discovered': '',
   'gourmet.ingredients': { name: '', taste: '', quantity: 1 },
   'monk.clarity': { kind: '', choice: '', shared: false },
+  'dancer.learned': '',
+  'symbolist.learned': '',
+  'symbolist.active': { name: '', bearer: '', choice: '' },
+  'chanter.keys': '',
+  'chanter.tones': '',
 }

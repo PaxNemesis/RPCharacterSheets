@@ -1,0 +1,24 @@
+.verses-section-container {
+  .verses-section-builder {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-1) var(--space-2);
+
+    .field-container {
+      flex: 0 1 180px;
+    }
+
+    button {
+      min-height: 36px;
+    }
+  }
+
+  .verses-section-effects {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin: 0;
+    padding-left: var(--space-3);
+  }
+}

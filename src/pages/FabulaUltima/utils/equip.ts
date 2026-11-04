@@ -22,6 +22,12 @@ export const hasContent = (item: FuItem) =>
 
 export const isTwoHanded = (item: FuItem) => item.kind === 'weapon' && item.hands === 'two'
 
+/** Whether a weapon of one of these categories, such as 'arcane', is in either hand. */
+export const hasWeaponCategory = ({ equipment }: FuCharacter, ...categories: string[]) =>
+  [equipment.mainHand, equipment.offHand].some(
+    (item) => item.kind === 'weapon' && categories.includes(item.category.trim().toLowerCase()),
+  )
+
 /** The slots a stored item can be equipped to; a two-handed weapon only goes in the main hand. */
 export const slotsFor = (item: FuItem): SlotKey[] =>
   isTwoHanded(item) ? ['mainHand'] : SLOTS.filter((slot) => slot.kinds.includes(item.kind)).map((slot) => slot.key)

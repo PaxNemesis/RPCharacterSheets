@@ -1,0 +1,53 @@
+.learned-list-container {
+  .learned-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: var(--space-2);
+  }
+
+  .learned-list-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2) var(--space-2);
+    background: var(--surface-alt);
+    border-left: 4px solid var(--border);
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* The entry in use right now stands out. */
+  .learned-list-highlighted {
+    border-left-color: var(--accent);
+  }
+
+  .learned-list-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1);
+
+    h3 {
+      font-size: 17px;
+    }
+  }
+
+  .learned-list-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .learned-list-forget {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 36px;
+    color: var(--danger);
+  }
+
+  .learned-list-icon {
+    width: 20px;
+    height: 20px;
+  }
+}

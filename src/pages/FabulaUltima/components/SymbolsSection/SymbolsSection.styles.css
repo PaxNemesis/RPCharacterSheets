@@ -1,0 +1,83 @@
+.symbols-section-container {
+  .panel-actions button {
+    white-space: nowrap;
+  }
+
+  .symbols-section-active {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Symbol, bearer, choice and buttons. */
+  .symbols-section-symbol {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.5fr) minmax(0, 1fr) auto;
+    gap: var(--space-1) var(--space-2);
+    align-items: center;
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .symbols-section-name {
+    color: var(--text-h);
+  }
+
+  .symbols-section-buttons {
+    display: flex;
+    gap: var(--space-xs);
+
+    button {
+      display: inline-flex;
+    }
+  }
+
+  .symbols-section-destroy {
+    color: var(--danger);
+  }
+
+  .symbols-section-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .symbols-section-skills {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin: 0;
+
+    dt {
+      font-weight: 700;
+      color: var(--text-h);
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+
+  /* Name and buttons on the first line, bearer and choice below. */
+  @media (max-width: 640px) {
+    .symbols-section-symbol {
+      grid-template-columns: minmax(0, 1fr) auto;
+
+      .field-container {
+        grid-column: 1 / -1;
+      }
+
+      .symbols-section-buttons {
+        grid-row: 1;
+        grid-column: 2;
+      }
+
+      /* The placeholder for symbols without a choice. */
+      > span:empty {
+        display: none;
+      }
+    }
+  }
+}

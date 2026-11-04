@@ -82,5 +82,8 @@ export const createCharacter = (): FuCharacter => ({
   floralist: { discovered: [], seedNotes: {}, garden: '', growth: 0 },
   gourmet: { ingredients: [], combinations: {}, notes: '' },
   monk: { core: 0, resolve: 0, clarity: [] },
+  dancer: { learned: [], notes: {}, current: '', previous: '' },
+  symbolist: { learned: [], notes: {}, active: [] },
+  chanter: { keys: [], tones: [], notes: {}, verse: { volume: '', key: '', tone: '' } },
   notes: { general: '', wealth: '' },
 })

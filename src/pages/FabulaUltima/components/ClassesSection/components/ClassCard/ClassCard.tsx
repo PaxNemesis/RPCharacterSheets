@@ -49,8 +49,11 @@ export function ClassCard({ index, entry, data, classNames, issues, onRemove }: 
   // While the class name is being typed it rarely matches a rulebook class yet, so the custom
   // benefits wait until the name is done (Enter, leaving the field, or picking a suggestion).
   const [typing, setTyping] = useState(false)
+  // Skills already in a row aren't offered again; the row being typed in doesn't match one until it's done.
+  const taken = new Set(entry.skills.map((skill) => skill.name.trim().toLowerCase()))
+  const skillNames = data && alphabetical(data.skills.map((skill) => skill.name).filter((name) => !taken.has(name.toLowerCase())))
   const columns: RepeatTableColumn[] = [
-    { key: 'name', label: 'Skill', width: 'minmax(150px, 2fr)', suggestions: data && alphabetical(data.skills.map((skill) => skill.name)) },
+    { key: 'name', label: 'Skill', width: 'minmax(150px, 2fr)', suggestions: skillNames },
     { key: 'level', label: 'SL', width: '56px', type: 'number' },
     // A rulebook class knows each Skill's maximum; a custom class's are typed in.
     data

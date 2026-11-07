@@ -46,6 +46,7 @@ export const createCharacter = (): FuCharacter => ({
   quirk: { id: '', name: '', choice: '', notes: '' },
   attributes: { dex: '8', ins: '8', mig: '8', wlp: '8' },
   statuses: { slow: false, dazed: false, weak: false, shaken: false, enraged: false, poisoned: false },
+  boosts: { dex: false, ins: false, mig: false, wlp: false },
   hp: { current: null, other: null },
   mp: { current: null, other: null },
   ip: { current: null, other: null },

@@ -188,6 +188,8 @@ export type FuCharacter = {
   /** Base die size per attribute: '6', '8', '10' or '12'. */
   attributes: Record<AttributeKey, string>
   statuses: Record<StatusKey, boolean>
+  /** Attributes raised one die size by an effect, up to d12. */
+  boosts: Record<AttributeKey, boolean>
   hp: FuPool
   mp: FuPool
   ip: FuPool
@@ -221,7 +223,7 @@ export type FuDerived = {
   /** Sum of class levels. */
   level: number
   base: (key: AttributeKey) => number
-  /** The die after status effects, never below d6. */
+  /** The die after boosts (up to d12) and then status effects (never below d6). */
   current: (key: AttributeKey) => number
   hpBonus: number
   mpBonus: number

@@ -1,7 +1,7 @@
 .attributes-panel-container {
   .attributes-panel-grid {
     display: grid;
-    grid-template-columns: auto minmax(64px, 84px) minmax(52px, 72px) auto auto;
+    grid-template-columns: auto minmax(64px, 84px) minmax(52px, 72px) auto auto auto;
     gap: var(--space-1) var(--space-2);
     align-items: center;
   }
@@ -40,9 +40,27 @@
     color: var(--danger);
   }
 
+  .attributes-panel-raised input[readonly] {
+    color: var(--positive);
+  }
+
+  .attributes-panel-boost {
+    justify-self: center;
+    display: flex;
+    padding: var(--space-xs);
+    font-size: 18px;
+    color: var(--text-soft);
+
+    &[aria-pressed='true'] {
+      color: var(--accent-contrast);
+      background: var(--positive);
+      border-color: var(--positive);
+    }
+  }
+
   /* Enraged and Poisoned span two rows, joined to them by a bracket. */
   .attributes-panel-pair {
-    grid-column: 5;
+    grid-column: 6;
     align-self: stretch;
     display: flex;
     align-items: center;
@@ -72,7 +90,7 @@
   /* Too narrow for a fifth column: Enraged and Poisoned go on a row of their own. */
   @media (max-width: 520px) {
     .attributes-panel-grid {
-      grid-template-columns: auto minmax(56px, 72px) minmax(48px, 64px) auto;
+      grid-template-columns: auto minmax(56px, 72px) minmax(48px, 64px) auto auto;
       gap: var(--space-1);
     }
 

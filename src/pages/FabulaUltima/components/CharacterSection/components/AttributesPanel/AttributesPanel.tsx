@@ -4,6 +4,7 @@ import { Panel } from '@/components/Panel'
 import { SelectField } from '@/components/SelectField'
 import { ATTRIBUTE_KEYS, ATTRIBUTES, DICE, STARTING_SPREADS, STATUSES } from '../../../../constants/attributes'
 import type { FuDerived } from '../../../../types'
+import { BoostToggle } from './components'
 import './AttributesPanel.styles.css'
 
 const DIE_OPTIONS = DICE.map((size) => ({ value: String(size), label: `d${size}` }))
@@ -22,12 +23,14 @@ export function AttributesPanel({ derived }: AttributesPanelProps) {
         <span aria-hidden="true" />
         <span className="attributes-panel-head">Base</span>
         <span className="attributes-panel-head">Current</span>
+        <span className="attributes-panel-head">Boost</span>
         <span aria-hidden="true" />
         <span aria-hidden="true" className="attributes-panel-pair-head" />
         {ATTRIBUTE_KEYS.map((key) => {
           const { short, label } = ATTRIBUTES[key]
           const status = singleStatus(key)
-          const lowered = derived.current(key) < derived.base(key)
+          const change = derived.current(key) - derived.base(key)
+          const changed = change < 0 ? 'attributes-panel-lowered' : change > 0 ? 'attributes-panel-raised' : undefined
           return (
             <div key={key} className="attributes-panel-row">
               <span className="attributes-panel-name">
@@ -37,9 +40,10 @@ export function AttributesPanel({ derived }: AttributesPanelProps) {
                 </span>
               </span>
               <SelectField path={`attributes.${key}`} label={`${label} base die`} hideLabel options={DIE_OPTIONS} />
-              <Field label={`${label} current die`} hideLabel className={lowered ? 'attributes-panel-lowered' : undefined}>
+              <Field label={`${label} current die`} hideLabel className={changed}>
                 {(id) => <input id={id} type="text" readOnly tabIndex={-1} value={`d${derived.current(key)}`} />}
               </Field>
+              <BoostToggle attribute={key} />
               {status && <CheckboxField path={`statuses.${status.key}`} label={status.label} />}
             </div>
           )
@@ -56,8 +60,8 @@ export function AttributesPanel({ derived }: AttributesPanelProps) {
         ))}
       </div>
       <p className="fu-note">
-        Each status effect lowers its attributes by one die size, down to d6; Enraged lowers DEX and INS, Poisoned MIG and
-        WLP (p. 94). Start with {STARTING_SPREADS.join(', or ')} (p. 162).
+        A boost raises a die one size, up to d12. Each status effect then lowers its attributes by one die size, down to
+        d6; Enraged lowers DEX and INS, Poisoned MIG and WLP (p. 94). Start with {STARTING_SPREADS.join(', or ')} (p. 162).
       </p>
     </Panel>
   )

@@ -13,7 +13,8 @@ export function calculate(character: FuCharacter): FuDerived {
   const base = (key: AttributeKey) => dieSize(character.attributes[key])
   const current = (key: AttributeKey) => {
     const steps = STATUSES.filter((status) => character.statuses[status.key] && status.attributes.includes(key)).length
-    return Math.max(6, base(key) - steps * 2)
+    const boosted = Math.min(12, base(key) + (character.boosts[key] ? 2 : 0))
+    return Math.max(6, boosted - steps * 2)
   }
 
   const benefits = classBenefits(character)

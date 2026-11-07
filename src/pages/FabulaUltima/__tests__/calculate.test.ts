@@ -20,6 +20,19 @@ describe('calculate', () => {
     expect(derived.base('dex')).toBe(10)
   })
 
+  it('raises boosted dice one size up to d12, before status effects lower them', () => {
+    const base = character({ attributes: { dex: '10', ins: '12', mig: '6', wlp: '8' } })
+    const boosts = { dex: true, ins: true, mig: true, wlp: false }
+    const derived = calculate({ ...base, boosts, statuses: { ...base.statuses, weak: true } })
+    expect(derived.current('dex')).toBe(12)
+    expect(derived.current('ins')).toBe(12)
+    expect(derived.current('mig')).toBe(6)
+    expect(derived.current('wlp')).toBe(8)
+    expect(calculate({ ...base, boosts, statuses: { ...base.statuses, enraged: true } }).current('ins')).toBe(10)
+    // Maximum HP uses the base die.
+    expect(derived.maxHp).toBe(calculate(base).maxHp)
+  })
+
   it('uses the DEX die for Defense, or the fixed Defense of heavy armor, plus gear bonuses', () => {
     const plain = character()
     expect(calculate(plain).defense).toBe(8)

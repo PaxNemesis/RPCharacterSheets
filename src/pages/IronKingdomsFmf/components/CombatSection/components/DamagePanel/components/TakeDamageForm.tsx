@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { rollDie } from '@/utils/rollDie'
 
 type TakeDamageFormProps = {
   onApply: (branch: number, amount: number) => void
@@ -35,7 +36,7 @@ export function TakeDamageForm({ onApply }: TakeDamageFormProps) {
           ))}
         </select>
       </label>
-      <button type="button" title="Roll a d6 for the branch" onClick={() => setBranch(Math.floor(Math.random() * 6) + 1)}>
+      <button type="button" title="Roll a d6 for the branch" onClick={() => setBranch(rollDie(6))}>
         Roll
       </button>
       <button type="submit">Apply</button>

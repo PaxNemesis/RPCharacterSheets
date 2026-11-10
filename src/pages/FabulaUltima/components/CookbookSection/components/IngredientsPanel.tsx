@@ -4,6 +4,7 @@ import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
 import { useSheet } from '@/components/SheetProvider'
 import { TASTES } from '../../../constants/gourmet'
 import type { FuGourmet, FuIngredient } from '../../../types'
+import { rollDie } from '@/utils/rollDie'
 
 const COLUMNS: RepeatTableColumn[] = [
   { key: 'name', label: 'Ingredient', width: 'minmax(160px, 2fr)' },
@@ -38,7 +39,7 @@ export function IngredientsPanel({ gourmet, cooking }: IngredientsPanelProps) {
 
   // A new ingredient's taste is a d6 roll; a 6 lets the player choose (NF p. 150).
   const roll = () => {
-    const result = Math.floor(Math.random() * 6) + 1
+    const result = rollDie(6)
     const taste = TASTES[result - 1]
     set('gourmet.ingredients', [...gourmet.ingredients, { ...createIngredient(), taste: taste?.key ?? '' }])
     setLastRoll(taste ? `Rolled ${result}: ${taste.label}. Give it a name.` : 'Rolled 6: choose its taste and give it a name.')

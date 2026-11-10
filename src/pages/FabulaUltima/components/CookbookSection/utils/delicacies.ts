@@ -1,5 +1,6 @@
 import { DELICACY_EFFECTS, TASTES } from '../../../constants/gourmet'
 import type { FuGourmet, Taste } from '../../../types'
+import { rollDie } from '@/utils/rollDie'
 
 export type Combination = { effect: string; choice: string }
 
@@ -25,7 +26,7 @@ const identity = ({ effect, choice }: Combination) => `${effect}:${effectOf(effe
  * without a choice that is already used, or one whose choices are all used, is rolled again (NF p. 151).
  * The player then picks the choice, from those still unused.
  */
-export function rollCombination(gourmet: FuGourmet, key: string, random = Math.random): Combination & { roll: number } {
+export function rollCombination(gourmet: FuGourmet, key: string, roll = rollDie): Combination & { roll: number } {
   const others = Object.entries(gourmet.combinations)
     .filter(([other, combination]) => other !== key && combination?.effect)
     .map(([, combination]) => combination)
@@ -35,10 +36,10 @@ export function rollCombination(gourmet: FuGourmet, key: string, random = Math.r
       ? effect.choices.some((choice) => !used.has(`${effect.roll}:${choice}`))
       : !used.has(`${effect.roll}:`),
   )
-  let roll = 0
-  do roll = Math.floor(random() * 12) + 1
-  while (possible.length > 0 && !possible.some((effect) => effect.roll === roll))
-  return { roll, effect: String(roll), choice: '' }
+  let result = 0
+  do result = roll(12)
+  while (possible.length > 0 && !possible.some((effect) => effect.roll === result))
+  return { roll: result, effect: String(result), choice: '' }
 }
 
 /** The choices for a combination's effect that no other combination uses yet. */

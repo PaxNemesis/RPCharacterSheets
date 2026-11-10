@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest'
 import type { FuGourmet } from '../../../types'
 import { delicacyPairs, freeChoices, pairKey, rollCombination } from '../utils/delicacies'
 
-// A d12 that rolls the given results in turn.
+// A die that rolls the given results in turn.
 const rolls = (...results: number[]) => {
   let index = 0
-  return () => (results[index++] - 1) / 12
+  return () => results[index++]
 }
 const cookbook = (combinations: FuGourmet['combinations']): FuGourmet => ({ ingredients: [], combinations, notes: '' })
 

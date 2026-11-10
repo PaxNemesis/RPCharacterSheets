@@ -129,6 +129,35 @@ textarea {
   resize: vertical;
 }
 
+/*
+ * Our own dropdown arrow instead of the browser's, which sits tight against the edge: a thin chevron
+ * drawn as two diagonal strokes in the text colour, with room for it on the right.
+ */
+select {
+  appearance: none;
+  padding-right: var(--space-3);
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent calc(50% - 0.75px),
+      currentColor calc(50% - 0.75px),
+      currentColor calc(50% + 0.75px),
+      transparent calc(50% + 0.75px)
+    ),
+    linear-gradient(
+      135deg,
+      transparent calc(50% - 0.75px),
+      currentColor calc(50% - 0.75px),
+      currentColor calc(50% + 0.75px),
+      transparent calc(50% + 0.75px)
+    );
+  background-position:
+    calc(100% - 17px) 50%,
+    calc(100% - 11px) 50%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+}
+
 button {
   font: inherit;
   cursor: pointer;

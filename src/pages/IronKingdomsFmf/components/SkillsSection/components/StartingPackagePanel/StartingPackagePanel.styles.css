@@ -68,7 +68,8 @@
     select {
       width: auto;
       font-size: 13px;
-      padding: var(--space-2xs) var(--space-xs);
+      /* Room on the right for the dropdown arrow. */
+      padding: var(--space-2xs) var(--space-3) var(--space-2xs) var(--space-xs);
     }
   }
 }

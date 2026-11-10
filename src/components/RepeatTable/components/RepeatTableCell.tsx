@@ -15,7 +15,7 @@ export function RepeatTableCell({ column, rowLabel }: RepeatTableCellProps) {
 
   switch (column.type) {
     case 'number':
-      return <NumberField path={column.key} label={label} hideLabel size="sm" />
+      return <NumberField path={column.key} label={label} hideLabel />
     case 'select':
       return <SelectField path={column.key} label={label} hideLabel options={column.options} />
     case 'calculated':
@@ -24,7 +24,6 @@ export function RepeatTableCell({ column, rowLabel }: RepeatTableCellProps) {
           value={column.calculate((get('') ?? {}) as RepeatTableRow)}
           label={label}
           hideLabel
-          size="sm"
         />
       )
     default: {

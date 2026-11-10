@@ -1,4 +1,7 @@
 .repeat-table-container {
+  /* One height for every single-line cell and the row's buttons, so number, select and text cells line up. */
+  --repeat-table-control-height: 32px;
+
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -32,13 +35,17 @@
     }
   }
 
+  [role='cell'] :is(input, select) {
+    height: var(--repeat-table-control-height);
+  }
+
   .repeat-table-wide {
     grid-column: 2 / -2;
   }
 
   .repeat-table-handle {
     padding: 0;
-    height: 28px;
+    height: var(--repeat-table-control-height);
     color: var(--text-soft);
     background: transparent;
     border-color: transparent;
@@ -75,7 +82,7 @@
 
   .repeat-table-remove {
     padding: 0;
-    height: 28px;
+    height: var(--repeat-table-control-height);
     color: var(--text-soft);
     background: transparent;
     border-color: transparent;
@@ -84,6 +91,37 @@
       color: var(--danger);
       border-color: var(--danger);
     }
+  }
+
+  /* The row action's button and the remove button, side by side in the last column. */
+  .repeat-table-actions {
+    display: flex;
+    gap: var(--space-xs);
+
+    button {
+      width: 28px;
+    }
+  }
+
+  .repeat-table-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height: var(--repeat-table-control-height);
+    color: var(--text-soft);
+    background: transparent;
+    border-color: transparent;
+
+    &:hover {
+      color: var(--text-h);
+      border-color: var(--border);
+    }
+  }
+
+  .repeat-table-action-icon {
+    width: 18px;
+    height: 18px;
   }
 
   .repeat-table-add {
@@ -121,7 +159,12 @@
       grid-row: 1;
     }
 
-    .repeat-table-remove {
+    .repeat-table-row:has(> .repeat-table-actions) {
+      grid-template-columns: 28px repeat(2, minmax(0, 1fr)) 60px;
+    }
+
+    .repeat-table-remove,
+    .repeat-table-actions {
       grid-column: 4;
       grid-row: 1;
     }

@@ -2,7 +2,7 @@ import { POWER_ATTACKS } from '../constants/powerAttacks'
 import { skillRef } from '../constants/skills'
 import { GRID_COLUMNS, GRID_ROWS, JACK_STAT_KEYS } from '../constants/steamjack'
 import { STAT_KEYS } from '../constants/stats'
-import type { IkCharacter, IkMechanika, IkSkill, IkSteamjack } from '../types'
+import type { IkArmor, IkCharacter, IkMechanika, IkSkill, IkSteamjack, IkStoredItem } from '../types'
 
 // The skills printed on the official character sheet.
 const STARTING_SKILLS: Pick<IkSkill, 'name' | 'stat'>[] = [
@@ -46,6 +46,24 @@ export const createMechanika = (): IkMechanika => ({
   notes: '',
 })
 
+export const createArmor = (): IkArmor => ({ name: '', spd: null, def: null, arm: null, notes: '' })
+
+export const createStoredItem = (): IkStoredItem => ({
+  kind: '',
+  name: '',
+  attackStat: 'poi',
+  skill: null,
+  attackMod: null,
+  rng: '',
+  aoe: '',
+  pow: null,
+  ammo: '',
+  spd: null,
+  def: null,
+  arm: null,
+  notes: '',
+})
+
 export const createCharacter = (): IkCharacter => ({
   settings: { raceRules: true, careerRules: true, magic: true, mechanika: true, steamjacks: true, powerField: false, books: { kng: true, ua: true } },
   identity: {
@@ -83,6 +101,7 @@ export const createCharacter = (): IkCharacter => ({
   connections: [],
   gear: [],
   armor: [],
+  stored: [],
   gold: null,
   wealth: '',
   arcaneTradition: '',

@@ -1,7 +1,8 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { Icon } from '@/components/Icon'
 import { SheetProvider } from '@/components/SheetProvider'
-import type { RepeatTableColumn } from '../RepeatTable.types'
+import type { RepeatTableColumn, RepeatTableRowAction } from '../RepeatTable.types'
 import { RepeatTableCell } from './RepeatTableCell'
 
 type RepeatTableRowProps = {
@@ -13,11 +14,24 @@ type RepeatTableRowProps = {
   narrow: RepeatTableColumn[]
   wide: RepeatTableColumn[]
   onRemove: () => void
+  action?: RepeatTableRowAction
+  onAction: () => void
 }
 
-/** One row: a drag handle, the cells, the remove button, then any full-width cells. */
-export function RepeatTableRow({ id, path, rowLabel, itemName, narrow, wide, onRemove }: RepeatTableRowProps) {
+/** One row: a drag handle, the cells, the action and remove buttons, then any full-width cells. */
+export function RepeatTableRow({ id, path, rowLabel, itemName, narrow, wide, onRemove, action, onAction }: RepeatTableRowProps) {
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({ id })
+  const removeButton = (
+    <button
+      type="button"
+      className="repeat-table-remove"
+      aria-label={`Remove ${rowLabel}`}
+      title={`Remove ${itemName}`}
+      onClick={onRemove}
+    >
+      ×
+    </button>
+  )
 
   return (
     <div
@@ -48,15 +62,22 @@ export function RepeatTableRow({ id, path, rowLabel, itemName, narrow, wide, onR
           </div>
         ))}
       </SheetProvider>
-      <button
-        type="button"
-        className="repeat-table-remove"
-        aria-label={`Remove ${rowLabel}`}
-        title={`Remove ${itemName}`}
-        onClick={onRemove}
-      >
-        ×
-      </button>
+      {action ? (
+        <div className="repeat-table-actions">
+          <button
+            type="button"
+            className="repeat-table-action"
+            aria-label={`${action.label} ${rowLabel}`}
+            title={action.title}
+            onClick={onAction}
+          >
+            <Icon name={action.icon} className="repeat-table-action-icon" />
+          </button>
+          {removeButton}
+        </div>
+      ) : (
+        removeButton
+      )}
       {/* After the remove button, so wide cells wrap onto their own lines. */}
       <SheetProvider path={path}>
         {wide.map((column) => (

@@ -1,2 +1,2 @@
 export { RepeatTable } from './RepeatTable'
-export type { RepeatTableColumn, RepeatTableRow } from './RepeatTable.types'
+export type { RepeatTableColumn, RepeatTableRow, RepeatTableRowAction } from './RepeatTable.types'

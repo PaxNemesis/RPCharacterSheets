@@ -1,8 +1,13 @@
 import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
-import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
+import { RepeatTable, type RepeatTableColumn, type RepeatTableRowAction } from '@/components/RepeatTable'
+import { useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
-import type { IkArmor, IkGear } from '../types'
+import { useIkCharacter } from '../hooks/useIkCharacter'
+import type { IkGear } from '../types'
+import { createArmor } from '../utils/createCharacter'
+import { toStored } from '../utils/storage'
+import { StoredEquipment } from './StoredEquipment'
 
 const GEAR_COLUMNS: RepeatTableColumn[] = [
   { key: 'name', label: 'Name', width: 'minmax(140px, 1fr)' },
@@ -19,9 +24,17 @@ const ARMOR_COLUMNS: RepeatTableColumn[] = [
 ]
 
 const createGear = (): IkGear => ({ name: '', notes: '', quantity: null })
-const createArmor = (): IkArmor => ({ name: '', spd: null, def: null, arm: null, notes: '' })
 
 export function GearSection() {
+  const { character } = useIkCharacter()
+  const { set } = useSheet()
+  const storeArmor: RepeatTableRowAction = {
+    icon: 'archive',
+    label: 'Store',
+    title: 'Take off and move to stored armor',
+    onClick: (row) => set('stored', [...character.stored, toStored('armor', row)]),
+  }
+
   return (
     <div className="ik-section">
       <Panel title="Gear">
@@ -32,7 +45,14 @@ export function GearSection() {
           The DEF and ARM modifiers of everything listed here are added to DEF and ARM on the Character tab. The SPD
           modifier changes your movement, not your DEF or Initiative.
         </p>
-        <RepeatTable path="armor" columns={ARMOR_COLUMNS} createRow={createArmor} itemName="armor" />
+        <RepeatTable path="armor" columns={ARMOR_COLUMNS} createRow={createArmor} itemName="armor" rowAction={storeArmor} />
+      </Panel>
+      <Panel title="Stored armor">
+        <StoredEquipment
+          kinds={['armor']}
+          showUnknown
+          emptyText="Store armor you aren't wearing to keep it here with its values. Stored armor doesn't change your stats. Swap it for what you wear to change armor."
+        />
       </Panel>
       <div className="ik-columns">
         <Panel title="Gold">

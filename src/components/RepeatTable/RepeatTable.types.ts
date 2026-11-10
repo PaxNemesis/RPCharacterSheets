@@ -1,3 +1,4 @@
+import type { IconName } from '@/components/Icon'
 import type { SelectOption } from '@/components/SelectField'
 
 export type RepeatTableRow = Record<string, unknown>
@@ -22,3 +23,14 @@ export type RepeatTableColumn = {
   /** Read-only, worked out from the row's other values. */
   | { type: 'calculated'; calculate: (row: RepeatTableRow) => number | null }
 )
+
+/** An extra button on each row that takes the row out of the table and hands it over, e.g. to store it. */
+export type RepeatTableRowAction = {
+  icon: IconName
+  /** A verb for the screen reader label, e.g. "Store" for "Store ranged weapon 2". */
+  label: string
+  /** Tooltip, e.g. "Move to stored equipment". */
+  title: string
+  /** Called with the row after it has been removed from the table. */
+  onClick: (row: RepeatTableRow) => void
+}

@@ -5,6 +5,17 @@ import type { WeaponPresets } from './weaponPresets'
 
 type StatLookup = (key: StatKey) => Num
 
+/** RAT = POI (PRW for thrown weapons) + skill + attack modifier (p. 106). */
+export const rangedAttack = (weapon: IkRangedWeapon, stat: StatLookup) =>
+  sum(stat(weapon.attackStat || 'poi'), weapon.skill, weapon.attackMod)
+
+/** MAT = PRW + skill + attack modifier (p. 106). */
+export const meleeAttack = (weapon: IkMeleeWeapon, stat: StatLookup) => sum(stat('prw'), weapon.skill, weapon.attackMod)
+
+/** P+S = POW + STR (p. 215); blank for a weapon without POW. */
+export const meleeDamage = ({ pow }: IkMeleeWeapon, stat: StatLookup) =>
+  pow === null || pow === undefined ? null : sum(pow, stat('str'))
+
 const LOCATION: RepeatTableColumn = { key: 'location', label: 'Loc', width: '52px' }
 
 const nameColumn = (presets?: WeaponPresets): RepeatTableColumn => ({
@@ -16,7 +27,8 @@ const nameColumn = (presets?: WeaponPresets): RepeatTableColumn => ({
 })
 const ATTACK_STATS = [
   { value: 'poi', label: 'POI' },
-  { value: 'prw', label: 'PRW (thrown)' },
+  // Short enough for the column; the panel's note says PRW is for thrown weapons.
+  { value: 'prw', label: 'PRW' },
 ]
 
 /** RAT = POI (PRW for thrown weapons) + skill + attack modifier (p. 106). */
@@ -32,10 +44,7 @@ export function rangedWeaponColumns(stat: StatLookup, withLocation = false, pres
       label: 'RAT',
       width: '52px',
       type: 'calculated',
-      calculate: (row) => {
-        const weapon = row as IkRangedWeapon
-        return sum(stat(weapon.attackStat || 'poi'), weapon.skill, weapon.attackMod)
-      },
+      calculate: (row) => rangedAttack(row as IkRangedWeapon, stat),
     },
     { key: 'rng', label: 'RNG', width: '52px' },
     { key: 'aoe', label: 'AOE', width: '52px' },
@@ -57,10 +66,7 @@ export function meleeWeaponColumns(stat: StatLookup, withLocation = false, prese
       label: 'MAT',
       width: '52px',
       type: 'calculated',
-      calculate: (row) => {
-        const weapon = row as IkMeleeWeapon
-        return sum(stat('prw'), weapon.skill, weapon.attackMod)
-      },
+      calculate: (row) => meleeAttack(row as IkMeleeWeapon, stat),
     },
     { key: 'pow', label: 'POW', width: '52px', type: 'number' },
     {
@@ -68,10 +74,7 @@ export function meleeWeaponColumns(stat: StatLookup, withLocation = false, prese
       label: 'P+S',
       width: '52px',
       type: 'calculated',
-      calculate: (row) => {
-        const { pow } = row as IkMeleeWeapon
-        return pow === null || pow === undefined ? null : sum(pow, stat('str'))
-      },
+      calculate: (row) => meleeDamage(row as IkMeleeWeapon, stat),
     },
     { key: 'notes', label: 'Notes', width: 'minmax(120px, 2fr)' },
   ]

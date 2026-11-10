@@ -6,7 +6,7 @@ import { useSheetField } from '@/components/SheetProvider'
 import { RepeatTableRow } from './components'
 import { useRowIds } from '@/hooks/useRowIds'
 import { useStackedLayout } from './hooks/useStackedLayout'
-import type { RepeatTableColumn, RepeatTableRow as Row } from './RepeatTable.types'
+import type { RepeatTableColumn, RepeatTableRow as Row, RepeatTableRowAction } from './RepeatTable.types'
 import { announcements } from './utils/announcements'
 import './RepeatTable.styles.css'
 
@@ -17,9 +17,11 @@ type RepeatTableProps = {
   createRow: () => Row
   /** Used in button and screen reader labels, e.g. "skill". */
   itemName: string
+  /** An extra button next to each row's remove button. */
+  rowAction?: RepeatTableRowAction
 }
 
-export function RepeatTable({ path, columns, createRow, itemName }: RepeatTableProps) {
+export function RepeatTable({ path, columns, createRow, itemName, rowAction }: RepeatTableProps) {
   const [rows, setRows] = useSheetField<Row[] | undefined>(path)
   const list = rows ?? []
   const rowIds = useRowIds(list.length)
@@ -29,7 +31,8 @@ export function RepeatTable({ path, columns, createRow, itemName }: RepeatTableP
   const stacked = useStackedLayout(scrollRef, gridRef)
   const narrow = columns.filter((column) => !column.wide)
   const wide = columns.filter((column) => column.wide)
-  const template = `24px ${narrow.map((column) => column.width ?? '1fr').join(' ')} 28px`
+  // The last column holds the remove button, and the row action's button when there is one.
+  const template = `24px ${narrow.map((column) => column.width ?? '1fr').join(' ')} ${rowAction ? '60px' : '28px'}`
   // A short drag distance keeps clicks on the handle from starting a drag.
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -39,6 +42,12 @@ export function RepeatTable({ path, columns, createRow, itemName }: RepeatTableP
   const remove = (index: number) => {
     rowIds.remove(index)
     setRows(list.filter((_, i) => i !== index))
+  }
+
+  const act = (index: number) => {
+    const row = list[index]
+    remove(index)
+    rowAction?.onClick(row)
   }
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
@@ -82,6 +91,8 @@ export function RepeatTable({ path, columns, createRow, itemName }: RepeatTableP
                   narrow={narrow}
                   wide={wide}
                   onRemove={() => remove(index)}
+                  action={rowAction}
+                  onAction={() => act(index)}
                 />
               ))}
             </div>

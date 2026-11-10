@@ -72,6 +72,9 @@ export type IkSkill = { name: string; stat: StatKey | 'social' | ''; level: Num;
 export type IkEntry = { name: string; description: string; page: string }
 export type IkGear = { name: string; notes: string; quantity: Num }
 export type IkArmor = { name: string; spd: Num; def: Num; arm: Num; notes: string }
+export type IkStoredKind = 'ranged' | 'melee' | 'armor'
+/** A weapon or armor put away with all its values, so it can be equipped again. Only a blank entry has kind ''. */
+export type IkStoredItem = IkRangedWeapon & IkArmor & { kind: IkStoredKind | '' }
 export type IkSpell = {
   name: string
   cost: Num
@@ -143,6 +146,8 @@ export type IkCharacter = {
   connections: IkEntry[]
   gear: IkGear[]
   armor: IkArmor[]
+  /** Weapons and armor that are carried or kept but not equipped; they don't count toward any stats. */
+  stored: IkStoredItem[]
   gold: Num
   wealth: string
   arcaneTradition: string

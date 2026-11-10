@@ -1,70 +1,94 @@
-import { useMemo } from 'react'
-import { ImageField } from '@/components/ImageField'
-import { Panel } from '@/components/Panel'
-import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
-import { useSheet } from '@/components/SheetProvider'
-import { TextField } from '@/components/TextField'
-import type { IkSteamjack, StatKey } from '../../../types'
-import { createMeleeWeapon, createRangedWeapon, meleeWeaponColumns, rangedWeaponColumns } from '../../../utils/weaponColumns'
-import { JackDamageGrid } from './JackDamageGrid'
-import { JackStatsPanel } from './JackStatsPanel'
+import { useMemo } from 'react';
+import { ImageField } from '@/components/ImageField';
+import { Panel } from '@/components/Panel';
+import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable';
+import { useSheet } from '@/components/SheetProvider';
+import type { IkSettings, IkSteamjack, StatKey } from '../../../types';
+import {
+  createMeleeWeapon,
+  createRangedWeapon,
+  meleeWeaponColumns,
+  rangedWeaponColumns,
+} from '../../../utils/weaponColumns';
+import { jackCombat } from '../utils/jackCombat';
+import { jackMeleePresets, jackRangedPresets } from '../utils/jackWeaponPresets';
+import { JackCortexPanel } from './JackCortexPanel';
+import { JackDamageGrid } from './JackDamageGrid';
+import { JackIdentityPanel } from './JackIdentityPanel';
+import { JackStatsPanel } from './JackStatsPanel';
 
 const CATASTROPHIC_COLUMNS: RepeatTableColumn[] = [
   { key: 'area', label: 'Area damaged', width: 'minmax(140px, 1fr)' },
   { key: 'notes', label: 'Description / notes', width: 'minmax(200px, 3fr)', rows: 2 },
-]
+];
 const GEAR_COLUMNS: RepeatTableColumn[] = [
   { key: 'name', label: 'Name', width: 'minmax(140px, 1fr)' },
   { key: 'notes', label: 'Description / notes', width: 'minmax(200px, 3fr)', rows: 2 },
-]
+];
 const POWER_ATTACK_COLUMNS: RepeatTableColumn[] = [
   { key: 'name', label: 'Name', width: 'minmax(140px, 1fr)' },
   { key: 'description', label: 'Requirement / roll / effect', width: 'minmax(200px, 3fr)', rows: 2 },
-]
+];
+
+type SteamjackSheetProps = {
+  /** Which books' chassis and weapons to offer. */
+  settings: IkSettings;
+};
 
 /** One steamjack; rendered inside a SheetProvider scoped to `steamjacks.<index>`. */
-export function SteamjackSheet() {
-  const { get } = useSheet()
-  const jack = get('') as IkSteamjack
-  const stats = jack.stats
+export function SteamjackSheet({ settings }: SteamjackSheetProps) {
+  const { get } = useSheet();
+  const jack = get('') as IkSteamjack;
+  const combat = jackCombat(jack);
+  const { stats, size, chassis } = jack;
+  const { mat, rat } = combat;
 
   const columns = useMemo(() => {
-    const stat = (key: StatKey) => (key === 'arc' ? null : (stats[key] ?? null))
-    return { ranged: rangedWeaponColumns(stat, true), melee: meleeWeaponColumns(stat, true) }
-  }, [stats])
+    const stat = (key: StatKey) => (key === 'arc' ? null : (stats[key] ?? null));
+    // Weapon suggestions depend on the books in use and the jack's size and chassis.
+    const jackType = { size, chassis };
+    return {
+      ranged: rangedWeaponColumns(stat, { jackAttack: rat, presets: jackRangedPresets(settings, jackType) }),
+      melee: meleeWeaponColumns(stat, { jackAttack: mat, presets: jackMeleePresets(settings, jackType) }),
+    };
+  }, [stats, settings, size, chassis, mat, rat]);
 
   return (
     <div className="ik-section">
-      <Panel title="Steamjack">
-        <div className="ik-fields">
-          <TextField path="name" label="Name" />
-          <TextField path="chassis" label="Chassis type" />
-          <TextField path="height" label="Height" />
-          <TextField path="weight" label="Weight" />
-          <TextField path="fuelLoad" label="Max fuel load" />
-          <TextField path="fuelUse" label="Fuel consumption" />
-        </div>
-      </Panel>
+      <JackIdentityPanel jack={jack} settings={settings} />
       <div className="ik-columns">
+        <JackStatsPanel jack={jack} combat={combat} />
         <Panel title="Image">
           <ImageField path="image" label="Steamjack image" />
         </Panel>
-        <JackStatsPanel jack={jack} />
       </div>
       <div className="ik-columns">
         <JackDamageGrid />
-        <Panel title="Cortex">
-          <TextField path="cortex.imprint" label="Imprint" />
-          <TextField path="cortex.fightingBonus" label="Fighting bonus" />
-          <TextField path="cortex.language" label="Language" />
-          <TextField path="cortex.notes" label="Notes" rows={3} />
-        </Panel>
+        <JackCortexPanel jack={jack} />
       </div>
       <Panel title="Ranged weapons">
-        <RepeatTable path="rangedWeapons" columns={columns.ranged} createRow={createRangedWeapon} itemName="ranged weapon" />
+        <p className="ik-note">
+          RAT = the jack&apos;s RAT + bonus + mod. Pick a weapon from the books by name to fill in its values for this
+          jack&apos;s size.
+        </p>
+        <RepeatTable
+          path="rangedWeapons"
+          columns={columns.ranged}
+          createRow={createRangedWeapon}
+          itemName="ranged weapon"
+        />
       </Panel>
       <Panel title="Melee weapons">
-        <RepeatTable path="meleeWeapons" columns={columns.melee} createRow={createMeleeWeapon} itemName="melee weapon" />
+        <p className="ik-note">
+          MAT = the jack&apos;s MAT + bonus + mod. P+S = POW + STR. Pick a weapon from the books by name to fill in its
+          values for this jack&apos;s size.
+        </p>
+        <RepeatTable
+          path="meleeWeapons"
+          columns={columns.melee}
+          createRow={createMeleeWeapon}
+          itemName="melee weapon"
+        />
       </Panel>
       <Panel title="Catastrophic damage">
         <RepeatTable
@@ -75,7 +99,12 @@ export function SteamjackSheet() {
         />
       </Panel>
       <Panel title="Gear & upgrades">
-        <RepeatTable path="gear" columns={GEAR_COLUMNS} createRow={() => ({ name: '', notes: '' })} itemName="upgrade" />
+        <RepeatTable
+          path="gear"
+          columns={GEAR_COLUMNS}
+          createRow={() => ({ name: '', notes: '' })}
+          itemName="upgrade"
+        />
       </Panel>
       <Panel title="Power attacks & special abilities">
         <RepeatTable
@@ -86,5 +115,5 @@ export function SteamjackSheet() {
         />
       </Panel>
     </div>
-  )
+  );
 }

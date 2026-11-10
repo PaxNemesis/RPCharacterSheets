@@ -1,22 +1,32 @@
-import type { RepeatTableColumn } from '@/components/RepeatTable'
-import type { IkMeleeWeapon, IkRangedWeapon, Num, StatKey } from '../types'
-import { sum } from '@/utils/sum'
-import type { WeaponPresets } from './weaponPresets'
+import type { RepeatTableColumn } from '@/components/RepeatTable';
+import type { IkMeleeWeapon, IkRangedWeapon, Num, StatKey } from '../types';
+import { sum } from '@/utils/sum';
+import type { WeaponPresets } from './weaponPresets';
 
-type StatLookup = (key: StatKey) => Num
+type StatLookup = (key: StatKey) => Num;
+
+type ColumnOptions = {
+  presets?: WeaponPresets;
+  /**
+   * For a steamjack: its MAT or RAT, which already includes PRW or POI and its cortex. The weapon's
+   * attack is then this + bonus + mod, and the table gets a location column.
+   */
+  jackAttack?: Num;
+};
 
 /** RAT = POI (PRW for thrown weapons) + skill + attack modifier (p. 106). */
 export const rangedAttack = (weapon: IkRangedWeapon, stat: StatLookup) =>
-  sum(stat(weapon.attackStat || 'poi'), weapon.skill, weapon.attackMod)
+  sum(stat(weapon.attackStat || 'poi'), weapon.skill, weapon.attackMod);
 
 /** MAT = PRW + skill + attack modifier (p. 106). */
-export const meleeAttack = (weapon: IkMeleeWeapon, stat: StatLookup) => sum(stat('prw'), weapon.skill, weapon.attackMod)
+export const meleeAttack = (weapon: IkMeleeWeapon, stat: StatLookup) =>
+  sum(stat('prw'), weapon.skill, weapon.attackMod);
 
 /** P+S = POW + STR (p. 215); blank for a weapon without POW. */
 export const meleeDamage = ({ pow }: IkMeleeWeapon, stat: StatLookup) =>
-  pow === null || pow === undefined ? null : sum(pow, stat('str'))
+  pow === null || pow === undefined ? null : sum(pow, stat('str'));
 
-const LOCATION: RepeatTableColumn = { key: 'location', label: 'Loc', width: '52px' }
+const LOCATION: RepeatTableColumn = { key: 'location', label: 'Loc', width: '52px' };
 
 const nameColumn = (presets?: WeaponPresets): RepeatTableColumn => ({
   key: 'name',
@@ -24,49 +34,70 @@ const nameColumn = (presets?: WeaponPresets): RepeatTableColumn => ({
   width: 'minmax(120px, 2fr)',
   suggestions: presets?.names,
   onPick: presets?.pick,
-})
+});
+
 const ATTACK_STATS = [
   { value: 'poi', label: 'POI' },
   // Short enough for the column; the panel's note says PRW is for thrown weapons.
   { value: 'prw', label: 'PRW' },
-]
+];
 
-/** RAT = POI (PRW for thrown weapons) + skill + attack modifier (p. 106). */
-export function rangedWeaponColumns(stat: StatLookup, withLocation = false, presets?: WeaponPresets): RepeatTableColumn[] {
+/** The skill column for a character; for a steamjack, a bonus, since it attacks with its MAT or RAT. */
+const skillColumn = (jack: boolean): RepeatTableColumn => ({
+  key: 'skill',
+  label: jack ? 'Bonus' : 'Skill',
+  width: '52px',
+  type: 'number',
+});
+
+/** RAT = POI (PRW for thrown weapons) + skill + attack modifier (p. 106); a steamjack's RAT + bonus + mod. */
+export function rangedWeaponColumns(
+  stat: StatLookup,
+  { presets, jackAttack }: ColumnOptions = {},
+): RepeatTableColumn[] {
+  const jack = jackAttack !== undefined;
   return [
     nameColumn(presets),
-    ...(withLocation ? [LOCATION] : []),
-    { key: 'attackStat', label: 'Stat', width: '76px', type: 'select', options: ATTACK_STATS },
-    { key: 'skill', label: 'Skill', width: '52px', type: 'number' },
+    ...(jack
+      ? [LOCATION]
+      : [{ key: 'attackStat', label: 'Stat', width: '76px', type: 'select', options: ATTACK_STATS } as const]),
+    skillColumn(jack),
     { key: 'attackMod', label: 'Mod', width: '52px', type: 'number' },
     {
       key: 'rat',
       label: 'RAT',
       width: '52px',
       type: 'calculated',
-      calculate: (row) => rangedAttack(row as IkRangedWeapon, stat),
+      calculate: (row) => {
+        const weapon = row as IkRangedWeapon;
+        return jack ? sum(jackAttack, weapon.skill, weapon.attackMod) : rangedAttack(weapon, stat);
+      },
     },
     { key: 'rng', label: 'RNG', width: '52px' },
     { key: 'aoe', label: 'AOE', width: '52px' },
     { key: 'pow', label: 'POW', width: '52px', type: 'number' },
     { key: 'ammo', label: 'Ammo', width: '64px' },
     { key: 'notes', label: 'Notes', width: 'minmax(120px, 2fr)' },
-  ]
+  ];
 }
 
-/** MAT = PRW + skill + attack modifier; P+S = POW + STR (p. 106, 215). */
-export function meleeWeaponColumns(stat: StatLookup, withLocation = false, presets?: WeaponPresets): RepeatTableColumn[] {
+/** MAT = PRW + skill + attack modifier; P+S = POW + STR (p. 106, 215). A steamjack uses its MAT + bonus + mod. */
+export function meleeWeaponColumns(stat: StatLookup, { presets, jackAttack }: ColumnOptions = {}): RepeatTableColumn[] {
+  const jack = jackAttack !== undefined;
   return [
     nameColumn(presets),
-    ...(withLocation ? [LOCATION] : []),
-    { key: 'skill', label: 'Skill', width: '52px', type: 'number' },
+    ...(jack ? [LOCATION] : []),
+    skillColumn(jack),
     { key: 'attackMod', label: 'Mod', width: '52px', type: 'number' },
     {
       key: 'mat',
       label: 'MAT',
       width: '52px',
       type: 'calculated',
-      calculate: (row) => meleeAttack(row as IkMeleeWeapon, stat),
+      calculate: (row) => {
+        const weapon = row as IkMeleeWeapon;
+        return jack ? sum(jackAttack, weapon.skill, weapon.attackMod) : meleeAttack(weapon, stat);
+      },
     },
     { key: 'pow', label: 'POW', width: '52px', type: 'number' },
     {
@@ -77,7 +108,7 @@ export function meleeWeaponColumns(stat: StatLookup, withLocation = false, prese
       calculate: (row) => meleeDamage(row as IkMeleeWeapon, stat),
     },
     { key: 'notes', label: 'Notes', width: 'minmax(120px, 2fr)' },
-  ]
+  ];
 }
 
 export const createRangedWeapon = (): IkRangedWeapon & { location: string } => ({
@@ -91,7 +122,7 @@ export const createRangedWeapon = (): IkRangedWeapon & { location: string } => (
   pow: null,
   ammo: '',
   notes: '',
-})
+});
 
 export const createMeleeWeapon = (): IkMeleeWeapon & { location: string } => ({
   name: '',
@@ -100,4 +131,4 @@ export const createMeleeWeapon = (): IkMeleeWeapon & { location: string } => ({
   attackMod: null,
   pow: null,
   notes: '',
-})
+});

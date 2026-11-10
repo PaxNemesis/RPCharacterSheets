@@ -65,3 +65,32 @@ test('the sheet fits the screen without scrolling sideways', async ({ page }) =>
   );
   expect(overflow).toBe(0);
 });
+
+test('picking a chassis fills in the steamjack, and its weapons attack with the jack’s MAT', async ({ page }) => {
+  await openWith(page, { identity: { name: 'Test Marshal' } });
+  await page.getByRole('tab', { name: 'Steamjacks' }).click();
+  await page.getByRole('button', { name: '+ Add steamjack' }).click();
+
+  await page.getByRole('combobox', { name: 'Chassis' }).fill('Nom');
+  await page.getByRole('option', { name: 'Nomad' }).click();
+
+  await expect(page.getByLabel('Size')).toHaveValue('heavy');
+  await expect(page.getByLabel('PHY', { exact: true })).toHaveValue('11');
+  // MAT = PRW 5 + aurum cortex 1; DEF and ARM come from the chassis.
+  await expect(box(page, 'MAT', 'Total')).toHaveValue('6');
+  await expect(box(page, 'RAT', 'Total')).toHaveValue('5');
+  await expect(box(page, 'DEF', 'Total')).toHaveValue('10');
+  await expect(box(page, 'ARM', 'Total')).toHaveValue('18');
+  await expect(page.getByText('30 boxes', { exact: false })).toBeVisible();
+
+  await page.getByRole('button', { name: '+ Add melee weapon' }).click();
+  await page.getByRole('combobox', { name: 'Name, melee weapon 1' }).fill('Battle Bl');
+  await page.getByRole('option', { name: 'Battle Blade' }).click();
+  await expect(page.getByLabel('MAT, melee weapon 1')).toHaveValue('6');
+  await expect(page.getByLabel('P+S, melee weapon 1')).toHaveValue('17');
+
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBe(0);
+});

@@ -1,28 +1,30 @@
-import { useState } from 'react'
-import { SheetProvider, useSheetField } from '@/components/SheetProvider'
-import { Tabs } from '@/components/Tabs'
-import type { IkSteamjack } from '../../types'
-import { createSteamjack } from '../../utils/createCharacter'
-import { SteamjackSheet } from './components'
+import { useState } from 'react';
+import { useIkCharacter } from '../../hooks/useIkCharacter';
+import { SheetProvider, useSheetField } from '@/components/SheetProvider';
+import { Tabs } from '@/components/Tabs';
+import type { IkSteamjack } from '../../types';
+import { createSteamjack } from '../../utils/createCharacter';
+import { SteamjackSheet } from './components';
 
 export function SteamjacksSection() {
-  const [steamjacks, setSteamjacks] = useSheetField<IkSteamjack[]>('steamjacks')
-  const [selected, setSelected] = useState(0)
-  const list = steamjacks ?? []
-  const index = Math.min(selected, list.length - 1)
-  const nameOf = (jack: IkSteamjack, i: number) => jack.name.trim() || `Steamjack ${i + 1}`
+  const { character } = useIkCharacter();
+  const [steamjacks, setSteamjacks] = useSheetField<IkSteamjack[]>('steamjacks');
+  const [selected, setSelected] = useState(0);
+  const list = steamjacks ?? [];
+  const index = Math.min(selected, list.length - 1);
+  const nameOf = (jack: IkSteamjack, i: number) => jack.name.trim() || `Steamjack ${i + 1}`;
 
   const add = () => {
-    setSteamjacks([...list, createSteamjack()])
-    setSelected(list.length)
-  }
+    setSteamjacks([...list, createSteamjack()]);
+    setSelected(list.length);
+  };
 
   const remove = (id: string) => {
-    const i = Number(id)
-    if (!window.confirm(`Remove ${nameOf(list[i], i)} and everything recorded for it?`)) return
-    setSteamjacks(list.filter((_, other) => other !== i))
-    setSelected(Math.max(0, i - 1))
-  }
+    const i = Number(id);
+    if (!window.confirm(`Remove ${nameOf(list[i], i)} and everything recorded for it?`)) return;
+    setSteamjacks(list.filter((_, other) => other !== i));
+    setSelected(Math.max(0, i - 1));
+  };
 
   if (list.length === 0) {
     return (
@@ -32,7 +34,7 @@ export function SteamjacksSection() {
           + Add steamjack
         </button>
       </div>
-    )
+    );
   }
 
   return (
@@ -51,8 +53,8 @@ export function SteamjacksSection() {
         }
       />
       <SheetProvider key={index} path={`steamjacks.${index}`}>
-        <SteamjackSheet />
+        <SteamjackSheet settings={character.settings} />
       </SheetProvider>
     </div>
-  )
+  );
 }

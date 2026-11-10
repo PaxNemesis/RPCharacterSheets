@@ -1,8 +1,8 @@
-import { POWER_ATTACKS } from '../constants/powerAttacks'
-import { skillRef } from '../constants/skills'
-import { GRID_COLUMNS, GRID_ROWS, JACK_STAT_KEYS } from '../constants/steamjack'
-import { STAT_KEYS } from '../constants/stats'
-import type { IkArmor, IkCharacter, IkMechanika, IkSkill, IkSteamjack, IkStoredItem } from '../types'
+import { POWER_ATTACKS } from '../constants/powerAttacks';
+import { skillRef } from '../constants/skills';
+import { GRID_COLUMNS, GRID_ROWS, JACK_STAT_KEYS } from '../constants/steamjack';
+import { STAT_KEYS } from '../constants/stats';
+import type { IkArmor, IkCharacter, IkMechanika, IkSkill, IkSteamjack, IkStoredItem } from '../types';
 
 // The skills printed on the official character sheet.
 const STARTING_SKILLS: Pick<IkSkill, 'name' | 'stat'>[] = [
@@ -13,11 +13,12 @@ const STARTING_SKILLS: Pick<IkSkill, 'name' | 'stat'>[] = [
   { name: 'Detection', stat: 'per' },
   { name: 'Sneak', stat: 'agl' },
   { name: 'Command', stat: 'social' },
-]
+];
 
 export const createSteamjack = (): IkSteamjack => ({
   name: '',
   chassis: '',
+  size: '',
   height: '',
   weight: '',
   fuelLoad: '',
@@ -27,13 +28,14 @@ export const createSteamjack = (): IkSteamjack => ({
   defense: { base: null, mod: null },
   armor: { base: null, mod: null },
   grid: Array.from({ length: GRID_COLUMNS * GRID_ROWS }, () => ({ type: 'hull', damaged: false })),
-  cortex: { imprint: '', fightingBonus: '', language: '', notes: '' },
+  cortex: { grade: '', imprint: '', fightingBonus: '', language: '', notes: '' },
+  advancement: { mat: null, rat: null },
   rangedWeapons: [],
   meleeWeapons: [],
   catastrophic: [],
   gear: [],
   powerAttacks: POWER_ATTACKS.map((attack) => ({ ...attack })),
-})
+});
 
 export const createMechanika = (): IkMechanika => ({
   name: '',
@@ -44,9 +46,9 @@ export const createMechanika = (): IkMechanika => ({
   lifespan: '',
   runes: [],
   notes: '',
-})
+});
 
-export const createArmor = (): IkArmor => ({ name: '', spd: null, def: null, arm: null, notes: '' })
+export const createArmor = (): IkArmor => ({ name: '', spd: null, def: null, arm: null, notes: '' });
 
 export const createStoredItem = (): IkStoredItem => ({
   kind: '',
@@ -62,10 +64,18 @@ export const createStoredItem = (): IkStoredItem => ({
   def: null,
   arm: null,
   notes: '',
-})
+});
 
 export const createCharacter = (): IkCharacter => ({
-  settings: { raceRules: true, careerRules: true, magic: true, mechanika: true, steamjacks: true, powerField: false, books: { kng: true, ua: true } },
+  settings: {
+    raceRules: true,
+    careerRules: true,
+    magic: true,
+    mechanika: true,
+    steamjacks: true,
+    powerField: false,
+    books: { kng: true, ua: true },
+  },
   identity: {
     name: '',
     player: '',
@@ -109,4 +119,4 @@ export const createCharacter = (): IkCharacter => ({
   mechanika: [],
   notes: { general: '', injuries: '', languages: '', religion: '' },
   steamjacks: [],
-})
+});

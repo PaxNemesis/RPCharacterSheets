@@ -31,6 +31,20 @@ describe('calculate', () => {
     const plate = (spd: number) => calculate({ ...hero, armor: [{ name: 'Plate', spd, def: -2, arm: 7, notes: '' }] })
     expect(plate(-2).defense).toBe(plate(0).defense)
     expect(plate(-2).initiative).toBe(plate(0).initiative)
+    expect(plate(-2)).toMatchObject({ armorSpeed: -2, speed: 4 })
+  })
+
+  it('leaves SPD in armor blank while SPD is blank', () => {
+    const armored = { ...character(), armor: [{ name: 'Plate', spd: -2, def: -2, arm: 7, notes: '' }] }
+    expect(calculate(armored).speed).toBeNull()
+  })
+
+  it('reduces armor’s SPD and DEF penalties by 1 with Load Bearing, but never into a bonus (p. 164)', () => {
+    const wearing = (spd: number, def: number, abilities = [{ name: ' load bearing', description: '', page: '' }]) =>
+      calculate({ ...hero, abilities, armor: [{ name: 'Armor', spd, def, arm: 5, notes: '' }] })
+    expect(wearing(-2, -2)).toMatchObject({ loadBearing: true, armorSpeed: -1, armorDefense: -1, speed: 5, defense: 6 + 5 + 3 - 1 })
+    expect(wearing(0, 0)).toMatchObject({ armorSpeed: 0, armorDefense: 0 })
+    expect(wearing(-2, -2, [])).toMatchObject({ loadBearing: false, armorSpeed: -2, armorDefense: -2 })
   })
 
   it('adds the race’s DEF bonus with race rules on', () => {

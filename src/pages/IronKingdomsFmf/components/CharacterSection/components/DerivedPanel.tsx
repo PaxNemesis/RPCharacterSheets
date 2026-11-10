@@ -23,7 +23,7 @@ export function DerivedPanel({ derived }: DerivedPanelProps) {
           { label: 'AGL', value: stat('agl') },
           { label: 'PER', value: stat('per') },
           ...(derived.racialDefense !== null ? [{ label: 'Race', value: derived.racialDefense }] : []),
-          { label: 'Armor', value: derived.armorDefense },
+          { label: derived.loadBearing ? 'Armor (Load Bearing)' : 'Armor', value: derived.armorDefense },
           { label: 'Other', path: 'modifiers.defense' },
         ]}
         total={derived.defense}

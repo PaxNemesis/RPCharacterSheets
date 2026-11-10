@@ -3,11 +3,17 @@ import type { IkCharacter, IkDerived, StatKey } from '../types'
 import { racialDefense, skillMaximum, statMaximum } from './rules'
 import { sum } from '@/utils/sum'
 
+// Load Bearing reduces the armor's SPD and DEF penalties by 1 each, without turning them into bonuses (p. 164).
+const lessPenalty = (total: number | null, loadBearing: boolean) =>
+  loadBearing && total !== null && total < 0 ? total + 1 : total
+
 /** Works out the derived stats and life spiral from the core rules (pp. 105–107, 215). */
 export function calculate(character: IkCharacter): IkDerived {
   const stat = (key: StatKey) => character.stats[key]?.value ?? null
   const statMax = (key: StatKey) => statMaximum(character, key)
-  const armorDefense = sum(...character.armor.map((piece) => piece.def))
+  const loadBearing = character.abilities.some((ability) => ability.name?.trim().toLowerCase() === 'load bearing')
+  const armorSpeed = lessPenalty(sum(...character.armor.map((piece) => piece.spd)), loadBearing)
+  const armorDefense = lessPenalty(sum(...character.armor.map((piece) => piece.def)), loadBearing)
   const armorArmor = sum(...character.armor.map((piece) => piece.arm))
   const commandSkill = character.skills.find((skill) => /^command\b/i.test(skill.name.trim()))?.level ?? null
   const raceDefense = racialDefense(character)
@@ -39,6 +45,10 @@ export function calculate(character: IkCharacter): IkDerived {
     skillMax: (name) => skillMaximum(character, name),
     spellLimit: stat('int') === null ? null : (stat('int') ?? 0) * 2,
     willpower: sum(stat('phy'), stat('int')),
+    loadBearing,
+    armorSpeed,
+    // Armor changes SPD only; DEF and initiative keep using the unmodified stat (p. 106).
+    speed: stat('spd') === null ? null : sum(stat('spd'), armorSpeed),
     armorDefense,
     armorArmor,
     defense: sum(stat('spd'), stat('agl'), stat('per'), raceDefense, armorDefense, modifiers.defense),

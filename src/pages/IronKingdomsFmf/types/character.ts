@@ -163,6 +163,12 @@ export type IkDerived = {
   skillMax: (name: string) => Num
   spellLimit: Num
   willpower: Num
+  /** Whether the character has the Load Bearing ability, which lessens armor penalties (p. 164). */
+  loadBearing: boolean
+  /** The worn armor's total SPD modifier, after Load Bearing. */
+  armorSpeed: Num
+  /** SPD in the worn armor, used for movement (pp. 203, 251). */
+  speed: Num
   armorDefense: Num
   armorArmor: Num
   defense: Num

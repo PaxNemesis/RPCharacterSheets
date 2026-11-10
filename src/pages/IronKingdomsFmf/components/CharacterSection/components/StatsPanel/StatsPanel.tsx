@@ -17,6 +17,7 @@ export function StatsPanel({ character, derived }: StatsPanelProps) {
   const raceRules = character.settings.raceRules
   const start = raceRules ? startingStats(character) : {}
   const canStart = Object.keys(start).length > 0
+  const armorChangesSpeed = derived.armorSpeed !== null && derived.armorSpeed !== 0 && derived.speed !== null
 
   const applyStart = () => {
     const filled = STAT_KEYS.some((key) => character.stats[key]?.value !== null)
@@ -54,6 +55,9 @@ export function StatsPanel({ character, derived }: StatsPanelProps) {
                 ) : (
                   <NumberField path={`stats.${key}.max`} label="Max" size="sm" className="stats-panel-max" />
                 )}
+                {key === 'spd' && armorChangesSpeed && (
+                  <NumberField value={derived.speed} label="In armor" size="sm" className="stats-panel-max" />
+                )}
               </div>
             ))}
           </div>
@@ -70,6 +74,7 @@ export function StatsPanel({ character, derived }: StatsPanelProps) {
           {raceRules
             ? 'Max comes from the race and level. Start with the starting stats, then spend 3 advancement points (p. 107).'
             : 'ARC is only used by characters with the Gifted archetype.'}
+          {armorChangesSpeed && ' SPD in armor is for movement; DEF and Initiative use the SPD stat (p. 106).'}
         </p>
       </div>
     </Panel>

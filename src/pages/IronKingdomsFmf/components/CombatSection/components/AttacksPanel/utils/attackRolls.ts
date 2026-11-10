@@ -38,8 +38,9 @@ const signed = (value: number) => (value < 0 ? `–${-value}` : `+${value}`)
 /** The number to add to 2d6, such as "+5" or "–2"; "—" when nothing is filled in. */
 export const formatRoll = ({ total }: Roll) => (typeof total === 'number' ? signed(total) : '—')
 
-/** "PRW (4) + Skill (2) + Mod (–1)", with "(none)" for anything not filled in. */
-export const formatParts = ({ parts }: Roll) =>
-  parts
-    .map(({ label, value }) => `${label} (${typeof value !== 'number' ? 'none' : value < 0 ? `–${-value}` : value})`)
-    .join(' + ')
+/** One part of a roll, such as "PRW (4)" or "Skill (none)" when it isn't filled in. */
+export const formatPart = ({ label, value }: RollPart) =>
+  `${label} (${typeof value !== 'number' ? 'none' : value < 0 ? `–${-value}` : value})`
+
+/** "PRW (4) + Skill (2) + Mod (–1)". */
+export const formatParts = ({ parts }: Roll) => parts.map(formatPart).join(' + ')

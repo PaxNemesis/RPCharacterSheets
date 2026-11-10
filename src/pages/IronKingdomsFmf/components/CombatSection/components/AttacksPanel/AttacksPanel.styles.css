@@ -1,7 +1,12 @@
 .attacks-panel-container {
+  /* Rows become cards when the panel, not just the screen, is narrow. */
+  .attacks-panel-table-wrap {
+    container-type: inline-size;
+  }
+
   .attacks-panel-table {
     width: 100%;
-    /* Fixed columns: a wider one for names, and equal ones for attack, damage and range. */
+    /* Fixed columns: a wider one for names, and equal ones for attack and damage. */
     table-layout: fixed;
     border-collapse: collapse;
     font-variant-numeric: tabular-nums;
@@ -10,19 +15,12 @@
     td {
       padding: var(--space-1) var(--space-xs);
       text-align: left;
+      vertical-align: top;
       border-bottom: 1px solid var(--border);
     }
 
     thead th:first-child {
-      width: 31%;
-    }
-
-    thead th {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-soft);
+      width: 34%;
     }
 
     tbody th {
@@ -30,11 +28,30 @@
       overflow-wrap: anywhere;
       color: var(--text-h);
     }
+  }
 
-    th,
-    td {
-      vertical-align: top;
-    }
+  /* Column headers, and the same labels inside each cell on cards. */
+  .attacks-panel-table thead th,
+  .attacks-panel-cell-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+
+  /* "2d6 +" after Attack and Damage: lighter than the label it follows. */
+  .attacks-panel-dice {
+    margin-left: var(--space-2xs);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  /* Shown only on cards; the column header labels the cell in the table. */
+  .attacks-panel-cell-label {
+    display: none;
   }
 
   /* The number to roll, large enough to read at a glance. */
@@ -46,12 +63,66 @@
     white-space: nowrap;
   }
 
-  /* Where the number comes from, or the weapon's kind under its name. */
+  /* Where the number comes from, or the weapon's kind, range and AOE under its name. */
   .attacks-panel-parts {
     display: block;
     margin-top: var(--space-2xs);
     font-size: 12px;
     font-weight: 400;
     color: var(--text-soft);
+  }
+
+  .attacks-panel-part {
+    white-space: nowrap;
+  }
+
+  @container (max-width: 560px) {
+    .attacks-panel-table,
+    .attacks-panel-table tbody {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .attacks-panel-table thead {
+      display: none;
+    }
+
+    /* A card: the weapon and its details across the top, then attack and damage side by side. */
+    .attacks-panel-table tbody tr {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-1) var(--space-2);
+      padding: var(--space-1) var(--space-2);
+      background: var(--surface-alt);
+      border-radius: 6px;
+    }
+
+    .attacks-panel-table tbody th,
+    .attacks-panel-table td {
+      display: block;
+      padding: 0;
+      border: none;
+    }
+
+    /* The name on the left and its details on the right; the details wrap below a long name. */
+    .attacks-panel-table tbody th {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-2xs) var(--space-2);
+
+      .attacks-panel-parts {
+        margin-top: 0;
+        font-size: 13px;
+      }
+    }
+
+    .attacks-panel-cell-label {
+      display: block;
+      margin-bottom: var(--space-2xs);
+    }
   }
 }

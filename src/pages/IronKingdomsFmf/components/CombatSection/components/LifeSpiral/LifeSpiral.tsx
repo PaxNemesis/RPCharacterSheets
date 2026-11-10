@@ -1,61 +1,63 @@
 /* oxlint-disable react/no-array-index-key -- The spiral's branches and circles are a fixed layout that never reorders. */
-import { useId, useMemo, type KeyboardEvent } from 'react'
-import { ASPECTS } from '../../../../constants/stats'
-import { branchLayout, labelPath, SPIRAL_SIZE } from './utils/spiralLayout'
-import './LifeSpiral.styles.css'
-
-// Circles per branch on the official sheet: 5 for Physique, 4 for Agility and Intellect.
-const SHEET_SLOTS = [5, 5, 4, 4, 4, 4]
+import { useId, useMemo, type KeyboardEvent } from 'react';
+import { ASPECTS } from '../../../../constants/stats';
+import { branchLayout, labelPath, SHEET_SLOTS, SPIRAL_SIZE } from '../../../../utils/spiralLayout';
+import './LifeSpiral.styles.css';
 
 type LifeSpiralProps = {
   /** Vitality points per branch. */
-  sizes: number[]
+  sizes: number[];
   /** Marked vitality points per branch. */
-  marked: number[]
-  onMark: (branch: number, count: number) => void
-}
+  marked: number[];
+  onMark: (branch: number, count: number) => void;
+};
 
 const cogPath = (() => {
-  const teeth = 14
+  const teeth = 14;
   const points = Array.from({ length: teeth * 4 }, (_, i) => {
-    const angle = (i / (teeth * 4)) * Math.PI * 2
-    const radius = i % 4 < 2 ? 292 : 262
-    return `${SPIRAL_SIZE / 2 + radius * Math.cos(angle)},${SPIRAL_SIZE / 2 + radius * Math.sin(angle)}`
-  })
-  return `M ${points.join(' L ')} Z`
-})()
+    const angle = (i / (teeth * 4)) * Math.PI * 2;
+    const radius = i % 4 < 2 ? 292 : 262;
+    return `${SPIRAL_SIZE / 2 + radius * Math.cos(angle)},${SPIRAL_SIZE / 2 + radius * Math.sin(angle)}`;
+  });
+  return `M ${points.join(' L ')} Z`;
+})();
 
 export function LifeSpiral({ sizes, marked, onMark }: LifeSpiralProps) {
-  const id = useId()
+  const id = useId();
   const branches = useMemo(
     () =>
       SHEET_SLOTS.map((slots, branch) => {
-        const aspectIndex = Math.floor(branch / 2)
-        return branchLayout(aspectIndex, branch % 2 === 1, Math.max(slots, sizes[branch]))
+        const aspectIndex = Math.floor(branch / 2);
+        return branchLayout(aspectIndex, branch % 2 === 1, Math.max(slots, sizes[branch]));
       }),
     [sizes],
-  )
+  );
 
   const toggle = (branch: number, point: number) => {
-    const count = Math.min(marked[branch] ?? 0, sizes[branch])
-    onMark(branch, point + 1 === count ? point : point + 1)
-  }
+    const count = Math.min(marked[branch] ?? 0, sizes[branch]);
+    onMark(branch, point + 1 === count ? point : point + 1);
+  };
 
   const onKey = (event: KeyboardEvent, branch: number, point: number) => {
     if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
-      toggle(branch, point)
+      event.preventDefault();
+      toggle(branch, point);
     }
-  }
+  };
 
   return (
-    <svg className="life-spiral-container" viewBox={`0 0 ${SPIRAL_SIZE} ${SPIRAL_SIZE}`} role="group" aria-label="Life spiral">
+    <svg
+      className="life-spiral-container"
+      viewBox={`0 0 ${SPIRAL_SIZE} ${SPIRAL_SIZE}`}
+      role="group"
+      aria-label="Life spiral"
+    >
       <path d={cogPath} className="life-spiral-cog" />
       {branches.map(({ badge, circles }, branch) => {
-        const aspect = ASPECTS[Math.floor(branch / 2)]
-        const unused = circles.length - sizes[branch]
-        const count = Math.min(marked[branch] ?? 0, sizes[branch])
-        const line = [badge, ...circles].map((c) => `${c.x},${c.y}`).join(' ')
+        const aspect = ASPECTS[Math.floor(branch / 2)];
+        const unused = circles.length - sizes[branch];
+        const count = Math.min(marked[branch] ?? 0, sizes[branch]);
+        const line = [badge, ...circles].map((c) => `${c.x},${c.y}`).join(' ');
         return (
           <g key={branch} style={{ color: aspect.color }}>
             {branch % 2 === 0 && (
@@ -71,10 +73,10 @@ export function LifeSpiral({ sizes, marked, onMark }: LifeSpiralProps) {
             <polyline points={line} className="life-spiral-line" />
             {circles.map((c, index) => {
               if (index < unused) {
-                return <circle key={index} cx={c.x} cy={c.y} r={c.r} className="life-spiral-unused" />
+                return <circle key={index} cx={c.x} cy={c.y} r={c.r} className="life-spiral-unused" />;
               }
-              const point = index - unused
-              const isMarked = point < count
+              const point = index - unused;
+              const isMarked = point < count;
               return (
                 <g
                   key={index}
@@ -93,15 +95,15 @@ export function LifeSpiral({ sizes, marked, onMark }: LifeSpiralProps) {
                     />
                   )}
                 </g>
-              )
+              );
             })}
             <circle cx={badge.x} cy={badge.y} r={badge.r} className="life-spiral-badge" />
             <text x={badge.x} y={badge.y} className="life-spiral-number">
               {branch + 1}
             </text>
           </g>
-        )
+        );
       })}
     </svg>
-  )
+  );
 }

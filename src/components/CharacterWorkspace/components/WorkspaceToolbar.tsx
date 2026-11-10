@@ -1,14 +1,18 @@
-import { useRef } from 'react'
+import { useRef } from 'react';
 
 type WorkspaceToolbarProps = {
-  onOpen: (files: File[]) => void
-  onSave: () => void
+  onOpen: (files: File[]) => void;
+  onSave: () => void;
   /** Missing while only one character is open. */
-  onSaveAll?: () => void
-}
+  onSaveAll?: () => void;
+  /** Missing for systems without a PDF export. */
+  onExportPdf?: () => void;
+  /** A PDF is being made, which can take a moment the first time. */
+  exporting?: boolean;
+};
 
-export function WorkspaceToolbar({ onOpen, onSave, onSaveAll }: WorkspaceToolbarProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
+export function WorkspaceToolbar({ onOpen, onSave, onSaveAll, onExportPdf, exporting }: WorkspaceToolbarProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="character-workspace-toolbar">
@@ -23,6 +27,11 @@ export function WorkspaceToolbar({ onOpen, onSave, onSaveAll }: WorkspaceToolbar
           Save all characters
         </button>
       )}
+      {onExportPdf && (
+        <button type="button" onClick={onExportPdf} disabled={exporting}>
+          {exporting ? 'Making PDF…' : 'Export PDF'}
+        </button>
+      )}
       <input
         ref={inputRef}
         type="file"
@@ -30,10 +39,10 @@ export function WorkspaceToolbar({ onOpen, onSave, onSaveAll }: WorkspaceToolbar
         multiple
         hidden
         onChange={(event) => {
-          onOpen([...(event.target.files ?? [])])
-          event.target.value = ''
+          onOpen([...(event.target.files ?? [])]);
+          event.target.value = '';
         }}
       />
     </div>
-  )
+  );
 }

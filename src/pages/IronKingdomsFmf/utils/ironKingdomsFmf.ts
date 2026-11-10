@@ -1,9 +1,9 @@
-import type { SheetSystem } from '@/components/CharacterWorkspace'
-import { IkSheet } from '../components'
-import type { IkCharacter } from '../types'
-import { createCharacter } from './createCharacter'
-import { LIST_ITEMS } from './listItems'
-import { migrate } from './migrate'
+import type { SheetSystem } from '@/components/CharacterWorkspace';
+import { IkSheet } from '../components';
+import type { IkCharacter } from '../types';
+import { createCharacter } from './createCharacter';
+import { LIST_ITEMS } from './listItems';
+import { migrate } from './migrate';
 
 export const ironKingdomsFmf: SheetSystem<IkCharacter> = {
   id: 'iron-kingdoms-fmf',
@@ -13,5 +13,7 @@ export const ironKingdomsFmf: SheetSystem<IkCharacter> = {
   listItems: LIST_ITEMS,
   migrate,
   getName: (character) => character.identity.name,
+  // The PDF code and its library load only when someone exports.
+  exportPdf: async (character) => (await import('./pdf/exportPdf')).exportPdf(character),
   Sheet: IkSheet,
-}
+};

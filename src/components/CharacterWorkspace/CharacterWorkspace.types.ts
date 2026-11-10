@@ -19,6 +19,11 @@ export type SheetSystem<T> = {
   /** Upgrades data saved by an older version of this system's sheet. */
   migrate?: (data: unknown, fromVersion: number) => unknown;
   getName: (data: T) => string;
+  /**
+   * The character as a fillable PDF, if the system has one. Load the PDF code inside it (a dynamic
+   * import), so it only downloads when someone exports.
+   */
+  exportPdf?: (data: T) => Promise<Uint8Array>;
   /** Renders the sheet. Fields read and write the character through SheetProvider. */
   Sheet: ComponentType<SheetProps>;
 };

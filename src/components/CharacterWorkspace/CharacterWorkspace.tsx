@@ -6,7 +6,7 @@ import { ConflictDialog, SheetErrorBoundary, StorageNotice, WorkspaceToolbar } f
 import { useCharacterStore } from './hooks/useCharacterStore';
 import { useLocationSync } from './hooks/useLocationSync';
 import { useOpenCharacters } from './hooks/useOpenCharacters';
-import { downloadAllCharacters, downloadCharacterFile } from './utils/characterFile';
+import { downloadAllCharacters, downloadCharacterFile, downloadCharacterPdf } from './utils/characterFile';
 import './CharacterWorkspace.styles.css';
 
 type CharacterWorkspaceProps<T> = {
@@ -21,6 +21,20 @@ export function CharacterWorkspace<T>({ system, location }: CharacterWorkspacePr
   const [localPanel, setLocalPanel] = useState<string>();
   const panel = location ? location.panel : localPanel;
   const showPanel = location ? location.showPanel : setLocalPanel;
+  const [exporting, setExporting] = useState(false);
+  const [exportFailed, setExportFailed] = useState(false);
+
+  const exportPdf = async () => {
+    setExporting(true);
+    try {
+      await downloadCharacterPdf(system, active);
+      setExportFailed(false);
+    } catch {
+      setExportFailed(true);
+    } finally {
+      setExporting(false);
+    }
+  };
   const { open, errors, clashes, opened, resolve } = useOpenCharacters(system, { characters, add, update, select });
   const nameOf = (data: T) => system.getName(data).trim() || 'Unnamed character';
 
@@ -60,6 +74,8 @@ export function CharacterWorkspace<T>({ system, location }: CharacterWorkspacePr
           onOpen={open}
           onSave={() => downloadCharacterFile(system, active)}
           onSaveAll={characters.length > 1 ? () => downloadAllCharacters(system, characters) : undefined}
+          onExportPdf={system.exportPdf ? exportPdf : undefined}
+          exporting={exporting}
         />
       </header>
       <StorageNotice />
@@ -67,6 +83,11 @@ export function CharacterWorkspace<T>({ system, location }: CharacterWorkspacePr
         <p className="character-workspace-alert" role="alert">
           This browser couldn&apos;t store your characters, possibly because storage is full or blocked. Use Save
           character to keep your changes.
+        </p>
+      )}
+      {exportFailed && (
+        <p className="character-workspace-alert" role="alert">
+          Couldn&apos;t make the PDF. Try again, or use Save character to keep a copy.
         </p>
       )}
       {errors.map((error) => (

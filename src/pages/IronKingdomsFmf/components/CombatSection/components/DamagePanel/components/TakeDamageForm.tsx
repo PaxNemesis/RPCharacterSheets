@@ -22,11 +22,11 @@ export function TakeDamageForm({ onApply }: TakeDamageFormProps) {
     <form className="damage-panel-form" onSubmit={submit}>
       <span className="damage-panel-form-title">Take damage</span>
       <label>
-        Points
+        <span className="damage-panel-form-label">Points</span>
         <input type="text" inputMode="numeric" value={amount} onChange={(event) => setAmount(event.target.value)} />
       </label>
       <label>
-        Branch (d6)
+        <span className="damage-panel-form-label">Branch (d6)</span>
         <select value={branch} onChange={(event) => setBranch(Number(event.target.value))}>
           {BRANCHES.map((number) => (
             <option key={number} value={number}>

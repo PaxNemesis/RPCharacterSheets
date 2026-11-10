@@ -1,0 +1,1 @@
+export { StatAspect } from './StatAspect';

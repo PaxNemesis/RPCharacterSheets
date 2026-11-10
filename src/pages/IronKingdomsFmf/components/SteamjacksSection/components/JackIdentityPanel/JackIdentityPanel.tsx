@@ -3,10 +3,11 @@ import { SelectField } from '@/components/SelectField';
 import { useSheet } from '@/components/SheetProvider';
 import { TextField } from '@/components/TextField';
 import { compareNames } from '@/utils/alphabetical';
-import { bookEnabled, bookRef } from '../../../constants/books';
-import { CHASSIS, findChassis } from '../../../constants/chassis';
-import type { IkSettings, IkSteamjack } from '../../../types';
-import { chassisValues, hasDamage } from '../utils/chassis';
+import { bookEnabled, bookRef } from '../../../../constants/books';
+import { CHASSIS, findChassis } from '../../../../constants/chassis';
+import type { IkSettings, IkSteamjack } from '../../../../types';
+import { chassisValues, hasDamage } from '../../utils/chassis';
+import './JackIdentityPanel.styles.css';
 
 type JackIdentityPanelProps = {
   jack: IkSteamjack;
@@ -40,9 +41,9 @@ export function JackIdentityPanel({ jack, settings }: JackIdentityPanelProps) {
   };
 
   return (
-    <Panel title="Steamjack">
-      <div className="ik-fields">
-        <TextField path="name" label="Name" />
+    <Panel title="Steamjack" className="jack-identity-panel-container">
+      <div className="jack-identity-panel-fields">
+        <TextField path="name" label="Name" className="jack-identity-panel-name" />
         <TextField
           path="chassis"
           label="Chassis"
@@ -51,10 +52,10 @@ export function JackIdentityPanel({ jack, settings }: JackIdentityPanelProps) {
           onPick={pick}
         />
         <SelectField path="size" label="Size" options={SIZES} />
-        <TextField path="height" label="Height" />
-        <TextField path="weight" label="Weight" />
-        <TextField path="fuelLoad" label="Max fuel load" />
-        <TextField path="fuelUse" label="Fuel consumption" />
+        <TextField path="height" label="Height" className="jack-identity-panel-short" />
+        <TextField path="weight" label="Weight" className="jack-identity-panel-short" />
+        <TextField path="fuelLoad" label="Max fuel load" className="jack-identity-panel-fuel" />
+        <TextField path="fuelUse" label="Fuel consumption" className="jack-identity-panel-fuel" />
       </div>
       <p className="ik-note">
         {known

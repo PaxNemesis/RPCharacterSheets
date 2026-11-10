@@ -1,0 +1,40 @@
+.jack-identity-panel-container {
+  /*
+   * One grid of ten columns for both lines, so their edges line up: name, chassis and size on the first;
+   * height and weight under the name, and the fuel fields under chassis and size, on the second.
+   */
+  .jack-identity-panel-fields {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: var(--space-1) var(--space-2);
+
+    > * {
+      grid-column: span 3;
+    }
+  }
+
+  .jack-identity-panel-name {
+    grid-column: span 4;
+  }
+
+  .jack-identity-panel-fields > .jack-identity-panel-short {
+    grid-column: span 2;
+  }
+
+  /* Name and the two fuel fields take a line each; the short fields pair up. */
+  @media (max-width: 700px) {
+    .jack-identity-panel-fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      > *,
+      > .jack-identity-panel-short {
+        grid-column: span 1;
+      }
+    }
+
+    .jack-identity-panel-name,
+    .jack-identity-panel-fields > .jack-identity-panel-fuel {
+      grid-column: 1 / -1;
+    }
+  }
+}

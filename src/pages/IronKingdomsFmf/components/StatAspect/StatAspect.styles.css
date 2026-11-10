@@ -1,0 +1,26 @@
+.stat-aspect-container {
+  padding: var(--space-1);
+  border-left: 4px solid var(--aspect-color);
+  background: var(--surface-alt);
+  border-radius: 0 6px 6px 0;
+
+  h3 {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--aspect-color);
+    margin-bottom: var(--space-xs);
+  }
+
+  .stat-aspect-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-1);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .stat-aspect-container h3 {
+    filter: brightness(1.6);
+  }
+}

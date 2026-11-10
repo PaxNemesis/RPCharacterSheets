@@ -1,30 +1,21 @@
 import { FormulaRow } from '@/components/FormulaRow';
-import { NumberField } from '@/components/NumberField';
 import { Panel } from '@/components/Panel';
 import { sum } from '@/utils/sum';
-import { JACK_STAT_KEYS } from '../../../../constants/steamjack';
-import { STAT_LABELS } from '../../../../constants/stats';
-import type { IkSteamjack } from '../../../../types';
-import type { JackCombat } from '../../utils/jackCombat';
-import './JackStatsPanel.styles.css';
+import type { IkSteamjack } from '../../../types';
+import type { JackCombat } from '../utils/jackCombat';
 
-type JackStatsPanelProps = {
+type JackCombatPanelProps = {
   jack: IkSteamjack;
   combat: JackCombat;
 };
 
-/** The chassis stats, and MAT, RAT, initiative, DEF and ARM worked out from them (pp. 300–305, 324). */
-export function JackStatsPanel({ jack, combat }: JackStatsPanelProps) {
+/** MAT, RAT, initiative, DEF and ARM, worked out from the stats and cortex (pp. 300–305, 324). */
+export function JackCombatPanel({ jack, combat }: JackCombatPanelProps) {
   const { stats, advancement } = jack;
   const over = [advancement.mat, advancement.rat].some((value) => (value ?? 0) > combat.advancementLimit);
 
   return (
-    <Panel title="Stats" className="jack-stats-panel-container">
-      <div className="jack-stats-panel-fields">
-        {JACK_STAT_KEYS.map((key) => (
-          <NumberField key={key} path={`stats.${key}`} label={STAT_LABELS[key]} />
-        ))}
-      </div>
+    <Panel title="Combat">
       <FormulaRow
         title="MAT"
         terms={[
@@ -73,6 +64,7 @@ export function JackStatsPanel({ jack, combat }: JackStatsPanelProps) {
         ]}
         total={sum(jack.armor.base, jack.armor.mod)}
       />
+      <p className="ik-note">Adv. is MAT and RAT gained as the warcaster advances (p. 324).</p>
     </Panel>
   );
 }

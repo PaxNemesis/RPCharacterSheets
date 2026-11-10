@@ -12,6 +12,7 @@ import {
 } from '../../../utils/weaponColumns';
 import { jackCombat } from '../utils/jackCombat';
 import { jackMeleePresets, jackRangedPresets } from '../utils/jackWeaponPresets';
+import { JackCombatPanel } from './JackCombatPanel';
 import { JackCortexPanel } from './JackCortexPanel';
 import { JackDamageGrid } from './JackDamageGrid';
 import { JackIdentityPanel } from './JackIdentityPanel';
@@ -58,11 +59,12 @@ export function SteamjackSheet({ settings }: SteamjackSheetProps) {
     <div className="ik-section">
       <JackIdentityPanel jack={jack} settings={settings} />
       <div className="ik-columns">
-        <JackStatsPanel jack={jack} combat={combat} />
         <Panel title="Image">
           <ImageField path="image" label="Steamjack image" placeholder={<JackSilhouette size={size} />} />
         </Panel>
+        <JackStatsPanel />
       </div>
+      <JackCombatPanel jack={jack} combat={combat} />
       <div className="ik-columns">
         <JackDamageGrid />
         <JackCortexPanel jack={jack} />

@@ -11,8 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as FabulaUltimaRouteImport } from './routes/fabula-ultima'
-import { Route as IronKingdomsFmfRouteImport } from './routes/iron-kingdoms-fmf'
+import { Route as FabulaUltimaChar123CharacterIdChar125RouteImport } from './routes/fabula-ultima.{-$characterId}'
+import { Route as IronKingdomsFmfChar123CharacterIdChar125RouteImport } from './routes/iron-kingdoms-fmf.{-$characterId}'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,49 +24,64 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FabulaUltimaRoute = FabulaUltimaRouteImport.update({
-  id: '/fabula-ultima',
-  path: '/fabula-ultima',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IronKingdomsFmfRoute = IronKingdomsFmfRouteImport.update({
-  id: '/iron-kingdoms-fmf',
-  path: '/iron-kingdoms-fmf',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const FabulaUltimaChar123CharacterIdChar125Route =
+  FabulaUltimaChar123CharacterIdChar125RouteImport.update({
+    id: '/fabula-ultima/{-$characterId}',
+    path: '/fabula-ultima/{-$characterId}',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const IronKingdomsFmfChar123CharacterIdChar125Route =
+  IronKingdomsFmfChar123CharacterIdChar125RouteImport.update({
+    id: '/iron-kingdoms-fmf/{-$characterId}',
+    path: '/iron-kingdoms-fmf/{-$characterId}',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/fabula-ultima': typeof FabulaUltimaRoute
-  '/iron-kingdoms-fmf': typeof IronKingdomsFmfRoute
+  '/fabula-ultima/{-$characterId}': typeof FabulaUltimaChar123CharacterIdChar125Route
+  '/iron-kingdoms-fmf/{-$characterId}': typeof IronKingdomsFmfChar123CharacterIdChar125Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/fabula-ultima': typeof FabulaUltimaRoute
-  '/iron-kingdoms-fmf': typeof IronKingdomsFmfRoute
+  '/fabula-ultima/{-$characterId}': typeof FabulaUltimaChar123CharacterIdChar125Route
+  '/iron-kingdoms-fmf/{-$characterId}': typeof IronKingdomsFmfChar123CharacterIdChar125Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/fabula-ultima': typeof FabulaUltimaRoute
-  '/iron-kingdoms-fmf': typeof IronKingdomsFmfRoute
+  '/fabula-ultima/{-$characterId}': typeof FabulaUltimaChar123CharacterIdChar125Route
+  '/iron-kingdoms-fmf/{-$characterId}': typeof IronKingdomsFmfChar123CharacterIdChar125Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/fabula-ultima' | '/iron-kingdoms-fmf'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/fabula-ultima/{-$characterId}'
+    | '/iron-kingdoms-fmf/{-$characterId}'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/fabula-ultima' | '/iron-kingdoms-fmf'
-  id: '__root__' | '/' | '/about' | '/fabula-ultima' | '/iron-kingdoms-fmf'
+  to:
+    | '/'
+    | '/about'
+    | '/fabula-ultima/{-$characterId}'
+    | '/iron-kingdoms-fmf/{-$characterId}'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/fabula-ultima/{-$characterId}'
+    | '/iron-kingdoms-fmf/{-$characterId}'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  FabulaUltimaRoute: typeof FabulaUltimaRoute
-  IronKingdomsFmfRoute: typeof IronKingdomsFmfRoute
+  FabulaUltimaChar123CharacterIdChar125Route: typeof FabulaUltimaChar123CharacterIdChar125Route
+  IronKingdomsFmfChar123CharacterIdChar125Route: typeof IronKingdomsFmfChar123CharacterIdChar125Route
 }
 
 declare module '@tanstack/react-router' {
@@ -85,18 +100,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/fabula-ultima': {
-      id: '/fabula-ultima'
-      path: '/fabula-ultima'
-      fullPath: '/fabula-ultima'
-      preLoaderRoute: typeof FabulaUltimaRouteImport
+    '/fabula-ultima/{-$characterId}': {
+      id: '/fabula-ultima/{-$characterId}'
+      path: '/fabula-ultima/{-$characterId}'
+      fullPath: '/fabula-ultima/{-$characterId}'
+      preLoaderRoute: typeof FabulaUltimaChar123CharacterIdChar125RouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/iron-kingdoms-fmf': {
-      id: '/iron-kingdoms-fmf'
-      path: '/iron-kingdoms-fmf'
-      fullPath: '/iron-kingdoms-fmf'
-      preLoaderRoute: typeof IronKingdomsFmfRouteImport
+    '/iron-kingdoms-fmf/{-$characterId}': {
+      id: '/iron-kingdoms-fmf/{-$characterId}'
+      path: '/iron-kingdoms-fmf/{-$characterId}'
+      fullPath: '/iron-kingdoms-fmf/{-$characterId}'
+      preLoaderRoute: typeof IronKingdomsFmfChar123CharacterIdChar125RouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -105,8 +120,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  FabulaUltimaRoute: FabulaUltimaRoute,
-  IronKingdomsFmfRoute: IronKingdomsFmfRoute,
+  FabulaUltimaChar123CharacterIdChar125Route:
+    FabulaUltimaChar123CharacterIdChar125Route,
+  IronKingdomsFmfChar123CharacterIdChar125Route:
+    IronKingdomsFmfChar123CharacterIdChar125Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

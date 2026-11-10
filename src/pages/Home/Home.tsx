@@ -1,5 +1,5 @@
-import { Link } from '@tanstack/react-router'
-import './Home.styles.css'
+import { Link } from '@tanstack/react-router';
+import './Home.styles.css';
 
 export function Home() {
   return (
@@ -11,13 +11,15 @@ export function Home() {
       </p>
       <ul className="home-systems">
         <li>
-          <Link to="/iron-kingdoms-fmf" className="home-system">
+          <Link to="/iron-kingdoms-fmf/{-$characterId}" className="home-system">
             <span className="home-system-title">Iron Kingdoms: Full Metal Fantasy</span>
-            <span className="home-system-description">Characters, life spiral, skills, gear, spells and steamjacks.</span>
+            <span className="home-system-description">
+              Characters, life spiral, skills, gear, spells and steamjacks.
+            </span>
           </Link>
         </li>
         <li>
-          <Link to="/fabula-ultima" className="home-system">
+          <Link to="/fabula-ultima/{-$characterId}" className="home-system">
             <span className="home-system-title">Fabula Ultima</span>
             <span className="home-system-description">
               Attributes, status effects, Bonds, classes and Skills, equipment, spells and rituals, with the Atlases.
@@ -26,5 +28,5 @@ export function Home() {
         </li>
       </ul>
     </div>
-  )
+  );
 }

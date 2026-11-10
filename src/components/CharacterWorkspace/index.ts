@@ -1,2 +1,2 @@
-export { CharacterWorkspace } from './CharacterWorkspace'
-export type { ListItems, SheetSystem } from './CharacterWorkspace.types'
+export { CharacterWorkspace } from './CharacterWorkspace';
+export type { ListItems, SheetProps, SheetSystem, WorkspaceLocation } from './CharacterWorkspace.types';

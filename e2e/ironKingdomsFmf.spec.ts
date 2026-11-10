@@ -20,13 +20,16 @@ const dwarf = {
   abilities: [{ name: 'Load Bearing', description: '', page: '' }],
 };
 
-/** Opens the sheet with only the given character saved in the browser. */
-async function openWith(page: Page, data: unknown) {
+/** Opens the sheet with only these characters saved in the browser, the first one open. */
+async function openCharacters(page: Page, characters: { id: string; data: unknown }[]) {
   await page.goto('iron-kingdoms-fmf');
-  const state = { version: 3, savedAt: Date.now(), activeId: 'e2e', characters: [{ id: 'e2e', data }] };
+  const state = { version: 3, savedAt: Date.now(), activeId: characters[0].id, characters };
   await page.evaluate(([key, value]) => localStorage.setItem(key, value), [storageKey, JSON.stringify(state)]);
   await page.reload();
 }
+
+/** Opens the sheet with only the given character saved in the browser. */
+const openWith = (page: Page, data: unknown) => openCharacters(page, [{ id: 'e2e', data }]);
 
 const row = (page: Page, title: string) => page.getByRole('group', { name: title, exact: true });
 const box = (page: Page, title: string, label: string) => row(page, title).getByLabel(label, { exact: true });
@@ -228,5 +231,49 @@ test.describe('steamjacks', () => {
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
     );
     expect(overflow).toBe(0);
+  });
+});
+
+test.describe('the URL', () => {
+  const alice = { id: 'alice', data: { identity: { name: 'Alice' } } };
+  const bob = { id: 'bob', data: { identity: { name: 'Bob' } } };
+  const openTab = (page: Page) =>
+    page.getByRole('tablist', { name: 'Open characters' }).getByRole('tab', { selected: true });
+  const panelTab = (page: Page) =>
+    page.getByRole('tablist', { name: 'Sheet sections' }).getByRole('tab', { selected: true });
+
+  test('names the open character and panel, and a link to them opens them', async ({ page }) => {
+    await openCharacters(page, [alice, bob]);
+    await expect(page).toHaveURL(/\/iron-kingdoms-fmf\/alice$/);
+
+    await page.getByRole('tab', { name: 'Notes' }).click();
+    await expect(page).toHaveURL(/\/iron-kingdoms-fmf\/alice\?panel=notes$/);
+
+    await page.goto('iron-kingdoms-fmf/bob?panel=steamjacks');
+    await expect(openTab(page)).toHaveText(/Bob/);
+    await expect(panelTab(page)).toHaveText('Steamjacks');
+    await page.reload();
+    await expect(openTab(page)).toHaveText(/Bob/);
+    await expect(panelTab(page)).toHaveText('Steamjacks');
+  });
+
+  test('the back button goes back to the character shown before', async ({ page }) => {
+    await openCharacters(page, [alice, bob]);
+    await page.getByRole('tab', { name: 'Combat & damage' }).click();
+    await page.getByRole('tab', { name: 'Bob' }).click();
+    // Switching character keeps the panel.
+    await expect(page).toHaveURL(/\/iron-kingdoms-fmf\/bob\?panel=combat$/);
+
+    await page.goBack();
+    await expect(page).toHaveURL(/\/iron-kingdoms-fmf\/alice\?panel=combat$/);
+    await expect(openTab(page)).toHaveText(/Alice/);
+  });
+
+  test('a character that isn’t open, or a panel that doesn’t exist, falls back to what is there', async ({ page }) => {
+    await openCharacters(page, [alice]);
+    await page.goto('iron-kingdoms-fmf/nobody?panel=nowhere');
+    await expect(page).toHaveURL(/\/iron-kingdoms-fmf\/alice\?panel=nowhere$/);
+    await expect(openTab(page)).toHaveText(/Alice/);
+    await expect(panelTab(page)).toHaveText('Character');
   });
 });

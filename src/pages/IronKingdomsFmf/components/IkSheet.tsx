@@ -1,22 +1,23 @@
-import { useState, type ComponentType } from 'react'
-import { Tabs } from '@/components/Tabs'
-import { useIkCharacter } from '../hooks/useIkCharacter'
-import type { IkSettings } from '../types'
-import { CharacterSection } from './CharacterSection'
-import { CombatSection } from './CombatSection'
-import { EquipmentSection } from './EquipmentSection'
-import { MagicSection } from './MagicSection'
-import { NotesSection } from './NotesSection'
-import { SettingsSection } from './SettingsSection'
-import { SkillsSection } from './SkillsSection'
-import { SteamjacksSection } from './SteamjacksSection'
+import type { ComponentType } from 'react';
+import type { SheetProps } from '@/components/CharacterWorkspace';
+import { Tabs } from '@/components/Tabs';
+import { useIkCharacter } from '../hooks/useIkCharacter';
+import type { IkSettings } from '../types';
+import { CharacterSection } from './CharacterSection';
+import { CombatSection } from './CombatSection';
+import { EquipmentSection } from './EquipmentSection';
+import { MagicSection } from './MagicSection';
+import { NotesSection } from './NotesSection';
+import { SettingsSection } from './SettingsSection';
+import { SkillsSection } from './SkillsSection';
+import { SteamjacksSection } from './SteamjacksSection';
 
 type Section = {
-  id: string
-  label: string
-  Component: ComponentType
-  isVisible?: (settings: IkSettings) => boolean
-}
+  id: string;
+  label: string;
+  Component: ComponentType;
+  isVisible?: (settings: IkSettings) => boolean;
+};
 
 const SECTIONS: Section[] = [
   { id: 'character', label: 'Character', Component: CharacterSection },
@@ -27,18 +28,18 @@ const SECTIONS: Section[] = [
   { id: 'steamjacks', label: 'Steamjacks', Component: SteamjacksSection, isVisible: (s) => s.steamjacks },
   { id: 'notes', label: 'Notes', Component: NotesSection },
   { id: 'settings', label: 'Settings', Component: SettingsSection },
-]
+];
 
-export function IkSheet() {
-  const { character } = useIkCharacter()
-  const [sectionId, setSectionId] = useState(SECTIONS[0].id)
-  const sections = SECTIONS.filter((section) => section.isVisible?.(character.settings) ?? true)
-  const active = sections.find((section) => section.id === sectionId) ?? sections[0]
+export function IkSheet({ panel, onPanelChange }: SheetProps) {
+  const { character } = useIkCharacter();
+  const sections = SECTIONS.filter((section) => section.isVisible?.(character.settings) ?? true);
+  // An unknown panel, or one this character doesn't have, shows the first.
+  const active = sections.find((section) => section.id === panel) ?? sections[0];
 
   return (
     <div className="ik-sheet">
-      <Tabs label="Sheet sections" variant="secondary" items={sections} activeId={active.id} onSelect={setSectionId} />
+      <Tabs label="Sheet sections" variant="secondary" items={sections} activeId={active.id} onSelect={onPanelChange} />
       <active.Component />
     </div>
-  )
+  );
 }

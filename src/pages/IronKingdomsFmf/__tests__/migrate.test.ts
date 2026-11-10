@@ -14,8 +14,15 @@ describe('migrate', () => {
 
   it('keeps careers that are not in the book as text with career rules off', () => {
     const migrated = migrate({ identity: { careers: 'Soldier and Dreamer' } }, 1) as Record<string, Record<string, unknown>>
+    expect(migrated.identity.careers).toBe('Soldier and Dreamer')
     expect(migrated.settings.careerRules).toBe(false)
     expect(migrated.identity.careerList).toEqual(['', ''])
+  })
+
+  it('picks careers from the book out of the old career text, with career rules on', () => {
+    const migrated = migrate({ identity: { careers: 'Soldier / Pistoleer', race: 'Human' } }, 1) as Record<string, Record<string, unknown>>
+    expect(migrated.identity.careerList).toEqual(['Soldier', 'Pistoleer'])
+    expect(migrated.settings).toMatchObject({ careerRules: true, raceRules: true })
   })
 
   it('leaves current data and non-objects alone', () => {

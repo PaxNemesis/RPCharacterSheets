@@ -35,8 +35,11 @@ describe('mechanika', () => {
   it('reports too many points, too little power and runes of the wrong type', () => {
     const runes = [rune('Fleet', 3), rune('Spell Ward', 3)]
     expect(runePoints(runes)).toBe(6)
-    expect(mechanikaProblems(device({ power: 4, runes }))).toHaveLength(2)
-    expect(mechanikaProblems(device({ runes: [rune('Blast', 2)] }))[0]).toMatch(/^Not armor runes: Blast/)
+    expect(mechanikaProblems(device({ power: 4, runes }))).toEqual([
+      expect.stringMatching(/^The runes need 6 rune points; a runeplate holds at most 5/),
+      expect.stringMatching(/^The runes need 6 power but the capacitor gives 4/),
+    ])
+    expect(mechanikaProblems(device({ runes: [rune('Blast', 2)] }))).toEqual([expect.stringMatching(/^Not armor runes: Blast\./)])
     expect(mechanikaProblems(device({ power: 3, runes: [rune('Aegis', 1)] }))).toEqual([])
   })
 })

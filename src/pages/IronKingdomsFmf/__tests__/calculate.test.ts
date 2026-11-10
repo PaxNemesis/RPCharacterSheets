@@ -1,0 +1,67 @@
+import { describe, expect, it } from 'vitest'
+import { calculate } from '../utils/calculate'
+import { character, statsWith } from './character'
+
+const hero = character({
+  identity: { race: 'Human' },
+  stats: statsWith({ phy: 7, spd: 6, str: 4, agl: 5, prw: 4, poi: 4, int: 4, per: 3 }),
+})
+
+describe('calculate', () => {
+  it('splits each aspect’s vitality over its two branches, the odd point on the first', () => {
+    const derived = calculate(hero)
+    expect(derived.branchSizes).toEqual([4, 3, 3, 2, 2, 2])
+    expect(derived.vitality).toBe(16)
+  })
+
+  it('works out DEF, ARM, initiative and willpower from stats, armor and modifiers (p. 106)', () => {
+    const armored = {
+      ...hero,
+      armor: [{ name: 'Plate', spd: -2, def: -2, arm: 7, notes: '' }],
+      modifiers: { ...hero.modifiers, defense: 1, initiative: 2 },
+    }
+    const derived = calculate(armored)
+    expect(derived.defense).toBe(6 + 5 + 3 - 2 + 1)
+    expect(derived.armor).toBe(7 + 7)
+    expect(derived.initiative).toBe(6 + 4 + 3 + 2)
+    expect(derived.willpower).toBe(7 + 4)
+  })
+
+  it('leaves DEF and initiative alone for armor’s SPD modifier, which changes only SPD (pp. 106, 251)', () => {
+    const plate = (spd: number) => calculate({ ...hero, armor: [{ name: 'Plate', spd, def: -2, arm: 7, notes: '' }] })
+    expect(plate(-2).defense).toBe(plate(0).defense)
+    expect(plate(-2).initiative).toBe(plate(0).initiative)
+  })
+
+  it('adds the race’s DEF bonus with race rules on', () => {
+    const gobber = { ...hero, identity: { ...hero.identity, race: 'Gobber' } }
+    expect(calculate(gobber).racialDefense).toBe(1)
+    expect(calculate(gobber).defense).toBe(calculate(hero).defense! + 1)
+  })
+
+  it('leaves totals blank when none of their stats are filled in', () => {
+    const derived = calculate(character())
+    expect(derived.defense).toBeNull()
+    expect(derived.willpower).toBeNull()
+    expect(derived.spellLimit).toBeNull()
+    expect(derived.vitality).toBe(0)
+  })
+
+  it('knows twice INT spells and a command range of INT plus the Command skill (pp. 106, 118)', () => {
+    const commander = { ...hero, skills: [{ name: 'Command', stat: 'social' as const, level: 2, page: '' }] }
+    expect(calculate(commander).spellLimit).toBe(8)
+    expect(calculate(commander).commandRange).toBe(6)
+  })
+
+  it('cripples an aspect once both of its branches are full', () => {
+    const hurt = (marked: number[]) => calculate({ ...hero, damage: { marked, notes: '' } }).crippled
+    expect(hurt([4, 2, 0, 0, 0, 0])).toEqual([])
+    expect(hurt([4, 3, 0, 0, 0, 0])).toEqual(['physique'])
+    expect(hurt([0, 0, 3, 2, 2, 2])).toEqual(['agility', 'intellect'])
+  })
+
+  it('flags stats above their maximum', () => {
+    const strong = { ...hero, stats: { ...hero.stats, str: { value: 7, max: null } } }
+    expect(calculate(strong).overMax).toEqual(['str'])
+  })
+})

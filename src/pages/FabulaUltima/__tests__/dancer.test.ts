@@ -28,10 +28,15 @@ describe('dancer', () => {
   })
 
   it('works out Maenad and Unicorn amounts from the current Dexterity die and level', () => {
-    const at = (level: number) =>
-      calculate(character({ attributes: { dex: '10', ins: '8', mig: '8', wlp: '8' }, classes: [classWith('Dancer', ['Dance', level])] }))
+    const at = (level: number, enraged = false) => {
+      const sheet = character({ attributes: { dex: '10', ins: '8', mig: '8', wlp: '8' }, classes: [classWith('Dancer', ['Dance', level])] })
+      return calculate({ ...sheet, statuses: { ...sheet.statuses, enraged } })
+    }
     expect(danceAmount('Maenad Dance', at(5))).toBe('10 MP loss')
     expect([at(5), at(20), at(40)].map((derived) => danceAmount('Unicorn Dance', derived))).toEqual(['10 HP each', '15 HP each', '20 HP each'])
     expect(danceAmount('Lion Dance', at(5))).toBeUndefined()
+    // Enraged lowers the DEX die from d10 to d8.
+    expect(danceAmount('Maenad Dance', at(5, true))).toBe('8 MP loss')
+    expect(danceAmount('Unicorn Dance', at(20, true))).toBe('13 HP each')
   })
 })

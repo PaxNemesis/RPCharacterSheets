@@ -29,8 +29,8 @@ describe('delicacies', () => {
   it('keeps an effect with choices while one of its choices is still free', () => {
     const gourmet = cookbook({ 'bitter+bitter': { effect: '1', choice: 'dazed' } })
     expect(rollCombination(gourmet, 'bitter+salty', rolls(1)).roll).toBe(1)
-    expect(freeChoices(cookbook({ ...gourmet.combinations, 'bitter+salty': { effect: '1', choice: '' } }), 'bitter+salty')).not.toContain(
-      'dazed',
-    )
+    const free = freeChoices(cookbook({ ...gourmet.combinations, 'bitter+salty': { effect: '1', choice: '' } }), 'bitter+salty')
+    expect(free).not.toContain('dazed')
+    expect(free).toContain('shaken')
   })
 })

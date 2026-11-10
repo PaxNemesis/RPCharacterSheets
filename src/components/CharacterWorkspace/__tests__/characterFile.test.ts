@@ -1,19 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import type { SheetSystem } from '../CharacterWorkspace.types'
 import { parseCharacterFile } from '../utils/characterFile'
+import { system } from './testSystem'
 
-type Hero = { name: string; level: number; title: string }
-
-const system: SheetSystem<Hero> = {
-  id: 'test',
-  title: 'Test',
-  version: 2,
-  createCharacter: () => ({ name: '', level: 1, title: '' }),
-  // Version 2 renamed `rank` to `title`.
-  migrate: (data, from) => (from < 2 ? { ...(data as object), title: (data as { rank?: string }).rank ?? '' } : data),
-  getName: (hero) => hero.name,
-  Sheet: () => null,
-}
 const read = (file: unknown) => parseCharacterFile(system, JSON.stringify(file))
 const hero = { name: 'Ana', level: 3, title: 'Knight' }
 
@@ -33,6 +21,11 @@ describe('parseCharacterFile', () => {
   it('upgrades older files and ignores ids the sheet would not have written', () => {
     const file = read({ system: 'test', version: 1, id: 'not an id!', data: { name: 'Ana', rank: 'Squire' } })
     expect(file.characters[0]).toEqual({ id: undefined, data: { name: 'Ana', level: 1, title: 'Squire', rank: 'Squire' } })
+  })
+
+  it('treats a file without a version as version 1', () => {
+    const file = read({ system: 'test', data: { name: 'Ana', rank: 'Squire' } })
+    expect(file.characters[0].data.title).toBe('Squire')
   })
 
   it('refuses other games, newer versions and files that are not characters', () => {

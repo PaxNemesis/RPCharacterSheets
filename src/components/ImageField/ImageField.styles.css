@@ -28,6 +28,14 @@
     border-style: solid;
   }
 
+  /* The placeholder, if any, with the hint under it. */
+  .image-field-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
   .image-field-hint {
     color: var(--text-soft);
     padding: var(--space-2);

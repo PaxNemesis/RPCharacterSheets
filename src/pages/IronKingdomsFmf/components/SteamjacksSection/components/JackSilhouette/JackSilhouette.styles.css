@@ -1,0 +1,15 @@
+.jack-silhouette-container {
+  width: 140px;
+  height: 140px;
+  /* Quiet enough to read as a placeholder, not a picture. */
+  fill: var(--text-soft);
+  opacity: 0.45;
+  /* Each part is outlined in the box's colour, so overlapping parts show seams like plating. */
+  stroke: var(--input-bg);
+  stroke-width: 2.5;
+
+  .jack-silhouette-eye {
+    fill: var(--input-bg);
+    stroke: none;
+  }
+}

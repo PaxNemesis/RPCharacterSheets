@@ -1,34 +1,34 @@
 /* oxlint-disable react/no-array-index-key -- The damage grid has a fixed set of cells that never reorders. */
-import { useState } from 'react'
-import { Panel } from '@/components/Panel'
-import { useSheetField } from '@/components/SheetProvider'
-import { CRIPPLED_SYSTEMS, GRID_CELL_TYPES, GRID_COLUMNS, GRID_ROWS } from '../../../../constants/steamjack'
-import type { JackGridCell } from '../../../../types'
-import './JackDamageGrid.styles.css'
+import { useState } from 'react';
+import { Panel } from '@/components/Panel';
+import { useSheetField } from '@/components/SheetProvider';
+import { CRIPPLED_SYSTEMS, GRID_CELL_TYPES, GRID_COLUMNS, GRID_ROWS } from '../../../../constants/steamjack';
+import type { JackGridCell } from '../../../../types';
+import './JackDamageGrid.styles.css';
 
-const labelOf = (type: string) => GRID_CELL_TYPES.find((cell) => cell.type === type)?.label ?? type
+const labelOf = (type: string) => GRID_CELL_TYPES.find((cell) => cell.type === type)?.label ?? type;
 
 export function JackDamageGrid() {
-  const [grid, setGrid] = useSheetField<JackGridCell[]>('grid')
-  const [editing, setEditing] = useState(false)
-  const cells = grid ?? []
+  const [grid, setGrid] = useSheetField<JackGridCell[]>('grid');
+  const [editing, setEditing] = useState(false);
+  const cells = grid ?? [];
 
   const onCell = (index: number) => {
-    const cell = cells[index]
-    if (!cell) return
-    const next = [...cells]
+    const cell = cells[index];
+    if (!cell) return;
+    const next = [...cells];
     if (editing) {
-      const position = GRID_CELL_TYPES.findIndex((option) => option.type === cell.type)
-      next[index] = { type: GRID_CELL_TYPES[(position + 1) % GRID_CELL_TYPES.length].type, damaged: false }
+      const position = GRID_CELL_TYPES.findIndex((option) => option.type === cell.type);
+      next[index] = { type: GRID_CELL_TYPES[(position + 1) % GRID_CELL_TYPES.length].type, damaged: false };
     } else if (cell.type) {
-      next[index] = { ...cell, damaged: !cell.damaged }
+      next[index] = { ...cell, damaged: !cell.damaged };
     }
-    setGrid(next)
-  }
+    setGrid(next);
+  };
 
-  const systems = [...new Set(cells.map((cell) => cell.type).filter((type) => CRIPPLED_SYSTEMS[type]))]
-  const crippled = systems.filter((type) => cells.every((cell) => cell.type !== type || cell.damaged))
-  const boxes = cells.filter((cell) => cell.type)
+  const systems = [...new Set(cells.map((cell) => cell.type).filter((type) => CRIPPLED_SYSTEMS[type]))];
+  const crippled = systems.filter((type) => cells.every((cell) => cell.type !== type || cell.damaged));
+  const boxes = cells.filter((cell) => cell.type);
 
   return (
     <Panel
@@ -53,9 +53,9 @@ export function JackDamageGrid() {
       </div>
       <div className={editing ? 'jack-damage-grid jack-damage-grid-editing' : 'jack-damage-grid'}>
         {cells.slice(0, GRID_COLUMNS * GRID_ROWS).map((cell, index) => {
-          const column = Math.floor(index / GRID_ROWS) + 1
-          const row = (index % GRID_ROWS) + 1
-          const name = cell.type ? labelOf(cell.type) : 'no box'
+          const column = Math.floor(index / GRID_ROWS) + 1;
+          const row = (index % GRID_ROWS) + 1;
+          const name = cell.type ? labelOf(cell.type) : 'no box';
           return (
             <button
               key={index}
@@ -73,7 +73,7 @@ export function JackDamageGrid() {
             >
               {cell.type !== 'hull' && cell.type}
             </button>
-          )
+          );
         })}
       </div>
       {crippled.map((type) => (
@@ -82,5 +82,5 @@ export function JackDamageGrid() {
         </p>
       ))}
     </Panel>
-  )
+  );
 }

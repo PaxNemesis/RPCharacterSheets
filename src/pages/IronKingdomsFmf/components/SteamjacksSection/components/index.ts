@@ -1,1 +1,1 @@
-export { SteamjackSheet } from './SteamjackSheet'
+export { SteamjackSheet } from './SteamjackSheet';

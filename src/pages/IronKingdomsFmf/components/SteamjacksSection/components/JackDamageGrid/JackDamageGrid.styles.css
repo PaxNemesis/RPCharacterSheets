@@ -44,8 +44,7 @@
     color: var(--accent-contrast);
     background:
       linear-gradient(45deg, transparent 45%, var(--input-bg) 45% 55%, transparent 55%),
-      linear-gradient(-45deg, transparent 45%, var(--input-bg) 45% 55%, transparent 55%),
-      var(--accent);
+      linear-gradient(-45deg, transparent 45%, var(--input-bg) 45% 55%, transparent 55%), var(--accent);
   }
 
   .jack-damage-grid-editing .jack-damage-grid-cell {

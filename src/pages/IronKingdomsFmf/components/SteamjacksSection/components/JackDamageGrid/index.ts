@@ -1,1 +1,1 @@
-export { JackDamageGrid } from './JackDamageGrid'
+export { JackDamageGrid } from './JackDamageGrid';

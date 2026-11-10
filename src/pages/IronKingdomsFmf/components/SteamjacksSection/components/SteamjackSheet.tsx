@@ -15,6 +15,7 @@ import { jackMeleePresets, jackRangedPresets } from '../utils/jackWeaponPresets'
 import { JackCortexPanel } from './JackCortexPanel';
 import { JackDamageGrid } from './JackDamageGrid';
 import { JackIdentityPanel } from './JackIdentityPanel';
+import { JackSilhouette } from './JackSilhouette';
 import { JackStatsPanel } from './JackStatsPanel';
 
 const CATASTROPHIC_COLUMNS: RepeatTableColumn[] = [
@@ -59,7 +60,7 @@ export function SteamjackSheet({ settings }: SteamjackSheetProps) {
       <div className="ik-columns">
         <JackStatsPanel jack={jack} combat={combat} />
         <Panel title="Image">
-          <ImageField path="image" label="Steamjack image" />
+          <ImageField path="image" label="Steamjack image" placeholder={<JackSilhouette size={size} />} />
         </Panel>
       </div>
       <div className="ik-columns">

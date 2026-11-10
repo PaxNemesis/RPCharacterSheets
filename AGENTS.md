@@ -10,6 +10,7 @@ Multi-system tabletop RPG character sheets. React 19 + TypeScript single-page ap
 - `pnpm lint` — lint with oxlint
 - `pnpm format` — format every file with Prettier (`pnpm format:check` only reports files that need it)
 - `pnpm test` — run the unit tests once with Vitest (`pnpm test:watch` to rerun on changes)
+- `pnpm test:e2e` — run the browser tests with Playwright, on desktop and phone sizes. It uses the dev server on port 5173, starting one if none is running. Install the browser once with `pnpm exec playwright install chromium`.
 
 Before finishing a change, run `pnpm format`, then `pnpm build`, `pnpm lint` and `pnpm test`, and make sure all three pass. The deploy workflow runs the tests before building.
 
@@ -18,6 +19,7 @@ Before finishing a change, run `pnpm format`, then `pnpm build`, `pnpm lint` and
 - Vitest with jsdom and Testing Library, configured in the `test` block of `vite.config.ts`. `src/test/setup.ts` adds the jest-dom matchers and clears the DOM and localStorage after each test.
 - Tests go in a `__tests__/` folder inside the component or page folder they cover (`src/pages/IronKingdomsFmf/__tests__/migrate.test.ts`), and may import that folder's internals with relative paths.
 - Add tests for rules, formulas and migrations whenever you change them.
+- Browser tests are Playwright specs in `e2e/` (`e2e/ironKingdomsFmf.spec.ts`), one file per page. Use them for what jsdom can't show: layout, phone width, and saving across a reload. Find elements by role and label, as users do. To start from a known character, save it to the browser's storage and reload, as `openWith` does. Run `pnpm test:e2e` when you change a page they cover.
 
 ## Code conventions
 

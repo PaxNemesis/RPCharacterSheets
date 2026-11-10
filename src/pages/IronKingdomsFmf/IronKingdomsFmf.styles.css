@@ -22,6 +22,14 @@
     gap: var(--space-1);
   }
 
+  /* A narrow gold field beside the text about other wealth. */
+  .ik-wealth {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: var(--space-1) var(--space-2);
+    align-items: start;
+  }
+
   .ik-wide {
     grid-column: 1 / -1;
   }

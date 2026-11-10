@@ -1,5 +1,5 @@
-import type { IkStoredItem, IkStoredKind, Num, StatKey } from '../../../types'
-import { meleeAttack, meleeDamage, rangedAttack } from '../../../utils/weaponColumns'
+import type { IkStoredItem, IkStoredKind, Num, StatKey } from '../../../../../types'
+import { meleeAttack, meleeDamage, rangedAttack } from '../../../../../utils/weaponColumns'
 
 export const KIND_LABELS: Record<IkStoredKind, string> = {
   ranged: 'Ranged weapon',

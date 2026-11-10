@@ -1,0 +1,45 @@
+import { sum } from '@/utils/sum'
+import type { IkMeleeWeapon, IkRangedWeapon, Num, StatKey } from '../../../../../types'
+
+/** One number that goes into a roll, such as { label: 'PRW', value: 4 }. */
+export type RollPart = { label: string; value: Num }
+
+/** A roll of 2d6 plus the total of its parts (pp. 207, 215). */
+export type Roll = { total: Num; parts: RollPart[] }
+
+type StatLookup = (key: StatKey) => Num
+
+const roll = (parts: RollPart[]): Roll => ({ total: sum(...parts.map((part) => part.value)), parts })
+
+export const rangedRolls = (weapon: IkRangedWeapon, stat: StatLookup) => {
+  const key = weapon.attackStat === 'prw' ? 'prw' : 'poi'
+  return {
+    attack: roll([
+      { label: key.toUpperCase(), value: stat(key) },
+      { label: 'Skill', value: weapon.skill },
+      { label: 'Mod', value: weapon.attackMod },
+    ]),
+    damage: roll([{ label: 'POW', value: weapon.pow }]),
+  }
+}
+
+export const meleeRolls = (weapon: IkMeleeWeapon, stat: StatLookup) => ({
+  attack: roll([
+    { label: 'PRW', value: stat('prw') },
+    { label: 'Skill', value: weapon.skill },
+    { label: 'Mod', value: weapon.attackMod },
+  ]),
+  // A weapon without POW, such as a garrote, has no damage roll of its own.
+  damage: typeof weapon.pow === 'number' ? roll([{ label: 'POW', value: weapon.pow }, { label: 'STR', value: stat('str') }]) : roll([]),
+})
+
+const signed = (value: number) => (value < 0 ? `–${-value}` : `+${value}`)
+
+/** The number to add to 2d6, such as "+5" or "–2"; "—" when nothing is filled in. */
+export const formatRoll = ({ total }: Roll) => (typeof total === 'number' ? signed(total) : '—')
+
+/** "PRW (4) + Skill (2) + Mod (–1)", with "(none)" for anything not filled in. */
+export const formatParts = ({ parts }: Roll) =>
+  parts
+    .map(({ label, value }) => `${label} (${typeof value !== 'number' ? 'none' : value < 0 ? `–${-value}` : value})`)
+    .join(' + ')

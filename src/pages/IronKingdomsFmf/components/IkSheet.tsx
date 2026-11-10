@@ -4,7 +4,7 @@ import { useIkCharacter } from '../hooks/useIkCharacter'
 import type { IkSettings } from '../types'
 import { CharacterSection } from './CharacterSection'
 import { CombatSection } from './CombatSection'
-import { GearSection } from './GearSection'
+import { EquipmentSection } from './EquipmentSection'
 import { MagicSection } from './MagicSection'
 import { NotesSection } from './NotesSection'
 import { SettingsSection } from './SettingsSection'
@@ -21,8 +21,8 @@ type Section = {
 const SECTIONS: Section[] = [
   { id: 'character', label: 'Character', Component: CharacterSection },
   { id: 'combat', label: 'Combat & damage', Component: CombatSection },
+  { id: 'equipment', label: 'Weapons & gear', Component: EquipmentSection },
   { id: 'skills', label: 'Skills & abilities', Component: SkillsSection },
-  { id: 'gear', label: 'Gear & armor', Component: GearSection },
   { id: 'magic', label: 'Magic & mechanika', Component: MagicSection, isVisible: (s) => s.magic || s.mechanika },
   { id: 'steamjacks', label: 'Steamjacks', Component: SteamjacksSection, isVisible: (s) => s.steamjacks },
   { id: 'notes', label: 'Notes', Component: NotesSection },

@@ -8,9 +8,10 @@ Multi-system tabletop RPG character sheets. React 19 + TypeScript single-page ap
 - `pnpm dev` — dev server at http://localhost:5173
 - `pnpm build` — production build, then type check
 - `pnpm lint` — lint with oxlint
+- `pnpm format` — format every file with Prettier (`pnpm format:check` only reports files that need it)
 - `pnpm test` — run the unit tests once with Vitest (`pnpm test:watch` to rerun on changes)
 
-Before finishing a change, run `pnpm build`, `pnpm lint` and `pnpm test` and make sure all three pass. The deploy workflow runs the tests before building.
+Before finishing a change, run `pnpm format`, then `pnpm build`, `pnpm lint` and `pnpm test`, and make sure all three pass. The deploy workflow runs the tests before building.
 
 ## Tests
 

@@ -1,3 +1,4 @@
+import { NumberField } from '@/components/NumberField'
 import { Panel } from '@/components/Panel'
 import { TextField } from '@/components/TextField'
 
@@ -7,8 +8,11 @@ export function NotesSection() {
       <Panel title="Notes & background">
         <TextField path="notes.general" label="Notes" hideLabel rows={12} />
       </Panel>
-      <Panel title="Permanent injuries">
-        <TextField path="notes.injuries" label="Permanent injuries" hideLabel rows={4} />
+      <Panel title="Wealth & property">
+        <div className="ik-wealth">
+          <NumberField path="gold" label="Gold crowns" />
+          <TextField path="wealth" label="Other wealth & property" rows={3} />
+        </div>
       </Panel>
       <div className="ik-columns">
         <Panel title="Languages">

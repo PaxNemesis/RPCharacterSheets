@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type { Num, StatKey } from '../../../types'
-import { createStoredItem } from '../../../utils/createCharacter'
+import type { Num, StatKey } from '../../../../../types'
+import { createStoredItem } from '../../../../../utils/createCharacter'
 import { describeStored } from '../utils/describeStored'
 
 const stats: Partial<Record<StatKey, number>> = { poi: 4, prw: 4, str: 5 }

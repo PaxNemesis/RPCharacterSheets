@@ -1,0 +1,57 @@
+.attacks-panel-container {
+  .attacks-panel-table {
+    width: 100%;
+    /* Fixed columns: a wider one for names, and equal ones for attack, damage and range. */
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+
+    th,
+    td {
+      padding: var(--space-1) var(--space-xs);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    thead th:first-child {
+      width: 31%;
+    }
+
+    thead th {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    tbody th {
+      font-weight: 700;
+      overflow-wrap: anywhere;
+      color: var(--text-h);
+    }
+
+    th,
+    td {
+      vertical-align: top;
+    }
+  }
+
+  /* The number to roll, large enough to read at a glance. */
+  .attacks-panel-roll {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-h);
+    white-space: nowrap;
+  }
+
+  /* Where the number comes from, or the weapon's kind under its name. */
+  .attacks-panel-parts {
+    display: block;
+    margin-top: var(--space-2xs);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-soft);
+  }
+}

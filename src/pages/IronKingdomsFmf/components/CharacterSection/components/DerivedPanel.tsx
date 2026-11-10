@@ -13,7 +13,7 @@ export function DerivedPanel({ derived }: DerivedPanelProps) {
   return (
     <Panel title="Defense, armor & initiative">
       <p className="ik-note">
-        Shaded boxes fill in automatically. Armor comes from the Worn armor list on the Gear tab, and the Command skill
+        Shaded boxes fill in automatically. Armor comes from the Worn armor list on the Weapons & gear tab, and the Command skill
         from a skill named Command. Use Other for shields, spells and abilities. Movement SPD is how far you move; DEF
         and Initiative use the SPD stat itself (p. 106).
         {derived.loadBearing && ' Load Bearing reduces the armor’s SPD and DEF penalties by 1 each (p. 164).'}

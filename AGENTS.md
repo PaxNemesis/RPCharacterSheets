@@ -31,7 +31,7 @@ Before creating or editing any `.ts` or `.tsx` file, read and follow [.github/in
 - `src/pages/` — one component folder per page (`Home`, `About`, `NotFound`, and one per game system such as `IronKingdomsFmf`).
 - `src/components/` — shared components, including `RootLayout` (nav and `<Outlet />`), `CharacterWorkspace` (character tabs, browser autosave, JSON save/load) and the sheet field components.
 - `src/hooks/` and `src/utils/` — hooks and helpers shared by more than one main component, such as `useRowIds`, which gives list rows keys that survive removing an earlier row.
-- Game rules (stats, formulas, constants) live in that system's page folder, never in shared components. The site is public: copy only names, numbers and page references from rulebooks, not rules text.
+- Game rules (stats, formulas, constants) live in that system's page folder, never in shared components. Rulebook data tables go in the page's `constants/` folder, which the 150-line limit doesn't apply to. The site is public: copy only names, numbers and page references from rulebooks, not rules text.
 - `src/index.css` — global styles, theme variables and the `--space-*` spacing tokens (see Spacing in the frontend instructions). Component styles go in each component's `<Component>.styles.css`.
 - Import across folders with the `@/` alias (`@/pages/Home`), which points at `src/`.
 

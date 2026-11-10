@@ -38,5 +38,11 @@
       }
     ]
   },
+  "overrides": [
+    {
+      "files": ["src/pages/*/constants/**"],
+      "rules": { "max-lines": "off" }
+    }
+  ],
   "ignorePatterns": ["src/routeTree.gen.ts"]
 }

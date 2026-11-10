@@ -1,10 +1,10 @@
-import type { QuirkData, SupplementId } from '../types'
+import type { QuirkData, SupplementId } from '../types';
 
 const quirks = (book: SupplementId, list: [string, number][]): QuirkData[] =>
-  list.map(([name, page]) => ({ name, book, page }))
+  list.map(([name, page]) => ({ name, book, page }));
 
 // Survivor's own bonus; it also offers a choice of martial equipment, a spell or +2 IP.
-const SURVIVOR = { hp: 5, mp: 5 }
+const SURVIVOR = { hp: 5, mp: 5 };
 
 /** Quirks from the Atlases (HF pp. 114–123, NF pp. 120–129, TF pp. 120–129). */
 export const QUIRKS: QuirkData[] = [
@@ -60,9 +60,9 @@ export const QUIRKS: QuirkData[] = [
     ['The Beast Who Spoke', 128],
     ['Xiphosymbiosis', 129],
   ]),
-].map((quirk) => (quirk.name === 'Survivor' ? { ...quirk, bonus: SURVIVOR, survivor: true } : quirk))
+].map((quirk) => (quirk.name === 'Survivor' ? { ...quirk, bonus: SURVIVOR, survivor: true } : quirk));
 
 /** Stored on the character as "book:name", since several books have a Quirk of the same name. */
-export const quirkId = (quirk: QuirkData) => `${quirk.book}:${quirk.name}`
+export const quirkId = (quirk: QuirkData) => `${quirk.book}:${quirk.name}`;
 
-export const findQuirk = (id: string) => QUIRKS.find((quirk) => quirkId(quirk) === id)
+export const findQuirk = (id: string) => QUIRKS.find((quirk) => quirkId(quirk) === id);

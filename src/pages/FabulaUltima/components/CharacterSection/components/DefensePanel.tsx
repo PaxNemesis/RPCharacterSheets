@@ -1,13 +1,13 @@
-import { FormulaRow } from '@/components/FormulaRow'
-import { Panel } from '@/components/Panel'
-import type { FuDerived } from '../../../types'
+import { FormulaRow } from '@/components/FormulaRow';
+import { Panel } from '@/components/Panel';
+import type { FuDerived } from '../../../types';
 
 type DefensePanelProps = {
-  derived: FuDerived
-}
+  derived: FuDerived;
+};
 
 export function DefensePanel({ derived }: DefensePanelProps) {
-  const armorBase = derived.armorDefense !== null
+  const armorBase = derived.armorDefense !== null;
   return (
     <Panel title="Defense & initiative">
       <FormulaRow
@@ -37,9 +37,10 @@ export function DefensePanel({ derived }: DefensePanelProps) {
         total={derived.initiative}
       />
       <p className="fu-note">
-        Defense uses your current DEX die, or the armor&apos;s fixed score for heavy armor; Magic Defense uses your current INS
-        die (p. 127). Equipment bonuses come from the Equipment tab. Use Other for Skills, spells and other effects.
+        Defense uses your current DEX die, or the armor&apos;s fixed score for heavy armor; Magic Defense uses your
+        current INS die (p. 127). Equipment bonuses come from the Equipment tab. Use Other for Skills, spells and other
+        effects.
       </p>
     </Panel>
-  )
+  );
 }

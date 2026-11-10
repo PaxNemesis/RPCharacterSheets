@@ -1,15 +1,15 @@
-import { Icon } from '@/components/Icon'
-import { useSheetField } from '@/components/SheetProvider'
-import { ATTRIBUTES } from '../../../../../constants/attributes'
-import type { AttributeKey } from '../../../../../types'
+import { Icon } from '@/components/Icon';
+import { useSheetField } from '@/components/SheetProvider';
+import { ATTRIBUTES } from '../../../../../constants/attributes';
+import type { AttributeKey } from '../../../../../types';
 
 type BoostToggleProps = {
-  attribute: AttributeKey
-}
+  attribute: AttributeKey;
+};
 
 export function BoostToggle({ attribute }: BoostToggleProps) {
-  const [boosted, setBoosted] = useSheetField<boolean>(`boosts.${attribute}`)
-  const { label } = ATTRIBUTES[attribute]
+  const [boosted, setBoosted] = useSheetField<boolean>(`boosts.${attribute}`);
+  const { label } = ATTRIBUTES[attribute];
 
   return (
     <button
@@ -22,5 +22,5 @@ export function BoostToggle({ attribute }: BoostToggleProps) {
     >
       <Icon name="arrow_upward" />
     </button>
-  )
+  );
 }

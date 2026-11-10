@@ -1,16 +1,16 @@
-import { SelectField } from '@/components/SelectField'
-import type { FuGourmet } from '../../../../../types'
-import { effectOf, freeChoices } from '../../../utils/delicacies'
+import { SelectField } from '@/components/SelectField';
+import type { FuGourmet } from '../../../../../types';
+import { effectOf, freeChoices } from '../../../utils/delicacies';
 
 type PairEffectProps = {
-  gourmet: FuGourmet
-  entry: { key: string; label: string; effect?: string; choice?: string }
-  onRoll: () => void
-}
+  gourmet: FuGourmet;
+  entry: { key: string; label: string; effect?: string; choice?: string };
+  onRoll: () => void;
+};
 
 /** One taste pair of a delicacy: its recorded effect, or a d12 roll when it's new. */
 export function PairEffect({ gourmet, entry, onRoll }: PairEffectProps) {
-  const effect = effectOf(entry.effect)
+  const effect = effectOf(entry.effect);
 
   return (
     <li className="delicacy-panel-effect">
@@ -41,5 +41,5 @@ export function PairEffect({ gourmet, entry, onRoll }: PairEffectProps) {
         </>
       )}
     </li>
-  )
+  );
 }

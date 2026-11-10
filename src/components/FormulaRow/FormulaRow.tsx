@@ -1,17 +1,17 @@
-import { Fragment } from 'react'
-import { NumberField } from '@/components/NumberField'
-import './FormulaRow.styles.css'
+import { Fragment } from 'react';
+import { NumberField } from '@/components/NumberField';
+import './FormulaRow.styles.css';
 
 /** A term is either typed in (`path`) or calculated (`value`). */
-export type FormulaTerm = { label: string; path?: string; value?: number | null }
+export type FormulaTerm = { label: string; path?: string; value?: number | null };
 
 type FormulaRowProps = {
-  title: string
-  terms: FormulaTerm[]
-  total: number | null
+  title: string;
+  terms: FormulaTerm[];
+  total: number | null;
   /** Shown between the terms; defaults to +. */
-  operator?: string
-}
+  operator?: string;
+};
 
 export function FormulaRow({ title, terms, total, operator = '+' }: FormulaRowProps) {
   return (
@@ -36,5 +36,5 @@ export function FormulaRow({ title, terms, total, operator = '+' }: FormulaRowPr
       </span>
       <NumberField value={total} label="Total" size="sm" className="formula-row-total" />
     </div>
-  )
+  );
 }

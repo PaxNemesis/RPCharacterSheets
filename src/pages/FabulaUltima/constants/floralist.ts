@@ -20,7 +20,7 @@ export const MAGISEEDS: { name: string; page: number }[] = [
   { name: 'Striped Orchid', page: 146 },
   { name: 'Wardwattle', page: 147 },
   { name: 'Wrathful Carnation', page: 147 },
-]
+];
 
 /** Sections in the Growth Clock (NF p. 140). */
-export const GROWTH_CLOCK_SIZE = 4
+export const GROWTH_CLOCK_SIZE = 4;

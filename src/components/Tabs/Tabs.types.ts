@@ -1,1 +1,1 @@
-export type TabItem = { id: string; label: string }
+export type TabItem = { id: string; label: string };

@@ -1,5 +1,5 @@
-import { accessories, armor, shields } from './rareItemRows'
-import { SUPPLEMENT_RARE_ITEMS } from './rareItemsSupplements'
+import { accessories, armor, shields } from './rareItemRows';
+import { SUPPLEMENT_RARE_ITEMS } from './rareItemsSupplements';
 
 // Conditional bonuses, such as Ring of the Pupil's, are left for the player to add.
 const CORE_RARE_ITEMS = [
@@ -72,7 +72,7 @@ const CORE_RARE_ITEMS = [
     ['Ring of Magma', 287],
     ['Ring of the Egg', 287],
   ]),
-]
+];
 
 /** Sample rare armor, shields and accessories (core pp. 281–287, HF pp. 80–81, NF pp. 86–87, TF pp. 84–85). */
-export const RARE_ITEMS = [...CORE_RARE_ITEMS, ...SUPPLEMENT_RARE_ITEMS]
+export const RARE_ITEMS = [...CORE_RARE_ITEMS, ...SUPPLEMENT_RARE_ITEMS];

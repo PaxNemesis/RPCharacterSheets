@@ -1,1 +1,1 @@
-export { SymbolsSection } from './SymbolsSection'
+export { SymbolsSection } from './SymbolsSection';

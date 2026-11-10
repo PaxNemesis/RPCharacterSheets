@@ -1,5 +1,5 @@
 /* oxlint-disable max-lines -- One row per weapon, so this data table runs past the usual file length. */
-import type { AttributeKey, WeaponData } from '../types'
+import type { AttributeKey, WeaponData } from '../types';
 
 type RareWeaponRow = [
   name: string,
@@ -13,7 +13,7 @@ type RareWeaponRow = [
   quality: boolean,
   /** Flat bonuses from the Quality; conditional ones are left for the player. */
   bonuses?: Pick<WeaponData, 'defenseBonus' | 'magicDefenseBonus'>,
-]
+];
 
 const category = (name: string, page: number, rows: RareWeaponRow[]): WeaponData[] =>
   rows.map(([weapon, martial, hands, range, accuracy, accuracyBonus, damage, damageType, quality, bonuses]) => ({
@@ -29,7 +29,7 @@ const category = (name: string, page: number, rows: RareWeaponRow[]): WeaponData
     damageType,
     quality,
     ...bonuses,
-  }))
+  }));
 
 /**
  * Sample rare weapons (core pp. 270–279). Rafflesia Staff isn't marked martial in the book, but its
@@ -126,7 +126,18 @@ export const RARE_WEAPONS: WeaponData[] = [
     ['Mjolnir', true, 'one', 'melee', ['mig', 'mig'], 0, 10, 'bolt', true],
     ['Wyrmwing', true, 'two', 'melee', ['mig', 'mig'], 0, 18, 'fire', true],
     ['Soul of Pillage', true, 'two', 'melee', ['mig', 'mig'], 0, 18, 'dark', true],
-    ['Winter Kolossus', true, 'two', 'melee', ['mig', 'mig'], 0, 18, 'ice', true, { defenseBonus: 1, magicDefenseBonus: 1 }],
+    [
+      'Winter Kolossus',
+      true,
+      'two',
+      'melee',
+      ['mig', 'mig'],
+      0,
+      18,
+      'ice',
+      true,
+      { defenseBonus: 1, magicDefenseBonus: 1 },
+    ],
   ]),
   ...category('Spear', 277, [
     ['Dragontongue', true, 'two', 'melee', ['dex', 'mig'], 1, 12, 'fire', true],
@@ -166,7 +177,18 @@ export const RARE_WEAPONS: WeaponData[] = [
     ["Crone's Needle", false, 'one', 'ranged', ['dex', 'ins'], 1, 4, 'earth', true],
     ['Chakram', false, 'one', 'ranged', ['dex', 'mig'], 1, 4, 'physical', true],
     ['Vajra', false, 'one', 'ranged', ['dex', 'wlp'], 1, 8, 'bolt', true],
-    ['Dark Orbit', false, 'one', 'ranged', ['dex', 'ins'], 0, 4, 'dark', true, { defenseBonus: 1, magicDefenseBonus: 1 }],
+    [
+      'Dark Orbit',
+      false,
+      'one',
+      'ranged',
+      ['dex', 'ins'],
+      0,
+      4,
+      'dark',
+      true,
+      { defenseBonus: 1, magicDefenseBonus: 1 },
+    ],
     ['Hive Dart', false, 'one', 'ranged', ['dex', 'dex'], 0, 4, 'poison', true],
   ]),
-]
+];

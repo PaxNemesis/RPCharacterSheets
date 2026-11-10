@@ -1,1 +1,1 @@
-export { GardenSection } from './GardenSection'
+export { GardenSection } from './GardenSection';

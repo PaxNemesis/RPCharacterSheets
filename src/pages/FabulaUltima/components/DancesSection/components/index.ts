@@ -1,1 +1,1 @@
-export { DanceTurnPanel } from './DanceTurnPanel'
+export { DanceTurnPanel } from './DanceTurnPanel';

@@ -1,2 +1,2 @@
-export { ActiveSymbolsPanel } from './ActiveSymbolsPanel'
-export { SymbolSkillsPanel } from './SymbolSkillsPanel'
+export { ActiveSymbolsPanel } from './ActiveSymbolsPanel';
+export { SymbolSkillsPanel } from './SymbolSkillsPanel';

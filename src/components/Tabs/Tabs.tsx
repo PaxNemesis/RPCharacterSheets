@@ -1,18 +1,18 @@
-import type { ReactNode } from 'react'
-import type { TabItem } from './Tabs.types'
-import './Tabs.styles.css'
+import type { ReactNode } from 'react';
+import type { TabItem } from './Tabs.types';
+import './Tabs.styles.css';
 
 type TabsProps = {
-  items: TabItem[]
-  activeId: string
-  onSelect: (id: string) => void
+  items: TabItem[];
+  activeId: string;
+  onSelect: (id: string) => void;
   /** Shows a close button on each tab when given. */
-  onClose?: (id: string) => void
-  label: string
-  variant?: 'primary' | 'secondary'
+  onClose?: (id: string) => void;
+  label: string;
+  variant?: 'primary' | 'secondary';
   /** Content after the last tab, e.g. an add button. */
-  trailing?: ReactNode
-}
+  trailing?: ReactNode;
+};
 
 export function Tabs({ items, activeId, onSelect, onClose, label, variant = 'primary', trailing }: TabsProps) {
   return (
@@ -45,5 +45,5 @@ export function Tabs({ items, activeId, onSelect, onClose, label, variant = 'pri
       </div>
       {trailing}
     </div>
-  )
+  );
 }

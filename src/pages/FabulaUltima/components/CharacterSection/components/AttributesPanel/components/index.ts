@@ -1,1 +1,1 @@
-export { BoostToggle } from './BoostToggle'
+export { BoostToggle } from './BoostToggle';

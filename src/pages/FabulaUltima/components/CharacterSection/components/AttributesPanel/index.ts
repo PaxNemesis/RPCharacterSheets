@@ -1,1 +1,1 @@
-export { AttributesPanel } from './AttributesPanel'
+export { AttributesPanel } from './AttributesPanel';

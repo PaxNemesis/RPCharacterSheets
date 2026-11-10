@@ -1,1 +1,1 @@
-export { DamagePanel } from './DamagePanel'
+export { DamagePanel } from './DamagePanel';

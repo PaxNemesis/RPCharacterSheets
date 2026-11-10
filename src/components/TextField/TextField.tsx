@@ -1,24 +1,24 @@
-import { Field } from '@/components/Field'
-import { useSheetField } from '@/components/SheetProvider'
-import { SuggestionInput } from './components'
+import { Field } from '@/components/Field';
+import { useSheetField } from '@/components/SheetProvider';
+import { SuggestionInput } from './components';
 
 type TextFieldProps = {
-  path: string
-  label: string
-  hideLabel?: boolean
+  path: string;
+  label: string;
+  hideLabel?: boolean;
   /** Number of visible lines; above 1 renders a textarea. */
-  rows?: number
-  placeholder?: string
+  rows?: number;
+  placeholder?: string;
   /** Values offered while typing; any other text is still allowed. */
-  suggestions?: string[]
+  suggestions?: string[];
   /** Called when one of the suggestions is picked. */
-  onPick?: (value: string) => void
+  onPick?: (value: string) => void;
   /** Called after each edit, once the new value is stored. */
-  onChange?: (value: string) => void
+  onChange?: (value: string) => void;
   /** Called when the user is done editing: Enter or leaving the field (and picking a suggestion). */
-  onCommit?: () => void
-  className?: string
-}
+  onCommit?: () => void;
+  className?: string;
+};
 
 export function TextField({
   path,
@@ -32,11 +32,11 @@ export function TextField({
   onCommit,
   className,
 }: TextFieldProps) {
-  const [value, store] = useSheetField<string | undefined>(path)
+  const [value, store] = useSheetField<string | undefined>(path);
   const setValue = (next: string) => {
-    store(next)
-    onChange?.(next)
-  }
+    store(next);
+    onChange?.(next);
+  };
 
   return (
     <Field label={label} hideLabel={hideLabel} className={className}>
@@ -73,5 +73,5 @@ export function TextField({
         )
       }
     </Field>
-  )
+  );
 }

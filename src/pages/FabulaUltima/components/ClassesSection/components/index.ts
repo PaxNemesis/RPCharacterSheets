@@ -1,2 +1,2 @@
-export { ClassCard } from './ClassCard'
-export { HeroicSkillsPanel } from './HeroicSkillsPanel'
+export { ClassCard } from './ClassCard';
+export { HeroicSkillsPanel } from './HeroicSkillsPanel';

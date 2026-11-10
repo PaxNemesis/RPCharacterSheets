@@ -1,1 +1,1 @@
-export { AttacksPanel } from './AttacksPanel'
+export { AttacksPanel } from './AttacksPanel';

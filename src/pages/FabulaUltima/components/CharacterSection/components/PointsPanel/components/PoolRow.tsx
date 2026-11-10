@@ -1,17 +1,17 @@
-import { Fragment } from 'react'
-import type { FormulaTerm } from '@/components/FormulaRow'
-import { NumberField } from '@/components/NumberField'
+import { Fragment } from 'react';
+import type { FormulaTerm } from '@/components/FormulaRow';
+import { NumberField } from '@/components/NumberField';
 
 type PoolRowProps = {
-  pool: 'hp' | 'mp' | 'ip'
-  label: string
-  max: number
+  pool: 'hp' | 'mp' | 'ip';
+  label: string;
+  max: number;
   /** HP only: half the maximum. */
-  crisis?: number
-  inCrisis?: boolean
+  crisis?: number;
+  inCrisis?: boolean;
   /** What the maximum is made of, shown small underneath. */
-  terms: FormulaTerm[]
-}
+  terms: FormulaTerm[];
+};
 
 export function PoolRow({ pool, label, max, crisis, inCrisis, terms }: PoolRowProps) {
   return (
@@ -55,5 +55,5 @@ export function PoolRow({ pool, label, max, crisis, inCrisis, terms }: PoolRowPr
         ))}
       </div>
     </div>
-  )
+  );
 }

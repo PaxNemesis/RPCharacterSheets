@@ -1,10 +1,10 @@
-import type { SheetSystem } from '@/components/CharacterWorkspace'
-import { FuSheet } from '../components'
-import type { FuCharacter } from '../types'
-import { createCharacter } from './createCharacter'
-import { normalizeCharacter } from './equip'
-import { LIST_ITEMS } from './listItems'
-import { migrate } from './migrate'
+import type { SheetSystem } from '@/components/CharacterWorkspace';
+import { FuSheet } from '../components';
+import type { FuCharacter } from '../types';
+import { createCharacter } from './createCharacter';
+import { normalizeCharacter } from './equip';
+import { LIST_ITEMS } from './listItems';
+import { migrate } from './migrate';
 
 export const fabulaUltima: SheetSystem<FuCharacter> = {
   id: 'fabula-ultima',
@@ -16,4 +16,4 @@ export const fabulaUltima: SheetSystem<FuCharacter> = {
   migrate,
   getName: (character) => character.identity.name,
   Sheet: FuSheet,
-}
+};

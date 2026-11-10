@@ -1,1 +1,1 @@
-export { ItemSlot } from './ItemSlot'
+export { ItemSlot } from './ItemSlot';

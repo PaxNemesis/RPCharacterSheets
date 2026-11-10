@@ -1,1 +1,1 @@
-export { VersePanel } from './VersePanel'
+export { VersePanel } from './VersePanel';

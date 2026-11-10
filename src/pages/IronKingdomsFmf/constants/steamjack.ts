@@ -1,9 +1,9 @@
-import type { JackStatKey } from '../types'
+import type { JackStatKey } from '../types';
 
-export const JACK_STAT_KEYS: JackStatKey[] = ['phy', 'spd', 'str', 'agl', 'prw', 'poi', 'int', 'per']
+export const JACK_STAT_KEYS: JackStatKey[] = ['phy', 'spd', 'str', 'agl', 'prw', 'poi', 'int', 'per'];
 
-export const GRID_COLUMNS = 6
-export const GRID_ROWS = 6
+export const GRID_COLUMNS = 6;
+export const GRID_ROWS = 6;
 
 /** Cell types in the order a click cycles through them while editing the grid layout. */
 export const GRID_CELL_TYPES = [
@@ -15,7 +15,7 @@ export const GRID_CELL_TYPES = [
   { type: 'M', label: 'Movement' },
   { type: 'C', label: 'Cortex' },
   { type: 'A', label: 'Arc node' },
-]
+];
 
 export const CRIPPLED_SYSTEMS: Record<string, string> = {
   A: 'Cannot be used to channel spells.',
@@ -24,4 +24,4 @@ export const CRIPPLED_SYSTEMS: Record<string, string> = {
   L: 'One fewer die on attack and damage rolls with weapons in this location; no power attacks with them.',
   R: 'One fewer die on attack and damage rolls with weapons in this location; no power attacks with them.',
   H: 'One fewer die on attack and damage rolls with weapons in this location; no power attacks with them.',
-}
+};

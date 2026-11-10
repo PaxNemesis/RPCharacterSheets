@@ -1,10 +1,10 @@
-import { ImageField } from '@/components/ImageField'
-import { Panel } from '@/components/Panel'
-import { useFuCharacter } from '../../hooks/useFuCharacter'
-import { AttributesPanel, BondsPanel, DefensePanel, IdentityPanel, PointsPanel, QuirkPanel } from './components'
+import { ImageField } from '@/components/ImageField';
+import { Panel } from '@/components/Panel';
+import { useFuCharacter } from '../../hooks/useFuCharacter';
+import { AttributesPanel, BondsPanel, DefensePanel, IdentityPanel, PointsPanel, QuirkPanel } from './components';
 
 export function CharacterSection() {
-  const { character, derived } = useFuCharacter()
+  const { character, derived } = useFuCharacter();
 
   return (
     <div className="fu-section">
@@ -25,5 +25,5 @@ export function CharacterSection() {
       </div>
       <BondsPanel count={character.bonds.length} />
     </div>
-  )
+  );
 }

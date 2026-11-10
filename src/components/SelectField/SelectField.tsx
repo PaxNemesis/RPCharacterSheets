@@ -1,17 +1,17 @@
-import { Field } from '@/components/Field'
-import { useSheetField } from '@/components/SheetProvider'
-import type { SelectOption } from './SelectField.types'
+import { Field } from '@/components/Field';
+import { useSheetField } from '@/components/SheetProvider';
+import type { SelectOption } from './SelectField.types';
 
 type SelectFieldProps = {
-  path: string
-  label: string
-  options: SelectOption[]
-  hideLabel?: boolean
-  className?: string
-}
+  path: string;
+  label: string;
+  options: SelectOption[];
+  hideLabel?: boolean;
+  className?: string;
+};
 
 export function SelectField({ path, label, options, hideLabel, className }: SelectFieldProps) {
-  const [value, setValue] = useSheetField<string | undefined>(path)
+  const [value, setValue] = useSheetField<string | undefined>(path);
 
   return (
     <Field label={label} hideLabel={hideLabel} className={className}>
@@ -25,5 +25,5 @@ export function SelectField({ path, label, options, hideLabel, className }: Sele
         </select>
       )}
     </Field>
-  )
+  );
 }

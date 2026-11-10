@@ -1,6 +1,6 @@
-import { CheckboxField } from '@/components/CheckboxField'
-import { Panel } from '@/components/Panel'
-import { SUPPLEMENTS } from '../constants/books'
+import { CheckboxField } from '@/components/CheckboxField';
+import { Panel } from '@/components/Panel';
+import { SUPPLEMENTS } from '../constants/books';
 
 export function SettingsSection() {
   return (
@@ -14,8 +14,8 @@ export function SettingsSection() {
       </Panel>
       <Panel title="Books">
         <p className="fu-note">
-          Turn on the books your group uses. They are saved with the character, so each character can have its own. A class
-          from a book that is turned off is treated as a custom class, with free benefits you enter yourself.
+          Turn on the books your group uses. They are saved with the character, so each character can have its own. A
+          class from a book that is turned off is treated as a custom class, with free benefits you enter yourself.
         </p>
         {SUPPLEMENTS.map((book) => (
           <CheckboxField
@@ -27,5 +27,5 @@ export function SettingsSection() {
         ))}
       </Panel>
     </div>
-  )
+  );
 }

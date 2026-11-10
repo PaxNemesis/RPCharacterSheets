@@ -1,1 +1,1 @@
-export { CharacterSection } from './CharacterSection'
+export { CharacterSection } from './CharacterSection';

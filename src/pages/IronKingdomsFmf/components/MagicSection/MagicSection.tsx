@@ -1,12 +1,12 @@
-import { Panel } from '@/components/Panel'
-import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
-import { SheetProvider, useSheet } from '@/components/SheetProvider'
-import { TextField } from '@/components/TextField'
-import { useRowIds } from '@/hooks/useRowIds'
-import { useIkCharacter } from '../../hooks/useIkCharacter'
-import type { IkSpell } from '../../types'
-import { createMechanika } from '../../utils/createCharacter'
-import { MechanikaDevice } from './components'
+import { Panel } from '@/components/Panel';
+import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable';
+import { SheetProvider, useSheet } from '@/components/SheetProvider';
+import { TextField } from '@/components/TextField';
+import { useRowIds } from '@/hooks/useRowIds';
+import { useIkCharacter } from '../../hooks/useIkCharacter';
+import type { IkSpell } from '../../types';
+import { createMechanika } from '../../utils/createCharacter';
+import { MechanikaDevice } from './components';
 
 const SPELL_COLUMNS: RepeatTableColumn[] = [
   { key: 'name', label: 'Spell', width: 'minmax(140px, 2fr)' },
@@ -18,7 +18,7 @@ const SPELL_COLUMNS: RepeatTableColumn[] = [
   { key: 'off', label: 'OFF', width: '52px' },
   { key: 'page', label: 'Page', width: '64px' },
   { key: 'description', label: 'Description', rows: 2, wide: true },
-]
+];
 
 const createSpell = (): IkSpell => ({
   name: '',
@@ -30,21 +30,24 @@ const createSpell = (): IkSpell => ({
   off: '',
   page: '',
   description: '',
-})
+});
 
 export function MagicSection() {
-  const { character, derived } = useIkCharacter()
-  const { set } = useSheet()
-  const devices = character.mechanika ?? []
-  const deviceName = (index: number) => devices[index].name?.trim() || `Device ${index + 1}`
+  const { character, derived } = useIkCharacter();
+  const { set } = useSheet();
+  const devices = character.mechanika ?? [];
+  const deviceName = (index: number) => devices[index].name?.trim() || `Device ${index + 1}`;
 
   // Each device has its own rune table, which must stay with it when an earlier device is removed.
-  const deviceIds = useRowIds(devices.length)
+  const deviceIds = useRowIds(devices.length);
   const removeDevice = (index: number) => {
-    if (!window.confirm(`Remove ${deviceName(index)} and everything recorded for it?`)) return
-    deviceIds.remove(index)
-    set('mechanika', devices.filter((_, other) => other !== index))
-  }
+    if (!window.confirm(`Remove ${deviceName(index)} and everything recorded for it?`)) return;
+    deviceIds.remove(index);
+    set(
+      'mechanika',
+      devices.filter((_, other) => other !== index),
+    );
+  };
 
   return (
     <div className="ik-section">
@@ -53,7 +56,11 @@ export function MagicSection() {
           <div className="ik-fields">
             <TextField path="arcaneTradition" label="Arcane tradition" />
           </div>
-          <p className={derived.spellLimit !== null && character.spells.length > derived.spellLimit ? 'ik-warning' : 'ik-note'}>
+          <p
+            className={
+              derived.spellLimit !== null && character.spells.length > derived.spellLimit ? 'ik-warning' : 'ik-note'
+            }
+          >
             Spells known: {character.spells.length}
             {derived.spellLimit !== null && ` of at most ${derived.spellLimit} (twice INT, p. 118)`}.
           </p>
@@ -72,8 +79,8 @@ export function MagicSection() {
           >
             <p className="ik-note">
               A device is a housing, a capacitor and a runeplate (pp. 279–286). A runeplate holds up to five rune
-              points, all of one type, and the capacitor must power them all. Pick a capacitor or rune by name to fill in
-              its values.
+              points, all of one type, and the capacitor must power them all. Pick a capacitor or rune by name to fill
+              in its values.
             </p>
           </Panel>
           {devices.map((_, index) => (
@@ -84,5 +91,5 @@ export function MagicSection() {
         </>
       )}
     </div>
-  )
+  );
 }

@@ -1,1 +1,1 @@
-export { PoolRow } from './PoolRow'
+export { PoolRow } from './PoolRow';

@@ -51,13 +51,13 @@ This starts a dev server and prints its address, usually http://localhost:5173 (
 
 ### Scripts
 
-| Command | What it does |
-| --- | --- |
-| `pnpm dev` | Starts the dev server. |
-| `pnpm build` | Builds the site into `dist/`, then type-checks the code. |
-| `pnpm preview` | Serves the built `dist/` locally, to check the production build. |
-| `pnpm lint` | Checks the code for common mistakes with oxlint. |
-| `pnpm test` | Runs the unit tests once (`pnpm test:watch` reruns them as you edit). |
+| Command        | What it does                                                          |
+| -------------- | --------------------------------------------------------------------- |
+| `pnpm dev`     | Starts the dev server.                                                |
+| `pnpm build`   | Builds the site into `dist/`, then type-checks the code.              |
+| `pnpm preview` | Serves the built `dist/` locally, to check the production build.      |
+| `pnpm lint`    | Checks the code for common mistakes with oxlint.                      |
+| `pnpm test`    | Runs the unit tests once (`pnpm test:watch` reruns them as you edit). |
 
 Make sure `pnpm build`, `pnpm lint` and `pnpm test` pass before pushing. The deploy runs the tests and the build, and stops if either fails.
 

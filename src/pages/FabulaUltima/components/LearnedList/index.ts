@@ -1,1 +1,1 @@
-export { LearnedList } from './LearnedList'
+export { LearnedList } from './LearnedList';

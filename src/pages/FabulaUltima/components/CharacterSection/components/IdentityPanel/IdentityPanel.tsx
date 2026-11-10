@@ -1,17 +1,17 @@
-import { NumberField } from '@/components/NumberField'
-import { Panel } from '@/components/Panel'
-import { TextField } from '@/components/TextField'
-import type { FuCharacter, FuDerived } from '../../../../types'
-import './IdentityPanel.styles.css'
+import { NumberField } from '@/components/NumberField';
+import { Panel } from '@/components/Panel';
+import { TextField } from '@/components/TextField';
+import type { FuCharacter, FuDerived } from '../../../../types';
+import './IdentityPanel.styles.css';
 
 type IdentityPanelProps = {
-  character: FuCharacter
-  derived: FuDerived
-}
+  character: FuCharacter;
+  derived: FuDerived;
+};
 
 export function IdentityPanel({ character, derived }: IdentityPanelProps) {
   // Every 10 XP buys a level (p. 226).
-  const levelsReady = Math.floor((character.xp ?? 0) / 10)
+  const levelsReady = Math.floor((character.xp ?? 0) / 10);
 
   return (
     <Panel title="Character" className="identity-panel-container">
@@ -28,8 +28,8 @@ export function IdentityPanel({ character, derived }: IdentityPanelProps) {
       </div>
       {levelsReady > 0 ? (
         <p className="fu-warning" role="status">
-          {character.xp} XP is enough for {levelsReady === 1 ? 'a level' : `${levelsReady} levels`}: for each, lose 10 XP
-          and add a level to a class (p. 226).
+          {character.xp} XP is enough for {levelsReady === 1 ? 'a level' : `${levelsReady} levels`}: for each, lose 10
+          XP and add a level to a class (p. 226).
         </p>
       ) : (
         <p className="fu-note">
@@ -37,5 +37,5 @@ export function IdentityPanel({ character, derived }: IdentityPanelProps) {
         </p>
       )}
     </Panel>
-  )
+  );
 }

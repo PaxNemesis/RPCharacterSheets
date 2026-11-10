@@ -1,20 +1,21 @@
-import { CheckboxField } from '@/components/CheckboxField'
-import { Field } from '@/components/Field'
-import { Panel } from '@/components/Panel'
-import { SelectField } from '@/components/SelectField'
-import { ATTRIBUTE_KEYS, ATTRIBUTES, DICE, STARTING_SPREADS, STATUSES } from '../../../../constants/attributes'
-import type { FuDerived } from '../../../../types'
-import { BoostToggle } from './components'
-import './AttributesPanel.styles.css'
+import { CheckboxField } from '@/components/CheckboxField';
+import { Field } from '@/components/Field';
+import { Panel } from '@/components/Panel';
+import { SelectField } from '@/components/SelectField';
+import { ATTRIBUTE_KEYS, ATTRIBUTES, DICE, STARTING_SPREADS, STATUSES } from '../../../../constants/attributes';
+import type { FuDerived } from '../../../../types';
+import { BoostToggle } from './components';
+import './AttributesPanel.styles.css';
 
-const DIE_OPTIONS = DICE.map((size) => ({ value: String(size), label: `d${size}` }))
-const singleStatus = (key: string) => STATUSES.find((status) => status.attributes.length === 1 && status.attributes[0] === key)
+const DIE_OPTIONS = DICE.map((size) => ({ value: String(size), label: `d${size}` }));
+const singleStatus = (key: string) =>
+  STATUSES.find((status) => status.attributes.length === 1 && status.attributes[0] === key);
 // Enraged and Poisoned each cover two neighboring rows, bracketed like on the printed sheet.
-const PAIRS = STATUSES.filter((status) => status.attributes.length > 1)
+const PAIRS = STATUSES.filter((status) => status.attributes.length > 1);
 
 type AttributesPanelProps = {
-  derived: FuDerived
-}
+  derived: FuDerived;
+};
 
 export function AttributesPanel({ derived }: AttributesPanelProps) {
   return (
@@ -27,10 +28,10 @@ export function AttributesPanel({ derived }: AttributesPanelProps) {
         <span aria-hidden="true" />
         <span aria-hidden="true" className="attributes-panel-pair-head" />
         {ATTRIBUTE_KEYS.map((key) => {
-          const { short, label } = ATTRIBUTES[key]
-          const status = singleStatus(key)
-          const change = derived.current(key) - derived.base(key)
-          const changed = change < 0 ? 'attributes-panel-lowered' : change > 0 ? 'attributes-panel-raised' : undefined
+          const { short, label } = ATTRIBUTES[key];
+          const status = singleStatus(key);
+          const change = derived.current(key) - derived.base(key);
+          const changed = change < 0 ? 'attributes-panel-lowered' : change > 0 ? 'attributes-panel-raised' : undefined;
           return (
             <div key={key} className="attributes-panel-row">
               <span className="attributes-panel-name">
@@ -46,7 +47,7 @@ export function AttributesPanel({ derived }: AttributesPanelProps) {
               <BoostToggle attribute={key} />
               {status && <CheckboxField path={`statuses.${status.key}`} label={status.label} />}
             </div>
-          )
+          );
         })}
         {PAIRS.map((pair) => (
           <div
@@ -61,8 +62,9 @@ export function AttributesPanel({ derived }: AttributesPanelProps) {
       </div>
       <p className="fu-note">
         A boost raises a die one size, up to d12. Each status effect then lowers its attributes by one die size, down to
-        d6; Enraged lowers DEX and INS, Poisoned MIG and WLP (p. 94). Start with {STARTING_SPREADS.join(', or ')} (p. 162).
+        d6; Enraged lowers DEX and INS, Poisoned MIG and WLP (p. 94). Start with {STARTING_SPREADS.join(', or ')} (p.
+        162).
       </p>
     </Panel>
-  )
+  );
 }

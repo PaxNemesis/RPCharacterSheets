@@ -1,1 +1,1 @@
-export { PairEffect } from './PairEffect'
+export { PairEffect } from './PairEffect';

@@ -1,9 +1,9 @@
-import { NumberField } from '@/components/NumberField'
+import { NumberField } from '@/components/NumberField';
 
 type DefenseFieldsProps = {
   /** Armor can replace the DEX die with a fixed Defense. */
-  isArmor: boolean
-}
+  isArmor: boolean;
+};
 
 export function DefenseFields({ isArmor }: DefenseFieldsProps) {
   return (
@@ -14,5 +14,5 @@ export function DefenseFields({ isArmor }: DefenseFieldsProps) {
       <NumberField path="initiative" label="Initiative" />
       {isArmor && <p className="fu-note fu-wide">Leave Fixed Defense blank for armor that adds to your DEX die.</p>}
     </div>
-  )
+  );
 }

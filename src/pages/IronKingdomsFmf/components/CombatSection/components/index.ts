@@ -1,2 +1,2 @@
-export { AttacksPanel } from './AttacksPanel'
-export { DamagePanel } from './DamagePanel'
+export { AttacksPanel } from './AttacksPanel';
+export { DamagePanel } from './DamagePanel';

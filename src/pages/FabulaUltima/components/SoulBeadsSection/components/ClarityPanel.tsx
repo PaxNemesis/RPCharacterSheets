@@ -1,31 +1,36 @@
-import { Panel } from '@/components/Panel'
-import { useSheet } from '@/components/SheetProvider'
-import { useRowIds } from '@/hooks/useRowIds'
-import type { FuCharacter } from '../../../types'
-import { activeClarity, monkSkills } from '../../../utils/monk'
-import { ClarityRow } from './ClarityRow'
+import { Panel } from '@/components/Panel';
+import { useSheet } from '@/components/SheetProvider';
+import { useRowIds } from '@/hooks/useRowIds';
+import type { FuCharacter } from '../../../types';
+import { activeClarity, monkSkills } from '../../../utils/monk';
+import { ClarityRow } from './ClarityRow';
 
 type ClarityPanelProps = {
-  character: FuCharacter
-}
+  character: FuCharacter;
+};
 
 /** The benefits chosen with Clarity, in order, and how many the Resolve Beads power (LF p. 102). */
 export function ClarityPanel({ character }: ClarityPanelProps) {
-  const { set } = useSheet()
-  const { clarity, resonantClarity } = monkSkills(character)
-  const benefits = character.monk.clarity
-  const active = activeClarity(character)
+  const { set } = useSheet();
+  const { clarity, resonantClarity } = monkSkills(character);
+  const benefits = character.monk.clarity;
+  const active = activeClarity(character);
 
-  const ids = benefits.filter((benefit) => benefit.kind && benefit.choice).map((benefit) => `${benefit.kind}:${benefit.choice}`)
-  const duplicates = ids.length !== new Set(ids).size
-  const shared = benefits.slice(0, active).filter((benefit) => benefit.shared).length
+  const ids = benefits
+    .filter((benefit) => benefit.kind && benefit.choice)
+    .map((benefit) => `${benefit.kind}:${benefit.choice}`);
+  const duplicates = ids.length !== new Set(ids).size;
+  const shared = benefits.slice(0, active).filter((benefit) => benefit.shared).length;
 
-  const add = () => set('monk.clarity', [...benefits, { kind: '', choice: '', shared: false }])
-  const rowIds = useRowIds(benefits.length)
+  const add = () => set('monk.clarity', [...benefits, { kind: '', choice: '', shared: false }]);
+  const rowIds = useRowIds(benefits.length);
   const remove = (index: number) => {
-    rowIds.remove(index)
-    set('monk.clarity', benefits.filter((_, other) => other !== index))
-  }
+    rowIds.remove(index);
+    set(
+      'monk.clarity',
+      benefits.filter((_, other) => other !== index),
+    );
+  };
 
   return (
     <Panel
@@ -60,9 +65,17 @@ export function ClarityPanel({ character }: ClarityPanelProps) {
           ))}
         </ul>
       )}
-      {benefits.length > clarity && <p className="fu-warning">Clarity SL {clarity} allows {clarity} benefits.</p>}
+      {benefits.length > clarity && (
+        <p className="fu-warning">
+          Clarity SL {clarity} allows {clarity} benefits.
+        </p>
+      )}
       {duplicates && <p className="fu-warning">Each benefit can only be chosen once.</p>}
-      {shared > resonantClarity && <p className="fu-warning">Resonant Clarity SL {resonantClarity} shares up to {resonantClarity}.</p>}
+      {shared > resonantClarity && (
+        <p className="fu-warning">
+          Resonant Clarity SL {resonantClarity} shares up to {resonantClarity}.
+        </p>
+      )}
     </Panel>
-  )
+  );
 }

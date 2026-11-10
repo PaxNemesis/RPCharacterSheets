@@ -6,5 +6,8 @@ export const POWER_ATTACKS = [
   { name: 'Throw', description: 'Needs an Open Fist. MAT, then contested STR. Target is thrown ½ STR". p. 313' },
   { name: 'Double-Hand Throw', description: 'Needs two Open Fists. As Throw, but thrown STR". p. 314' },
   { name: 'Trample', description: 'Heavy steamjacks only. Move through small-based models. p. 314' },
-  { name: 'Headlock/Weapon Lock', description: 'Needs an Open Fist. MAT roll. Target cannot attack with the locked weapon. p. 312' },
-]
+  {
+    name: 'Headlock/Weapon Lock',
+    description: 'Needs an Open Fist. MAT roll. Target cannot attack with the locked weapon. p. 312',
+  },
+];

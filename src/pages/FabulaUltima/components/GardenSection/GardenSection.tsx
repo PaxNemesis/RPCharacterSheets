@@ -1,41 +1,48 @@
-import { CheckTrack } from '@/components/CheckTrack'
-import { Panel } from '@/components/Panel'
-import { useSheet } from '@/components/SheetProvider'
-import { GROWTH_CLOCK_SIZE, MAGISEEDS } from '../../constants/floralist'
-import { useFuCharacter } from '../../hooks/useFuCharacter'
-import { skillLevel } from '../../utils/rules'
-import { MagiseedCard } from './components'
-import './GardenSection.styles.css'
+import { CheckTrack } from '@/components/CheckTrack';
+import { Panel } from '@/components/Panel';
+import { useSheet } from '@/components/SheetProvider';
+import { GROWTH_CLOCK_SIZE, MAGISEEDS } from '../../constants/floralist';
+import { useFuCharacter } from '../../hooks/useFuCharacter';
+import { skillLevel } from '../../utils/rules';
+import { MagiseedCard } from './components';
+import './GardenSection.styles.css';
 
 /** The Floralist's magiseeds, garden and Growth Clock (NF pp. 139–147). */
 export function GardenSection() {
-  const { character, derived } = useFuCharacter()
-  const { set } = useSheet()
-  const { floralist } = character
-  const chloromancy = skillLevel(character, 'Floralist', 'Chloromancy')
-  const discovered = MAGISEEDS.filter((seed) => floralist.discovered.includes(seed.name))
-  const undiscovered = MAGISEEDS.filter((seed) => !floralist.discovered.includes(seed.name))
+  const { character, derived } = useFuCharacter();
+  const { set } = useSheet();
+  const { floralist } = character;
+  const chloromancy = skillLevel(character, 'Floralist', 'Chloromancy');
+  const discovered = MAGISEEDS.filter((seed) => floralist.discovered.includes(seed.name));
+  const undiscovered = MAGISEEDS.filter((seed) => !floralist.discovered.includes(seed.name));
 
   const clearGarden = () => {
-    set('floralist.garden', '')
-    set('floralist.growth', 0)
-  }
+    set('floralist.garden', '');
+    set('floralist.growth', 0);
+  };
   // A new magiseed starts with an empty Growth Clock.
   const plant = (name: string) => {
-    set('floralist.garden', name)
-    set('floralist.growth', 0)
-  }
+    set('floralist.garden', name);
+    set('floralist.growth', 0);
+  };
   const forget = (name: string) => {
-    set('floralist.discovered', floralist.discovered.filter((other) => other !== name))
-    if (floralist.garden === name) clearGarden()
-  }
+    set(
+      'floralist.discovered',
+      floralist.discovered.filter((other) => other !== name),
+    );
+    if (floralist.garden === name) clearGarden();
+  };
 
   return (
     <div className="fu-section garden-section-container">
       <Panel
         title="Garden"
         actions={
-          <button type="button" onClick={clearGarden} title="Empty the garden and the Growth Clock, as at the end of a scene">
+          <button
+            type="button"
+            onClick={clearGarden}
+            title="Empty the garden and the Growth Clock, as at the end of a scene"
+          >
             Clear garden
           </button>
         }
@@ -55,8 +62,8 @@ export function GardenSection() {
           <p className="fu-warning">The clock is full: the magiseed leaves the garden and the clock is erased.</p>
         )}
         <p className="fu-note">
-          One magiseed at a time. Fill a section at the end of each of your turns while a magiseed is planted; its effect
-          depends on the filled sections. The garden empties at the end of each scene (NF p. 140).
+          One magiseed at a time. Fill a section at the end of each of your turns while a magiseed is planted; its
+          effect depends on the filled sections. The garden empties at the end of each scene (NF p. 140).
           {derived.level >= 30 && ' At level 30 or higher, magiseed damage is +5 and HP or MP loss or recovery +10.'}
         </p>
       </Panel>
@@ -67,7 +74,9 @@ export function GardenSection() {
             <select
               aria-label="Discover a magiseed"
               value=""
-              onChange={(event) => event.target.value && set('floralist.discovered', [...floralist.discovered, event.target.value])}
+              onChange={(event) =>
+                event.target.value && set('floralist.discovered', [...floralist.discovered, event.target.value])
+              }
             >
               <option value="">Discover magiseed…</option>
               {undiscovered.map((seed) => (
@@ -97,5 +106,5 @@ export function GardenSection() {
         )}
       </Panel>
     </div>
-  )
+  );
 }

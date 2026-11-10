@@ -1,16 +1,16 @@
-import { TextField } from '@/components/TextField'
-import type { Discipline } from '../../../../../types'
+import { TextField } from '@/components/TextField';
+import type { Discipline } from '../../../../../types';
 
 type DisciplineCardProps = {
-  discipline: { key: Discipline; label: string; check: string; page: string }
+  discipline: { key: Discipline; label: string; check: string; page: string };
   /** Classes that grant the discipline; empty when it was added by hand. */
-  sources: string[]
-  onRemove: () => void
-}
+  sources: string[];
+  onRemove: () => void;
+};
 
 /** A discipline the character can perform Rituals of, with its Magic Check and the player's notes. */
 export function DisciplineCard({ discipline, sources, onRemove }: DisciplineCardProps) {
-  const fromClass = sources.length > 0
+  const fromClass = sources.length > 0;
 
   return (
     <section className="rituals-panel-card" aria-label={`${discipline.label} rituals`}>
@@ -33,5 +33,5 @@ export function DisciplineCard({ discipline, sources, onRemove }: DisciplineCard
         </button>
       )}
     </section>
-  )
+  );
 }

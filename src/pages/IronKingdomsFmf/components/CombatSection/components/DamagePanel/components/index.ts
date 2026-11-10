@@ -1,1 +1,1 @@
-export { TakeDamageForm } from './TakeDamageForm'
+export { TakeDamageForm } from './TakeDamageForm';

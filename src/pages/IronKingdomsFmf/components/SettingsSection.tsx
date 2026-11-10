@@ -1,6 +1,6 @@
-import { CheckboxField } from '@/components/CheckboxField'
-import { Panel } from '@/components/Panel'
-import { SUPPLEMENTS } from '../constants/books'
+import { CheckboxField } from '@/components/CheckboxField';
+import { Panel } from '@/components/Panel';
+import { SUPPLEMENTS } from '../constants/books';
 
 export function SettingsSection() {
   return (
@@ -18,7 +18,11 @@ export function SettingsSection() {
           description="Pick careers from the rulebooks to get starting packages and skill maximums. Turn off for custom careers."
         />
         <CheckboxField path="settings.magic" label="Spells" description="Show the arcane tradition and spell list." />
-        <CheckboxField path="settings.mechanika" label="Mechanika" description="Show mechanika housings and rune plates." />
+        <CheckboxField
+          path="settings.mechanika"
+          label="Mechanika"
+          description="Show mechanika housings and rune plates."
+        />
         <CheckboxField
           path="settings.steamjacks"
           label="Steamjacks"
@@ -31,7 +35,9 @@ export function SettingsSection() {
         />
       </Panel>
       <Panel title="Supplements">
-        <p className="ik-note">Turn on the books your group uses. Their page references are marked with the book's initials.</p>
+        <p className="ik-note">
+          Turn on the books your group uses. Their page references are marked with the book's initials.
+        </p>
         {SUPPLEMENTS.map((book) => (
           <CheckboxField
             key={book.id}
@@ -42,5 +48,5 @@ export function SettingsSection() {
         ))}
       </Panel>
     </div>
-  )
+  );
 }

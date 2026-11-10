@@ -1,2 +1,2 @@
-export { SelectField } from './SelectField'
-export type { SelectOption } from './SelectField.types'
+export { SelectField } from './SelectField';
+export type { SelectOption } from './SelectField.types';

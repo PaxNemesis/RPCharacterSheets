@@ -1,26 +1,26 @@
-import { useState } from 'react'
-import { Icon } from '@/components/Icon'
-import { NumberField } from '@/components/NumberField'
-import { Panel } from '@/components/Panel'
-import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
-import { SelectField } from '@/components/SelectField'
-import { SheetProvider } from '@/components/SheetProvider'
-import { TextField } from '@/components/TextField'
-import { alphabetical } from '@/utils/alphabetical'
-import { MARTIAL } from '../../../../constants/attributes'
-import { bookRef } from '../../../../constants/books'
-import type { ClassData, FuClass, FuClassSkill } from '../../../../types'
-import { classLevel } from '../../../../utils/rules'
-import { CustomBenefits } from './components'
-import './ClassCard.styles.css'
+import { useState } from 'react';
+import { Icon } from '@/components/Icon';
+import { NumberField } from '@/components/NumberField';
+import { Panel } from '@/components/Panel';
+import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable';
+import { SelectField } from '@/components/SelectField';
+import { SheetProvider } from '@/components/SheetProvider';
+import { TextField } from '@/components/TextField';
+import { alphabetical } from '@/utils/alphabetical';
+import { MARTIAL } from '../../../../constants/attributes';
+import { bookRef } from '../../../../constants/books';
+import type { ClassData, FuClass, FuClassSkill } from '../../../../types';
+import { classLevel } from '../../../../utils/rules';
+import { CustomBenefits } from './components';
+import './ClassCard.styles.css';
 
 const BENEFIT_CHOICES = [
   { value: '', label: 'Choose…' },
   { value: 'hp', label: '+5 max HP' },
   { value: 'mp', label: '+5 max MP' },
-]
+];
 
-const createSkill = (): FuClassSkill => ({ name: '', level: 1, notes: '' })
+const createSkill = (): FuClassSkill => ({ name: '', level: 1, notes: '' });
 
 const describeBenefits = ({ benefits }: ClassData) =>
   [
@@ -33,25 +33,26 @@ const describeBenefits = ({ benefits }: ClassData) =>
     benefits.other,
   ]
     .filter(Boolean)
-    .join(', ')
+    .join(', ');
 
 type ClassCardProps = {
-  index: number
-  entry: FuClass
+  index: number;
+  entry: FuClass;
   /** The matching rulebook class, if any. */
-  data: ClassData | undefined
-  classNames: string[]
-  issues: string[]
-  onRemove: () => void
-}
+  data: ClassData | undefined;
+  classNames: string[];
+  issues: string[];
+  onRemove: () => void;
+};
 
 export function ClassCard({ index, entry, data, classNames, issues, onRemove }: ClassCardProps) {
   // While the class name is being typed it rarely matches a rulebook class yet, so the custom
   // benefits wait until the name is done (Enter, leaving the field, or picking a suggestion).
-  const [typing, setTyping] = useState(false)
+  const [typing, setTyping] = useState(false);
   // Skills already in a row aren't offered again; the row being typed in doesn't match one until it's done.
-  const taken = new Set(entry.skills.map((skill) => skill.name.trim().toLowerCase()))
-  const skillNames = data && alphabetical(data.skills.map((skill) => skill.name).filter((name) => !taken.has(name.toLowerCase())))
+  const taken = new Set(entry.skills.map((skill) => skill.name.trim().toLowerCase()));
+  const skillNames =
+    data && alphabetical(data.skills.map((skill) => skill.name).filter((name) => !taken.has(name.toLowerCase())));
   const columns: RepeatTableColumn[] = [
     { key: 'name', label: 'Skill', width: 'minmax(150px, 2fr)', suggestions: skillNames },
     { key: 'level', label: 'SL', width: '56px', type: 'number' },
@@ -63,13 +64,15 @@ export function ClassCard({ index, entry, data, classNames, issues, onRemove }: 
           width: '56px',
           type: 'calculated',
           calculate: (row) => {
-            const name = String(row.name ?? '').trim().toLowerCase()
-            return data.skills.find((skill) => skill.name.toLowerCase() === name)?.max ?? null
+            const name = String(row.name ?? '')
+              .trim()
+              .toLowerCase();
+            return data.skills.find((skill) => skill.name.toLowerCase() === name)?.max ?? null;
           },
         }
       : { key: 'max', label: 'Max', width: '56px', type: 'number' },
     { key: 'notes', label: 'Notes', width: 'minmax(200px, 3fr)', rows: 2 },
-  ]
+  ];
 
   return (
     <SheetProvider path={`classes.${index}`}>
@@ -115,5 +118,5 @@ export function ClassCard({ index, entry, data, classNames, issues, onRemove }: 
         ))}
       </Panel>
     </SheetProvider>
-  )
+  );
 }

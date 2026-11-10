@@ -1,8 +1,18 @@
-import type { DefensiveItemData, WeaponData } from '../types'
+import type { DefensiveItemData, WeaponData } from '../types';
 
-type WeaponRow = [string, string, number, boolean, 'one' | 'two', 'melee' | 'ranged', WeaponData['accuracy'], number, number?]
+type WeaponRow = [
+  string,
+  string,
+  number,
+  boolean,
+  'one' | 'two',
+  'melee' | 'ranged',
+  WeaponData['accuracy'],
+  number,
+  number?,
+];
 
-const weapon = ([name, category, page, martial, hands, range, accuracy, damage, accuracyBonus]: WeaponRow): WeaponData => ({
+const weapon = ([
   name,
   category,
   page,
@@ -12,7 +22,17 @@ const weapon = ([name, category, page, martial, hands, range, accuracy, damage, 
   accuracy,
   damage,
   accuracyBonus,
-})
+]: WeaponRow): WeaponData => ({
+  name,
+  category,
+  page,
+  martial,
+  hands,
+  range,
+  accuracy,
+  damage,
+  accuracyBonus,
+});
 
 /** Basic weapons (pp. 130–131). */
 export const BASIC_WEAPONS: WeaponData[] = (
@@ -39,18 +59,34 @@ export const BASIC_WEAPONS: WeaponData[] = (
     ['Improvised (Ranged)', 'Thrown', 131, false, 'one', 'ranged', ['dex', 'mig'], 2],
     ['Shuriken', 'Thrown', 131, false, 'one', 'ranged', ['dex', 'ins'], 4],
   ] satisfies WeaponRow[]
-).map(weapon)
+).map(weapon);
 
 /** Basic armor and shields (pp. 132–133). */
 export const BASIC_DEFENSIVE_ITEMS: DefensiveItemData[] = [
   { name: 'Silk Shirt', kind: 'armor', page: 132, martial: false, magicDefenseBonus: 2, initiative: -1 },
-  { name: 'Travel Garb', kind: 'armor', page: 132, martial: false, defenseBonus: 1, magicDefenseBonus: 1, initiative: -1 },
+  {
+    name: 'Travel Garb',
+    kind: 'armor',
+    page: 132,
+    martial: false,
+    defenseBonus: 1,
+    magicDefenseBonus: 1,
+    initiative: -1,
+  },
   { name: 'Combat Tunic', kind: 'armor', page: 132, martial: false, defenseBonus: 1, magicDefenseBonus: 1 },
-  { name: 'Sage Robe', kind: 'armor', page: 132, martial: false, defenseBonus: 1, magicDefenseBonus: 2, initiative: -2 },
+  {
+    name: 'Sage Robe',
+    kind: 'armor',
+    page: 132,
+    martial: false,
+    defenseBonus: 1,
+    magicDefenseBonus: 2,
+    initiative: -2,
+  },
   { name: 'Brigandine', kind: 'armor', page: 132, martial: true, defense: 10, initiative: -2 },
   { name: 'Bronze Plate', kind: 'armor', page: 132, martial: true, defense: 11, initiative: -3 },
   { name: 'Runic Plate', kind: 'armor', page: 132, martial: true, defense: 11, magicDefenseBonus: 1, initiative: -3 },
   { name: 'Steel Plate', kind: 'armor', page: 132, martial: true, defense: 12, initiative: -4 },
   { name: 'Bronze Shield', kind: 'shield', page: 133, martial: false, defenseBonus: 2 },
   { name: 'Runic Shield', kind: 'shield', page: 133, martial: true, defenseBonus: 2, magicDefenseBonus: 2 },
-]
+];

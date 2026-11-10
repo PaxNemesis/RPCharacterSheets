@@ -1,1 +1,1 @@
-export { VersesSection } from './VersesSection'
+export { VersesSection } from './VersesSection';

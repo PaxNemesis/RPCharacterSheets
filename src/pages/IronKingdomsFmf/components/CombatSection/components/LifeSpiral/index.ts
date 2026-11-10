@@ -1,1 +1,1 @@
-export { LifeSpiral } from './LifeSpiral'
+export { LifeSpiral } from './LifeSpiral';

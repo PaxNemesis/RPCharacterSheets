@@ -1,1 +1,1 @@
-export { IdentityPanel } from './IdentityPanel'
+export { IdentityPanel } from './IdentityPanel';

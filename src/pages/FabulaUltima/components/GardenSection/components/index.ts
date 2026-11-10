@@ -1,1 +1,1 @@
-export { MagiseedCard } from './MagiseedCard'
+export { MagiseedCard } from './MagiseedCard';

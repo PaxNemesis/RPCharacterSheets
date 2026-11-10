@@ -1,4 +1,4 @@
-import type { FuBond, FuCharacter, FuClass, FuItem, ItemKind } from '../types'
+import type { FuBond, FuCharacter, FuClass, FuItem, ItemKind } from '../types';
 
 export const createItem = (kind: ItemKind = ''): FuItem => ({
   kind,
@@ -17,7 +17,7 @@ export const createItem = (kind: ItemKind = ''): FuItem => ({
   defenseBonus: null,
   magicDefenseBonus: null,
   initiative: null,
-})
+});
 
 export const createClass = (): FuClass => ({
   name: '',
@@ -32,9 +32,9 @@ export const createClass = (): FuClass => ({
   notes: '',
   // Starts at level 1: a class's level is the total of its Skill Levels.
   skills: [{ name: '', level: 1, notes: '' }],
-})
+});
 
-export const createBond = (): FuBond => ({ name: '', respect: '', trust: '', feeling: '' })
+export const createBond = (): FuBond => ({ name: '', respect: '', trust: '', feeling: '' });
 
 export const createCharacter = (): FuCharacter => ({
   settings: {
@@ -50,7 +50,12 @@ export const createCharacter = (): FuCharacter => ({
   hp: { current: null, other: null },
   mp: { current: null, other: null },
   ip: { current: null, other: null },
-  modifiers: { defense: null, magicDefense: null, initiative: null, martial: { armor: false, shields: false, melee: false, ranged: false } },
+  modifiers: {
+    defense: null,
+    magicDefense: null,
+    initiative: null,
+    martial: { armor: false, shields: false, melee: false, ranged: false },
+  },
   xp: null,
   fabulaPoints: 3,
   zenit: null,
@@ -87,4 +92,4 @@ export const createCharacter = (): FuCharacter => ({
   symbolist: { learned: [], notes: {}, active: [] },
   chanter: { keys: [], tones: [], notes: {}, verse: { volume: '', key: '', tone: '' } },
   notes: { general: '', wealth: '' },
-})
+});

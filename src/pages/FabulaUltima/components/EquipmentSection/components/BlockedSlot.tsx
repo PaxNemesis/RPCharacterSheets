@@ -1,8 +1,8 @@
 type BlockedSlotProps = {
-  label: string
+  label: string;
   /** The two-handed weapon's name. */
-  weapon: string
-}
+  weapon: string;
+};
 
 /** The off-hand while a two-handed weapon in the main hand uses both hands. */
 export function BlockedSlot({ label, weapon }: BlockedSlotProps) {
@@ -13,5 +13,5 @@ export function BlockedSlot({ label, weapon }: BlockedSlotProps) {
         Both hands: {weapon}. Anything held here moves to stored equipment.
       </span>
     </div>
-  )
+  );
 }

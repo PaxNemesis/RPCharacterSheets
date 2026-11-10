@@ -1,22 +1,22 @@
-import { Panel } from '@/components/Panel'
-import { useSheet } from '@/components/SheetProvider'
-import { TextField } from '@/components/TextField'
-import { DISCIPLINES } from '../../../../constants/attributes'
-import type { Discipline, FuCharacter, FuDerived } from '../../../../types'
-import { DisciplineCard } from './components'
-import './RitualsPanel.styles.css'
+import { Panel } from '@/components/Panel';
+import { useSheet } from '@/components/SheetProvider';
+import { TextField } from '@/components/TextField';
+import { DISCIPLINES } from '../../../../constants/attributes';
+import type { Discipline, FuCharacter, FuDerived } from '../../../../types';
+import { DisciplineCard } from './components';
+import './RitualsPanel.styles.css';
 
 type RitualsPanelProps = {
-  character: FuCharacter
-  derived: FuDerived
-}
+  character: FuCharacter;
+  derived: FuDerived;
+};
 
 export function RitualsPanel({ character, derived }: RitualsPanelProps) {
-  const { set } = useSheet()
-  const added = character.rituals.disciplines
-  const known = DISCIPLINES.filter(({ key }) => derived.disciplines.includes(key) || added[key])
-  const addable = DISCIPLINES.filter((discipline) => !known.includes(discipline))
-  const setAdded = (key: Discipline, value: boolean) => set(`rituals.disciplines.${key}`, value)
+  const { set } = useSheet();
+  const added = character.rituals.disciplines;
+  const known = DISCIPLINES.filter(({ key }) => derived.disciplines.includes(key) || added[key]);
+  const addable = DISCIPLINES.filter((discipline) => !known.includes(discipline));
+  const setAdded = (key: Discipline, value: boolean) => set(`rituals.disciplines.${key}`, value);
 
   return (
     <Panel
@@ -56,9 +56,10 @@ export function RitualsPanel({ character, derived }: RitualsPanelProps) {
         </p>
       )}
       <p className="fu-note">
-        Disciplines come from class free benefits (Ritualism) and Skills such as Ritual Elementalism. Rituals: pp. 118–121.
+        Disciplines come from class free benefits (Ritualism) and Skills such as Ritual Elementalism. Rituals: pp.
+        118–121.
       </p>
       <TextField path="rituals.notes" label="Other ritual notes" rows={3} />
     </Panel>
-  )
+  );
 }

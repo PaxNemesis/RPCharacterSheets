@@ -1,5 +1,5 @@
-import type { ListItems } from '@/components/CharacterWorkspace'
-import { createBond, createClass, createItem } from './createCharacter'
+import type { ListItems } from '@/components/CharacterWorkspace';
+import { createBond, createClass, createItem } from './createCharacter';
 
 /** Blank entries for each list, so entries loaded from a file or the browser can be checked and completed. */
 export const LIST_ITEMS: ListItems = {
@@ -19,4 +19,4 @@ export const LIST_ITEMS: ListItems = {
   'symbolist.active': { name: '', bearer: '', choice: '' },
   'chanter.keys': '',
   'chanter.tones': '',
-}
+};

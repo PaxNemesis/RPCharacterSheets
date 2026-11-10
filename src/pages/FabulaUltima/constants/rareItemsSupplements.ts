@@ -1,4 +1,4 @@
-import { accessories, armor, shields } from './rareItemRows'
+import { accessories, armor, shields } from './rareItemRows';
 
 // Rare armor, shields and accessories from the Atlases; conditional bonuses are left out.
 export const SUPPLEMENT_RARE_ITEMS = [
@@ -68,4 +68,4 @@ export const SUPPLEMENT_RARE_ITEMS = [
     ['Portable Assembler', 85],
     ['Omnidex', 85],
   ]),
-]
+];

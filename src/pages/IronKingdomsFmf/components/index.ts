@@ -1,1 +1,1 @@
-export { IkSheet } from './IkSheet'
+export { IkSheet } from './IkSheet';

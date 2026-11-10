@@ -1,13 +1,13 @@
 type MartialFilterNoteProps = {
   /** How many suggestions need martial equipment the character can't equip. */
-  blocked: number
-  showAll: boolean
-  onToggle: () => void
-}
+  blocked: number;
+  showAll: boolean;
+  onToggle: () => void;
+};
 
 /** Says how many martial suggestions are hidden, with a button to show or hide them. */
 export function MartialFilterNote({ blocked, showAll, onToggle }: MartialFilterNoteProps) {
-  if (blocked === 0) return null
+  if (blocked === 0) return null;
 
   return (
     <p className="fu-note item-slot-martial-note">
@@ -18,5 +18,5 @@ export function MartialFilterNote({ blocked, showAll, onToggle }: MartialFilterN
         {showAll ? 'Hide them' : 'Show them'}
       </button>
     </p>
-  )
+  );
 }

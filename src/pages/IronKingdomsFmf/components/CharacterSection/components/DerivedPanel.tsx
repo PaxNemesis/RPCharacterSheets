@@ -1,21 +1,21 @@
-import { NumberField } from '@/components/NumberField'
-import { Panel } from '@/components/Panel'
-import type { IkDerived } from '../../../types'
-import { FormulaRow } from '@/components/FormulaRow'
+import { NumberField } from '@/components/NumberField';
+import { Panel } from '@/components/Panel';
+import type { IkDerived } from '../../../types';
+import { FormulaRow } from '@/components/FormulaRow';
 
 type DerivedPanelProps = {
-  derived: IkDerived
-}
+  derived: IkDerived;
+};
 
 export function DerivedPanel({ derived }: DerivedPanelProps) {
-  const { stat } = derived
+  const { stat } = derived;
 
   return (
     <Panel title="Defense, armor & initiative">
       <p className="ik-note">
-        Shaded boxes fill in automatically. Armor comes from the Worn armor list on the Weapons & gear tab, and the Command skill
-        from a skill named Command. Use Other for shields, spells and abilities. Movement SPD is how far you move; DEF
-        and Initiative use the SPD stat itself (p. 106).
+        Shaded boxes fill in automatically. Armor comes from the Worn armor list on the Weapons & gear tab, and the
+        Command skill from a skill named Command. Use Other for shields, spells and abilities. Movement SPD is how far
+        you move; DEF and Initiative use the SPD stat itself (p. 106).
         {derived.loadBearing && ' Load Bearing reduces the armor’s SPD and DEF penalties by 1 each (p. 164).'}
       </p>
       <FormulaRow
@@ -76,5 +76,5 @@ export function DerivedPanel({ derived }: DerivedPanelProps) {
         </p>
       </div>
     </Panel>
-  )
+  );
 }

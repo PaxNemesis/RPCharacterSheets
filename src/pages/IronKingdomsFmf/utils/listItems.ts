@@ -1,8 +1,8 @@
-import type { ListItems } from '@/components/CharacterWorkspace'
-import { createArmor, createMechanika, createSteamjack, createStoredItem } from './createCharacter'
-import { createMeleeWeapon, createRangedWeapon } from './weaponColumns'
+import type { ListItems } from '@/components/CharacterWorkspace';
+import { createArmor, createMechanika, createSteamjack, createStoredItem } from './createCharacter';
+import { createMeleeWeapon, createRangedWeapon } from './weaponColumns';
 
-const entry = { name: '', description: '', page: '' }
+const entry = { name: '', description: '', page: '' };
 
 /** Blank entries for each list, so entries loaded from a file or the browser can be checked and completed. */
 export const LIST_ITEMS: ListItems = {
@@ -25,4 +25,4 @@ export const LIST_ITEMS: ListItems = {
   'steamjacks.catastrophic': { area: '', notes: '' },
   'steamjacks.gear': { name: '', notes: '' },
   'steamjacks.powerAttacks': { name: '', description: '' },
-}
+};

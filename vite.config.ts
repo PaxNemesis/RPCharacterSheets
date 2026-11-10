@@ -1,7 +1,7 @@
-import { fileURLToPath } from 'node:url'
-import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vitest/config'
+import { fileURLToPath } from 'node:url';
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vitest/config';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -17,4 +17,4 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/**/__tests__/**/*.test.{ts,tsx}'],
   },
-})
+});

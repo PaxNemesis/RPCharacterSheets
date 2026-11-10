@@ -1,2 +1,2 @@
-export { RepeatTableCell } from './RepeatTableCell'
-export { RepeatTableRow } from './RepeatTableRow'
+export { RepeatTableCell } from './RepeatTableCell';
+export { RepeatTableRow } from './RepeatTableRow';

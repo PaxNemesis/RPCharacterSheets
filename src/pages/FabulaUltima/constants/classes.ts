@@ -1,9 +1,9 @@
-import { compareNames } from '@/utils/alphabetical'
-import type { ClassData, FuSettings } from '../types'
-import { bookEnabled } from './books'
-import { SUPPLEMENT_CLASSES } from './classesSupplements'
+import { compareNames } from '@/utils/alphabetical';
+import type { ClassData, FuSettings } from '../types';
+import { bookEnabled } from './books';
+import { SUPPLEMENT_CLASSES } from './classesSupplements';
 
-const skills = (...list: [string, number][]) => list.map(([name, max]) => ({ name, max }))
+const skills = (...list: [string, number][]) => list.map(([name, max]) => ({ name, max }));
 
 // Core rulebook classes (pp. 176–219): free benefits, and each Skill with its maximum level.
 const CORE_CLASSES: ClassData[] = [
@@ -11,31 +11,61 @@ const CORE_CLASSES: ClassData[] = [
     name: 'Arcanist',
     page: 176,
     benefits: { mp: 5 },
-    skills: skills(['Arcane Circle', 4], ['Arcane Regeneration', 2], ['Bind and Summon', 1], ['Emergency Arcanum', 6], ['Ritual Arcanism', 1]),
+    skills: skills(
+      ['Arcane Circle', 4],
+      ['Arcane Regeneration', 2],
+      ['Bind and Summon', 1],
+      ['Emergency Arcanum', 6],
+      ['Ritual Arcanism', 1],
+    ),
   },
   {
     name: 'Chimerist',
     page: 182,
     benefits: { mp: 5, ritualism: true },
-    skills: skills(['Consume', 5], ['Feral Speech', 1], ['Pathogenesis', 1], ['Ritual Chimerism', 1], ['Spell Mimic', 10]),
+    skills: skills(
+      ['Consume', 5],
+      ['Feral Speech', 1],
+      ['Pathogenesis', 1],
+      ['Ritual Chimerism', 1],
+      ['Spell Mimic', 10],
+    ),
   },
   {
     name: 'Darkblade',
     page: 184,
     benefits: { hp: 5, martial: ['melee', 'armor'] },
-    skills: skills(['Agony', 5], ['Dark Blood', 1], ['Heart of Darkness', 1], ['Painful Lesson', 3], ['Shadow Strike', 5]),
+    skills: skills(
+      ['Agony', 5],
+      ['Dark Blood', 1],
+      ['Heart of Darkness', 1],
+      ['Painful Lesson', 3],
+      ['Shadow Strike', 5],
+    ),
   },
   {
     name: 'Elementalist',
     page: 186,
     benefits: { mp: 5, ritualism: true },
-    skills: skills(['Cataclysm', 3], ['Elemental Magic', 10], ['Magical Artillery', 3], ['Ritual Elementalism', 1], ['Spellblade', 4]),
+    skills: skills(
+      ['Cataclysm', 3],
+      ['Elemental Magic', 10],
+      ['Magical Artillery', 3],
+      ['Ritual Elementalism', 1],
+      ['Spellblade', 4],
+    ),
   },
   {
     name: 'Entropist',
     page: 190,
     benefits: { mp: 5, ritualism: true },
-    skills: skills(['Absorb MP', 5], ['Entropic Magic', 10], ['Lucky Seven', 1], ['Ritual Entropism', 1], ['Stolen Time', 4]),
+    skills: skills(
+      ['Absorb MP', 5],
+      ['Entropic Magic', 10],
+      ['Lucky Seven', 1],
+      ['Ritual Entropism', 1],
+      ['Stolen Time', 4],
+    ),
   },
   {
     name: 'Fury',
@@ -47,13 +77,25 @@ const CORE_CLASSES: ClassData[] = [
     name: 'Guardian',
     page: 196,
     benefits: { hp: 5, martial: ['armor', 'shields'] },
-    skills: skills(['Bodyguard', 1], ['Defensive Mastery', 5], ['Dual Shieldbearer', 1], ['Fortress', 5], ['Protect', 1]),
+    skills: skills(
+      ['Bodyguard', 1],
+      ['Defensive Mastery', 5],
+      ['Dual Shieldbearer', 1],
+      ['Fortress', 5],
+      ['Protect', 1],
+    ),
   },
   {
     name: 'Loremaster',
     page: 198,
     benefits: { mp: 5 },
-    skills: skills(['Flash of Insight', 3], ['Focused', 5], ['Knowledge Is Power', 1], ['Quick Assessment', 6], ['Trained Memory', 1]),
+    skills: skills(
+      ['Flash of Insight', 3],
+      ['Focused', 5],
+      ['Knowledge Is Power', 1],
+      ['Quick Assessment', 6],
+      ['Trained Memory', 1],
+    ),
   },
   {
     name: 'Orator',
@@ -77,7 +119,13 @@ const CORE_CLASSES: ClassData[] = [
     name: 'Spiritist',
     page: 206,
     benefits: { mp: 5, ritualism: true },
-    skills: skills(['Healing Power', 2], ['Ritual Spiritism', 1], ['Spiritual Magic', 10], ['Support Magic', 1], ['Vismagus', 1]),
+    skills: skills(
+      ['Healing Power', 2],
+      ['Ritual Spiritism', 1],
+      ['Spiritual Magic', 10],
+      ['Support Magic', 1],
+      ['Vismagus', 1],
+    ),
   },
   {
     name: 'Tinkerer',
@@ -89,20 +137,34 @@ const CORE_CLASSES: ClassData[] = [
     name: 'Wayfarer',
     page: 216,
     benefits: { ip: 2 },
-    skills: skills(['Faithful Companion', 5], ['Resourceful', 4], ['Tavern Talk', 3], ['Treasure Hunter', 2], ['Well-Traveled', 1]),
+    skills: skills(
+      ['Faithful Companion', 5],
+      ['Resourceful', 4],
+      ['Tavern Talk', 3],
+      ['Treasure Hunter', 2],
+      ['Well-Traveled', 1],
+    ),
   },
   {
     name: 'Weaponmaster',
     page: 218,
     benefits: { hp: 5, martial: ['melee', 'shields'] },
-    skills: skills(['Bladestorm', 1], ['Bone Crusher', 4], ['Breach', 3], ['Counterattack', 1], ['Melee Weapon Mastery', 4]),
+    skills: skills(
+      ['Bladestorm', 1],
+      ['Bone Crusher', 4],
+      ['Breach', 3],
+      ['Counterattack', 1],
+      ['Melee Weapon Mastery', 4],
+    ),
   },
-]
+];
 
-export const CLASSES: ClassData[] = [...CORE_CLASSES, ...SUPPLEMENT_CLASSES].sort((a, b) => compareNames(a.name, b.name))
+export const CLASSES: ClassData[] = [...CORE_CLASSES, ...SUPPLEMENT_CLASSES].sort((a, b) =>
+  compareNames(a.name, b.name),
+);
 
 /** The rulebook class with this name, if its book is turned on. */
 export const findClass = (settings: FuSettings, name: string) => {
-  const key = name.trim().toLowerCase()
-  return CLASSES.find((data) => data.name.toLowerCase() === key && bookEnabled(settings, data.book))
-}
+  const key = name.trim().toLowerCase();
+  return CLASSES.find((data) => data.name.toLowerCase() === key && bookEnabled(settings, data.book));
+};

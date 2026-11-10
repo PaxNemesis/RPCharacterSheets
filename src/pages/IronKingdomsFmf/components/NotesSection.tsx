@@ -1,6 +1,6 @@
-import { NumberField } from '@/components/NumberField'
-import { Panel } from '@/components/Panel'
-import { TextField } from '@/components/TextField'
+import { NumberField } from '@/components/NumberField';
+import { Panel } from '@/components/Panel';
+import { TextField } from '@/components/TextField';
 
 export function NotesSection() {
   return (
@@ -23,5 +23,5 @@ export function NotesSection() {
         </Panel>
       </div>
     </div>
-  )
+  );
 }

@@ -1,26 +1,26 @@
-import { Panel } from '@/components/Panel'
-import { SelectField } from '@/components/SelectField'
-import { TextField } from '@/components/TextField'
-import { compareNames } from '@/utils/alphabetical'
-import { bookEnabled, bookRef } from '../../../constants/books'
-import { QUIRKS, quirkId } from '../../../constants/quirks'
-import type { FuCharacter } from '../../../types'
-import { quirkOf } from '../../../utils/rules'
+import { Panel } from '@/components/Panel';
+import { SelectField } from '@/components/SelectField';
+import { TextField } from '@/components/TextField';
+import { compareNames } from '@/utils/alphabetical';
+import { bookEnabled, bookRef } from '../../../constants/books';
+import { QUIRKS, quirkId } from '../../../constants/quirks';
+import type { FuCharacter } from '../../../types';
+import { quirkOf } from '../../../utils/rules';
 
 const SURVIVOR_CHOICES = [
   { value: '', label: 'Choose…' },
   { value: 'martial', label: 'Equip all martial items' },
   { value: 'spell', label: 'Learn an Elementalist or Spiritist spell' },
   { value: 'ip', label: '+2 max IP' },
-]
+];
 
 type QuirkPanelProps = {
-  character: FuCharacter
-}
+  character: FuCharacter;
+};
 
 export function QuirkPanel({ character }: QuirkPanelProps) {
-  const { quirk, settings } = character
-  const data = quirkOf(character)
+  const { quirk, settings } = character;
+  const data = quirkOf(character);
   // Quirks from books that are turned off stay listed while the character has one.
   const options = [
     { value: '', label: 'None' },
@@ -28,7 +28,7 @@ export function QuirkPanel({ character }: QuirkPanelProps) {
       .sort((a, b) => compareNames(a.name, b.name))
       .map((entry) => ({ value: quirkId(entry), label: `${entry.name} (${bookRef(entry.book, entry.page)})` })),
     { value: 'custom', label: 'Custom Quirk…' },
-  ]
+  ];
 
   return (
     <Panel title="Quirk">
@@ -52,5 +52,5 @@ export function QuirkPanel({ character }: QuirkPanelProps) {
         should share one (HF p. 114). Put situational bonuses, such as Empty Hands, in Other on the Defense panel.
       </p>
     </Panel>
-  )
+  );
 }

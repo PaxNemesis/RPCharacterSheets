@@ -1,1 +1,1 @@
-export { ClassesSection } from './ClassesSection'
+export { ClassesSection } from './ClassesSection';

@@ -1,13 +1,13 @@
 /** 'turn' lasts until the start of your next turn. */
-export type DanceDuration = 'instant' | 'turn'
+export type DanceDuration = 'instant' | 'turn';
 
 export type DanceData = {
-  name: string
-  page: number
-  duration: DanceDuration
+  name: string;
+  page: number;
+  duration: DanceDuration;
   /** The damage type of a dance that grants a Resistance or changes damage to that type. */
-  element?: string
-}
+  element?: string;
+};
 
 /** The Dancer's dances, with their pages and durations (HF pp. 144–145). */
 export const DANCES: DanceData[] = [
@@ -28,14 +28,14 @@ export const DANCES: DanceData[] = [
   { name: 'Satyr Dance', page: 145, duration: 'instant' },
   { name: 'Unicorn Dance', page: 145, duration: 'instant' },
   { name: 'Yeti Dance', page: 145, duration: 'turn', element: 'ice' },
-]
+];
 
 export const DURATION_LABELS: Record<DanceDuration, string> = {
   instant: 'Instantaneous',
   turn: 'Until the start of your next turn',
-}
+};
 
 /** MP to perform a dance, or after a different dance on your previous turn; Follow My Lead's extra (HF p. 143). */
-export const DANCE_MP = 10
-export const DANCE_MP_AFTER_OTHER = 5
-export const FOLLOW_MY_LEAD_MP = 10
+export const DANCE_MP = 10;
+export const DANCE_MP_AFTER_OTHER = 5;
+export const FOLLOW_MY_LEAD_MP = 10;

@@ -1,1 +1,1 @@
-export { MagicSection } from './MagicSection'
+export { MagicSection } from './MagicSection';

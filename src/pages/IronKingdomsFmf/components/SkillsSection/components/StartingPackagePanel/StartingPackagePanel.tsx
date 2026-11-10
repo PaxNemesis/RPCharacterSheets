@@ -1,29 +1,31 @@
-import { useState } from 'react'
-import { Panel } from '@/components/Panel'
-import { useSheet } from '@/components/SheetProvider'
-import { findRace } from '../../../../constants/races'
-import { useIkCharacter } from '../../../../hooks/useIkCharacter'
-import { availableOptions } from '../../../../utils/careerOptions'
-import { CareerOptions, CareerPackage } from './components'
-import { applyStartingPackage, choiceKey, startingPackage, type PackageSelection } from './utils/startingPackage'
-import './StartingPackagePanel.styles.css'
+import { useState } from 'react';
+import { Panel } from '@/components/Panel';
+import { useSheet } from '@/components/SheetProvider';
+import { findRace } from '../../../../constants/races';
+import { useIkCharacter } from '../../../../hooks/useIkCharacter';
+import { availableOptions } from '../../../../utils/careerOptions';
+import { CareerOptions, CareerPackage } from './components';
+import { applyStartingPackage, choiceKey, startingPackage, type PackageSelection } from './utils/startingPackage';
+import './StartingPackagePanel.styles.css';
 
 /** Shows what the two starting careers give a new character and adds it to the sheet. */
 export function StartingPackagePanel() {
-  const { character } = useIkCharacter()
-  const { set } = useSheet()
-  const selection: PackageSelection = character.identity.careerChoices ?? {}
-  const [result, setResult] = useState<string[]>()
-  const pack = startingPackage(character, selection)
-  const race = character.settings.raceRules ? findRace(character.identity.race) : undefined
-  const options = availableOptions(character)
+  const { character } = useIkCharacter();
+  const { set } = useSheet();
+  const selection: PackageSelection = character.identity.careerChoices ?? {};
+  const [result, setResult] = useState<string[]>();
+  const pack = startingPackage(character, selection);
+  const race = character.settings.raceRules ? findRace(character.identity.race) : undefined;
+  const options = availableOptions(character);
 
   if (pack.careers.length === 0) {
     return (
       <Panel title="Starting package">
-        <p className="ik-note">Choose two starting careers on the Character tab to see what they give a new character.</p>
+        <p className="ik-note">
+          Choose two starting careers on the Character tab to see what they give a new character.
+        </p>
       </Panel>
-    )
+    );
   }
 
   const openChoices = pack.careers.flatMap((career) =>
@@ -32,16 +34,16 @@ export function StartingPackagePanel() {
         ? [career.name]
         : [],
     ),
-  )
+  );
 
   const apply = () => {
-    const applied = applyStartingPackage(character, pack)
-    set('', applied.character)
+    const applied = applyStartingPackage(character, pack);
+    set('', applied.character);
     setResult([
       `Added the starting package: ${pack.skills.length} skills, ${pack.abilities.length} abilities, ${pack.archetypeBenefits.length} archetype benefits, ${pack.connections.length} connections and ${pack.spells.length} spells. Nothing already on the sheet was removed.`,
       ...applied.notes,
-    ])
-  }
+    ]);
+  };
 
   return (
     <Panel title="Starting package" className="starting-package-container">
@@ -84,5 +86,5 @@ export function StartingPackagePanel() {
         </p>
       ))}
     </Panel>
-  )
+  );
 }

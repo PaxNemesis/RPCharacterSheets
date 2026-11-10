@@ -1,1 +1,1 @@
-export { MechanikaDevice } from './MechanikaDevice'
+export { MechanikaDevice } from './MechanikaDevice';

@@ -1,6 +1,6 @@
-import { CheckboxField } from '@/components/CheckboxField'
-import { NumberField } from '@/components/NumberField'
-import { DISCIPLINES, MARTIAL } from '../../../../../constants/attributes'
+import { CheckboxField } from '@/components/CheckboxField';
+import { NumberField } from '@/components/NumberField';
+import { DISCIPLINES, MARTIAL } from '../../../../../constants/attributes';
 
 /** Free benefits typed in by hand, for a class that isn't in the enabled rulebooks. */
 export function CustomBenefits() {
@@ -29,5 +29,5 @@ export function CustomBenefits() {
         unlocks it too once it has a Skill Level.
       </p>
     </>
-  )
+  );
 }

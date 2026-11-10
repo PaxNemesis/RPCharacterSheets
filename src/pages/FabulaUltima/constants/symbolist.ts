@@ -1,6 +1,6 @@
-import { DAMAGE_TYPES } from './attributes'
+import { DAMAGE_TYPES } from './attributes';
 
-export type SymbolChoice = 'element' | 'status' | 'action' | 'species'
+export type SymbolChoice = 'element' | 'status' | 'action' | 'species';
 
 /** The Symbolist's symbols and their pages; `choice` is what is picked when one is created (HF pp. 149–151). */
 export const SYMBOLS: { name: string; page: number; choice?: SymbolChoice }[] = [
@@ -23,7 +23,7 @@ export const SYMBOLS: { name: string; page: number; choice?: SymbolChoice }[] = 
   { name: 'Symbol of Sorcery', page: 151 },
   { name: 'Symbol of Truth', page: 151 },
   { name: 'Symbol of Weakness', page: 151, choice: 'element' },
-]
+];
 
 /** What each kind of choice is picked from. */
 export const SYMBOL_CHOICES: Record<SymbolChoice, { label: string; options: string[] }> = {
@@ -31,7 +31,7 @@ export const SYMBOL_CHOICES: Record<SymbolChoice, { label: string; options: stri
   status: { label: 'status effect', options: ['dazed', 'shaken', 'slow', 'weak'] },
   action: { label: 'action', options: ['Attack', 'Guard', 'Objective', 'Spell', 'Skill'] },
   species: { label: 'Species', options: ['beast', 'construct', 'demon', 'elemental', 'monster', 'plant', 'undead'] },
-}
+};
 
 /** Inventory Points to create a symbol with Symbolism (HF p. 147). */
-export const SYMBOL_IP = 2
+export const SYMBOL_IP = 2;

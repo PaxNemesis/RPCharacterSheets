@@ -1,30 +1,30 @@
-import { Panel } from '@/components/Panel'
-import { useSheet } from '@/components/SheetProvider'
-import type { FuCharacter, FuDerived } from '../../../../types'
-import { PoolRow } from './components'
-import './PointsPanel.styles.css'
+import { Panel } from '@/components/Panel';
+import { useSheet } from '@/components/SheetProvider';
+import type { FuCharacter, FuDerived } from '../../../../types';
+import { PoolRow } from './components';
+import './PointsPanel.styles.css';
 
 type PointsPanelProps = {
-  character: FuCharacter
-  derived: FuDerived
-}
+  character: FuCharacter;
+  derived: FuDerived;
+};
 
 export function PointsPanel({ character, derived }: PointsPanelProps) {
-  const { set } = useSheet()
-  const hp = character.hp.current
-  const inCrisis = hp !== null && hp > 0 && hp <= derived.crisis
+  const { set } = useSheet();
+  const hp = character.hp.current;
+  const inCrisis = hp !== null && hp > 0 && hp <= derived.crisis;
   const over = [
     hp !== null && hp > derived.maxHp && 'HP',
     (character.mp.current ?? 0) > derived.maxMp && 'MP',
     (character.ip.current ?? 0) > derived.maxIp && 'IP',
-  ].filter(Boolean)
+  ].filter(Boolean);
 
   // Resting restores all HP and MP and removes every status effect (p. 90).
   const rest = () => {
-    set('hp.current', derived.maxHp)
-    set('mp.current', derived.maxMp)
-    set('statuses', Object.fromEntries(Object.keys(character.statuses).map((key) => [key, false])))
-  }
+    set('hp.current', derived.maxHp);
+    set('mp.current', derived.maxMp);
+    set('statuses', Object.fromEntries(Object.keys(character.statuses).map((key) => [key, false])));
+  };
 
   return (
     <Panel
@@ -79,5 +79,5 @@ export function PointsPanel({ character, derived }: PointsPanelProps) {
       {over.length > 0 && <p className="fu-warning">Above the maximum: {over.join(', ')}.</p>}
       <p className="fu-note">Bonuses are class free benefits, Heroic Skills such as Extra HP, and your Quirk.</p>
     </Panel>
-  )
+  );
 }

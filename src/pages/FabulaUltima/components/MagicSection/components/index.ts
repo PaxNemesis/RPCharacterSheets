@@ -1,2 +1,2 @@
-export { RitualsPanel } from './RitualsPanel'
-export { SpellsPanel } from './SpellsPanel'
+export { RitualsPanel } from './RitualsPanel';
+export { SpellsPanel } from './SpellsPanel';

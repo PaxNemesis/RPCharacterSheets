@@ -1,31 +1,34 @@
-import { Panel } from '@/components/Panel'
-import { useSheet } from '@/components/SheetProvider'
-import { useRowIds } from '@/hooks/useRowIds'
-import { SYMBOL_IP } from '../../../constants/symbolist'
-import type { FuActiveSymbol, FuCharacter, FuDerived } from '../../../types'
-import { symbolLimits } from '../../../utils/symbolist'
-import { ActiveSymbolRow } from './ActiveSymbolRow'
+import { Panel } from '@/components/Panel';
+import { useSheet } from '@/components/SheetProvider';
+import { useRowIds } from '@/hooks/useRowIds';
+import { SYMBOL_IP } from '../../../constants/symbolist';
+import type { FuActiveSymbol, FuCharacter, FuDerived } from '../../../types';
+import { symbolLimits } from '../../../utils/symbolist';
+import { ActiveSymbolRow } from './ActiveSymbolRow';
 
 type ActiveSymbolsPanelProps = {
-  character: FuCharacter
-  derived: FuDerived
-}
+  character: FuCharacter;
+  derived: FuDerived;
+};
 
 /** The symbols on creatures right now; they last until destroyed, so across scenes and sessions (HF pp. 147–148). */
 export function ActiveSymbolsPanel({ character, derived }: ActiveSymbolsPanelProps) {
-  const { set } = useSheet()
-  const { active } = character.symbolist
-  const limit = symbolLimits(character).active
+  const { set } = useSheet();
+  const { active } = character.symbolist;
+  const limit = symbolLimits(character).active;
   // A blank current IP counts as full.
-  const ip = character.ip.current ?? derived.maxIp
-  const full = active.length >= limit
+  const ip = character.ip.current ?? derived.maxIp;
+  const full = active.length >= limit;
 
-  const copy = (symbol: FuActiveSymbol) => set('symbolist.active', [...active, { ...symbol, bearer: '' }])
-  const rowIds = useRowIds(active.length)
+  const copy = (symbol: FuActiveSymbol) => set('symbolist.active', [...active, { ...symbol, bearer: '' }]);
+  const rowIds = useRowIds(active.length);
   const destroy = (index: number) => {
-    rowIds.remove(index)
-    set('symbolist.active', active.filter((_, other) => other !== index))
-  }
+    rowIds.remove(index);
+    set(
+      'symbolist.active',
+      active.filter((_, other) => other !== index),
+    );
+  };
 
   return (
     <Panel
@@ -58,9 +61,9 @@ export function ActiveSymbolsPanel({ character, derived }: ActiveSymbolsPanelPro
         </ul>
       )}
       <p className="fu-note">
-        A creature bears one symbol at a time. Copies from one attack cost {SYMBOL_IP} IP in all, but each counts towards
-        the limit.
+        A creature bears one symbol at a time. Copies from one attack cost {SYMBOL_IP} IP in all, but each counts
+        towards the limit.
       </p>
     </Panel>
-  )
+  );
 }

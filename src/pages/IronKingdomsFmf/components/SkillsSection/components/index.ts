@@ -1,2 +1,2 @@
-export { ArchetypePanel } from './ArchetypePanel'
-export { StartingPackagePanel } from './StartingPackagePanel'
+export { ArchetypePanel } from './ArchetypePanel';
+export { StartingPackagePanel } from './StartingPackagePanel';

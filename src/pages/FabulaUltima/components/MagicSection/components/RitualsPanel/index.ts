@@ -1,1 +1,1 @@
-export { RitualsPanel } from './RitualsPanel'
+export { RitualsPanel } from './RitualsPanel';

@@ -1,4 +1,4 @@
-import type { HeroicSkillData } from '../types'
+import type { HeroicSkillData } from '../types';
 
 /** Heroic Skill names and pages, used as suggestions; Extra HP, MP and IP also raise maximums (pp. 235–236). */
 export const HEROIC_SKILLS: HeroicSkillData[] = [
@@ -111,4 +111,4 @@ export const HEROIC_SKILLS: HeroicSkillData[] = [
   { name: 'Create Phantasm: Numen', book: 'low', page: 99 },
   { name: 'Crystal Clear', book: 'low', page: 103 },
   { name: 'Beaded Weapon', book: 'low', page: 103 },
-]
+];

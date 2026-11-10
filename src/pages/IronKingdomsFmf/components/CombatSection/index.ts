@@ -1,1 +1,1 @@
-export { CombatSection } from './CombatSection'
+export { CombatSection } from './CombatSection';

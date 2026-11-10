@@ -1,13 +1,13 @@
-import type { ReactNode } from 'react'
-import './Panel.styles.css'
+import type { ReactNode } from 'react';
+import './Panel.styles.css';
 
 type PanelProps = {
-  title: string
+  title: string;
   /** Extra content on the right of the title bar, such as buttons. */
-  actions?: ReactNode
-  className?: string
-  children: ReactNode
-}
+  actions?: ReactNode;
+  className?: string;
+  children: ReactNode;
+};
 
 export function Panel({ title, actions, className, children }: PanelProps) {
   return (
@@ -18,5 +18,5 @@ export function Panel({ title, actions, className, children }: PanelProps) {
       </header>
       <div className="panel-body">{children}</div>
     </section>
-  )
+  );
 }

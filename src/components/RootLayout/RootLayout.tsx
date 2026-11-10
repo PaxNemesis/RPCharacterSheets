@@ -1,11 +1,11 @@
-import { Link, Outlet } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import { NavMenu } from './components'
-import { NAV_LINKS } from './RootLayout.constants'
-import './RootLayout.styles.css'
+import { Link, Outlet } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+import { NavMenu } from './components';
+import { NAV_LINKS } from './RootLayout.constants';
+import './RootLayout.styles.css';
 
 // Production is GitHub Pages; anything served from this machine, `pnpm dev` or `pnpm preview`, is local.
-const isLocal = ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname)
+const isLocal = ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
 
 export function RootLayout() {
   return (
@@ -36,5 +36,5 @@ export function RootLayout() {
       <Outlet />
       <TanStackRouterDevtools />
     </div>
-  )
+  );
 }

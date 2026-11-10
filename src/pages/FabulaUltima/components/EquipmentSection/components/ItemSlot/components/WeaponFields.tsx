@@ -1,34 +1,34 @@
-import { NumberField } from '@/components/NumberField'
-import { SelectField } from '@/components/SelectField'
-import { TextField } from '@/components/TextField'
-import { alphabetical } from '@/utils/alphabetical'
-import { ATTRIBUTE_KEYS, ATTRIBUTES, DAMAGE_TYPES } from '../../../../../constants/attributes'
-import { BASIC_WEAPONS } from '../../../../../constants/equipment'
-import type { FuDerived, FuItem } from '../../../../../types'
+import { NumberField } from '@/components/NumberField';
+import { SelectField } from '@/components/SelectField';
+import { TextField } from '@/components/TextField';
+import { alphabetical } from '@/utils/alphabetical';
+import { ATTRIBUTE_KEYS, ATTRIBUTES, DAMAGE_TYPES } from '../../../../../constants/attributes';
+import { BASIC_WEAPONS } from '../../../../../constants/equipment';
+import type { FuDerived, FuItem } from '../../../../../types';
 
-const CATEGORIES = alphabetical([...new Set(BASIC_WEAPONS.map((weapon) => weapon.category))])
-const ATTRIBUTE_OPTIONS = ATTRIBUTE_KEYS.map((key) => ({ value: key, label: ATTRIBUTES[key].short }))
+const CATEGORIES = alphabetical([...new Set(BASIC_WEAPONS.map((weapon) => weapon.category))]);
+const ATTRIBUTE_OPTIONS = ATTRIBUTE_KEYS.map((key) => ({ value: key, label: ATTRIBUTES[key].short }));
 const HANDS = [
   { value: '', label: '—' },
   { value: 'one', label: 'One-handed' },
   { value: 'two', label: 'Two-handed' },
-]
+];
 const RANGES = [
   { value: '', label: '—' },
   { value: 'melee', label: 'Melee' },
   { value: 'ranged', label: 'Ranged' },
-]
+];
 
 type WeaponFieldsProps = {
-  item: FuItem
-  derived: FuDerived
-}
+  item: FuItem;
+  derived: FuDerived;
+};
 
 export function WeaponFields({ item, derived }: WeaponFieldsProps) {
-  const a = ATTRIBUTES[item.accuracyA]?.short ?? '?'
-  const b = ATTRIBUTES[item.accuracyB]?.short ?? '?'
-  const bonus = item.accuracyBonus ? ` ${item.accuracyBonus > 0 ? '+' : '−'} ${Math.abs(item.accuracyBonus)}` : ''
-  const dice = `d${derived.current(item.accuracyA)} + d${derived.current(item.accuracyB)}`
+  const a = ATTRIBUTES[item.accuracyA]?.short ?? '?';
+  const b = ATTRIBUTES[item.accuracyB]?.short ?? '?';
+  const bonus = item.accuracyBonus ? ` ${item.accuracyBonus > 0 ? '+' : '−'} ${Math.abs(item.accuracyBonus)}` : '';
+  const dice = `d${derived.current(item.accuracyA)} + d${derived.current(item.accuracyB)}`;
 
   return (
     <>
@@ -47,5 +47,5 @@ export function WeaponFields({ item, derived }: WeaponFieldsProps) {
         {bonus}. Damage: 【HR + {item.damage ?? 0}】 {item.damageType}.
       </p>
     </>
-  )
+  );
 }

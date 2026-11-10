@@ -1,1 +1,1 @@
-export { EquipmentSection } from './EquipmentSection'
+export { EquipmentSection } from './EquipmentSection';

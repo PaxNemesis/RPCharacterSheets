@@ -1,1 +1,1 @@
-export type ConflictChoice = 'replace' | 'copy' | 'skip'
+export type ConflictChoice = 'replace' | 'copy' | 'skip';

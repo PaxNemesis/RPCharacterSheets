@@ -1,1 +1,1 @@
-export { LearnedCard } from './LearnedCard'
+export { LearnedCard } from './LearnedCard';

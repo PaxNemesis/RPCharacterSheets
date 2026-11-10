@@ -1,18 +1,21 @@
-import { Icon } from '@/components/Icon'
-import { TextField } from '@/components/TextField'
+import { Icon } from '@/components/Icon';
+import { TextField } from '@/components/TextField';
 
 type MagiseedCardProps = {
-  seed: { name: string; page: number }
+  seed: { name: string; page: number };
   /** Whether it's the magiseed currently in the garden. */
-  planted: boolean
-  onPlant: () => void
-  onForget: () => void
-}
+  planted: boolean;
+  onPlant: () => void;
+  onForget: () => void;
+};
 
 /** A discovered magiseed, with the player's own notes on its effects. */
 export function MagiseedCard({ seed, planted, onPlant, onForget }: MagiseedCardProps) {
   return (
-    <section className={planted ? 'garden-section-card garden-section-planted' : 'garden-section-card'} aria-label={seed.name}>
+    <section
+      className={planted ? 'garden-section-card garden-section-planted' : 'garden-section-card'}
+      aria-label={seed.name}
+    >
       <header className="garden-section-card-header">
         <h3>{seed.name}</h3>
         <button
@@ -39,5 +42,5 @@ export function MagiseedCard({ seed, planted, onPlant, onForget }: MagiseedCardP
         placeholder="Its effect at each Growth Clock section, in your words…"
       />
     </section>
-  )
+  );
 }

@@ -1,1 +1,1 @@
-export { DisciplineCard } from './DisciplineCard'
+export { DisciplineCard } from './DisciplineCard';

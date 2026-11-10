@@ -1,14 +1,14 @@
-import type { CapacitorData, MechanikaType, RuneData } from '../types'
+import type { CapacitorData, MechanikaType, RuneData } from '../types';
 
 /** A runeplate holds up to five rune points of runes, all of one type (p. 284). */
-export const MAX_RUNE_POINTS = 5
+export const MAX_RUNE_POINTS = 5;
 
 export const MECHANIKA_TYPES: { value: MechanikaType; label: string }[] = [
   { value: 'armor', label: 'Armor' },
   { value: 'melee', label: 'Melee weapon' },
   { value: 'ranged', label: 'Ranged weapon' },
   { value: 'other', label: 'Other device' },
-]
+];
 
 // Core rules pp. 282–283. The supplements add dedicated devices but no new capacitors.
 export const CAPACITORS: CapacitorData[] = [
@@ -17,9 +17,9 @@ export const CAPACITORS: CapacitorData[] = [
   { name: 'Arcanodynamic Accumulator', page: 283, power: 4, lifespan: '1 month' },
   { name: 'Clockwork Capacitor', page: 283, power: 3, lifespan: '1 day, rechargeable' },
   { name: 'Storm Chamber', page: 283, power: 5, lifespan: '1 year' },
-]
+];
 
-const WEAPON: MechanikaType[] = ['melee', 'ranged']
+const WEAPON: MechanikaType[] = ['melee', 'ranged'];
 
 // Core rules pp. 284–286. The supplements' mechanika comes with dedicated runeplates instead.
 export const RUNES: RuneData[] = [
@@ -48,10 +48,15 @@ export const RUNES: RuneData[] = [
   { name: 'Spell Ward', page: 286, types: ['armor'], points: 3 },
   { name: 'Stall', page: 286, types: ['melee'], points: 3 },
   { name: 'Steady', page: 286, types: ['armor'], points: 1 },
-]
+];
 
-const base = (name: string) => name.replace(/\s*\(.*\)\s*$/, '').trim().toLowerCase()
+const base = (name: string) =>
+  name
+    .replace(/\s*\(.*\)\s*$/, '')
+    .trim()
+    .toLowerCase();
 
 /** "Clockwork capacitor (80gc)" finds the Clockwork Capacitor. */
-export const findCapacitor = (name: string) => CAPACITORS.find((capacitor) => capacitor.name.toLowerCase() === base(name))
-export const findRune = (name: string) => RUNES.find((rune) => rune.name.toLowerCase() === base(name))
+export const findCapacitor = (name: string) =>
+  CAPACITORS.find((capacitor) => capacitor.name.toLowerCase() === base(name));
+export const findRune = (name: string) => RUNES.find((rune) => rune.name.toLowerCase() === base(name));

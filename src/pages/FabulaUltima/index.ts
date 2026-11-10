@@ -1,1 +1,1 @@
-export { FabulaUltima } from './FabulaUltima'
+export { FabulaUltima } from './FabulaUltima';

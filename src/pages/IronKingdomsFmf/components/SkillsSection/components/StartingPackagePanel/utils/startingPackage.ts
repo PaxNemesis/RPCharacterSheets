@@ -1,42 +1,42 @@
-import { abilityRef } from '../../../../../constants/abilities'
-import { archetypeBenefitRef } from '../../../../../constants/archetypes'
-import { findRace } from '../../../../../constants/races'
-import { skillRef } from '../../../../../constants/skills'
-import type { CareerData, IkCharacter, SkillGrant } from '../../../../../types'
-import { careersOf, variantOf } from '../../../../../utils/rules'
+import { abilityRef } from '../../../../../constants/abilities';
+import { archetypeBenefitRef } from '../../../../../constants/archetypes';
+import { findRace } from '../../../../../constants/races';
+import { skillRef } from '../../../../../constants/skills';
+import type { CareerData, IkCharacter, SkillGrant } from '../../../../../types';
+import { careersOf, variantOf } from '../../../../../utils/rules';
 
 /** The player's picks for "choose one of…" skills, keyed by `choiceKey`. */
-export type PackageSelection = Record<string, string[]>
+export type PackageSelection = Record<string, string[]>;
 
-export const choiceKey = (career: CareerData, index: number) => `${career.name}:${index}`
+export const choiceKey = (career: CareerData, index: number) => `${career.name}:${index}`;
 
-const unique = (values: string[]) => [...new Set(values)]
-const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase()
+const unique = (values: string[]) => [...new Set(values)];
+const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
 
 /** The starting careers' combined package (pp. 117–119), plus racial abilities, connections and archetype benefits. */
 export function startingPackage(character: IkCharacter, selection: PackageSelection) {
-  const careers = careersOf(character).slice(0, 2)
-  const race = character.settings.raceRules ? findRace(character.identity.race) : undefined
+  const careers = careersOf(character).slice(0, 2);
+  const race = character.settings.raceRules ? findRace(character.identity.race) : undefined;
   const grantsByCareer = careers.map((career) => {
-    const variant = variantOf(character, career)
+    const variant = variantOf(character, career);
     return [...career.skills, ...(variant?.skills ?? [])].flatMap((entry, index) =>
       'choose' in entry
         ? entry.options.filter((option) => selection[choiceKey(career, index)]?.includes(option.name))
         : [entry],
-    )
-  })
+    );
+  });
 
   // The same starting skill from both careers starts at level 2 (p. 117).
-  const skills: SkillGrant[] = []
+  const skills: SkillGrant[] = [];
   for (const grant of grantsByCareer.flat()) {
-    const existing = skills.find((skill) => same(skill.name, grant.name))
-    if (existing) existing.level = Math.max(2, existing.level, grant.level)
-    else skills.push({ ...grant })
+    const existing = skills.find((skill) => same(skill.name, grant.name));
+    if (existing) existing.level = Math.max(2, existing.level, grant.level);
+    else skills.push({ ...grant });
   }
 
   // A career's own entries plus those of its chosen variant (a priest's faith, a sorcerer's element).
   const fromCareers = (key: 'abilities' | 'connections' | 'spells') =>
-    careers.flatMap((career) => [...career[key], ...(variantOf(character, career)?.[key] ?? [])])
+    careers.flatMap((career) => [...career[key], ...(variantOf(character, career)?.[key] ?? [])]);
 
   return {
     careers,
@@ -44,33 +44,39 @@ export function startingPackage(character: IkCharacter, selection: PackageSelect
     abilities: unique([...(race?.abilities ?? []), ...fromCareers('abilities')]),
     connections: unique([...(race?.connections ?? []), ...fromCareers('connections')]),
     spells: unique(fromCareers('spells')),
-    archetypeBenefits: unique([...(race?.archetypeBenefits ?? []), ...careers.flatMap((career) => career.archetypeBenefits ?? [])]),
+    archetypeBenefits: unique([
+      ...(race?.archetypeBenefits ?? []),
+      ...careers.flatMap((career) => career.archetypeBenefits ?? []),
+    ]),
     gold: careers.reduce((total, career) => total + career.gold, 0),
     assets: careers.flatMap((career) => career.assets.map((asset) => ({ name: asset, career: career.name }))),
-  }
+  };
 }
 
-type Package = ReturnType<typeof startingPackage>
+type Package = ReturnType<typeof startingPackage>;
 
 /** Adds the package to the character without removing anything already on the sheet. */
-export function applyStartingPackage(character: IkCharacter, pack: Package): { character: IkCharacter; notes: string[] } {
-  const notes: string[] = []
-  const skills = [...character.skills]
+export function applyStartingPackage(
+  character: IkCharacter,
+  pack: Package,
+): { character: IkCharacter; notes: string[] } {
+  const notes: string[] = [];
+  const skills = [...character.skills];
   for (const grant of pack.skills) {
-    const index = skills.findIndex((skill) => same(skill.name, grant.name))
-    if (index >= 0) skills[index] = { ...skills[index], level: Math.max(skills[index].level ?? 0, grant.level) }
-    else skills.push({ name: grant.name, stat: '', level: grant.level, page: skillRef(grant.name) })
+    const index = skills.findIndex((skill) => same(skill.name, grant.name));
+    if (index >= 0) skills[index] = { ...skills[index], level: Math.max(skills[index].level ?? 0, grant.level) };
+    else skills.push({ name: grant.name, stat: '', level: grant.level, page: skillRef(grant.name) });
   }
   const missing = <T extends { name: string }>(rows: T[], names: string[]) =>
-    names.filter((name) => !rows.some((row) => same(row.name, name)))
+    names.filter((name) => !rows.some((row) => same(row.name, name)));
 
-  let arcaneTradition = character.arcaneTradition
+  let arcaneTradition = character.arcaneTradition;
   if (character.identity.archetype === 'Gifted') {
-    if (pack.careers.some((career) => career.name === 'Warcaster')) arcaneTradition = 'Focuser'
-    else if (!arcaneTradition) arcaneTradition = 'Will Weaver'
+    if (pack.careers.some((career) => career.name === 'Warcaster')) arcaneTradition = 'Focuser';
+    else if (!arcaneTradition) arcaneTradition = 'Will Weaver';
   }
   if (character.gold !== null && pack.gold > 0) {
-    notes.push(`Gold was already filled in, so the starting ${pack.gold} gc was not added.`)
+    notes.push(`Gold was already filled in, so the starting ${pack.gold} gc was not added.`);
   }
 
   return {
@@ -81,11 +87,19 @@ export function applyStartingPackage(character: IkCharacter, pack: Package): { c
       arcaneTradition,
       abilities: [
         ...character.abilities,
-        ...missing(character.abilities, pack.abilities).map((name) => ({ name, description: '', page: abilityRef(name, character.settings) ?? '' })),
+        ...missing(character.abilities, pack.abilities).map((name) => ({
+          name,
+          description: '',
+          page: abilityRef(name, character.settings) ?? '',
+        })),
       ],
       archetypeBenefits: [
         ...character.archetypeBenefits,
-        ...missing(character.archetypeBenefits, pack.archetypeBenefits).map((name) => ({ name, description: '', page: archetypeBenefitRef(name) })),
+        ...missing(character.archetypeBenefits, pack.archetypeBenefits).map((name) => ({
+          name,
+          description: '',
+          page: archetypeBenefitRef(name),
+        })),
       ],
       connections: [
         ...character.connections,
@@ -113,5 +127,5 @@ export function applyStartingPackage(character: IkCharacter, pack: Package): { c
       ],
       gold: character.gold ?? (pack.gold > 0 ? pack.gold : null),
     },
-  }
+  };
 }

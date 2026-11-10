@@ -17,8 +17,7 @@
   .check-track-box-marked {
     background:
       linear-gradient(45deg, transparent 43%, var(--input-bg) 43% 57%, transparent 57%),
-      linear-gradient(-45deg, transparent 43%, var(--input-bg) 43% 57%, transparent 57%),
-      var(--check-track-color);
+      linear-gradient(-45deg, transparent 43%, var(--input-bg) 43% 57%, transparent 57%), var(--check-track-color);
   }
 
   /* A solid pip: the box holds something, rather than being spent. */

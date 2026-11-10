@@ -1,24 +1,32 @@
-import { Panel } from '@/components/Panel'
-import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
-import { compareNames } from '@/utils/alphabetical'
-import { bookEnabled, bookRef } from '../../../constants/books'
-import { SPELLS } from '../../../constants/spells'
-import type { FuCharacter, FuSpell } from '../../../types'
+import { Panel } from '@/components/Panel';
+import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable';
+import { compareNames } from '@/utils/alphabetical';
+import { bookEnabled, bookRef } from '../../../constants/books';
+import { SPELLS } from '../../../constants/spells';
+import type { FuCharacter, FuSpell } from '../../../types';
 
-const createSpell = (): FuSpell => ({ name: '', offensive: '', mp: '', targets: '', duration: '', page: '', notes: '' })
+const createSpell = (): FuSpell => ({
+  name: '',
+  offensive: '',
+  mp: '',
+  targets: '',
+  duration: '',
+  page: '',
+  notes: '',
+});
 
 type SpellsPanelProps = {
-  character: FuCharacter
-}
+  character: FuCharacter;
+};
 
 export function SpellsPanel({ character }: SpellsPanelProps) {
   const spells = SPELLS.filter((spell) => bookEnabled(character.settings, spell.book)).sort((a, b) =>
     compareNames(a.name, b.name),
-  )
+  );
   // Picking a rulebook spell fills in its values; the player's own notes are kept.
   const pick = (value: string, row: Record<string, unknown>) => {
-    const spell = spells.find((entry) => entry.name === value)
-    if (!spell) return row
+    const spell = spells.find((entry) => entry.name === value);
+    if (!spell) return row;
     return {
       ...row,
       name: spell.name,
@@ -27,8 +35,8 @@ export function SpellsPanel({ character }: SpellsPanelProps) {
       targets: spell.targets,
       duration: spell.duration,
       page: bookRef(spell.book, spell.page),
-    }
-  }
+    };
+  };
 
   const columns: RepeatTableColumn[] = [
     {
@@ -53,15 +61,16 @@ export function SpellsPanel({ character }: SpellsPanelProps) {
     { key: 'duration', label: 'Duration', width: 'minmax(124px, 1fr)', suggestions: ['Instantaneous', 'Scene'] },
     { key: 'page', label: 'Page', width: '84px' },
     { key: 'notes', label: 'Effect & notes', rows: 2, wide: true },
-  ]
+  ];
 
   return (
     <Panel title="Spells">
       <p className="fu-note">
-        Spells you have learned. Start typing a name to pick a spell from the rulebooks and fill in its values. Offensive
-        spells need a Magic Check (p. 116). Classes like Chimerist learn spells from other sources: type those in.
+        Spells you have learned. Start typing a name to pick a spell from the rulebooks and fill in its values.
+        Offensive spells need a Magic Check (p. 116). Classes like Chimerist learn spells from other sources: type those
+        in.
       </p>
       <RepeatTable path="spells" columns={columns} createRow={createSpell} itemName="spell" />
     </Panel>
-  )
+  );
 }

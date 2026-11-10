@@ -1,4 +1,4 @@
-import type { ItemKind } from '../../../../types'
+import type { ItemKind } from '../../../../types';
 
 export const KIND_LABELS: Record<ItemKind, string> = {
   '': 'Empty',
@@ -6,7 +6,7 @@ export const KIND_LABELS: Record<ItemKind, string> = {
   shield: 'Shield',
   armor: 'Armor',
   accessory: 'Accessory',
-}
+};
 
 /** The Name field's placeholder, by what the slot holds. */
 export const NAME_PLACEHOLDERS: Record<ItemKind, string> = {
@@ -15,4 +15,4 @@ export const NAME_PLACEHOLDERS: Record<ItemKind, string> = {
   shield: 'Type to pick a shield',
   armor: 'No armor, or type to pick armor',
   accessory: 'Type to pick an accessory',
-}
+};

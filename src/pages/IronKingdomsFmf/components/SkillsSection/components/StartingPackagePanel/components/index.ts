@@ -1,2 +1,2 @@
-export { CareerOptions } from './CareerOptions'
-export { CareerPackage } from './CareerPackage'
+export { CareerOptions } from './CareerOptions';
+export { CareerPackage } from './CareerPackage';

@@ -1,6 +1,6 @@
-export { AttributesPanel } from './AttributesPanel'
-export { BondsPanel } from './BondsPanel'
-export { DefensePanel } from './DefensePanel'
-export { IdentityPanel } from './IdentityPanel'
-export { PointsPanel } from './PointsPanel'
-export { QuirkPanel } from './QuirkPanel'
+export { AttributesPanel } from './AttributesPanel';
+export { BondsPanel } from './BondsPanel';
+export { DefensePanel } from './DefensePanel';
+export { IdentityPanel } from './IdentityPanel';
+export { PointsPanel } from './PointsPanel';
+export { QuirkPanel } from './QuirkPanel';

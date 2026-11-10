@@ -1,1 +1,1 @@
-export { PointsPanel } from './PointsPanel'
+export { PointsPanel } from './PointsPanel';

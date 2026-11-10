@@ -1,23 +1,23 @@
-import { Fragment } from 'react'
-import { Panel } from '@/components/Panel'
-import type { IkCharacter, IkDerived } from '../../../../types'
-import { formatPart, formatRoll, meleeRolls, rangedRolls, type Roll } from './utils/attackRolls'
-import './AttacksPanel.styles.css'
+import { Fragment } from 'react';
+import { Panel } from '@/components/Panel';
+import type { IkCharacter, IkDerived } from '../../../../types';
+import { formatPart, formatRoll, meleeRolls, rangedRolls, type Roll } from './utils/attackRolls';
+import './AttacksPanel.styles.css';
 
 type AttacksPanelProps = {
-  character: IkCharacter
-  derived: IkDerived
-}
+  character: IkCharacter;
+  derived: IkDerived;
+};
 
 /** `detail` is the kind of weapon, with range and AOE for ranged weapons: "Ranged · RNG 8 · AOE 3". */
-type Attack = { name: string; detail: string; attack: Roll; damage: Roll }
+type Attack = { name: string; detail: string; attack: Roll; damage: Roll };
 
 /** "Attack 2d6 +", with the dice in a lighter style, as a column header and as a card's cell label. */
 const rollLabel = (label: string) => (
   <>
     {label} <span className="attacks-panel-dice">2d6 +</span>
   </>
-)
+);
 
 /**
  * The number to add to the roll, and where it comes from, in one table cell. Each part stays on one
@@ -45,15 +45,19 @@ const rollCell = (roll: Roll, label: string) => (
       </span>
     )}
   </td>
-)
+);
 
 /** The equipped weapons' attack and damage rolls, read-only, for use during play. */
 export function AttacksPanel({ character, derived }: AttacksPanelProps) {
-  const { stat } = derived
+  const { stat } = derived;
   const attacks: Attack[] = [
     ...character.rangedWeapons.map((weapon) => ({
       name: weapon.name.trim() || 'Unnamed ranged weapon',
-      detail: ['Ranged', weapon.rng.trim() && `RNG ${weapon.rng.trim()}`, weapon.aoe.trim() && `AOE ${weapon.aoe.trim()}`]
+      detail: [
+        'Ranged',
+        weapon.rng.trim() && `RNG ${weapon.rng.trim()}`,
+        weapon.aoe.trim() && `AOE ${weapon.aoe.trim()}`,
+      ]
         .filter(Boolean)
         .join(' · '),
       ...rangedRolls(weapon, stat),
@@ -63,7 +67,7 @@ export function AttacksPanel({ character, derived }: AttacksPanelProps) {
       detail: 'Melee',
       ...meleeRolls(weapon, stat),
     })),
-  ]
+  ];
 
   return (
     <Panel title="Attacks" className="attacks-panel-container">
@@ -96,11 +100,11 @@ export function AttacksPanel({ character, derived }: AttacksPanelProps) {
             </table>
           </div>
           <p className="ik-note">
-            Attack rolls are against the target&apos;s DEF, damage rolls against its ARM. Edit, store and swap weapons on
-            the Weapons &amp; gear tab.
+            Attack rolls are against the target&apos;s DEF, damage rolls against its ARM. Edit, store and swap weapons
+            on the Weapons &amp; gear tab.
           </p>
         </>
       )}
     </Panel>
-  )
+  );
 }

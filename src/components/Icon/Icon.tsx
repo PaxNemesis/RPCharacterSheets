@@ -1,10 +1,10 @@
-import { ICON_PATHS, type IconName } from './Icon.constants'
-import './Icon.styles.css'
+import { ICON_PATHS, type IconName } from './Icon.constants';
+import './Icon.styles.css';
 
 type IconProps = {
-  name: IconName
-  className?: string
-}
+  name: IconName;
+  className?: string;
+};
 
 /** A Material Symbols icon at text size in the current text color. Decorative: pair it with a text label. */
 export function Icon({ name, className }: IconProps) {
@@ -17,5 +17,5 @@ export function Icon({ name, className }: IconProps) {
     >
       <path d={ICON_PATHS[name]} />
     </svg>
-  )
+  );
 }

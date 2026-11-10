@@ -1,1 +1,1 @@
-export { CustomBenefits } from './CustomBenefits'
+export { CustomBenefits } from './CustomBenefits';

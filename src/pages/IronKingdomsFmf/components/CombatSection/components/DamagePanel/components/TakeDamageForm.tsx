@@ -1,23 +1,23 @@
-import { useState, type FormEvent } from 'react'
-import { rollDie } from '@/utils/rollDie'
+import { useState, type FormEvent } from 'react';
+import { rollDie } from '@/utils/rollDie';
 
 type TakeDamageFormProps = {
-  onApply: (branch: number, amount: number) => void
-}
+  onApply: (branch: number, amount: number) => void;
+};
 
-const BRANCHES = [1, 2, 3, 4, 5, 6]
+const BRANCHES = [1, 2, 3, 4, 5, 6];
 
 export function TakeDamageForm({ onApply }: TakeDamageFormProps) {
-  const [branch, setBranch] = useState(1)
-  const [amount, setAmount] = useState('')
+  const [branch, setBranch] = useState(1);
+  const [amount, setAmount] = useState('');
 
   const submit = (event: FormEvent) => {
-    event.preventDefault()
-    const points = Number(amount)
-    if (!Number.isInteger(points) || points <= 0) return
-    onApply(branch - 1, points)
-    setAmount('')
-  }
+    event.preventDefault();
+    const points = Number(amount);
+    if (!Number.isInteger(points) || points <= 0) return;
+    onApply(branch - 1, points);
+    setAmount('');
+  };
 
   return (
     <form className="damage-panel-form" onSubmit={submit}>
@@ -41,5 +41,5 @@ export function TakeDamageForm({ onApply }: TakeDamageFormProps) {
       </button>
       <button type="submit">Apply</button>
     </form>
-  )
+  );
 }

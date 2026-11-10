@@ -1,1 +1,1 @@
-export { StoredEquipment } from './StoredEquipment'
+export { StoredEquipment } from './StoredEquipment';

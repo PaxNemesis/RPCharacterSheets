@@ -1,5 +1,5 @@
-import { Panel } from '@/components/Panel'
-import { TextField } from '@/components/TextField'
+import { Panel } from '@/components/Panel';
+import { TextField } from '@/components/TextField';
 
 export function NotesSection() {
   return (
@@ -8,5 +8,5 @@ export function NotesSection() {
         <TextField path="notes.general" label="Notes" hideLabel rows={14} />
       </Panel>
     </div>
-  )
+  );
 }

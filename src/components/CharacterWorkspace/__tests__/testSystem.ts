@@ -1,6 +1,6 @@
-import type { SheetSystem } from '../CharacterWorkspace.types'
+import type { SheetSystem } from '../CharacterWorkspace.types';
 
-export type Hero = { name: string; level: number; title: string }
+export type Hero = { name: string; level: number; title: string };
 
 /** A small game system for tests: version 2 renamed `rank` to `title`. */
 export const system: SheetSystem<Hero> = {
@@ -11,6 +11,6 @@ export const system: SheetSystem<Hero> = {
   migrate: (data, from) => (from < 2 ? { ...(data as object), title: (data as { rank?: string }).rank ?? '' } : data),
   getName: (hero) => hero.name,
   Sheet: () => null,
-}
+};
 
-export const hero = (name: string, level = 1): Hero => ({ name, level, title: '' })
+export const hero = (name: string, level = 1): Hero => ({ name, level, title: '' });

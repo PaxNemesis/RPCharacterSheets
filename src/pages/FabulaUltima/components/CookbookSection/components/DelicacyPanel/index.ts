@@ -1,1 +1,1 @@
-export { DelicacyPanel } from './DelicacyPanel'
+export { DelicacyPanel } from './DelicacyPanel';

@@ -1,1 +1,1 @@
-export { IronKingdomsFmf } from './IronKingdomsFmf'
+export { IronKingdomsFmf } from './IronKingdomsFmf';

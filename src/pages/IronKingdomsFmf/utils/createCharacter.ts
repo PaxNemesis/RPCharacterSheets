@@ -71,7 +71,7 @@ export const createCharacter = (): IkCharacter => ({
   },
   portrait: '',
   stats: Object.fromEntries(STAT_KEYS.map((key) => [key, { value: null, max: null }])) as IkCharacter['stats'],
-  modifiers: { defense: null, armor: null, initiative: null, commandRange: null },
+  modifiers: { defense: null, armor: null, initiative: null, commandRange: null, speed: null, willpower: null },
   featPoints: null,
   rangedWeapons: [],
   meleeWeapons: [],

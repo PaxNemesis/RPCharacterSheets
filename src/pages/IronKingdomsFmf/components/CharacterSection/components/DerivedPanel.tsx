@@ -14,7 +14,9 @@ export function DerivedPanel({ derived }: DerivedPanelProps) {
     <Panel title="Defense, armor & initiative">
       <p className="ik-note">
         Shaded boxes fill in automatically. Armor comes from the Worn armor list on the Gear tab, and the Command skill
-        from a skill named Command. Use Other for shields, spells and abilities.
+        from a skill named Command. Use Other for shields, spells and abilities. Movement SPD is how far you move; DEF
+        and Initiative use the SPD stat itself (p. 106).
+        {derived.loadBearing && ' Load Bearing reduces the armor’s SPD and DEF penalties by 1 each (p. 164).'}
       </p>
       <FormulaRow
         title="DEF"
@@ -23,7 +25,7 @@ export function DerivedPanel({ derived }: DerivedPanelProps) {
           { label: 'AGL', value: stat('agl') },
           { label: 'PER', value: stat('per') },
           ...(derived.racialDefense !== null ? [{ label: 'Race', value: derived.racialDefense }] : []),
-          { label: derived.loadBearing ? 'Armor (Load Bearing)' : 'Armor', value: derived.armorDefense },
+          { label: 'Armor', value: derived.armorDefense },
           { label: 'Other', path: 'modifiers.defense' },
         ]}
         total={derived.defense}
@@ -46,6 +48,15 @@ export function DerivedPanel({ derived }: DerivedPanelProps) {
           { label: 'Other', path: 'modifiers.initiative' },
         ]}
         total={derived.initiative}
+      />
+      <FormulaRow
+        title="Movement SPD"
+        terms={[
+          { label: 'SPD', value: stat('spd') },
+          { label: 'Armor', value: derived.armorSpeed },
+          { label: 'Other', path: 'modifiers.speed' },
+        ]}
+        total={derived.speed}
       />
       <FormulaRow
         title="Command range"

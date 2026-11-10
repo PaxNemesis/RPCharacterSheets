@@ -44,11 +44,11 @@ export function calculate(character: IkCharacter): IkDerived {
     racialDefense: raceDefense,
     skillMax: (name) => skillMaximum(character, name),
     spellLimit: stat('int') === null ? null : (stat('int') ?? 0) * 2,
-    willpower: sum(stat('phy'), stat('int')),
+    willpower: sum(stat('phy'), stat('int'), modifiers.willpower),
     loadBearing,
     armorSpeed,
-    // Armor changes SPD only; DEF and initiative keep using the unmodified stat (p. 106).
-    speed: stat('spd') === null ? null : sum(stat('spd'), armorSpeed),
+    // Armor and other modifiers change SPD only; DEF and initiative keep using the unmodified stat (p. 106).
+    speed: stat('spd') === null ? null : sum(stat('spd'), armorSpeed, modifiers.speed),
     armorDefense,
     armorArmor,
     defense: sum(stat('spd'), stat('agl'), stat('per'), raceDefense, armorDefense, modifiers.defense),

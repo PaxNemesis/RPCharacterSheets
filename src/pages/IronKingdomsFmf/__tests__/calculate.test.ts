@@ -34,7 +34,12 @@ describe('calculate', () => {
     expect(plate(-2)).toMatchObject({ armorSpeed: -2, speed: 4 })
   })
 
-  it('leaves SPD in armor blank while SPD is blank', () => {
+  it('adds the other SPD and Willpower modifiers to movement SPD and Willpower', () => {
+    const modified = { ...hero, modifiers: { ...hero.modifiers, speed: 1, willpower: 2 } }
+    expect(calculate(modified)).toMatchObject({ speed: 7, willpower: 7 + 4 + 2, defense: calculate(hero).defense })
+  })
+
+  it('leaves movement SPD blank while SPD is blank', () => {
     const armored = { ...character(), armor: [{ name: 'Plate', spd: -2, def: -2, arm: 7, notes: '' }] }
     expect(calculate(armored).speed).toBeNull()
   })

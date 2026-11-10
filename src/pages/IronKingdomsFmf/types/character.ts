@@ -130,7 +130,7 @@ export type IkCharacter = {
   identity: IkIdentity
   portrait: string
   stats: Record<StatKey, { value: Num; max: Num }>
-  modifiers: { defense: Num; armor: Num; initiative: Num; commandRange: Num }
+  modifiers: { defense: Num; armor: Num; initiative: Num; commandRange: Num; speed: Num; willpower: Num }
   featPoints: Num
   rangedWeapons: IkRangedWeapon[]
   meleeWeapons: IkMeleeWeapon[]
@@ -167,7 +167,7 @@ export type IkDerived = {
   loadBearing: boolean
   /** The worn armor's total SPD modifier, after Load Bearing. */
   armorSpeed: Num
-  /** SPD in the worn armor, used for movement (pp. 203, 251). */
+  /** SPD with armor and other modifiers, used for movement (pp. 203, 251). */
   speed: Num
   armorDefense: Num
   armorArmor: Num

@@ -1,4 +1,4 @@
-// One row per weapon, so this data table runs past the usual file length.
+/* oxlint-disable max-lines -- One row per weapon, so this data table runs past the usual file length. */
 import type { AttributeKey, WeaponData } from '../types'
 
 type RareWeaponRow = [

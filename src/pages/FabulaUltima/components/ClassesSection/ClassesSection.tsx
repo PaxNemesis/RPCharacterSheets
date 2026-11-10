@@ -1,5 +1,6 @@
 import { Panel } from '@/components/Panel'
 import { useSheet } from '@/components/SheetProvider'
+import { useRowIds } from '@/hooks/useRowIds'
 import { bookEnabled } from '../../constants/books'
 import { CLASSES, findClass } from '../../constants/classes'
 import { useFuCharacter } from '../../hooks/useFuCharacter'
@@ -19,9 +20,13 @@ export function ClassesSection() {
     return classNames.filter((name) => !taken.has(key(name)))
   }
 
+  // Cards keep state of their own, so each needs a key that stays with it when an earlier class is removed.
+  const rowIds = useRowIds(classes.length)
   const remove = (index: number) => {
     const name = classes[index].name.trim() || `class ${index + 1}`
-    if (window.confirm(`Remove ${name} and its Skills?`)) set('classes', classes.filter((_, other) => other !== index))
+    if (!window.confirm(`Remove ${name} and its Skills?`)) return
+    rowIds.remove(index)
+    set('classes', classes.filter((_, other) => other !== index))
   }
 
   return (
@@ -39,7 +44,7 @@ export function ClassesSection() {
       </Panel>
       {classes.map((entry, index) => (
         <ClassCard
-          key={index}
+          key={rowIds.ids[index]}
           index={index}
           entry={entry}
           data={findClass(settings, entry.name)}

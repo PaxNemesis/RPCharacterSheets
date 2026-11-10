@@ -1,3 +1,4 @@
+/* oxlint-disable react/no-array-index-key -- The spiral's branches and circles are a fixed layout that never reorders. */
 import { useId, useMemo, type KeyboardEvent } from 'react'
 import { ASPECTS } from '../../../../constants/stats'
 import { branchLayout, labelPath, SPIRAL_SIZE } from './utils/spiralLayout'

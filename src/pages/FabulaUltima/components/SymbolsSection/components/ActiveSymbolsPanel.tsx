@@ -1,5 +1,6 @@
 import { Panel } from '@/components/Panel'
 import { useSheet } from '@/components/SheetProvider'
+import { useRowIds } from '@/hooks/useRowIds'
 import { SYMBOL_IP } from '../../../constants/symbolist'
 import type { FuActiveSymbol, FuCharacter, FuDerived } from '../../../types'
 import { symbolLimits } from '../../../utils/symbolist'
@@ -20,7 +21,11 @@ export function ActiveSymbolsPanel({ character, derived }: ActiveSymbolsPanelPro
   const full = active.length >= limit
 
   const copy = (symbol: FuActiveSymbol) => set('symbolist.active', [...active, { ...symbol, bearer: '' }])
-  const destroy = (index: number) => set('symbolist.active', active.filter((_, other) => other !== index))
+  const rowIds = useRowIds(active.length)
+  const destroy = (index: number) => {
+    rowIds.remove(index)
+    set('symbolist.active', active.filter((_, other) => other !== index))
+  }
 
   return (
     <Panel
@@ -42,7 +47,7 @@ export function ActiveSymbolsPanel({ character, derived }: ActiveSymbolsPanelPro
         <ul className="symbols-section-active">
           {active.map((symbol, index) => (
             <ActiveSymbolRow
-              key={index}
+              key={rowIds.ids[index]}
               index={index}
               symbol={symbol}
               canCopy={!full}

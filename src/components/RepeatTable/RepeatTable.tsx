@@ -4,7 +4,7 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { useRef } from 'react'
 import { useSheetField } from '@/components/SheetProvider'
 import { RepeatTableRow } from './components'
-import { useRowIds } from './hooks/useRowIds'
+import { useRowIds } from '@/hooks/useRowIds'
 import { useStackedLayout } from './hooks/useStackedLayout'
 import type { RepeatTableColumn, RepeatTableRow as Row } from './RepeatTable.types'
 import { announcements } from './utils/announcements'

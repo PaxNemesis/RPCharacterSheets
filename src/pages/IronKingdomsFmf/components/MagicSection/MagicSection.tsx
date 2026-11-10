@@ -2,6 +2,7 @@ import { Panel } from '@/components/Panel'
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable'
 import { SheetProvider, useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
+import { useRowIds } from '@/hooks/useRowIds'
 import { useIkCharacter } from '../../hooks/useIkCharacter'
 import type { IkSpell } from '../../types'
 import { createMechanika } from '../../utils/createCharacter'
@@ -37,8 +38,11 @@ export function MagicSection() {
   const devices = character.mechanika ?? []
   const deviceName = (index: number) => devices[index].name?.trim() || `Device ${index + 1}`
 
+  // Each device has its own rune table, which must stay with it when an earlier device is removed.
+  const deviceIds = useRowIds(devices.length)
   const removeDevice = (index: number) => {
     if (!window.confirm(`Remove ${deviceName(index)} and everything recorded for it?`)) return
+    deviceIds.remove(index)
     set('mechanika', devices.filter((_, other) => other !== index))
   }
 
@@ -73,7 +77,7 @@ export function MagicSection() {
             </p>
           </Panel>
           {devices.map((_, index) => (
-            <SheetProvider key={index} path={`mechanika.${index}`}>
+            <SheetProvider key={deviceIds.ids[index]} path={`mechanika.${index}`}>
               <MechanikaDevice number={index + 1} onRemove={() => removeDevice(index)} />
             </SheetProvider>
           ))}

@@ -1,4 +1,4 @@
-// One data table transcribed from the core rules (pp. 120–149); kept in a single file so each entry can be checked against the book in order.
+/* oxlint-disable max-lines -- One data table transcribed from the core rules (pp. 120–149); kept in a single file so each entry can be checked against the book in order. */
 import type { CareerData } from '../types'
 import { choose, grant, skillMaxima } from '../utils/careerText'
 import { KNG_CAREERS } from './careersKingsNationsGods'

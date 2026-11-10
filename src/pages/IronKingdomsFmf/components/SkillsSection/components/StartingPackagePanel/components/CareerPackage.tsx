@@ -1,3 +1,4 @@
+/* oxlint-disable react/no-array-index-key -- The skill list comes from the rulebook and never changes order. */
 import type { CareerData, IkCharacter } from '../../../../../types'
 import { variantOf } from '../../../../../utils/rules'
 import { choiceKey, type PackageSelection } from '../utils/startingPackage'

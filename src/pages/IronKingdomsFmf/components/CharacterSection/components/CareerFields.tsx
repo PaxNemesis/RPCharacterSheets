@@ -1,6 +1,7 @@
 import { SelectField } from '@/components/SelectField'
 import { useSheet } from '@/components/SheetProvider'
 import { TextField } from '@/components/TextField'
+import { useRowIds } from '@/hooks/useRowIds'
 import { bookEnabled, SUPPLEMENTS } from '../../../constants/books'
 import { CAREERS } from '../../../constants/careers'
 import { useIkCharacter } from '../../../hooks/useIkCharacter'
@@ -18,6 +19,8 @@ export function CareerFields() {
   const { character } = useIkCharacter()
   const { set } = useSheet()
   const { careerList } = character.identity
+  // Always at least the two starting careers; later ones can be removed from the middle.
+  const rowIds = useRowIds(Math.max(2, careerList.length))
 
   if (!character.settings.careerRules) {
     return <TextField path="identity.careers" label="Careers" />
@@ -49,7 +52,7 @@ export function CareerFields() {
       {list.map((_, index) => {
         const career = careers[index]
         return (
-          <div key={index} className="ik-career">
+          <div key={rowIds.ids[index]} className="ik-career">
             <SelectField
               path={`identity.careerList.${index}`}
               label={index < 2 ? `Starting career ${index + 1}` : `Career ${index + 1}`}
@@ -67,7 +70,10 @@ export function CareerFields() {
                 type="button"
                 className="ik-start"
                 aria-label={`Remove career ${index + 1}`}
-                onClick={() => set('identity.careerList', list.filter((_, other) => other !== index))}
+                onClick={() => {
+                  rowIds.remove(index)
+                  set('identity.careerList', list.filter((_, other) => other !== index))
+                }}
               >
                 Remove
               </button>

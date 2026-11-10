@@ -1,3 +1,4 @@
+/* oxlint-disable max-lines -- The whole saved character in one place, so it can be compared with createCharacter at a glance. */
 import type { SupplementId } from './rules'
 
 export type Num = number | null

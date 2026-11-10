@@ -1,3 +1,4 @@
+/* oxlint-disable react/no-array-index-key -- The damage grid has a fixed set of cells that never reorders. */
 import { useState } from 'react'
 import { Panel } from '@/components/Panel'
 import { useSheetField } from '@/components/SheetProvider'

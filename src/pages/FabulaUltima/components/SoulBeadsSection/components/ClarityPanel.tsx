@@ -1,5 +1,6 @@
 import { Panel } from '@/components/Panel'
 import { useSheet } from '@/components/SheetProvider'
+import { useRowIds } from '@/hooks/useRowIds'
 import type { FuCharacter } from '../../../types'
 import { activeClarity, monkSkills } from '../../../utils/monk'
 import { ClarityRow } from './ClarityRow'
@@ -20,7 +21,11 @@ export function ClarityPanel({ character }: ClarityPanelProps) {
   const shared = benefits.slice(0, active).filter((benefit) => benefit.shared).length
 
   const add = () => set('monk.clarity', [...benefits, { kind: '', choice: '', shared: false }])
-  const remove = (index: number) => set('monk.clarity', benefits.filter((_, other) => other !== index))
+  const rowIds = useRowIds(benefits.length)
+  const remove = (index: number) => {
+    rowIds.remove(index)
+    set('monk.clarity', benefits.filter((_, other) => other !== index))
+  }
 
   return (
     <Panel
@@ -45,7 +50,7 @@ export function ClarityPanel({ character }: ClarityPanelProps) {
         <ul className="soul-beads-section-benefits">
           {benefits.map((benefit, index) => (
             <ClarityRow
-              key={index}
+              key={rowIds.ids[index]}
               index={index}
               benefit={benefit}
               active={index < active}

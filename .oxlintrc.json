@@ -3,7 +3,9 @@
   "plugins": [
     "react",
     "typescript",
-    "oxc"
+    "oxc",
+    "import",
+    "vitest"
   ],
   "rules": {
     "react/rules-of-hooks": "error",
@@ -11,6 +13,34 @@
       "warn",
       {
         "allowConstantExport": true
+      }
+    ],
+    "react/no-array-index-key": "warn",
+    "react/no-danger": "error",
+    "import/no-cycle": "error",
+    "max-lines": [
+      "warn",
+      {
+        "max": 150
+      }
+    ],
+    "eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "ignore"
+      }
+    ],
+    "no-console": "warn",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "regex": "^@/(components|pages)/[^/]+/.+",
+            "message": "Import a component through its index.ts (@/components/Name), not its internals."
+          }
+        ]
       }
     ]
   },

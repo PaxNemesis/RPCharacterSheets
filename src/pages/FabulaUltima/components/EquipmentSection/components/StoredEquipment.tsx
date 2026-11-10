@@ -1,5 +1,6 @@
 import { Icon } from '@/components/Icon'
 import { useSheet } from '@/components/SheetProvider'
+import { useRowIds } from '@/hooks/useRowIds'
 import { SLOTS } from '../../../constants/slots'
 import type { FuCharacter } from '../../../types'
 import { describeItem } from '../utils/describeItem'
@@ -14,17 +15,21 @@ type StoredEquipmentProps = {
 export function StoredEquipment({ character }: StoredEquipmentProps) {
   const { set } = useSheet()
   const { stored } = character
+  // Equipping takes an item out of the middle of the list; whatever it displaces goes on the end.
+  const rowIds = useRowIds(stored.length)
   if (stored.length === 0) {
     return <p className="fu-note">Unequip a weapon, armor or accessory to keep it here with its stats.</p>
   }
 
-  const apply = (next: Pick<FuCharacter, 'equipment' | 'stored'>) => {
+  const apply = (index: number, next: Pick<FuCharacter, 'equipment' | 'stored'>) => {
+    rowIds.remove(index)
     set('equipment', next.equipment)
     set('stored', next.stored)
   }
   const remove = (index: number) => {
     const name = stored[index].name.trim() || 'this item'
     if (window.confirm(`Delete ${name}? It will be removed from the sheet.`)) {
+      rowIds.remove(index)
       set('stored', stored.filter((_, other) => other !== index))
     }
   }
@@ -36,7 +41,7 @@ export function StoredEquipment({ character }: StoredEquipmentProps) {
         const slots = slotsFor(item).filter((slot) => !(slot === 'offHand' && isTwoHanded(character.equipment.mainHand)))
         const twoHanded = item.kind === 'weapon' && item.hands === 'two'
         return (
-          <li key={index} className="equipment-section-stored-item">
+          <li key={rowIds.ids[index]} className="equipment-section-stored-item">
             <span className="equipment-section-stored-summary">
               <span className="equipment-section-stored-name">
                 {item.name.trim() || 'Unnamed item'}
@@ -52,7 +57,7 @@ export function StoredEquipment({ character }: StoredEquipmentProps) {
                   <button
                     key={slot}
                     type="button"
-                    onClick={() => apply(equip(character, index, slot))}
+                    onClick={() => apply(index, equip(character, index, slot))}
                     aria-label={`Equip ${item.name.trim() || 'item'}${named ? ` to ${where.toLowerCase()}` : ''}`}
                     title={named ? `Equip: ${where.toLowerCase()}` : 'Equip'}
                   >

@@ -1,3 +1,4 @@
+/* oxlint-disable react/no-array-index-key -- Form buttons hold no state of their own, so a key moving to the next form is harmless. */
 import { Icon } from '@/components/Icon'
 import { TextField } from '@/components/TextField'
 import type { FuItem } from '../../../../../types'

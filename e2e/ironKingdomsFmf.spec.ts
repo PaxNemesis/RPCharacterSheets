@@ -178,6 +178,17 @@ test('faith suggests the faiths of the core rules', async ({ page }) => {
   await expect(faith).toHaveValue('Morrowan');
 });
 
+test('picking a rulebook armor fills in its modifiers', async ({ page }) => {
+  await openWith(page, { ...dwarf, armor: [] });
+  await page.getByRole('tab', { name: 'Weapons & gear' }).click();
+  await page.getByRole('button', { name: '+ Add armor' }).click();
+  await page.getByRole('combobox', { name: 'Name, armor 1' }).fill('Full Pl');
+  await page.getByRole('option', { name: 'Full Plate', exact: true }).click();
+  await expect(page.getByLabel('DEF, armor 1')).toHaveValue('-3');
+  await expect(page.getByLabel('ARM, armor 1')).toHaveValue('8');
+  await expect(page.getByLabel('SPD, armor 1')).toHaveValue('-1');
+});
+
 test('a career picked in one slot isn’t offered in the others', async ({ page }) => {
   await openWith(page, { identity: { careerList: ['Priest', ''] } });
   const second = page.getByLabel('Starting career 2', { exact: true });

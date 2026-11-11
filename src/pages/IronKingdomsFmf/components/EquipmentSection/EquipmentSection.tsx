@@ -12,7 +12,8 @@ import {
   meleeWeaponColumns,
   rangedWeaponColumns,
 } from '../../utils/weaponColumns';
-import { meleePresets, rangedPresets } from '../../utils/weaponPresets';
+import { armorPresets } from '../../utils/armorPresets';
+import { meleePresets, rangedPresets, type WeaponPresets } from '../../utils/weaponPresets';
 import { StoredEquipment } from './components';
 
 const GEAR_COLUMNS: RepeatTableColumn[] = [
@@ -21,8 +22,9 @@ const GEAR_COLUMNS: RepeatTableColumn[] = [
   { key: 'quantity', label: 'Qty', width: '56px', type: 'number' },
 ];
 
-const ARMOR_COLUMNS: RepeatTableColumn[] = [
-  { key: 'name', label: 'Name', width: 'minmax(140px, 1fr)' },
+/** Armor columns; picking a rulebook armor by name fills in its modifiers. */
+const armorColumns = (presets: WeaponPresets): RepeatTableColumn[] => [
+  { key: 'name', label: 'Name', width: 'minmax(140px, 1fr)', suggestions: presets.names, onPick: presets.pick },
   { key: 'spd', label: 'SPD', width: '52px', type: 'number' },
   { key: 'def', label: 'DEF', width: '52px', type: 'number' },
   { key: 'arm', label: 'ARM', width: '52px', type: 'number' },
@@ -46,6 +48,7 @@ export function EquipmentSection() {
     () => meleeWeaponColumns(stat, { presets: meleePresets({ settings, skills }) }),
     [stat, settings, skills],
   );
+  const armor = useMemo(() => armorColumns(armorPresets(settings)), [settings]);
   const store = (kind: IkStoredKind): RepeatTableRowAction => ({
     icon: 'archive',
     label: 'Store',
@@ -90,15 +93,10 @@ export function EquipmentSection() {
       <Panel title="Worn armor">
         <p className="ik-note">
           The DEF and ARM modifiers of everything listed here are added to DEF and ARM on the Character tab. The SPD
-          modifier changes your movement, not your DEF or Initiative.
+          modifier changes your movement, not your DEF or Initiative. Pick an armor from the rulebooks by name to fill
+          in its modifiers.
         </p>
-        <RepeatTable
-          path="armor"
-          columns={ARMOR_COLUMNS}
-          createRow={createArmor}
-          itemName="armor"
-          rowAction={store('armor')}
-        />
+        <RepeatTable path="armor" columns={armor} createRow={createArmor} itemName="armor" rowAction={store('armor')} />
         <StoredEquipment kind="armor" showUnknown />
       </Panel>
       <Panel title="Gear">

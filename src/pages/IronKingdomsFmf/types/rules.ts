@@ -131,3 +131,6 @@ export type SpellData = {
   up: string;
   off: string;
 };
+
+/** A rulebook armor's modifiers; warcaster armor lists no SPD modifier, so it's 0. */
+export type ArmorData = { name: string; book: BookId; page: number; spd: number; def: number; arm: number };

@@ -170,6 +170,14 @@ test('nationality suggests the nations, allows any other, and survives a reload'
   await expect(nationality).toHaveValue('Five Fingers');
 });
 
+test('faith suggests the faiths of the core rules', async ({ page }) => {
+  await openWith(page, { identity: { race: 'Human' } });
+  const faith = page.getByRole('combobox', { name: 'Faith' });
+  await faith.fill('Mor');
+  await page.getByRole('option', { name: 'Morrowan', exact: true }).click();
+  await expect(faith).toHaveValue('Morrowan');
+});
+
 test('a career picked in one slot isn’t offered in the others', async ({ page }) => {
   await openWith(page, { identity: { careerList: ['Priest', ''] } });
   const second = page.getByLabel('Starting career 2', { exact: true });

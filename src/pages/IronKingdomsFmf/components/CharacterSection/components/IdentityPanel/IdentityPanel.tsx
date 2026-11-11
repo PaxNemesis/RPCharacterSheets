@@ -2,6 +2,7 @@ import { NumberField } from '@/components/NumberField';
 import { Panel } from '@/components/Panel';
 import { SelectField } from '@/components/SelectField';
 import { TextField } from '@/components/TextField';
+import { FAITHS } from '../../../../constants/faiths';
 import { useIkCharacter } from '../../../../hooks/useIkCharacter';
 import { CareerFields, CareerNotes, CompanyFields, CompanyNotes, RaceFields } from './components';
 import { companyOnOwnLine } from './utils/careerLine';
@@ -47,7 +48,7 @@ export function IdentityPanel() {
         <TextField path="identity.height" label="Height" />
         <TextField path="identity.weight" label="Weight" />
         <TextField path="identity.eyesHair" label="Eyes / hair" />
-        <TextField path="identity.faith" label="Faith" />
+        <TextField path="identity.faith" label="Faith" suggestions={FAITHS} />
         <TextField path="identity.defining" label="Defining characteristics" className="ik-wide" />
       </div>
     </Panel>

@@ -81,6 +81,7 @@ export const createCharacter = (): IkCharacter => ({
     name: '',
     player: '',
     race: '',
+    nationality: '',
     archetype: '',
     careers: '',
     careerList: ['', ''],

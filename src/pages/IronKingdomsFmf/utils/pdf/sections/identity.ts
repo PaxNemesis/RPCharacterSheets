@@ -42,6 +42,7 @@ export function writeIdentity(w: SheetWriter, { identity, settings }: IkCharacte
     [
       { label: 'Race', name: 'identity.race', value: identity.race },
       { label: 'Archetype', name: 'identity.archetype', value: identity.archetype },
+      { label: 'Nationality', name: 'identity.nationality', value: identity.nationality },
     ],
     share,
   );

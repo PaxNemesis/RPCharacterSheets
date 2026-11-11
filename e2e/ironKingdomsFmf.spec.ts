@@ -140,12 +140,13 @@ test('choosing Gifted sets the arcane tradition from the careers, right after th
 
   await archetype.selectOption('Gifted');
   await expect(tradition).toHaveValue('Will Weaver');
-  // Race, then its Exceptional Potential, then archetype and its tradition.
+  // Nationality, race and its Exceptional Potential, then archetype and its tradition.
   // Reading order: a later line, or further right on the same line.
   const place = async (label: string) => {
     const box = (await page.getByLabel(label, { exact: true }).boundingBox())!;
     return box.y * 10000 + box.x;
   };
+  expect(await place('Race')).toBeGreaterThan(await place('Nationality'));
   expect(await place('Exceptional Potential')).toBeGreaterThan(await place('Race'));
   expect(await place('Archetype')).toBeGreaterThan(await place('Exceptional Potential'));
   expect(await place('Arcane tradition')).toBeGreaterThan(await place('Archetype'));
@@ -153,6 +154,20 @@ test('choosing Gifted sets the arcane tradition from the careers, right after th
   await openWith(page, { identity: { race: 'Human', careerList: ['Warcaster', 'Soldier'] } });
   await archetype.selectOption('Gifted');
   await expect(tradition).toHaveValue('Focuser');
+});
+
+test('nationality suggests the nations, allows any other, and survives a reload', async ({ page }) => {
+  await openWith(page, { identity: { race: 'Human' } });
+  const nationality = page.getByRole('combobox', { name: 'Nationality' });
+
+  await nationality.fill('Cyg');
+  await page.getByRole('option', { name: 'Cygnaran', exact: true }).click();
+  await expect(nationality).toHaveValue('Cygnaran');
+  await page.reload();
+  await expect(nationality).toHaveValue('Cygnaran');
+
+  await nationality.fill('Five Fingers');
+  await expect(nationality).toHaveValue('Five Fingers');
 });
 
 test('a career picked in one slot isn’t offered in the others', async ({ page }) => {

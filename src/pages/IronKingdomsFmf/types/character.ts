@@ -27,6 +27,8 @@ export type IkIdentity = {
   name: string;
   player: string;
   race: string;
+  /** Where the character is from, such as Cygnaran; free text with suggestions. */
+  nationality: string;
   archetype: string;
   /** Free-text careers, used when career rules are off. */
   careers: string;

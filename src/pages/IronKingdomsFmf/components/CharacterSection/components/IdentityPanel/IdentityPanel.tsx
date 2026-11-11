@@ -10,8 +10,8 @@ import './IdentityPanel.styles.css';
 const LEVELS = ['Hero', 'Veteran', 'Epic'].map((level) => ({ value: level, label: level }));
 
 /**
- * Who the character is, one group per line on a shared grid: name, player, level and XP; race and
- * archetype; careers; adventuring company; looks and faith; then defining characteristics.
+ * Who the character is, one group per line on a shared grid: name, player, level and XP; nationality,
+ * race and archetype; careers; adventuring company; looks and faith; then defining characteristics.
  */
 export function IdentityPanel() {
   const { character } = useIkCharacter();

@@ -1,6 +1,7 @@
 import { SelectField } from '@/components/SelectField';
 import { useSheet } from '@/components/SheetProvider';
 import { TextField } from '@/components/TextField';
+import { NATIONALITIES } from '../../../../../constants/nationalities';
 import { ARCHETYPES, findRace, RACES, TRADITIONS } from '../../../../../constants/races';
 import { useIkCharacter } from '../../../../../hooks/useIkCharacter';
 import type { IkCharacter } from '../../../../../types';
@@ -23,18 +24,28 @@ const defaultTradition = (character: IkCharacter) =>
   character.identity.careerList.includes('Warcaster') ? 'Focuser' : 'Will Weaver';
 
 /**
- * Race and archetype, each followed by the choice it brings (a human's Exceptional Potential, a Gifted
- * character's arcane tradition), starting a line; free text when race rules are off.
+ * Nationality, then race and archetype, each followed by the choice it brings (a human's Exceptional
+ * Potential, a Gifted character's arcane tradition), starting a line; free text when race rules are off.
  */
 export function RaceFields() {
   const { character } = useIkCharacter();
   const { identity } = character;
   const { set } = useSheet();
 
+  const nationality = (
+    <TextField
+      path="identity.nationality"
+      label="Nationality"
+      suggestions={NATIONALITIES}
+      className="identity-panel-row"
+    />
+  );
+
   if (!character.settings.raceRules) {
     return (
       <>
-        <TextField path="identity.race" label="Race" className="identity-panel-row" />
+        {nationality}
+        <TextField path="identity.race" label="Race" />
         <TextField path="identity.archetype" label="Archetype" />
       </>
     );
@@ -48,10 +59,10 @@ export function RaceFields() {
 
   return (
     <>
+      {nationality}
       <SelectField
         path="identity.race"
         label="Race"
-        className="identity-panel-row"
         options={options(withCurrent(alphabetical(RACES.map((r) => r.name)), identity.race))}
       />
       {race?.name === 'Human' && (

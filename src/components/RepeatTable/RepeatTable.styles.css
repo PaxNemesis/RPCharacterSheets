@@ -133,8 +133,8 @@
     display: none;
   }
 
-  /* Too narrow for the columns: each row becomes a card, handle and remove button on top,
-     cells in two labelled columns and wide cells across both. */
+  /* Too narrow for the columns: each row becomes a card, handle and remove button on top, cells in
+     labelled columns (as many as fit, placed by RepeatTableRow) and wide cells across them all. */
   &.repeat-table-stacked {
     .repeat-table-grid {
       display: flex;
@@ -148,7 +148,7 @@
     }
 
     .repeat-table-row {
-      grid-template-columns: 28px repeat(2, minmax(0, 1fr)) 28px;
+      grid-template-columns: 28px repeat(var(--repeat-table-card-columns, 2), minmax(0, 1fr)) 28px;
       gap: var(--space-1);
       padding: var(--space-1) var(--space-xs) var(--space-1);
       background: var(--surface-alt);
@@ -160,25 +160,17 @@
     }
 
     .repeat-table-row:has(> .repeat-table-actions) {
-      grid-template-columns: 28px repeat(2, minmax(0, 1fr)) 60px;
+      grid-template-columns: 28px repeat(var(--repeat-table-card-columns, 2), minmax(0, 1fr)) 60px;
     }
 
     .repeat-table-remove,
     .repeat-table-actions {
-      grid-column: 4;
+      grid-column: -2;
       grid-row: 1;
     }
 
-    .repeat-table-row > div[role='cell']:nth-of-type(odd) {
-      grid-column: 2;
-    }
-
-    .repeat-table-row > div[role='cell']:nth-of-type(even) {
-      grid-column: 3;
-    }
-
     .repeat-table-row > div.repeat-table-wide[role='cell'] {
-      grid-column: 2 / 4;
+      grid-column: 2 / -2;
     }
 
     .repeat-table-cell-label {

@@ -120,6 +120,19 @@ test('the career notes sit right under the careers, before a company on a line b
   if (Math.abs(company!.y - career!.y) > 1) expect(company!.y).toBeGreaterThan(note!.y);
 });
 
+test('a table too wide for the window becomes cards with as many cells side by side as fit', async ({ page }) => {
+  await page.setViewportSize({ width: 800, height: 900 });
+  await openWith(page, { rangedWeapons: [{ name: 'Blunderbuss' }] });
+  await page.getByRole('tab', { name: 'Weapons & gear' }).click();
+
+  // Three cells on the card's first line: name, stat and skill.
+  const top = async (label: string) =>
+    (await page.getByLabel(`${label}, ranged weapon 1`, { exact: true }).boundingBox())!.y;
+  expect(await top('Stat')).toBe(await top('Name'));
+  expect(await top('Skill')).toBe(await top('Name'));
+  expect(await top('Mod')).toBeGreaterThan(await top('Name'));
+});
+
 test('a career picked in one slot isn’t offered in the others', async ({ page }) => {
   await openWith(page, { identity: { careerList: ['Priest', ''] } });
   const second = page.getByLabel('Starting career 2', { exact: true });

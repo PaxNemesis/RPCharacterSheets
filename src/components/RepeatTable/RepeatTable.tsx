@@ -14,7 +14,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useRef } from 'react';
+import { useRef, type CSSProperties } from 'react';
 import { useSheetField } from '@/components/SheetProvider';
 import { RepeatTableRow } from './components';
 import { useRowIds } from '@/hooks/useRowIds';
@@ -40,9 +40,10 @@ export function RepeatTable({ path, columns, createRow, itemName, rowAction }: R
   const rowIds = useRowIds(list.length);
   const scrollRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  // Narrow containers show each row as a card with labelled cells instead of scrolling sideways.
-  const stacked = useStackedLayout(scrollRef, gridRef);
   const narrow = columns.filter((column) => !column.wide);
+  // Narrow containers show each row as a card with labelled cells instead of scrolling sideways, with
+  // as many cells side by side as fit.
+  const { stacked, columns: cardColumns } = useStackedLayout(scrollRef, gridRef, narrow.length);
   const wide = columns.filter((column) => column.wide);
   // The last column holds the remove button, and the row action's button when there is one.
   const template = `24px ${narrow.map((column) => column.width ?? '1fr').join(' ')} ${rowAction ? '60px' : '28px'}`;
@@ -72,7 +73,10 @@ export function RepeatTable({ path, columns, createRow, itemName, rowAction }: R
   };
 
   return (
-    <div className={stacked ? 'repeat-table-container repeat-table-stacked' : 'repeat-table-container'}>
+    <div
+      className={stacked ? 'repeat-table-container repeat-table-stacked' : 'repeat-table-container'}
+      style={stacked ? ({ '--repeat-table-card-columns': cardColumns } as CSSProperties) : undefined}
+    >
       <div ref={scrollRef} className="repeat-table-scroll">
         <DndContext
           sensors={sensors}
@@ -103,6 +107,7 @@ export function RepeatTable({ path, columns, createRow, itemName, rowAction }: R
                   itemName={itemName}
                   narrow={narrow}
                   wide={wide}
+                  cardColumns={stacked ? cardColumns : undefined}
                   onRemove={() => remove(index)}
                   action={rowAction}
                   onAction={() => act(index)}

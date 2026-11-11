@@ -13,6 +13,8 @@ type RepeatTableRowProps = {
   itemName: string;
   narrow: RepeatTableColumn[];
   wide: RepeatTableColumn[];
+  /** Cells side by side when the row is a card; undefined while it's a table row. */
+  cardColumns?: number;
   onRemove: () => void;
   action?: RepeatTableRowAction;
   onAction: () => void;
@@ -26,6 +28,7 @@ export function RepeatTableRow({
   itemName,
   narrow,
   wide,
+  cardColumns,
   onRemove,
   action,
   onAction,
@@ -44,6 +47,12 @@ export function RepeatTableRow({
       ×
     </button>
   );
+
+  // In a card, cells fill its columns line by line, between the handle and the buttons, and wide cells
+  // follow on lines of their own.
+  const cellPlace = (index: number) =>
+    cardColumns ? { gridColumn: 2 + (index % cardColumns), gridRow: 1 + Math.floor(index / cardColumns) } : undefined;
+  const cardLines = cardColumns ? Math.ceil(narrow.length / cardColumns) : 0;
 
   return (
     <div
@@ -64,8 +73,8 @@ export function RepeatTableRow({
         ⋮⋮
       </button>
       <SheetProvider path={path}>
-        {narrow.map((column) => (
-          <div key={column.key} role="cell">
+        {narrow.map((column, index) => (
+          <div key={column.key} role="cell" style={cellPlace(index)}>
             {/* Shown instead of the column header when rows stack as cards; screen readers use the field's own label. */}
             <span className="repeat-table-cell-label" aria-hidden="true">
               {column.label}
@@ -92,8 +101,13 @@ export function RepeatTableRow({
       )}
       {/* After the remove button, so wide cells wrap onto their own lines. */}
       <SheetProvider path={path}>
-        {wide.map((column) => (
-          <div key={column.key} role="cell" className="repeat-table-wide">
+        {wide.map((column, index) => (
+          <div
+            key={column.key}
+            role="cell"
+            className="repeat-table-wide"
+            style={cardColumns ? { gridRow: 1 + cardLines + index } : undefined}
+          >
             <RepeatTableCell column={column} rowLabel={rowLabel} />
           </div>
         ))}

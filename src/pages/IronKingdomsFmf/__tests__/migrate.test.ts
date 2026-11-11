@@ -40,9 +40,24 @@ describe('migrate', () => {
     expect(migrated.settings).toMatchObject({ careerRules: true, raceRules: true });
   });
 
+  it('tidies typed spell UP and OFF values to the dropdowns’ Yes and No, and is safe to run twice', () => {
+    const old = {
+      spells: [
+        { name: 'Heal', up: 'yes', off: 'N' },
+        { name: 'Fire Starter', up: 'NO', off: '*' },
+      ],
+    };
+    const once = migrate(old, 3) as { spells: { up: string; off: string }[] };
+    expect(once.spells.map((spell) => [spell.up, spell.off])).toEqual([
+      ['Yes', 'No'],
+      ['No', '*'],
+    ]);
+    expect(migrate(once, 3)).toEqual(once);
+  });
+
   it('leaves current data and non-objects alone', () => {
     const current = { mechanika: [] };
-    expect(migrate(current, 3)).toBe(current);
+    expect(migrate(current, 4)).toBe(current);
     expect(migrate(null, 1)).toBeNull();
   });
 });

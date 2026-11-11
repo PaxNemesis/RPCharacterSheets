@@ -11,6 +11,12 @@ import { createMechanika } from '../../utils/createCharacter';
 import { MechanikaDevice } from './components';
 import { careerSpells, spellSuggestions } from './utils/spellSuggestions';
 
+const YES_NO = [
+  { value: '', label: '' },
+  { value: 'Yes', label: 'Yes' },
+  { value: 'No', label: 'No' },
+];
+
 /**
  * The spell table's columns. Names are suggested from the careers' spell lists; picking one fills in its
  * numbers and page, keeping the description.
@@ -30,8 +36,9 @@ const spellColumns = (settings: IkSettings, suggestions: string[]): RepeatTableC
   { key: 'rng', label: 'RNG', width: '60px' },
   { key: 'aoe', label: 'AOE', width: '60px' },
   { key: 'pow', label: 'POW', width: '52px', type: 'number' },
-  { key: 'up', label: 'UP', width: '52px' },
-  { key: 'off', label: 'OFF', width: '52px' },
+  { key: 'up', label: 'UP', width: '80px', type: 'select', options: YES_NO },
+  // A few spells have "*" for OFF: whether they're offensive depends on how they're used.
+  { key: 'off', label: 'OFF', width: '80px', type: 'select', options: [...YES_NO, { value: '*', label: '*' }] },
   { key: 'page', label: 'Page', width: '64px' },
   { key: 'description', label: 'Description', rows: 2, wide: true },
 ];

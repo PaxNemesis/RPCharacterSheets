@@ -16,6 +16,7 @@ export function migrate(data: unknown, fromVersion: number): unknown {
   let character = data as Data;
   if (fromVersion < 2) character = toVersion2(character);
   if (fromVersion < 3) character = toVersion3(character);
+  if (fromVersion < 4) character = toVersion4(character);
   return character;
 }
 
@@ -92,5 +93,24 @@ function splitDevice(old: OldMechanika) {
     ...capacitorValues(text(old.capacitor)),
     runes,
     notes: [charges, text(old.notes)].filter(Boolean).join('\n\n'),
+  };
+}
+
+/** "yes", "Y", "NO" and the like as the sheet's Yes or No; anything else, such as "*", is kept. */
+const yesNo = (value: unknown) => {
+  const trimmed = text(value).trim();
+  if (/^y(es)?$/i.test(trimmed)) return 'Yes';
+  if (/^no?$/i.test(trimmed)) return 'No';
+  return value;
+};
+
+/** Version 4 made a spell's UP and OFF dropdowns of Yes and No, so typed values are tidied to match. */
+function toVersion4(character: Data): Data {
+  if (!Array.isArray(character.spells)) return character;
+  return {
+    ...character,
+    spells: (character.spells as Row[]).map((spell) =>
+      spell && typeof spell === 'object' ? { ...spell, up: yesNo(spell.up), off: yesNo(spell.off) } : spell,
+    ),
   };
 }

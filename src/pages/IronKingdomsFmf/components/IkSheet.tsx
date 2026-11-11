@@ -21,9 +21,9 @@ type Section = {
 
 const SECTIONS: Section[] = [
   { id: 'character', label: 'Character', Component: CharacterSection },
+  { id: 'skills', label: 'Skills & abilities', Component: SkillsSection },
   { id: 'combat', label: 'Combat & damage', Component: CombatSection },
   { id: 'equipment', label: 'Weapons & gear', Component: EquipmentSection },
-  { id: 'skills', label: 'Skills & abilities', Component: SkillsSection },
   { id: 'magic', label: 'Magic & mechanika', Component: MagicSection, isVisible: (s) => s.magic || s.mechanika },
   { id: 'steamjacks', label: 'Steamjacks', Component: SteamjacksSection, isVisible: (s) => s.steamjacks },
   { id: 'notes', label: 'Notes', Component: NotesSection },

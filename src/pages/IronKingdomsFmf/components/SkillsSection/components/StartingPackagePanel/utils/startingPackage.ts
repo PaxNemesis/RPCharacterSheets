@@ -2,6 +2,7 @@ import { abilityRef } from '../../../../../constants/abilities';
 import { archetypeBenefitRef } from '../../../../../constants/archetypes';
 import { findRace } from '../../../../../constants/races';
 import { skillRef } from '../../../../../constants/skills';
+import { findSpell, spellFields } from '../../../../../constants/spells';
 import type { CareerData, IkCharacter, SkillGrant } from '../../../../../types';
 import { companyOf, companyPackage, withCompanySkills } from '../../../../../utils/company';
 import { careersOf, variantOf } from '../../../../../utils/rules';
@@ -122,17 +123,11 @@ export function applyStartingPackage(
       ],
       spells: [
         ...character.spells,
-        ...missing(character.spells, pack.spells).map((name) => ({
-          name,
-          cost: null,
-          rng: '',
-          aoe: '',
-          pow: null,
-          up: '',
-          off: '',
-          page: '',
-          description: '',
-        })),
+        ...missing(character.spells, pack.spells).map((name) => {
+          const spell = findSpell(name, character.settings);
+          const blank = { name, cost: null, rng: '', aoe: '', pow: null, up: '', off: '', page: '' };
+          return { ...(spell ? spellFields(spell) : blank), description: '' };
+        }),
       ],
       gear: [
         ...character.gear,

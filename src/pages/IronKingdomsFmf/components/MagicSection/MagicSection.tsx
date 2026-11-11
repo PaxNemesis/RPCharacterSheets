@@ -1,15 +1,27 @@
+import { useMemo } from 'react';
 import { Panel } from '@/components/Panel';
 import { RepeatTable, type RepeatTableColumn } from '@/components/RepeatTable';
 import { SheetProvider, useSheet } from '@/components/SheetProvider';
 import { TextField } from '@/components/TextField';
 import { useRowIds } from '@/hooks/useRowIds';
 import { useIkCharacter } from '../../hooks/useIkCharacter';
-import type { IkSpell } from '../../types';
+import { findSpell, spellFields, spellNames } from '../../constants/spells';
+import type { IkSettings, IkSpell } from '../../types';
 import { createMechanika } from '../../utils/createCharacter';
 import { MechanikaDevice } from './components';
 
-const SPELL_COLUMNS: RepeatTableColumn[] = [
-  { key: 'name', label: 'Spell', width: 'minmax(140px, 2fr)' },
+/** The spell table's columns; picking a suggested spell fills in its numbers and page, keeping the description. */
+const spellColumns = (settings: IkSettings): RepeatTableColumn[] => [
+  {
+    key: 'name',
+    label: 'Spell',
+    width: 'minmax(140px, 2fr)',
+    suggestions: spellNames(settings),
+    onPick: (name, row) => {
+      const spell = findSpell(name, settings);
+      return spell ? { ...row, ...spellFields(spell) } : row;
+    },
+  },
   { key: 'cost', label: 'Cost', width: '52px', type: 'number' },
   { key: 'rng', label: 'RNG', width: '60px' },
   { key: 'aoe', label: 'AOE', width: '60px' },
@@ -35,6 +47,7 @@ const createSpell = (): IkSpell => ({
 export function MagicSection() {
   const { character, derived } = useIkCharacter();
   const { set } = useSheet();
+  const columns = useMemo(() => spellColumns(character.settings), [character.settings]);
   const devices = character.mechanika ?? [];
   const deviceName = (index: number) => devices[index].name?.trim() || `Device ${index + 1}`;
 
@@ -73,7 +86,7 @@ export function MagicSection() {
             Spells known: {character.spells.length}
             {derived.spellLimit !== null && ` of at most ${derived.spellLimit} (twice INT, p. 118)`}.
           </p>
-          <RepeatTable path="spells" columns={SPELL_COLUMNS} createRow={createSpell} itemName="spell" />
+          <RepeatTable path="spells" columns={columns} createRow={createSpell} itemName="spell" />
         </Panel>
       )}
       {character.settings.mechanika && (

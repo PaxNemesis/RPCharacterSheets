@@ -108,6 +108,20 @@ test('with a full careers line, the company starts a line of its own on the left
   expect(company!.y).toBeGreaterThan(add!.y);
 });
 
+test('picking a suggested spell fills in its numbers and page', async ({ page }) => {
+  await openWith(page, { identity: { name: 'Test Arcanist' } });
+  await page.getByRole('tab', { name: 'Magic & mechanika' }).click();
+  await page.getByRole('button', { name: '+ Add spell' }).click();
+
+  await page.getByRole('combobox', { name: 'Spell, spell 1' }).fill('Arcane Bo');
+  await page.getByRole('option', { name: 'Arcane Bolt', exact: true }).click();
+  await expect(page.getByLabel('Cost, spell 1')).toHaveValue('2');
+  await expect(page.getByLabel('RNG, spell 1')).toHaveValue('12');
+  await expect(page.getByLabel('POW, spell 1')).toHaveValue('11');
+  await expect(page.getByLabel('OFF, spell 1')).toHaveValue('Yes');
+  await expect(page.getByLabel('Page, spell 1')).toHaveValue('236');
+});
+
 test.describe('steamjacks', () => {
   /** Opens the sheet with these steamjacks saved, on the Steamjacks tab. */
   async function openSteamjacks(page: Page, steamjacks: unknown[] = []) {

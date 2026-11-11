@@ -118,3 +118,16 @@ export type CapacitorData = { name: string; page: number; power: number; lifespa
 
 /** A mechanika rune; `types` lists the devices it can be inscribed for. */
 export type RuneData = { name: string; page: number; types: MechanikaType[]; points: number; note?: string };
+
+/** A rulebook spell's numbers, as printed in its spell table: RNG and AOE can be SELF, CTRL or —. */
+export type SpellData = {
+  name: string;
+  book: BookId;
+  page: number;
+  cost: string;
+  rng: string;
+  aoe: string;
+  pow: string;
+  up: string;
+  off: string;
+};

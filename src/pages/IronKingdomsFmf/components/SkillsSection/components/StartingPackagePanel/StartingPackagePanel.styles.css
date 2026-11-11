@@ -51,7 +51,8 @@
 
     dl {
       display: grid;
-      grid-template-columns: 90px 1fr;
+      /* minmax, so a long dropdown can't push the card wider than its column. */
+      grid-template-columns: 90px minmax(0, 1fr);
       gap: var(--space-xs) var(--space-1);
       margin: 0;
       font-size: 13px;
@@ -72,6 +73,8 @@
 
     select {
       width: auto;
+      /* Long options, such as a company's weapon choice, are cut off instead of overflowing the card. */
+      max-width: 100%;
       font-size: 13px;
       /* Room on the right for the dropdown arrow. */
       padding: var(--space-2xs) var(--space-3) var(--space-2xs) var(--space-xs);

@@ -87,11 +87,8 @@ describe('companyGrants', () => {
 });
 
 describe('companyIssues', () => {
-  it('flags careers the company doesn’t take, and an open choice', () => {
-    expect(companyIssues(member('Spy Ring'))).toEqual([
-      'None of this character’s careers can join Spy Ring.',
-      'Choose the Spy Ring benefit.',
-    ]);
+  it('flags careers the company doesn’t take, but not an open benefit choice', () => {
+    expect(companyIssues(member('Spy Ring'))).toEqual(['None of this character’s careers can join Spy Ring.']);
     const unchecked = {
       ...member('Spy Ring', { companyChoice: 'Language' }),
       settings: { ...member('').settings, companyCareers: false },

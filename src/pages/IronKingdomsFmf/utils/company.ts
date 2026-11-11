@@ -79,7 +79,10 @@ export function withCompanySkills(skills: SkillGrant[], company: ReturnType<type
   return result;
 }
 
-/** Membership problems the sheet can check: careers (unless turned off in Settings), and an open choice. Race, faith and nation are left to the player. */
+/**
+ * Membership problems the sheet can check: the careers, unless turned off in Settings. Race, faith and
+ * nation are left to the player, and the open benefit choice is shown in the Starting package.
+ */
 export function companyIssues(character: IkCharacter): string[] {
   const company = companyOf(character);
   if (!company) return [];
@@ -92,9 +95,6 @@ export function companyIssues(character: IkCharacter): string[] {
     !careers.some((career) => company.careers?.includes(career.name))
   ) {
     issues.push(`None of this character’s careers can join ${company.name}.`);
-  }
-  if (company.choice && !choiceOptions(company).includes(character.identity.companyChoice ?? '')) {
-    issues.push(`Choose the ${company.name} benefit.`);
   }
   return issues;
 }

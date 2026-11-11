@@ -73,6 +73,9 @@ export function CompanyPackage({ company, character, repeated, onChoose }: Compa
         </p>
       )}
       {notes.length > 0 && <p className="ik-note">Not added to the sheet: {notes.join(' ')}</p>}
+      {options.length > 0 && !options.includes(pick) && (
+        <p className="ik-warning">Choose one of the {company.name} benefits above.</p>
+      )}
       {repeated.length > 0 && (
         <p className="ik-warning">
           Your careers already give {list(repeated)}; choose another ability from your careers instead (p. 151).

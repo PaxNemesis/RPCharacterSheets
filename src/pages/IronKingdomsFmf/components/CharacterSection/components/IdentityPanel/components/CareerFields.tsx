@@ -39,6 +39,20 @@ export function CareerFields() {
       .sort((a, b) => compareNames(a.name, b.name))
       .map((career) => ({ value: career.name, label: careerLabel(career) })),
   ];
+  // A career's version, such as a priest's faith, in a field of its own right after the career; once,
+  // if the same career is listed twice, since both share the choice.
+  const versionField = (index: number) => {
+    const career = careers[index];
+    if (!career?.variants || careers.findIndex((other) => other?.name === career.name) !== index) return null;
+    return (
+      <SelectField
+        path={`identity.careerVariants.${career.name}`}
+        label={`${career.name} ${(career.variantLabel ?? 'version').toLowerCase()}`}
+        options={[{ value: '', label: 'Choose…' }, ...career.variants.map((v) => ({ value: v.label, label: v.label }))]}
+      />
+    );
+  };
+
   return (
     <>
       {list.map((_, index) => {
@@ -51,44 +65,39 @@ export function CareerFields() {
             className={index < 2 ? row : undefined}
           />
         );
-        if (index < 2) return <Fragment key={rowIds.ids[index]}>{field}</Fragment>;
+        if (index < 2) {
+          return (
+            <Fragment key={rowIds.ids[index]}>
+              {field}
+              {versionField(index)}
+            </Fragment>
+          );
+        }
         // A later career has its remove button beside it, in line with the dropdown.
         return (
-          <div key={rowIds.ids[index]} className="identity-panel-removable">
-            {field}
-            <button
-              type="button"
-              className="identity-panel-remove"
-              aria-label={`Remove career ${index + 1}`}
-              title="Remove career"
-              onClick={() => {
-                rowIds.remove(index);
-                set(
-                  'identity.careerList',
-                  list.filter((_, other) => other !== index),
-                );
-              }}
-            >
-              ×
-            </button>
-          </div>
+          <Fragment key={rowIds.ids[index]}>
+            <div className="identity-panel-removable">
+              {field}
+              <button
+                type="button"
+                className="identity-panel-remove"
+                aria-label={`Remove career ${index + 1}`}
+                title="Remove career"
+                onClick={() => {
+                  rowIds.remove(index);
+                  set(
+                    'identity.careerList',
+                    list.filter((_, other) => other !== index),
+                  );
+                }}
+              >
+                ×
+              </button>
+            </div>
+            {versionField(index)}
+          </Fragment>
         );
       })}
-      {/* Each career's version, such as a priest's faith, in a field of its own after the careers. */}
-      {careers.map(
-        (career) =>
-          career?.variants && (
-            <SelectField
-              key={`variant-${career.name}`}
-              path={`identity.careerVariants.${career.name}`}
-              label={`${career.name} ${(career.variantLabel ?? 'version').toLowerCase()}`}
-              options={[
-                { value: '', label: 'Choose…' },
-                ...career.variants.map((v) => ({ value: v.label, label: v.label })),
-              ]}
-            />
-          ),
-      )}
       <button type="button" className="identity-panel-add" onClick={() => set('identity.careerList', [...list, ''])}>
         + Add career
       </button>

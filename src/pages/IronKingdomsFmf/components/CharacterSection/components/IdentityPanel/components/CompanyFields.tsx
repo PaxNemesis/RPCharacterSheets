@@ -14,7 +14,8 @@ import { compareNames } from '@/utils/alphabetical';
 const careerLineColumns = (character: IkCharacter) => {
   if (!character.settings.careerRules) return 2;
   const { careerList } = character.identity;
-  const versions = careerList.filter((name) => resolveCareer(character, name ?? '')?.variants).length;
+  // A career listed twice has one version field.
+  const versions = new Set(careerList.filter((name) => resolveCareer(character, name ?? '')?.variants)).size;
   return Math.max(2, careerList.length) + versions + 1;
 };
 

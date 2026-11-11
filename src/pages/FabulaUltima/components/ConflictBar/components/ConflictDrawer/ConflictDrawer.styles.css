@@ -1,0 +1,125 @@
+/* The details under the bar: a header, then three columns that stack on narrow screens. */
+.conflict-drawer-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: min(52vh, 560px);
+  overflow-y: auto;
+  padding: var(--space-2);
+  border-top: 1px solid var(--border);
+  box-sizing: border-box;
+
+  /* Focus moves here when the drawer opens, as a starting point for the keyboard; it isn't a control. */
+  &:focus {
+    outline: none;
+  }
+
+  .conflict-drawer-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1);
+
+    p {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+  }
+
+  .conflict-drawer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .conflict-drawer-undo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .conflict-drawer-columns {
+    display: grid;
+    /* Vitals only as wide as its rows need; the rest goes to effects and classes. */
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+
+    @media (max-width: 960px) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+      > :last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .conflict-drawer-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  /* The sheet's panel heading, smaller. */
+  .conflict-drawer-badge {
+    align-self: flex-start;
+    margin-top: var(--space-1);
+    padding: var(--space-2xs) var(--space-1);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-contrast);
+    background: var(--border-strong);
+    border-radius: 3px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .conflict-drawer-card,
+  .conflict-drawer-classes li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-1);
+  }
+
+  .conflict-drawer-card {
+    padding: var(--space-1);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-alt);
+
+    span {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+  }
+
+  .conflict-drawer-classes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .conflict-drawer-link {
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}

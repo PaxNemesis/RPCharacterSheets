@@ -24,10 +24,6 @@ export function BeadTracker({ character, derived }: BeadTrackerProps) {
   const mp = character.mp.current ?? derived.maxMp;
   const cost = count * MP_PER_BEAD;
 
-  const startConflict = () => {
-    set('monk.core', limit);
-    set('monk.resolve', 0);
-  };
   const release = (pool: Pool) => {
     set(`monk.${pool}`, character.monk[pool] - count);
     set('mp.current', mp - cost);
@@ -39,14 +35,7 @@ export function BeadTracker({ character, derived }: BeadTrackerProps) {
   );
 
   return (
-    <Panel
-      title="Soul Beads"
-      actions={
-        <button type="button" onClick={startConflict} title="A full set of Core Beads and no Resolve Beads">
-          Start conflict
-        </button>
-      }
-    >
+    <Panel title="Soul Beads">
       <p className="fu-note">
         Limit {limit}: half your current Willpower die (d{derived.current('wlp')}), from 3 to 6 (LF p. 101).
       </p>
@@ -56,13 +45,7 @@ export function BeadTracker({ character, derived }: BeadTrackerProps) {
         <span />
         <span className="soul-beads-section-label">Resolve Beads</span>
         <CheckTrack path="monk.resolve" size={limit} label="Resolve Beads" mark="fill" />
-        <button
-          type="button"
-          onClick={() => set('monk.resolve', Math.min(limit, resolve + 2))}
-          disabled={resolve >= limit}
-        >
-          Gain 2
-        </button>
+        <span />
       </div>
       {(core > limit || resolve > limit) && (
         <p className="fu-warning">You have more beads than your limit of {limit}.</p>
@@ -86,7 +69,8 @@ export function BeadTracker({ character, derived }: BeadTrackerProps) {
         </span>
       </div>
       <p className="fu-note">
-        Start each conflict with full Core Beads. Once you start releasing them, gain 2 Resolve Beads each turn. Only
+        Starting a conflict in the bar at the bottom gives you full Core Beads. The book doesn&apos;t say when Resolve
+        Beads come, so starting each of your turns turns one Core Bead into 2 Resolve Beads, unless they are full. Only
         Resolve Beads count for Clarity. Every bead a Skill releases costs {MP_PER_BEAD} MP.
       </p>
     </Panel>

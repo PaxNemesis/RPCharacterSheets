@@ -1,4 +1,4 @@
-import type { FuCharacter, FuDerived } from '../types';
+import type { ClassConflictRules, FuCharacter, FuDerived } from '../types';
 import { skillLevel } from './rules';
 
 /** The Chanter's Skill Levels, by Skill. */
@@ -29,3 +29,15 @@ export function toneAmount(tone: string, derived: FuDerived) {
   if (tone === 'Frantic') return twice + bonus;
   return undefined;
 }
+
+const withSung = (character: FuCharacter, sung: boolean): FuCharacter =>
+  character.chanter.sung === sung ? character : { ...character, chanter: { ...character.chanter, sung } };
+
+/** One verse per turn (HF p. 137): singing again is allowed from the start of your next turn. */
+export const chanterConflict: ClassConflictRules = {
+  className: 'Chanter',
+  on: {
+    startTurn: (character) => withSung(character, false),
+    endScene: (character) => withSung(character, false),
+  },
+};

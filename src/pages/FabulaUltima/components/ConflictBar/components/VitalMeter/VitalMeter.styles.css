@@ -1,0 +1,78 @@
+.vital-meter-container {
+  --vital-meter-fill: var(--fu-hp);
+  /* The text over the fill; light mode's fills are dark enough for white. */
+  --vital-meter-on-fill: var(--accent-contrast);
+  /* How much of the colour the fill keeps: all of it in light mode, less in dark mode (below). */
+  --vital-meter-strength: 100%;
+  position: relative;
+  display: block;
+  min-width: 72px;
+  height: 20px;
+  border-radius: 4px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  box-sizing: border-box;
+  overflow: hidden;
+
+  &.vital-meter-mp {
+    --vital-meter-fill: var(--fu-mp);
+  }
+
+  &.vital-meter-ip {
+    --vital-meter-fill: var(--fu-ip);
+  }
+
+  .vital-meter-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--vital-meter-percent);
+    background: color-mix(in srgb, var(--vital-meter-fill) var(--vital-meter-strength), black);
+    transition: width 250ms;
+  }
+
+  /* The Crisis line: a notch on the bottom edge, below the numbers. */
+  .vital-meter-mark {
+    position: absolute;
+    bottom: 0;
+    width: 2px;
+    height: 3px;
+    background: var(--text-soft);
+  }
+
+  /* The text changes colour where the fill ends, so it reads on both the fill and the empty part. */
+  .vital-meter-text {
+    position: absolute;
+    inset: 0;
+    font-size: 12px;
+    font-weight: 700;
+    /* A little above centre, clear of the Crisis notch. */
+    line-height: 16px;
+    text-align: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(
+      to right,
+      var(--vital-meter-on-fill) var(--vital-meter-percent),
+      var(--text-h) var(--vital-meter-percent)
+    );
+    background-clip: text;
+    color: transparent;
+  }
+
+  &.vital-meter-crisis {
+    border-color: var(--danger);
+    --vital-meter-fill: var(--danger);
+  }
+
+  /* Dark mode's bright HP, MP and IP colours, darkened, so light text reads on them as well as beside them. */
+  @media (prefers-color-scheme: dark) {
+    --vital-meter-on-fill: var(--text-h);
+    --vital-meter-strength: 60%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vital-meter-fill {
+      transition: none;
+    }
+  }
+}

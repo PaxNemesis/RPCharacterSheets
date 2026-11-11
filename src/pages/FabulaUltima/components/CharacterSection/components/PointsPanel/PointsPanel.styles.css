@@ -1,6 +1,6 @@
 .points-panel-container {
-  --points-hp: #b8322c;
-  --points-mp: #2f7fc1;
+  --points-hp: var(--fu-hp);
+  --points-mp: var(--fu-mp);
 
   .points-panel-grid {
     display: grid;
@@ -80,11 +80,26 @@
     border-color: var(--points-hp);
   }
 
+  /* The current value, then − and + beside it. */
   .points-panel-current {
     align-self: stretch;
     display: flex;
-    flex-direction: column;
-    gap: var(--space-2xs);
+    align-items: stretch;
+    gap: var(--space-1);
+
+    > .number-field-container {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* On a phone the value keeps its width, with − and + underneath. */
+    @media (max-width: 640px) {
+      flex-wrap: wrap;
+
+      > .number-field-container {
+        flex-basis: 100%;
+      }
+    }
   }
 
   .points-panel-in-crisis input {
@@ -120,12 +135,5 @@
     padding-bottom: var(--space-xs);
     font-size: 12px;
     color: var(--text-soft);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .points-panel-container {
-    --points-hp: #e0706a;
-    --points-mp: #6fb3ec;
   }
 }

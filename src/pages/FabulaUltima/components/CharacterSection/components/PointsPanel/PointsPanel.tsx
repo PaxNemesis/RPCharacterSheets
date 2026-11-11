@@ -44,6 +44,7 @@ export function PointsPanel({ character, derived }: PointsPanelProps) {
           pool="hp"
           label="HP"
           max={derived.maxHp}
+          current={hp ?? derived.maxHp}
           crisis={derived.crisis}
           inCrisis={inCrisis}
           terms={[
@@ -57,6 +58,7 @@ export function PointsPanel({ character, derived }: PointsPanelProps) {
           pool="mp"
           label="MP"
           max={derived.maxMp}
+          current={character.mp.current ?? derived.maxMp}
           terms={[
             { label: 'WLP × 5', value: derived.base('wlp') * 5 },
             { label: 'Level', value: derived.level },
@@ -68,6 +70,7 @@ export function PointsPanel({ character, derived }: PointsPanelProps) {
           pool="ip"
           label="IP"
           max={derived.maxIp}
+          current={character.ip.current ?? derived.maxIp}
           terms={[
             { label: 'Base', value: 6 },
             { label: 'Bonuses', value: derived.ipBonus },

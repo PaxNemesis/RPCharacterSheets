@@ -1,0 +1,99 @@
+/*
+ * A drawer on the bottom edge. The container is sticky, not fixed, and only as tall as the closed bar:
+ * it keeps that room at the end of the sheet, so the bar never covers the last field. The sheet inside
+ * hangs from its bottom edge, so opening the drawer grows it upwards over the page without moving it.
+ */
+.conflict-bar-container {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  flex: none;
+  min-height: 56px;
+  margin-top: auto;
+  /* Into the workspace's bottom padding, so the drawer meets the bottom edge at the end of the page too. */
+  margin-bottom: calc(-1 * var(--space-2));
+
+  .conflict-bar-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* Its own surface and a shadow, so it reads as a layer over the sheet, not one of its panels. */
+    background: var(--raised);
+    border: 1px solid var(--border-strong);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 -8px 24px -6px;
+  }
+
+  /* A half oval on the top edge, with only the arrow. */
+  .conflict-bar-pull {
+    position: absolute;
+    top: -21px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 22px;
+    padding: var(--space-xs) 0 0;
+    font-size: 20px;
+    background: var(--raised);
+    border: 1px solid var(--border-strong);
+    border-bottom: none;
+    border-radius: 30px 30px 0 0 / 22px 22px 0 0;
+
+    &:hover {
+      background: var(--raised-alt);
+    }
+
+    .icon-container {
+      transition: transform 200ms;
+    }
+  }
+
+  &.conflict-bar-open .conflict-bar-pull .icon-container {
+    transform: rotate(180deg);
+  }
+
+  /* Clicking anywhere on the bar that isn't a button opens or closes the drawer. */
+  .conflict-bar-face {
+    cursor: pointer;
+    border-radius: 12px 12px 0 0;
+
+    &:hover {
+      background: var(--raised-alt);
+    }
+  }
+
+  /* The details slide open under the bar. */
+  .conflict-bar-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 250ms ease;
+  }
+
+  &.conflict-bar-open .conflict-bar-details {
+    grid-template-rows: 1fr;
+  }
+
+  /* Hidden once closed, after the slide, so it leaves the accessibility tree too. */
+  .conflict-bar-details-inner {
+    overflow: hidden;
+    visibility: hidden;
+    transition: visibility 0s 250ms;
+  }
+
+  &.conflict-bar-open .conflict-bar-details-inner {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .conflict-bar-details,
+    .conflict-bar-pull .icon-container {
+      transition: none;
+    }
+  }
+}

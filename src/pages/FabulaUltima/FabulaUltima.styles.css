@@ -1,5 +1,29 @@
 .fabula-ultima-page {
+  /* HP, MP and IP colours, shared by the HP and MP panel and the conflict bar. */
+  --fu-hp: #b8322c;
+  --fu-mp: #2f7fc1;
+  --fu-ip: #3f7a34;
+
+  @media (prefers-color-scheme: dark) {
+    --fu-hp: #e0706a;
+    --fu-mp: #6fb3ec;
+    --fu-ip: #8cc46e;
+  }
+
   flex-grow: 1;
+  /* With the workspace and the sheet filling the height, the conflict bar sits at the bottom on short tabs. */
+  display: flex;
+  flex-direction: column;
+
+  .fu-sheet {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .fu-sheet-body {
+    padding-bottom: var(--space-2);
+  }
 
   .fu-section {
     display: flex;

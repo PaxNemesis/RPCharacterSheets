@@ -1,5 +1,4 @@
 import { Panel } from '@/components/Panel';
-import { useSheet } from '@/components/SheetProvider';
 import { DANCE_MP, DANCE_MP_AFTER_OTHER, FOLLOW_MY_LEAD_MP } from '../../../constants/dancer';
 import type { FuCharacter, FuDerived } from '../../../types';
 import { canDance, dancerSkills, findDance } from '../../../utils/dancer';
@@ -15,19 +14,10 @@ type DanceTurnPanelProps = {
 
 /** The dance performed this turn and last turn, and what the Dancer's Skills add to it (HF p. 143). */
 export function DanceTurnPanel({ character, derived, shared, onShare }: DanceTurnPanelProps) {
-  const { set } = useSheet();
   const { current, previous } = character.dancer;
   const sl = dancerSkills(character);
   const lasting = findDance(current)?.duration === 'turn';
 
-  const nextTurn = () => {
-    set('dancer.previous', current);
-    set('dancer.current', '');
-  };
-  const endConflict = () => {
-    set('dancer.previous', '');
-    set('dancer.current', '');
-  };
   const bonuses = [
     sl.wardancer > 0 &&
       `Wardancer: +${sl.wardancer} damage with brawling, dagger, flail and thrown weapons` +
@@ -39,19 +29,7 @@ export function DanceTurnPanel({ character, derived, shared, onShare }: DanceTur
   ].filter((bonus): bonus is string => Boolean(bonus));
 
   return (
-    <Panel
-      title="This turn"
-      actions={
-        <>
-          <button type="button" onClick={nextTurn} title="Your dance from this turn becomes last turn's">
-            Next turn
-          </button>
-          <button type="button" onClick={endConflict}>
-            End conflict
-          </button>
-        </>
-      }
-    >
+    <Panel title="This turn">
       {!canDance(character) && <p className="fu-warning">You can&apos;t perform dances with martial armor equipped.</p>}
       <p>
         {current ? (
@@ -84,7 +62,8 @@ export function DanceTurnPanel({ character, derived, shared, onShare }: DanceTur
         </ul>
       )}
       <p className="fu-note">
-        MP {character.mp.current ?? derived.maxMp} of {derived.maxMp}
+        MP {character.mp.current ?? derived.maxMp} of {derived.maxMp}. End your turn in the bar at the bottom: this
+        turn&apos;s dance then becomes last turn&apos;s.
       </p>
     </Panel>
   );

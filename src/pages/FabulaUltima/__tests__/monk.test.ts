@@ -21,7 +21,10 @@ describe('monk', () => {
   it('powers one Clarity benefit per pair of Resolve Beads, up to the Clarity Skill Level', () => {
     const monk = (clarity: number, resolve: number) =>
       activeClarity(
-        character({ classes: [classWith('Monk', ['Clarity', clarity])], monk: { core: 0, resolve, clarity: [] } }),
+        character({
+          classes: [classWith('Monk', ['Clarity', clarity])],
+          monk: { core: 0, resolve, clarity: [] },
+        }),
       );
     expect([monk(2, 3), monk(2, 4), monk(2, 6), monk(1, 6), monk(0, 6)]).toEqual([1, 2, 2, 1, 0]);
   });

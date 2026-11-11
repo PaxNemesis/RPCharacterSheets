@@ -1,0 +1,50 @@
+/* The bar's second line: wraps on wide screens, scrolls sideways on phones instead of hiding chips. */
+.bar-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0 var(--space-2) var(--space-1);
+  list-style: none;
+
+  .bar-chips-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    flex: none;
+    padding: var(--space-2xs) var(--space-1);
+    font-size: 13px;
+    white-space: nowrap;
+    color: var(--text-h);
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+
+  .bar-chips-note {
+    color: var(--text-soft);
+  }
+
+  /* Something to do now, such as a magiseed's end-of-turn effect. */
+  .bar-chips-due,
+  .bar-chips-due .bar-chips-note {
+    color: var(--positive);
+    border-color: var(--positive);
+  }
+
+  .bar-chips-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-inline: var(--space-1);
+    scrollbar-width: none;
+  }
+}

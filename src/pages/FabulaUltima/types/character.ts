@@ -180,7 +180,27 @@ export type FuChanter = {
   /** The player's notes per learned key or tone, by name. */
   notes: Record<string, string>;
   verse: { volume: string; key: string; tone: string };
+  /** Whether a verse was sung this turn: only one per turn (HF p. 137). */
+  sung: boolean;
 };
+
+/** When an effect ends on its own; 'removed' lasts until taken off by hand. */
+export type EffectDuration = 'nextTurn' | 'endOfTurn' | 'scene' | 'removed';
+
+/** Something affecting the character for a while, such as a spell, a dance or an ally's buff. */
+export type FuEffect = { name: string; lasts: EffectDuration | ''; notes: string };
+
+/** When a limited use comes back. */
+export type UseReset = 'turn' | 'scene' | 'rest';
+
+/** A Skill, item or Heroic Skill usable a limited number of times, such as once per scene. */
+export type FuUse = { name: string; used: Num; max: Num; resets: UseReset | '' };
+
+/**
+ * The conflict the character is in. `turn` counts your own turns, and `acting` is whether it is your
+ * turn now: effects lasting until your next turn must stay on while others act.
+ */
+export type FuConflict = { active: boolean; turn: number; acting: boolean };
 
 export type FuCharacter = {
   settings: FuSettings;
@@ -221,6 +241,9 @@ export type FuCharacter = {
   dancer: FuDancer;
   symbolist: FuSymbolist;
   chanter: FuChanter;
+  conflict: FuConflict;
+  effects: FuEffect[];
+  uses: FuUse[];
   notes: { general: string; wealth: string };
 };
 

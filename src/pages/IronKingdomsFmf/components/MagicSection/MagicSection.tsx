@@ -53,9 +53,18 @@ export function MagicSection() {
     <div className="ik-section">
       {character.settings.magic && (
         <Panel title="Spells">
-          <div className="ik-fields">
-            <TextField path="arcaneTradition" label="Arcane tradition" />
-          </div>
+          {character.settings.raceRules ? (
+            // With race rules on, the Character tab picks it, next to the archetype it depends on.
+            <p className="ik-note">
+              {character.identity.archetype === 'Gifted'
+                ? `Arcane tradition: ${character.arcaneTradition || 'not chosen'}. Change it on the Character tab.`
+                : 'Only Gifted characters have an arcane tradition; choose the archetype on the Character tab.'}
+            </p>
+          ) : (
+            <div className="ik-fields">
+              <TextField path="arcaneTradition" label="Arcane tradition" />
+            </div>
+          )}
           <p
             className={
               derived.spellLimit !== null && character.spells.length > derived.spellLimit ? 'ik-warning' : 'ik-note'

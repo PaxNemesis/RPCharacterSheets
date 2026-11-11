@@ -60,16 +60,18 @@ export function VitalsColumn({ character, derived }: VitalsColumnProps) {
           onClick={() => set('fabulaPoints', Math.max(0, fabulaPoints - 1))}
           disabled={fabulaPoints < 1}
           aria-label="Spend a Fabula Point"
+          title="Spend a Fabula Point"
         >
-          Spend 1
+          −
         </button>
         <button
           type="button"
           className="vitals-column-raise"
           onClick={() => set('fabulaPoints', fabulaPoints + 1)}
           aria-label="Gain a Fabula Point"
+          title="Gain a Fabula Point"
         >
-          Gain 1
+          +
         </button>
       </div>
       <div className="vitals-column-statuses" role="group" aria-label="Status effects">

@@ -18,11 +18,12 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: var(--surface);
+    /* Its own surface and a shadow, so it reads as a layer over the sheet, not one of its panels. */
+    background: var(--raised);
     border: 1px solid var(--border-strong);
     border-bottom: none;
     border-radius: 12px 12px 0 0;
-    box-shadow: rgba(0, 0, 0, 0.25) 0 -6px 18px -6px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 -8px 24px -6px;
   }
 
   /* A half oval on the top edge, with only the arrow. */
@@ -38,13 +39,13 @@
     height: 22px;
     padding: var(--space-xs) 0 0;
     font-size: 20px;
-    background: var(--surface);
+    background: var(--raised);
     border: 1px solid var(--border-strong);
     border-bottom: none;
     border-radius: 30px 30px 0 0 / 22px 22px 0 0;
 
     &:hover {
-      color: var(--accent);
+      background: var(--raised-alt);
     }
 
     .icon-container {
@@ -62,7 +63,7 @@
     border-radius: 12px 12px 0 0;
 
     &:hover {
-      background: var(--surface-alt);
+      background: var(--raised-alt);
     }
   }
 

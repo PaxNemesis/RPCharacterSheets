@@ -1,16 +1,19 @@
 /* Scoped to the column; the popup is fixed on screen but stays inside it in the page. */
 .vitals-column-container {
-  /* One row per pool: label, value or meter, then two buttons of the same width. */
+  /* One row per pool: label, value or meter, then − and + buttons of the same size. */
   .vitals-column-pool {
     display: grid;
-    grid-template-columns: 2em minmax(0, 1fr) 6.5em 6.5em;
+    grid-template-columns: 2em minmax(0, 1fr) 2.25em 2.25em;
     gap: var(--space-1);
     align-items: center;
     font-variant-numeric: tabular-nums;
 
     button {
       width: 100%;
-      font-size: 13px;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 28px;
     }
 
     .vitals-column-lower {
@@ -23,10 +26,6 @@
 
     &.vitals-column-crisis .vitals-column-pool-label {
       color: var(--danger);
-    }
-
-    @media (max-width: 640px) {
-      grid-template-columns: 2em minmax(0, 1fr) 5.5em 5.5em;
     }
   }
 

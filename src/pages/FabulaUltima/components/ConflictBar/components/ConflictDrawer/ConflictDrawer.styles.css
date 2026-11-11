@@ -9,9 +9,9 @@
   border-top: 1px solid var(--border);
   box-sizing: border-box;
 
-  &:focus-visible {
-    outline: 2px solid var(--focus);
-    outline-offset: -2px;
+  /* Focus moves here when the drawer opens, as a starting point for the keyboard; it isn't a control. */
+  &:focus {
+    outline: none;
   }
 
   .conflict-drawer-header {

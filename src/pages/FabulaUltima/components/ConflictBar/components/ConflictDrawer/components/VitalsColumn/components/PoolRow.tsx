@@ -59,10 +59,12 @@ export function PoolRow({ pool, label, current, max, crisis, verbs }: PoolRowPro
             ref={refFor(entrySign)}
             type="button"
             className={entrySign < 0 ? 'vitals-column-lower' : 'vitals-column-raise'}
+            aria-label={entry.label}
+            title={entry.title}
             aria-expanded={sign === entrySign}
             onClick={() => (sign === entrySign ? close() : open(entrySign))}
           >
-            {entry.label}
+            {entrySign < 0 ? '−' : '+'}
           </button>
         );
       })}

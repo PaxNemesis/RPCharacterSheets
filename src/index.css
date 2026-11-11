@@ -7,6 +7,9 @@
   --surface-alt: #f1e9d4;
   --input-bg: #fffdf7;
   --input-auto-bg: #e6dcc4;
+  /* Something laid over the sheet, such as the conflict drawer: set apart from the panels under it. */
+  --raised: #e4d9bf;
+  --raised-alt: #d8cbac;
   --border: #b9a98a;
   --border-strong: #2a221a;
   --accent: #8c2f2f;
@@ -49,6 +52,8 @@
     --surface-alt: #2a251c;
     --input-bg: #120f0b;
     --input-auto-bg: #332c20;
+    --raised: #322b21;
+    --raised-alt: #3d3528;
     --border: #5a4f3d;
     --border-strong: #c9b991;
     --accent: #d0675b;

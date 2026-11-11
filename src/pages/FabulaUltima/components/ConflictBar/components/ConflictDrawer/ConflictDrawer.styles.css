@@ -41,7 +41,8 @@
 
   .conflict-drawer-columns {
     display: grid;
-    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr) minmax(0, 1fr);
+    /* Vitals only as wide as its rows need; the rest goes to effects and classes. */
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--space-3);
     align-items: start;
 

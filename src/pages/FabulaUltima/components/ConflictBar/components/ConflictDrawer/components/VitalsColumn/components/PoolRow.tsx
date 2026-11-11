@@ -44,13 +44,7 @@ export function PoolRow({ pool, label, current, max, crisis, verbs }: PoolRowPro
       }
     >
       <span className="vitals-column-pool-label">{label}</span>
-      {label === 'IP' ? (
-        <span className="vitals-column-pool-value">
-          {current} <small>/ {max}</small>
-        </span>
-      ) : (
-        <VitalMeter label={label} current={current} max={max} crisis={crisis} named={false} />
-      )}
+      <VitalMeter label={label} current={current} max={max} crisis={crisis} named={false} />
       {verbs.map((entry, index) => {
         const entrySign = index === 0 ? -1 : 1;
         return (

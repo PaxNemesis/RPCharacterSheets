@@ -89,6 +89,8 @@
       }
     }
 
+    /* One row on a phone: IP and FP wait in the drawer. */
+    .bar-row-ip,
     .bar-row-number,
     .bar-row-word {
       display: none;

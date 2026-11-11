@@ -46,9 +46,12 @@ export function BarRow({ character, derived, onRun, onUndo, recentLabel }: BarRo
           crisis={derived.crisis}
         />
         <VitalMeter label="MP" current={character.mp.current ?? derived.maxMp} max={derived.maxMp} />
-        <span className="bar-row-number">
-          IP <strong>{character.ip.current ?? derived.maxIp}</strong>
-        </span>
+        <VitalMeter
+          label="IP"
+          current={character.ip.current ?? derived.maxIp}
+          max={derived.maxIp}
+          className="bar-row-ip"
+        />
         <span className="bar-row-number">
           FP <strong>{character.fabulaPoints ?? 0}</strong>
         </span>

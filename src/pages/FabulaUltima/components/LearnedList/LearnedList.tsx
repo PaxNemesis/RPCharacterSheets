@@ -23,6 +23,8 @@ type LearnedListProps = {
   highlight?: string;
   /** Buttons for an entry's card, such as Perform. */
   renderActions?: (name: string) => ReactNode;
+  /** Shown above the cards, for choices their buttons use, such as a trap's size. */
+  children?: ReactNode;
 };
 
 /** The dances, symbols, keys or tones a character has learned, each with the player's notes. */
@@ -37,6 +39,7 @@ export function LearnedList({
   limitNote,
   highlight,
   renderActions,
+  children,
 }: LearnedListProps) {
   const { get, set } = useSheet();
   const names = get(path) as string[];
@@ -69,6 +72,7 @@ export function LearnedList({
       <p className={total > limit ? 'fu-warning' : 'fu-note'}>
         Learned {total} of {limit}: {limitNote}
       </p>
+      {children}
       {learned.length > 0 && (
         <div className="learned-list-grid">
           {learned.map((entry) => (

@@ -18,6 +18,8 @@ export type BarChip = {
   title?: string;
   /** Something to do now, such as applying a magiseed's effect. */
   due?: boolean;
+  /** The sheet section to open from the chip, for something to do there. */
+  panel?: string;
 };
 
 /** What a class is tracking right now, for the bar and the drawer. */

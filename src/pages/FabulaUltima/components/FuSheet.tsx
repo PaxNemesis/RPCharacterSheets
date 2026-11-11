@@ -11,6 +11,7 @@ import { CookbookSection } from './CookbookSection';
 import { DancesSection } from './DancesSection';
 import { EquipmentSection } from './EquipmentSection';
 import { GardenSection } from './GardenSection';
+import { HunterSection } from './HunterSection';
 import { MagicSection } from './MagicSection';
 import { NotesSection } from './NotesSection';
 import { SettingsSection } from './SettingsSection';
@@ -34,6 +35,7 @@ const SECTIONS: Section[] = [
   { id: 'cookbook', label: 'Cookbook', Component: CookbookSection, isVisible: (c) => hasRulebookClass(c, 'Gourmet') },
   { id: 'dances', label: 'Dances', Component: DancesSection, isVisible: (c) => hasRulebookClass(c, 'Dancer') },
   { id: 'garden', label: 'Garden', Component: GardenSection, isVisible: (c) => hasRulebookClass(c, 'Floralist') },
+  { id: 'hunt', label: 'Hunt', Component: HunterSection, isVisible: (c) => hasRulebookClass(c, 'Hunter') },
   { id: 'soul-beads', label: 'Soul Beads', Component: SoulBeadsSection, isVisible: (c) => hasRulebookClass(c, 'Monk') },
   { id: 'symbols', label: 'Symbols', Component: SymbolsSection, isVisible: (c) => hasRulebookClass(c, 'Symbolist') },
   { id: 'verses', label: 'Verses', Component: VersesSection, isVisible: (c) => hasRulebookClass(c, 'Chanter') },

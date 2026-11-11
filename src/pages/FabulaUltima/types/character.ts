@@ -202,6 +202,14 @@ export type FuUse = { name: string; used: Num; max: Num; resets: UseReset | '' }
  */
 export type FuConflict = { active: boolean; turn: number; acting: boolean };
 
+/** The Hunter's learned traps, with notes, and the trap set in this conflict (LF pp. 89–92). */
+export type FuHunter = {
+  traps: string[];
+  notes: Record<string, string>;
+  /** The trap set at the start of this conflict, or '': only one per conflict. */
+  trapSet: string;
+};
+
 export type FuCharacter = {
   settings: FuSettings;
   identity: FuIdentity;
@@ -241,6 +249,7 @@ export type FuCharacter = {
   dancer: FuDancer;
   symbolist: FuSymbolist;
   chanter: FuChanter;
+  hunter: FuHunter;
   conflict: FuConflict;
   effects: FuEffect[];
   uses: FuUse[];

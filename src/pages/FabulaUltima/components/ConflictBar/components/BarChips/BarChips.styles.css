@@ -21,6 +21,20 @@
     border-radius: 999px;
   }
 
+  /* A chip that opens a tab looks like the chip, with the chip's own padding. */
+  .bar-chips-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
   .bar-chips-note {
     color: var(--text-soft);
   }

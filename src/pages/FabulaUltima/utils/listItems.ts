@@ -19,6 +19,7 @@ export const LIST_ITEMS: ListItems = {
   'symbolist.active': { name: '', bearer: '', choice: '' },
   'chanter.keys': '',
   'chanter.tones': '',
+  'hunter.traps': '',
   effects: { name: '', lasts: '', notes: '' },
   uses: { name: '', used: 0, max: 1, resets: '' },
 };

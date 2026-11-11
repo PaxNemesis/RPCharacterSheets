@@ -102,6 +102,16 @@ describe('ConflictBar', () => {
     expect(screen.getAllByRole('img', { name: 'IP 3 of 6' })).toHaveLength(2);
   });
 
+  it('reminds a Hunter to set a trap before the first turn, then shows the trap', () => {
+    const hunter = character({ classes: [classWith('Hunter', ['Set Trap', 1])] });
+    render(<Sheet initial={{ ...hunter, hunter: { traps: ['Tripwire'], notes: {}, trapSet: '' } }} />);
+    click('Start conflict');
+    const chips = () => within(screen.getByRole('list', { name: 'Happening now' }));
+    expect(chips().getByRole('button', { name: /Set a trap/ })).toBeInTheDocument();
+    click('Start turn');
+    expect(screen.queryByRole('button', { name: /Set a trap/ })).not.toBeInTheDocument();
+  });
+
   it("shows when a Floralist's magiseed effect is due", () => {
     const floralist = character({ classes: [classWith('Floralist', ['Chloromancy', 1])] });
     render(<Sheet initial={{ ...floralist, floralist: { ...floralist.floralist, garden: 'Remedy Lily' } }} />);

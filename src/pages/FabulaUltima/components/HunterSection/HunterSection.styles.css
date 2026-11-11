@@ -1,0 +1,42 @@
+.hunter-section-container {
+  .hunter-section-skills {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: 0;
+
+    dt {
+      font-weight: 700;
+      color: var(--text-h);
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+
+  .hunter-section-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-xs);
+  }
+
+  .hunter-section-setting {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .hunter-section-sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+
+    button[aria-pressed='true'] {
+      color: var(--on-fill);
+      background: var(--accent-fill);
+      border-color: var(--accent-fill);
+    }
+  }
+}

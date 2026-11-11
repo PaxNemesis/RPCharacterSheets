@@ -3,10 +3,11 @@ import { calculate } from './calculate';
 import { chanterConflict } from './chanter';
 import { dancerConflict } from './dancer';
 import { floralistConflict } from './floralist';
+import { hunterConflict } from './hunter';
 import { monkConflict } from './monk';
 import { hasRulebookClass } from './rules';
 
-const CLASS_RULES = [chanterConflict, dancerConflict, floralistConflict, monkConflict];
+const CLASS_RULES = [chanterConflict, dancerConflict, floralistConflict, hunterConflict, monkConflict];
 
 const NOT_IN_CONFLICT = { active: false, turn: 0, acting: false };
 

@@ -4,23 +4,43 @@ import './BarChips.styles.css';
 
 type BarChipsProps = {
   chips: BarChip[];
+  /** Opens a chip's sheet section, for chips that have one. */
+  onPanelChange: (panel: string) => void;
 };
 
 /** The bar's second line: one chip for each thing happening right now. */
-export function BarChips({ chips }: BarChipsProps) {
+export function BarChips({ chips, onPanelChange }: BarChipsProps) {
   return (
     <ul className="bar-chips-container" aria-label="Happening now">
-      {chips.map((chip) => (
-        <li key={chip.key} className={chip.due ? 'bar-chips-chip bar-chips-due' : 'bar-chips-chip'} title={chip.title}>
-          {chip.text}
-          {chip.tracks?.map((track) => (
-            <TrackDots key={track.tone ?? 'core'} track={track} />
-          ))}
-          {chip.note && <span className="bar-chips-note">{chip.note}</span>}
-          {/* The hover text, for screen readers too. */}
-          {chip.title && <span className="bar-chips-hidden">: {chip.title}</span>}
-        </li>
-      ))}
+      {chips.map((chip) => {
+        const content = (
+          <>
+            {chip.text}
+            {chip.tracks?.map((track) => (
+              <TrackDots key={track.tone ?? 'core'} track={track} />
+            ))}
+            {chip.note && <span className="bar-chips-note">{chip.note}</span>}
+            {/* The hover text, for screen readers too. */}
+            {chip.title && <span className="bar-chips-hidden">: {chip.title}</span>}
+          </>
+        );
+        const { panel } = chip;
+        return (
+          <li
+            key={chip.key}
+            className={chip.due ? 'bar-chips-chip bar-chips-due' : 'bar-chips-chip'}
+            title={chip.title}
+          >
+            {panel ? (
+              <button type="button" className="bar-chips-link" onClick={() => onPanelChange(panel)}>
+                {content}
+              </button>
+            ) : (
+              content
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }

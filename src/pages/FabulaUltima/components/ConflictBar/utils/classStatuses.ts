@@ -67,6 +67,29 @@ function floralist({ floralist: { garden, growth }, conflict }: FuCharacter): Cl
   };
 }
 
+/** A trap can only be set before your first turn of a conflict, so the bar reminds you then (LF p. 90). */
+function hunter({ hunter: { traps, trapSet }, conflict }: FuCharacter): ClassStatus {
+  const status = { panel: 'hunt', label: 'Hunt', effects: [] };
+  if (trapSet) {
+    return { ...status, summary: `Trap set: ${trapSet}`, chip: { key: 'hunter', text: trapSet, note: 'trap set' } };
+  }
+  const canSet = traps.length > 0 && !conflict.acting && conflict.turn === 0;
+  return {
+    ...status,
+    summary: 'No trap set',
+    chip: canSet
+      ? {
+          key: 'hunter',
+          text: 'Set a trap',
+          note: 'before your first turn',
+          title: 'Traps are set at the start of a conflict, before your first turn (LF p. 90).',
+          due: true,
+          panel: 'hunt',
+        }
+      : undefined,
+  };
+}
+
 /** What each of the character's classes is tracking: Soul Beads, dances, the garden, verses and symbols. */
 export function classStatuses(character: FuCharacter, derived: FuDerived): ClassStatus[] {
   const has = (name: string) => hasRulebookClass(character, name);
@@ -77,6 +100,7 @@ export function classStatuses(character: FuCharacter, derived: FuDerived): Class
     has('Monk') && inConflict && monk(character, derived),
     has('Dancer') && inConflict && dancer(character),
     has('Floralist') && inConflict && floralist(character),
+    has('Hunter') && inConflict && hunter(character),
     has('Chanter') &&
       inConflict && {
         panel: 'verses',

@@ -65,7 +65,7 @@ export function ConflictBar({ onPanelChange }: ConflictBarProps) {
         </button>
         <div ref={faceRef} className="conflict-bar-face" onClick={onFaceClick}>
           <BarRow character={character} derived={derived} onRun={run} onUndo={undo} recentLabel={recentLabel} />
-          {chips.length > 0 && <BarChips chips={chips} />}
+          {chips.length > 0 && <BarChips chips={chips} onPanelChange={showPanel} />}
         </div>
         <div className="conflict-bar-details" inert={!open}>
           <div className="conflict-bar-details-inner">

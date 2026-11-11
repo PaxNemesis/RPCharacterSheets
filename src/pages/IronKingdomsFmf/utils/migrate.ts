@@ -6,6 +6,7 @@ import { findRace } from '../constants/races';
 import { skillRef } from '../constants/skills';
 import type { IkSettings } from '../types';
 import { capacitorValues } from './mechanika';
+import { toVersion5 } from './toVersion5';
 
 type Data = Record<string, unknown>;
 type Section = Record<string, unknown> | undefined;
@@ -17,6 +18,7 @@ export function migrate(data: unknown, fromVersion: number): unknown {
   if (fromVersion < 2) character = toVersion2(character);
   if (fromVersion < 3) character = toVersion3(character);
   if (fromVersion < 4) character = toVersion4(character);
+  if (fromVersion < 5) character = toVersion5(character);
   return character;
 }
 

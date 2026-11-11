@@ -55,9 +55,31 @@ describe('migrate', () => {
     expect(migrate(once, 3)).toEqual(once);
   });
 
+  it('moves a page reference from weapon and armor notes into their page, and is safe to run twice', () => {
+    const old = {
+      rangedWeapons: [{ name: 'Blunderbuss', notes: 'Rifle, p. 261. Mod –2 (one hand)' }],
+      meleeWeapons: [
+        { name: 'Axe', notes: 'Hand Weapon, p. 253' },
+        { name: 'Club', notes: 'see p. 4 later' },
+      ],
+      armor: [{ name: 'Exemplar Plate', notes: 'KNG 364' }],
+      stored: [{ kind: 'armor', name: 'Full Plate', notes: 'p. 252', page: '' }],
+      steamjacks: [{ meleeWeapons: [{ name: 'Halberd', notes: 'p. 307. Reach' }] }],
+    };
+    type Rows = { notes: string; page?: string }[];
+    const once = migrate(old, 4) as Record<string, Rows> & { steamjacks: { meleeWeapons: Rows }[] };
+    expect(once.rangedWeapons[0]).toMatchObject({ notes: 'Rifle. Mod –2 (one hand)', page: '261' });
+    expect(once.meleeWeapons).toMatchObject([{ notes: 'Hand Weapon', page: '253' }, { notes: 'see p. 4 later' }]);
+    expect(once.meleeWeapons[1].page).toBeUndefined();
+    expect(once.armor[0]).toMatchObject({ notes: '', page: 'KNG 364' });
+    expect(once.stored[0]).toMatchObject({ notes: '', page: '252' });
+    expect(once.steamjacks[0].meleeWeapons[0]).toMatchObject({ notes: 'Reach', page: '307' });
+    expect(migrate(once, 4)).toEqual(once);
+  });
+
   it('leaves current data and non-objects alone', () => {
     const current = { mechanika: [] };
-    expect(migrate(current, 4)).toBe(current);
+    expect(migrate(current, 5)).toBe(current);
     expect(migrate(null, 1)).toBeNull();
   });
 });

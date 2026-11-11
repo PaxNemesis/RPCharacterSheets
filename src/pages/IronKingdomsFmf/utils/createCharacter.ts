@@ -48,7 +48,7 @@ export const createMechanika = (): IkMechanika => ({
   notes: '',
 });
 
-export const createArmor = (): IkArmor => ({ name: '', spd: null, def: null, arm: null, notes: '' });
+export const createArmor = (): IkArmor => ({ name: '', spd: null, def: null, arm: null, notes: '', page: '' });
 
 export const createStoredItem = (): IkStoredItem => ({
   kind: '',
@@ -64,6 +64,7 @@ export const createStoredItem = (): IkStoredItem => ({
   def: null,
   arm: null,
   notes: '',
+  page: '',
 });
 
 export const createCharacter = (): IkCharacter => ({

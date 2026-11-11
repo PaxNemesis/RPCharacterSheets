@@ -27,6 +27,7 @@ export const meleeDamage = ({ pow }: IkMeleeWeapon, stat: StatLookup) =>
   pow === null || pow === undefined ? null : sum(pow, stat('str'));
 
 const LOCATION: RepeatTableColumn = { key: 'location', label: 'Loc', width: '52px' };
+const PAGE: RepeatTableColumn = { key: 'page', label: 'Page', width: '64px' };
 
 const nameColumn = (presets?: WeaponPresets): RepeatTableColumn => ({
   key: 'name',
@@ -78,6 +79,7 @@ export function rangedWeaponColumns(
     { key: 'pow', label: 'POW', width: '52px', type: 'number' },
     { key: 'ammo', label: 'Ammo', width: '64px' },
     { key: 'notes', label: 'Notes', width: 'minmax(120px, 2fr)' },
+    PAGE,
   ];
 }
 
@@ -108,6 +110,7 @@ export function meleeWeaponColumns(stat: StatLookup, { presets, jackAttack }: Co
       calculate: (row) => meleeDamage(row as IkMeleeWeapon, stat),
     },
     { key: 'notes', label: 'Notes', width: 'minmax(120px, 2fr)' },
+    PAGE,
   ];
 }
 
@@ -122,6 +125,7 @@ export const createRangedWeapon = (): IkRangedWeapon & { location: string } => (
   pow: null,
   ammo: '',
   notes: '',
+  page: '',
 });
 
 export const createMeleeWeapon = (): IkMeleeWeapon & { location: string } => ({
@@ -131,4 +135,5 @@ export const createMeleeWeapon = (): IkMeleeWeapon & { location: string } => ({
   attackMod: null,
   pow: null,
   notes: '',
+  page: '',
 });

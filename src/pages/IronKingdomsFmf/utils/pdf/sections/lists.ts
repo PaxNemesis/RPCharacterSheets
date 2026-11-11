@@ -58,7 +58,8 @@ export function writeGear(w: SheetWriter, character: IkCharacter) {
       { label: 'SPD' },
       { label: 'DEF' },
       { label: 'ARM' },
-      { label: 'Notes', weight: 6 },
+      { label: 'Notes', weight: 5 },
+      { label: 'Page' },
     ],
     withSpares(character.armor, null).map((piece, i) => [
       { label: 'Armor', name: `armor.${i}.name`, value: piece?.name },
@@ -66,6 +67,7 @@ export function writeGear(w: SheetWriter, character: IkCharacter) {
       { label: 'DEF', name: `armor.${i}.def`, value: piece?.def },
       { label: 'ARM', name: `armor.${i}.arm`, value: piece?.arm },
       { label: 'Notes', name: `armor.${i}.notes`, value: piece?.notes },
+      { label: 'Page', name: `armor.${i}.page`, value: piece?.page },
     ]),
   );
   w.end();

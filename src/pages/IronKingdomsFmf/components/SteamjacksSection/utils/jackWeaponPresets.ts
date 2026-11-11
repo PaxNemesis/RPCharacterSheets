@@ -16,11 +16,10 @@ const fits = (weapon: JackWeaponData, jack: Jack) =>
     ? !jack.size || weapon.only === jack.size
     : same(weapon.only, jack.chassis));
 
-/** "KNG 98", plus who can use it and any values that depend on how it is used. */
+/** Who can use it and any values that depend on how it is used; the page has a column of its own. */
 const describe = (weapon: JackWeaponData) => {
-  const ref = weapon.book === 'core' ? `p. ${weapon.page}` : bookRef(weapon.book, weapon.page);
   const only = weapon.only && `${weapon.only[0].toUpperCase()}${weapon.only.slice(1)} only`;
-  return [ref, only, weapon.note].filter(Boolean).join('. ');
+  return [only, weapon.note].filter(Boolean).join('. ');
 };
 
 /** A weapon's values for this jack: a heavy steamjack takes the heavy values where there are any. */
@@ -51,6 +50,7 @@ function presets(
         attackMod: values.mod,
         pow: values.pow,
         notes: describe(weapon),
+        page: bookRef(weapon.book, weapon.page),
       };
     },
   };

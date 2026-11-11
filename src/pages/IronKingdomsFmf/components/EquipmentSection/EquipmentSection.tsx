@@ -29,6 +29,7 @@ const armorColumns = (presets: WeaponPresets): RepeatTableColumn[] => [
   { key: 'def', label: 'DEF', width: '52px', type: 'number' },
   { key: 'arm', label: 'ARM', width: '52px', type: 'number' },
   { key: 'notes', label: 'Description / notes', width: 'minmax(200px, 3fr)', rows: 2 },
+  { key: 'page', label: 'Page', width: '64px' },
 ];
 
 const createGear = (): IkGear => ({ name: '', notes: '', quantity: null });
@@ -94,7 +95,7 @@ export function EquipmentSection() {
         <p className="ik-note">
           The DEF and ARM modifiers of everything listed here are added to DEF and ARM on the Character tab. The SPD
           modifier changes your movement, not your DEF or Initiative. Pick an armor from the rulebooks by name to fill
-          in its modifiers.
+          in its modifiers and page.
         </p>
         <RepeatTable path="armor" columns={armor} createRow={createArmor} itemName="armor" rowAction={store('armor')} />
         <StoredEquipment kind="armor" showUnknown />

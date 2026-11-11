@@ -4,7 +4,7 @@ import { armorPresets } from '../utils/armorPresets';
 import { character } from './character';
 
 const settings = (books = { kng: true, ua: true }) => character({ settings: { books } }).settings;
-const blank = { name: '', spd: null, def: null, arm: null, notes: '' };
+const blank = { name: '', spd: null, def: null, arm: null, notes: '', page: '' };
 
 describe('armor data', () => {
   it('has the armor of the core rules and Kings, Nations, and Gods, each once', () => {
@@ -20,13 +20,14 @@ describe('armorPresets', () => {
       spd: -1,
       def: -3,
       arm: 8,
-      notes: 'p. 252',
+      notes: '',
+      page: '252',
     });
   });
 
   it('keeps notes already written, and marks a supplement’s page', () => {
-    expect(armorPresets(settings()).pick('Exemplar Plate', { ...blank, notes: 'Blessed' }).notes).toBe('Blessed');
-    expect(armorPresets(settings()).pick('Exemplar Plate', blank).notes).toBe('KNG 364');
+    const plate = armorPresets(settings()).pick('Exemplar Plate', { ...blank, notes: 'Blessed' });
+    expect(plate).toMatchObject({ notes: 'Blessed', page: 'KNG 364' });
   });
 
   it('offers only armor from the books in use, and leaves other names alone', () => {

@@ -15,9 +15,9 @@ describe('steamjack weapon presets', () => {
     expect(jackRangedPresets(settings, heavy).names).not.toContain('Light Gun');
   });
 
-  it('fills in a heavy jack’s values where they differ, and the page and limits as notes', () => {
+  it('fills in a heavy jack’s values where they differ, its page, and its limits as notes', () => {
     const halberd = jackMeleePresets(settings, heavy).pick('halberd', createMeleeWeapon());
-    expect(halberd).toMatchObject({ name: 'Halberd', attackMod: 0, pow: 6, notes: 'p. 307. Reach' });
+    expect(halberd).toMatchObject({ name: 'Halberd', attackMod: 0, pow: 6, notes: 'Reach', page: '307' });
     expect(jackMeleePresets(settings, light).pick('Halberd', createMeleeWeapon())).toMatchObject({ pow: 4 });
     const flamer = jackRangedPresets(settings, heavy).pick('Flamethrower', createRangedWeapon());
     expect(flamer).toMatchObject({ rng: 'SP 10', ammo: '10', pow: 12 });

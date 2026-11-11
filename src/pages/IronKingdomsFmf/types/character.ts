@@ -69,6 +69,8 @@ export type IkRangedWeapon = {
   pow: Num;
   ammo: string;
   notes: string;
+  /** Page reference, such as "266" or "KNG 94". */
+  page: string;
 };
 
 export type IkMeleeWeapon = {
@@ -77,12 +79,13 @@ export type IkMeleeWeapon = {
   attackMod: Num;
   pow: Num;
   notes: string;
+  page: string;
 };
 
 export type IkSkill = { name: string; stat: StatKey | 'social' | ''; level: Num; page: string };
 export type IkEntry = { name: string; description: string; page: string };
 export type IkGear = { name: string; notes: string; quantity: Num };
-export type IkArmor = { name: string; spd: Num; def: Num; arm: Num; notes: string };
+export type IkArmor = { name: string; spd: Num; def: Num; arm: Num; notes: string; page: string };
 export type IkStoredKind = 'ranged' | 'melee' | 'armor';
 /** A weapon or armor put away with all its values, so it can be equipped again. Only a blank entry has kind ''. */
 export type IkStoredItem = IkRangedWeapon & IkArmor & { kind: IkStoredKind | '' };

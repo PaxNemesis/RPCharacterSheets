@@ -12,11 +12,8 @@ export type WeaponPresets = {
 
 const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
 
-/** "Rifle, p. 269" or "Light Artillery, KNG 94", plus any one-handed or mounted values. */
-const describe = (weapon: WeaponData) => {
-  const ref = weapon.book === 'core' ? `p. ${weapon.page}` : bookRef(weapon.book, weapon.page);
-  return [`${weapon.skill}, ${ref}`, weapon.note].filter(Boolean).join('. ');
-};
+/** "Rifle", plus any one-handed or mounted values; the page has a column of its own. */
+const describe = (weapon: WeaponData) => [weapon.skill, weapon.note].filter(Boolean).join('. ');
 
 function presets(
   character: Pick<IkCharacter, 'settings' | 'skills'>,
@@ -45,6 +42,7 @@ export const rangedPresets = (character: Pick<IkCharacter, 'settings' | 'skills'
     pow: weapon.pow,
     ammo: weapon.ammo ?? '',
     notes: describe(weapon),
+    page: bookRef(weapon.book, weapon.page),
   }));
 
 export const meleePresets = (character: Pick<IkCharacter, 'settings' | 'skills'>) =>
@@ -54,4 +52,5 @@ export const meleePresets = (character: Pick<IkCharacter, 'settings' | 'skills'>
     attackMod: weapon.mod,
     pow: weapon.pow,
     notes: describe(weapon),
+    page: bookRef(weapon.book, weapon.page),
   }));

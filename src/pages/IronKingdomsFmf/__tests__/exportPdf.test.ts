@@ -6,7 +6,7 @@ import { character, statsWith } from './character';
 const sheet = character({
   identity: { name: 'Dagny', race: 'Dwarf', height: '4′6″' },
   stats: statsWith({ phy: 6, spd: 4, str: 5, agl: 3, prw: 4, poi: 3, int: 3, per: 3 }),
-  meleeWeapons: [{ name: 'Axe', skill: 2, attackMod: 0, pow: 3, notes: '' }],
+  meleeWeapons: [{ name: 'Axe', skill: 2, attackMod: 0, pow: 3, notes: '', page: '' }],
   damage: { marked: [2, 0, 0, 0, 0, 0], notes: '' },
   notes: { general: 'Line one\nLine two', injuries: '', languages: '', religion: '' },
 });

@@ -12,7 +12,8 @@ describe('weapon presets', () => {
   it('fills a ranged row from the book, with the character’s skill level', () => {
     const row = rangedPresets(thrower).pick('javelin', { ...createRangedWeapon(), location: 'Back' });
     expect(row).toMatchObject({ name: 'Javelin', location: 'Back', attackStat: 'prw', skill: 2, pow: 3, rng: '8' });
-    expect(row.notes).toBe('Thrown Weapon, p. 265. POW 3 + thrower’s STR');
+    expect(row.notes).toBe('Thrown Weapon. POW 3 + thrower’s STR');
+    expect(row.page).toBe('265');
   });
 
   it('leaves the row alone for a name that isn’t in the books', () => {

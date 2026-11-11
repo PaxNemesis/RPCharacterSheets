@@ -26,6 +26,7 @@ export function writeWeapons(w: SheetWriter, character: IkCharacter, { stat }: I
         { label: 'RNG', name: `${path}.rng`, value: weapon?.rng },
         { label: 'RAT', name: `calculated.${path}.rat`, value: weapon && rangedAttack(weapon, stat) },
         { label: 'POW', name: `${path}.pow`, value: weapon?.pow },
+        { label: 'Page', name: `${path}.page`, value: weapon?.page },
       ],
       [
         { label: 'Skill', name: `${path}.skill`, value: weapon?.skill },
@@ -47,6 +48,7 @@ export function writeWeapons(w: SheetWriter, character: IkCharacter, { stat }: I
         { label: 'MAT', name: `calculated.${path}.mat`, value: weapon && meleeAttack(weapon, stat) },
         { label: 'POW', name: `${path}.pow`, value: weapon?.pow },
         { label: 'P+S', name: `calculated.${path}.ps`, value: weapon && meleeDamage(weapon, stat) },
+        { label: 'Page', name: `${path}.page`, value: weapon?.page },
       ],
       [
         { label: 'Skill', name: `${path}.skill`, value: weapon?.skill },

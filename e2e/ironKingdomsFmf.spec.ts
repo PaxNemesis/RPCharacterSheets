@@ -259,7 +259,8 @@ test.describe('steamjacks', () => {
     await page.getByRole('option', { name: 'Battle Blade' }).click();
     await expect(page.getByLabel('MAT, melee weapon 1')).toHaveValue('6');
     await expect(page.getByLabel('P+S, melee weapon 1')).toHaveValue('17');
-    await expect(page.getByLabel('Notes, melee weapon 1')).toHaveValue('p. 306. Heavy only. Reach');
+    await expect(page.getByLabel('Notes, melee weapon 1')).toHaveValue('Heavy only. Reach');
+    await expect(page.getByLabel('Page, melee weapon 1')).toHaveValue('306');
   });
 
   test('the cortex grade sets INT, PER and the MAT/RAT bonus, and advancement is capped', async ({ page }) => {

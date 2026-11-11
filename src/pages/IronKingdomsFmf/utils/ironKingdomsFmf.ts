@@ -8,7 +8,7 @@ import { migrate } from './migrate';
 export const ironKingdomsFmf: SheetSystem<IkCharacter> = {
   id: 'iron-kingdoms-fmf',
   title: 'Iron Kingdoms: Full Metal Fantasy',
-  version: 4,
+  version: 5,
   createCharacter,
   listItems: LIST_ITEMS,
   migrate,

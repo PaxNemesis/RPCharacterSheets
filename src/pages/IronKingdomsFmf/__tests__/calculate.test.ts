@@ -17,7 +17,7 @@ describe('calculate', () => {
   it('works out DEF, ARM, initiative and willpower from stats, armor and modifiers (p. 106)', () => {
     const armored = {
       ...hero,
-      armor: [{ name: 'Plate', spd: -2, def: -2, arm: 7, notes: '' }],
+      armor: [{ name: 'Plate', spd: -2, def: -2, arm: 7, notes: '', page: '' }],
       modifiers: { ...hero.modifiers, defense: 1, initiative: 2 },
     };
     const derived = calculate(armored);
@@ -28,7 +28,8 @@ describe('calculate', () => {
   });
 
   it('leaves DEF and initiative alone for armor’s SPD modifier, which changes only SPD (pp. 106, 251)', () => {
-    const plate = (spd: number) => calculate({ ...hero, armor: [{ name: 'Plate', spd, def: -2, arm: 7, notes: '' }] });
+    const plate = (spd: number) =>
+      calculate({ ...hero, armor: [{ name: 'Plate', spd, def: -2, arm: 7, notes: '', page: '' }] });
     expect(plate(-2).defense).toBe(plate(0).defense);
     expect(plate(-2).initiative).toBe(plate(0).initiative);
     expect(plate(-2)).toMatchObject({ armorSpeed: -2, speed: 4 });
@@ -40,13 +41,13 @@ describe('calculate', () => {
   });
 
   it('leaves movement SPD blank while SPD is blank', () => {
-    const armored = { ...character(), armor: [{ name: 'Plate', spd: -2, def: -2, arm: 7, notes: '' }] };
+    const armored = { ...character(), armor: [{ name: 'Plate', spd: -2, def: -2, arm: 7, notes: '', page: '' }] };
     expect(calculate(armored).speed).toBeNull();
   });
 
   it('reduces armor’s SPD and DEF penalties by 1 with Load Bearing, but never into a bonus (p. 164)', () => {
     const wearing = (spd: number, def: number, abilities = [{ name: ' load bearing', description: '', page: '' }]) =>
-      calculate({ ...hero, abilities, armor: [{ name: 'Armor', spd, def, arm: 5, notes: '' }] });
+      calculate({ ...hero, abilities, armor: [{ name: 'Armor', spd, def, arm: 5, notes: '', page: '' }] });
     expect(wearing(-2, -2)).toMatchObject({
       loadBearing: true,
       armorSpeed: -1,

@@ -133,6 +133,28 @@ test('a table too wide for the window becomes cards with as many cells side by s
   expect(await top('Mod')).toBeGreaterThan(await top('Name'));
 });
 
+test('choosing Gifted sets the arcane tradition from the careers, right after the archetype', async ({ page }) => {
+  await openWith(page, { identity: { race: 'Human', careerList: ['Arcanist', 'Spy'] } });
+  const archetype = page.getByLabel('Archetype', { exact: true });
+  const tradition = page.getByLabel('Arcane tradition', { exact: true });
+
+  await archetype.selectOption('Gifted');
+  await expect(tradition).toHaveValue('Will Weaver');
+  // Race, then its Exceptional Potential, then archetype and its tradition.
+  // Reading order: a later line, or further right on the same line.
+  const place = async (label: string) => {
+    const box = (await page.getByLabel(label, { exact: true }).boundingBox())!;
+    return box.y * 10000 + box.x;
+  };
+  expect(await place('Exceptional Potential')).toBeGreaterThan(await place('Race'));
+  expect(await place('Archetype')).toBeGreaterThan(await place('Exceptional Potential'));
+  expect(await place('Arcane tradition')).toBeGreaterThan(await place('Archetype'));
+
+  await openWith(page, { identity: { race: 'Human', careerList: ['Warcaster', 'Soldier'] } });
+  await archetype.selectOption('Gifted');
+  await expect(tradition).toHaveValue('Focuser');
+});
+
 test('a career picked in one slot isn’t offered in the others', async ({ page }) => {
   await openWith(page, { identity: { careerList: ['Priest', ''] } });
   const second = page.getByLabel('Starting career 2', { exact: true });

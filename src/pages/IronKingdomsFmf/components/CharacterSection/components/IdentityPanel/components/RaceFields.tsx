@@ -1,7 +1,9 @@
 import { SelectField } from '@/components/SelectField';
+import { useSheet } from '@/components/SheetProvider';
 import { TextField } from '@/components/TextField';
 import { ARCHETYPES, findRace, RACES, TRADITIONS } from '../../../../../constants/races';
 import { useIkCharacter } from '../../../../../hooks/useIkCharacter';
+import type { IkCharacter } from '../../../../../types';
 import { alphabetical } from '@/utils/alphabetical';
 
 const options = (values: string[], empty = 'Choose…') => [
@@ -16,10 +18,18 @@ const HUMAN_BONUS = [
   { value: 'int', label: '+1 INT' },
 ];
 
-/** Race, archetype and the choices they bring, starting a line; free text when race rules are off. */
+/** Focusers are warcasters (p. 115); every other Gifted character is a Will Weaver. */
+const defaultTradition = (character: IkCharacter) =>
+  character.identity.careerList.includes('Warcaster') ? 'Focuser' : 'Will Weaver';
+
+/**
+ * Race and archetype, each followed by the choice it brings (a human's Exceptional Potential, a Gifted
+ * character's arcane tradition), starting a line; free text when race rules are off.
+ */
 export function RaceFields() {
   const { character } = useIkCharacter();
   const { identity } = character;
+  const { set } = useSheet();
 
   if (!character.settings.raceRules) {
     return (
@@ -44,14 +54,18 @@ export function RaceFields() {
         className="identity-panel-row"
         options={options(withCurrent(alphabetical(RACES.map((r) => r.name)), identity.race))}
       />
+      {race?.name === 'Human' && (
+        <SelectField path="identity.humanBonus" label="Exceptional Potential" options={HUMAN_BONUS} />
+      )}
       <SelectField
         path="identity.archetype"
         label="Archetype"
         options={options(withCurrent(archetypes, identity.archetype))}
+        onChange={(archetype) => {
+          // Every Gifted career but the warcaster's uses Will Weaver (p. 115), so start from that.
+          if (archetype === 'Gifted' && !character.arcaneTradition) set('arcaneTradition', defaultTradition(character));
+        }}
       />
-      {race?.name === 'Human' && (
-        <SelectField path="identity.humanBonus" label="Exceptional Potential" options={HUMAN_BONUS} />
-      )}
       {identity.archetype === 'Gifted' && (
         <SelectField
           path="arcaneTradition"

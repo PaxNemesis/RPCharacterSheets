@@ -9,13 +9,14 @@ import type { ClassStatus } from '../ConflictBar.types';
 function monk({ monk: { core, resolve } }: FuCharacter, derived: FuDerived): ClassStatus {
   const limit = soulBeadLimit(derived);
   const tracks = [
-    { filled: core, size: limit },
-    { filled: resolve, size: limit, tone: 'resolve' as const },
+    { filled: core, size: limit, label: `Core ${core} of ${limit}` },
+    { filled: resolve, size: limit, tone: 'resolve' as const, label: `Resolve ${resolve} of ${limit}` },
   ];
   return {
     panel: 'soul-beads',
     label: 'Soul Beads',
-    summary: `Core ${core} · Resolve ${resolve} of ${limit}`,
+    // The dots say it all.
+    summary: '',
     tracks,
     chip: { key: 'monk', text: 'Beads', tracks, title: `Core ${core} · Resolve ${resolve} of ${limit}` },
     effects: [],
@@ -40,7 +41,7 @@ function floralist({ floralist: { garden, growth }, conflict }: FuCharacter): Cl
   const seed = MAGISEEDS.find((entry) => entry.name === garden);
   const status = { panel: 'garden', label: 'Garden', effects: [] };
   if (!seed) return { ...status, summary: 'Empty' };
-  const tracks = [{ filled: growth, size: GROWTH_CLOCK_SIZE }];
+  const tracks = [{ filled: growth, size: GROWTH_CLOCK_SIZE, label: `Growth Clock ${growth} of ${GROWTH_CLOCK_SIZE}` }];
   const next = growth + 1;
   const sections = `${growth} filled section${growth === 1 ? '' : 's'}`;
   const chip = conflict.acting

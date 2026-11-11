@@ -6,9 +6,14 @@ type TrackDotsProps = {
 };
 
 /** A row of dots, filled from the start: Soul Beads or a Growth Clock at a glance. */
-export function TrackDots({ track: { filled, size, tone } }: TrackDotsProps) {
+export function TrackDots({ track: { filled, size, tone, label } }: TrackDotsProps) {
   return (
-    <span className={tone === 'resolve' ? 'track-dots-container track-dots-resolve' : 'track-dots-container'}>
+    <span
+      className={tone === 'resolve' ? 'track-dots-container track-dots-resolve' : 'track-dots-container'}
+      role="img"
+      aria-label={label}
+      title={label}
+    >
       {Array.from({ length: Math.max(0, size) }, (_, index) => (
         <i key={index} className={index < filled ? 'track-dots-filled' : undefined} />
       ))}

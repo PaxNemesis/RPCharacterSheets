@@ -86,14 +86,14 @@ export function AmountPopup({
   return (
     <form
       ref={ref}
-      className="vitals-column-popup"
+      className="pool-buttons-popup"
       style={{ top: position.top, left: position.left, width: WIDTH }}
       role="dialog"
       aria-label={title}
       onSubmit={submit}
       onKeyDown={onKeyDown}
     >
-      <label className="vitals-column-popup-title">
+      <label className="pool-buttons-popup-title">
         {title}
         <input
           ref={inputRef}
@@ -104,20 +104,20 @@ export function AmountPopup({
           onChange={(event) => setValue(event.target.value)}
         />
       </label>
-      <p className="vitals-column-popup-preview" aria-live="polite">
+      <p className="pool-buttons-popup-preview" aria-live="polite">
         {label} {current} → <strong>{next}</strong> / {max}
         {warnings.map((warning) => (
-          <span key={String(warning)} className="vitals-column-popup-warning">
+          <span key={String(warning)} className="pool-buttons-popup-warning">
             {' '}
             · {warning}
           </span>
         ))}
       </p>
-      <div className="vitals-column-popup-actions">
+      <div className="pool-buttons-popup-actions">
         <button type="button" onClick={onClose}>
           Cancel
         </button>
-        <button type="submit" className="vitals-column-apply">
+        <button type="submit" className="pool-buttons-apply">
           Apply
         </button>
       </div>

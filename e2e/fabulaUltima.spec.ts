@@ -85,3 +85,16 @@ test('opening the drawer covers the page without moving it', async ({ page }) =>
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
   expect((await panel.boundingBox())?.y).toBe(before?.y);
 });
+
+test('the HP, MP and IP panel takes damage and healing from its − and + buttons', async ({ page }) => {
+  await openWith(page, monk, 'character');
+  const panel = page.locator('.points-panel-container');
+  await panel.getByRole('button', { name: 'Damage' }).click();
+  await page.getByRole('dialog', { name: 'Damage to HP' }).getByRole('spinbutton').fill('5');
+  await page.keyboard.press('Enter');
+  await expect(panel.getByLabel('Current HP')).toHaveValue('36');
+
+  await panel.getByRole('button', { name: 'Use' }).click();
+  await page.keyboard.press('Enter');
+  await expect(panel.getByLabel('Current IP')).toHaveValue('3');
+});

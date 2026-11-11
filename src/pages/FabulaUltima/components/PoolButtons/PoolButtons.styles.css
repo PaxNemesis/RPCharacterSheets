@@ -1,0 +1,96 @@
+/* No box of its own: the buttons sit in the grid or row of whatever holds them. */
+.pool-buttons-container {
+  display: contents;
+
+  .pool-buttons-lower,
+  .pool-buttons-raise {
+    padding: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+  }
+
+  &.pool-buttons-md :is(.pool-buttons-lower, .pool-buttons-raise) {
+    width: 100%;
+    min-width: 2.25em;
+  }
+
+  /* As tall as the panel's large number fields. */
+  &.pool-buttons-lg :is(.pool-buttons-lower, .pool-buttons-raise) {
+    flex: none;
+    align-self: stretch;
+    width: 48px;
+    font-size: 22px;
+
+    /* Narrow: the two share a line of their own under the value. */
+    @media (max-width: 640px) {
+      flex: 1;
+      width: auto;
+      line-height: 32px;
+    }
+  }
+
+  .pool-buttons-lower {
+    color: var(--danger);
+  }
+
+  .pool-buttons-raise {
+    color: var(--positive);
+  }
+
+  /* Asking how much: fixed beside the button that opened it, above any scrolling around it. */
+  .pool-buttons-popup {
+    position: fixed;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-2);
+    box-sizing: border-box;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 8px 24px;
+
+    input {
+      font-size: 20px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pool-buttons-apply {
+      font-weight: 600;
+      color: var(--accent-contrast);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+  }
+
+  .pool-buttons-popup-title {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    font-weight: 700;
+    color: var(--text-h);
+  }
+
+  .pool-buttons-popup-preview {
+    font-size: 13px;
+    color: var(--text-soft);
+    font-variant-numeric: tabular-nums;
+
+    strong {
+      color: var(--text-h);
+    }
+  }
+
+  .pool-buttons-popup-warning {
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  .pool-buttons-popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-1);
+  }
+}

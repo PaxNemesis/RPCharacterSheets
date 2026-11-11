@@ -8,7 +8,8 @@
     align-items: center;
     font-variant-numeric: tabular-nums;
 
-    button {
+    /* FP's buttons, made to match the pools' − and + buttons. */
+    .vitals-column-fp {
       width: 100%;
       padding: 0;
       font-size: 18px;
@@ -59,61 +60,5 @@
       background: var(--danger);
       border-color: var(--danger);
     }
-  }
-
-  /* Asking how much: fixed beside the button that opened it, above the drawer's scrolling. */
-  .vitals-column-popup {
-    position: fixed;
-    z-index: 30;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-    padding: var(--space-2);
-    box-sizing: border-box;
-    background: var(--surface);
-    border: 1px solid var(--border-strong);
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0 8px 24px;
-
-    input {
-      font-size: 20px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .vitals-column-apply {
-      font-weight: 600;
-      color: var(--accent-contrast);
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-  }
-
-  .vitals-column-popup-title {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    font-weight: 700;
-    color: var(--text-h);
-  }
-
-  .vitals-column-popup-preview {
-    font-size: 13px;
-    color: var(--text-soft);
-    font-variant-numeric: tabular-nums;
-
-    strong {
-      color: var(--text-h);
-    }
-  }
-
-  .vitals-column-popup-warning {
-    color: var(--danger);
-    font-weight: 600;
-  }
-
-  .vitals-column-popup-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--space-1);
   }
 }

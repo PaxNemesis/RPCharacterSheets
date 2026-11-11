@@ -20,44 +20,15 @@ export function VitalsColumn({ character, derived }: VitalsColumnProps) {
         Vitals
       </h3>
       {/* A blank current value counts as full. */}
-      <PoolRow
-        pool="hp"
-        label="HP"
-        current={character.hp.current ?? derived.maxHp}
-        max={derived.maxHp}
-        crisis={derived.crisis}
-        verbs={[
-          { label: 'Damage', title: 'Damage to HP' },
-          { label: 'Heal', title: 'HP recovered' },
-        ]}
-      />
-      <PoolRow
-        pool="mp"
-        label="MP"
-        current={character.mp.current ?? derived.maxMp}
-        max={derived.maxMp}
-        verbs={[
-          { label: 'Spend', title: 'MP spent' },
-          { label: 'Recover', title: 'MP recovered' },
-        ]}
-      />
-      <PoolRow
-        pool="ip"
-        label="IP"
-        current={character.ip.current ?? derived.maxIp}
-        max={derived.maxIp}
-        verbs={[
-          // Most items cost 3 IP, such as an elixir or a remedy (p. 104).
-          { label: 'Use', title: 'IP used', preset: 3 },
-          { label: 'Recover', title: 'IP recovered' },
-        ]}
-      />
+      <PoolRow pool="hp" current={character.hp.current ?? derived.maxHp} max={derived.maxHp} crisis={derived.crisis} />
+      <PoolRow pool="mp" current={character.mp.current ?? derived.maxMp} max={derived.maxMp} />
+      <PoolRow pool="ip" current={character.ip.current ?? derived.maxIp} max={derived.maxIp} />
       <div className="vitals-column-pool">
         <span className="vitals-column-pool-label">FP</span>
         <span className="vitals-column-pool-value">{fabulaPoints}</span>
         <button
           type="button"
-          className="vitals-column-lower"
+          className="vitals-column-fp vitals-column-lower"
           onClick={() => set('fabulaPoints', Math.max(0, fabulaPoints - 1))}
           disabled={fabulaPoints < 1}
           aria-label="Spend a Fabula Point"
@@ -67,7 +38,7 @@ export function VitalsColumn({ character, derived }: VitalsColumnProps) {
         </button>
         <button
           type="button"
-          className="vitals-column-raise"
+          className="vitals-column-fp vitals-column-raise"
           onClick={() => set('fabulaPoints', fabulaPoints + 1)}
           aria-label="Gain a Fabula Point"
           title="Gain a Fabula Point"

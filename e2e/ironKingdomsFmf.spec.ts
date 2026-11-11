@@ -108,6 +108,16 @@ test('with a full careers line, the company starts a line of its own on the left
   expect(company!.y).toBeGreaterThan(add!.y);
 });
 
+test('a career picked in one slot isn’t offered in the others', async ({ page }) => {
+  await openWith(page, { identity: { careerList: ['Priest', ''] } });
+  const second = page.getByLabel('Starting career 2', { exact: true });
+  await expect(second.getByRole('option', { name: 'Priest', exact: true })).toHaveCount(0);
+  await expect(second.getByRole('option', { name: 'Arcanist', exact: true })).toHaveCount(1);
+
+  await page.getByLabel('Starting career 1', { exact: true }).selectOption('');
+  await expect(second.getByRole('option', { name: 'Priest', exact: true })).toHaveCount(1);
+});
+
 test('picking a suggested spell fills in its numbers and page', async ({ page }) => {
   await openWith(page, { identity: { name: 'Test Arcanist' } });
   await page.getByRole('tab', { name: 'Magic & mechanika' }).click();

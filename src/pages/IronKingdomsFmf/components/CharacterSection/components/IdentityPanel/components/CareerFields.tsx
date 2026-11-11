@@ -33,10 +33,14 @@ export function CareerFields() {
   const list = careerList.length >= 2 ? careerList : [...careerList, '', ''].slice(0, 2);
   const careers = list.map((name) => resolveCareer(character, name ?? ''));
   // Careers from books that are turned off stay listed while a character has them.
-  const options = [
+  const available = CAREERS.filter(
+    (career) => bookEnabled(character.settings, career.book) || list.includes(career.name),
+  ).sort((a, b) => compareNames(a.name, b.name));
+  // A career can be taken only once, so each dropdown leaves out the careers picked in the others.
+  const optionsFor = (index: number) => [
     { value: '', label: 'Choose…' },
-    ...CAREERS.filter((career) => bookEnabled(character.settings, career.book) || list.includes(career.name))
-      .sort((a, b) => compareNames(a.name, b.name))
+    ...available
+      .filter((career) => career.name === list[index] || !list.includes(career.name))
       .map((career) => ({ value: career.name, label: careerLabel(career) })),
   ];
   // A career's version, such as a priest's faith, in a field of its own right after the career; once,
@@ -61,7 +65,7 @@ export function CareerFields() {
           <SelectField
             path={`identity.careerList.${index}`}
             label={index < 2 ? `Starting career ${index + 1}` : `Career ${index + 1}`}
-            options={options}
+            options={optionsFor(index)}
             className={index < 2 ? row : undefined}
           />
         );

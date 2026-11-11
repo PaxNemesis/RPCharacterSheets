@@ -8,6 +8,8 @@ type AmountPopupProps = {
   max: number;
   /** −1 to lower the pool, 1 to raise it. */
   sign: 1 | -1;
+  /** The amount filled in when it opens, selected so typing replaces it. */
+  preset?: number;
   crisis?: number;
   /** The button that opened the popup: it sits beside it, and clicks on it don't count as outside. */
   anchor: HTMLElement;
@@ -20,10 +22,21 @@ const GAP = 8;
 const EDGE = 16;
 
 /** Asks how much, shows the result before it is applied, and applies it with Enter. */
-export function AmountPopup({ title, label, current, max, sign, crisis, anchor, onApply, onClose }: AmountPopupProps) {
+export function AmountPopup({
+  title,
+  label,
+  current,
+  max,
+  sign,
+  preset,
+  crisis,
+  anchor,
+  onApply,
+  onClose,
+}: AmountPopupProps) {
   const ref = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(preset === undefined ? '' : String(preset));
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const amount = Math.max(0, Math.floor(Number(value)) || 0);
   const next = Math.min(max, Math.max(0, current + sign * amount));
@@ -44,7 +57,10 @@ export function AmountPopup({ title, label, current, max, sign, crisis, anchor, 
     });
   }, [anchor]);
 
-  useEffect(() => inputRef.current?.focus(), []);
+  useEffect(() => {
+    inputRef.current?.focus();
+    inputRef.current?.select();
+  }, []);
 
   useEffect(() => {
     const outside = (event: PointerEvent) => {

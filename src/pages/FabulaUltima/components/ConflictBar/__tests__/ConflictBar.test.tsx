@@ -92,6 +92,16 @@ describe('ConflictBar', () => {
     expect(screen.getAllByRole('img', { name: 'HP 40 of 40' })).toHaveLength(2);
   });
 
+  it('starts IP use at 3, the cost of most items', () => {
+    render(<Sheet initial={character()} />);
+    const details = drawer();
+    fireEvent.click(details.getByRole('button', { name: 'Use' }));
+    const popup = screen.getByRole('dialog', { name: 'IP used' });
+    expect(within(popup).getByRole('spinbutton')).toHaveValue(3);
+    fireEvent.click(within(popup).getByRole('button', { name: 'Apply' }));
+    expect(screen.getAllByRole('img', { name: 'IP 3 of 6' })).toHaveLength(2);
+  });
+
   it("shows when a Floralist's magiseed effect is due", () => {
     const floralist = character({ classes: [classWith('Floralist', ['Chloromancy', 1])] });
     render(<Sheet initial={{ ...floralist, floralist: { ...floralist.floralist, garden: 'Remedy Lily' } }} />);

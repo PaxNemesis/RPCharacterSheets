@@ -3,7 +3,8 @@ import { useSheet } from '@/components/SheetProvider';
 import { VitalMeter } from '../../../../VitalMeter';
 import { AmountPopup } from './AmountPopup';
 
-type Verb = { label: string; title: string };
+/** `preset` fills the popup's amount when it opens, for a cost that is usually the same. */
+type Verb = { label: string; title: string; preset?: number };
 
 type PoolRowProps = {
   pool: 'hp' | 'mp' | 'ip';
@@ -69,6 +70,7 @@ export function PoolRow({ pool, label, current, max, crisis, verbs }: PoolRowPro
           current={current}
           max={max}
           sign={sign}
+          preset={verb.preset}
           crisis={crisis}
           anchor={anchor}
           onApply={(next) => set(`${pool}.current`, next)}

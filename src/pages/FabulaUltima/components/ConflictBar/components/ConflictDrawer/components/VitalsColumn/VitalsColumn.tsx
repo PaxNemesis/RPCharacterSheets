@@ -47,7 +47,8 @@ export function VitalsColumn({ character, derived }: VitalsColumnProps) {
         current={character.ip.current ?? derived.maxIp}
         max={derived.maxIp}
         verbs={[
-          { label: 'Use', title: 'IP used' },
+          // Most items cost 3 IP, such as an elixir or a remedy (p. 104).
+          { label: 'Use', title: 'IP used', preset: 3 },
           { label: 'Recover', title: 'IP recovered' },
         ]}
       />

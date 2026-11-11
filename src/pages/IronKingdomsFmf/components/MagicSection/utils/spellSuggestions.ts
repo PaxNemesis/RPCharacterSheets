@@ -35,9 +35,14 @@ export function careerSpells(character: IkCharacter): string[] | undefined {
   return known.length > 0 ? [...new Set(known.flat())] : undefined;
 }
 
-/** Spell names to suggest: the careers' lists, or every spell, limited to the books the character uses. */
+/**
+ * Spell names to suggest: the careers' lists, or every spell, limited to the books the character uses and
+ * leaving out spells already known, since a spell can't be learned twice.
+ */
 export function spellSuggestions(character: IkCharacter): string[] {
-  const all = spellNames(character.settings);
+  const known = new Set(character.spells.map((spell) => (spell.name ?? '').trim().toLowerCase()));
   const allowed = careerSpells(character);
-  return allowed ? all.filter((name) => allowed.includes(name)) : all;
+  return spellNames(character.settings).filter(
+    (name) => (!allowed || allowed.includes(name)) && !known.has(name.toLowerCase()),
+  );
 }

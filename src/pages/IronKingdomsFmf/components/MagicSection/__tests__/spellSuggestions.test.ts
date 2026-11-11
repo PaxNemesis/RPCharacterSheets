@@ -71,6 +71,17 @@ describe('careerSpells', () => {
 });
 
 describe('spellSuggestions', () => {
+  it('leaves out spells the character already knows, whatever the case', () => {
+    const arcanist = character({
+      identity: { careerList: ['Arcanist', 'Soldier'] },
+      spells: [
+        { name: 'arcane bolt', cost: null, rng: '', aoe: '', pow: null, up: '', off: '', page: '', description: '' },
+      ],
+    });
+    expect(spellSuggestions(arcanist)).not.toContain('Arcane Bolt');
+    expect(spellSuggestions(arcanist)).toContain('Arcane Strike');
+  });
+
   it('offers every spell from the books in use when no career has a list', () => {
     const fighter = character({
       identity: { careerList: ['Soldier', 'Pistoleer'] },

@@ -34,6 +34,11 @@
     grid-column: 1 / span 2;
   }
 
+  /* Career notes for a company sharing the careers line: after it at full width (see IdentityPanel). */
+  .identity-panel-notes-narrow {
+    display: none;
+  }
+
   /* On one line even in a narrow column; the rest of the line is usually free. */
   .identity-panel-add {
     justify-self: start;
@@ -65,6 +70,15 @@
   @container (max-width: 960px) {
     .identity-panel-fields {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    /* The company wraps below the careers here, so their notes go before it. */
+    .identity-panel-notes-narrow {
+      display: block;
+    }
+
+    .identity-panel-notes-wide {
+      display: none;
     }
 
     /* Right after the careers: on the right it would leave the careers line and the left of its own empty. */

@@ -108,6 +108,18 @@ test('with a full careers line, the company starts a line of its own on the left
   expect(company!.y).toBeGreaterThan(add!.y);
 });
 
+test('the career notes sit right under the careers, before a company on a line below', async ({ page }) => {
+  await openWith(page, { identity: { careerList: ['Priest', 'Arcanist'], company: 'Crusaders' } });
+
+  // The note is placed both before and after the company; only the one that fits the layout is shown.
+  const note = await page.getByText('Priest requires:').filter({ visible: true }).boundingBox();
+  const career = await page.getByLabel('Starting career 1', { exact: true }).boundingBox();
+  const company = await page.getByLabel('Adventuring company', { exact: true }).boundingBox();
+  expect(note!.y).toBeGreaterThan(career!.y);
+  // Either the company shares the careers line, or it comes after the note.
+  if (Math.abs(company!.y - career!.y) > 1) expect(company!.y).toBeGreaterThan(note!.y);
+});
+
 test('a career picked in one slot isn’t offered in the others', async ({ page }) => {
   await openWith(page, { identity: { careerList: ['Priest', ''] } });
   const second = page.getByLabel('Starting career 2', { exact: true });

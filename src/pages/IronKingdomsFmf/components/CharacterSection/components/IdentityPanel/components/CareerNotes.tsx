@@ -2,8 +2,10 @@ import { useIkCharacter } from '../../../../../hooks/useIkCharacter';
 import { alphabetical } from '@/utils/alphabetical';
 import { resolveCareer } from '../../../../../utils/careerOptions';
 
+type CareerNotesProps = { className?: string };
+
 /** What the chosen careers require, under the careers line; nothing when career rules are off. */
-export function CareerNotes() {
+export function CareerNotes({ className }: CareerNotesProps) {
   const { character } = useIkCharacter();
   if (!character.settings.careerRules) return null;
 
@@ -23,5 +25,7 @@ export function CareerNotes() {
     ].filter((note): note is string => Boolean(note));
   });
 
-  return notes.length > 0 ? <p className="ik-note ik-wide">{notes.join(' ')}</p> : null;
+  return notes.length > 0 ? (
+    <p className={`ik-note ik-wide${className ? ` ${className}` : ''}`}>{notes.join(' ')}</p>
+  ) : null;
 }

@@ -5,18 +5,22 @@ import { SheetProvider, useSheet } from '@/components/SheetProvider';
 import { TextField } from '@/components/TextField';
 import { useRowIds } from '@/hooks/useRowIds';
 import { useIkCharacter } from '../../hooks/useIkCharacter';
-import { findSpell, spellFields, spellNames } from '../../constants/spells';
+import { findSpell, spellFields } from '../../constants/spells';
 import type { IkSettings, IkSpell } from '../../types';
 import { createMechanika } from '../../utils/createCharacter';
 import { MechanikaDevice } from './components';
+import { careerSpells, spellSuggestions } from './utils/spellSuggestions';
 
-/** The spell table's columns; picking a suggested spell fills in its numbers and page, keeping the description. */
-const spellColumns = (settings: IkSettings): RepeatTableColumn[] => [
+/**
+ * The spell table's columns. Names are suggested from the careers' spell lists; picking one fills in its
+ * numbers and page, keeping the description.
+ */
+const spellColumns = (settings: IkSettings, suggestions: string[]): RepeatTableColumn[] => [
   {
     key: 'name',
     label: 'Spell',
     width: 'minmax(140px, 2fr)',
-    suggestions: spellNames(settings),
+    suggestions,
     onPick: (name, row) => {
       const spell = findSpell(name, settings);
       return spell ? { ...row, ...spellFields(spell) } : row;
@@ -47,7 +51,7 @@ const createSpell = (): IkSpell => ({
 export function MagicSection() {
   const { character, derived } = useIkCharacter();
   const { set } = useSheet();
-  const columns = useMemo(() => spellColumns(character.settings), [character.settings]);
+  const columns = useMemo(() => spellColumns(character.settings, spellSuggestions(character)), [character]);
   const devices = character.mechanika ?? [];
   const deviceName = (index: number) => devices[index].name?.trim() || `Device ${index + 1}`;
 
@@ -85,6 +89,9 @@ export function MagicSection() {
           >
             Spells known: {character.spells.length}
             {derived.spellLimit !== null && ` of at most ${derived.spellLimit} (twice INT, p. 118)`}.
+            {careerSpells(character)
+              ? ' Spell suggestions come from your careers’ spell lists (pp. 234–236).'
+              : ' None of your careers has a spell list, so every spell is suggested.'}
           </p>
           <RepeatTable path="spells" columns={columns} createRow={createSpell} itemName="spell" />
         </Panel>

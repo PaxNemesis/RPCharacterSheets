@@ -203,4 +203,10 @@ export type IkDerived = {
   branchSizes: number[];
   vitality: number;
   crippled: AspectKey[];
+  /** –2 while Physique is crippled, already in `stat('str')`; otherwise null (p. 215). */
+  strengthPenalty: Num;
+  /** –2 on attack rolls while Agility is crippled; otherwise null. */
+  attackPenalty: Num;
+  /** –2 DEF while Intellect is crippled, already in `defense`; otherwise null. */
+  defensePenalty: Num;
 };

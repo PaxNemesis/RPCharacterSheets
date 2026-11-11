@@ -16,7 +16,7 @@ function weaponBlock(w: SheetWriter, rows: Cell[][]) {
 }
 
 /** Ranged and melee weapons, with RAT, MAT and P+S worked out at export. */
-export function writeWeapons(w: SheetWriter, character: IkCharacter, { stat }: IkDerived) {
+export function writeWeapons(w: SheetWriter, character: IkCharacter, { stat, attackPenalty }: IkDerived) {
   w.section('Ranged weapons', 56);
   withSpares(character.rangedWeapons, null, 1).forEach((weapon, i) => {
     const path = `rangedWeapons.${i}`;
@@ -24,7 +24,7 @@ export function writeWeapons(w: SheetWriter, character: IkCharacter, { stat }: I
       [
         { label: 'Name', name: `${path}.name`, value: weapon?.name, weight: 3 },
         { label: 'RNG', name: `${path}.rng`, value: weapon?.rng },
-        { label: 'RAT', name: `calculated.${path}.rat`, value: weapon && rangedAttack(weapon, stat) },
+        { label: 'RAT', name: `calculated.${path}.rat`, value: weapon && rangedAttack(weapon, stat, attackPenalty) },
         { label: 'POW', name: `${path}.pow`, value: weapon?.pow },
         { label: 'Page', name: `${path}.page`, value: weapon?.page },
       ],
@@ -45,7 +45,7 @@ export function writeWeapons(w: SheetWriter, character: IkCharacter, { stat }: I
     weaponBlock(w, [
       [
         { label: 'Name', name: `${path}.name`, value: weapon?.name, weight: 3 },
-        { label: 'MAT', name: `calculated.${path}.mat`, value: weapon && meleeAttack(weapon, stat) },
+        { label: 'MAT', name: `calculated.${path}.mat`, value: weapon && meleeAttack(weapon, stat, attackPenalty) },
         { label: 'POW', name: `${path}.pow`, value: weapon?.pow },
         { label: 'P+S', name: `calculated.${path}.ps`, value: weapon && meleeDamage(weapon, stat) },
         { label: 'Page', name: `${path}.page`, value: weapon?.page },

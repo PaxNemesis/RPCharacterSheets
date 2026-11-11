@@ -11,23 +11,28 @@ type StatLookup = (key: StatKey) => Num;
 
 const roll = (parts: RollPart[]): Roll => ({ total: sum(...parts.map((part) => part.value)), parts });
 
-export const rangedRolls = (weapon: IkRangedWeapon, stat: StatLookup) => {
+/** A crippled Agility's –2 as a part of its own (p. 215), so the roll shows where it comes from. */
+const crippled = (penalty: Num): RollPart[] => (penalty === null ? [] : [{ label: 'Crippled', value: penalty }]);
+
+export const rangedRolls = (weapon: IkRangedWeapon, stat: StatLookup, penalty: Num = null) => {
   const key = weapon.attackStat === 'prw' ? 'prw' : 'poi';
   return {
     attack: roll([
       { label: key.toUpperCase(), value: stat(key) },
       { label: 'Skill', value: weapon.skill },
       { label: 'Mod', value: weapon.attackMod },
+      ...crippled(penalty),
     ]),
     damage: roll([{ label: 'POW', value: weapon.pow }]),
   };
 };
 
-export const meleeRolls = (weapon: IkMeleeWeapon, stat: StatLookup) => ({
+export const meleeRolls = (weapon: IkMeleeWeapon, stat: StatLookup, penalty: Num = null) => ({
   attack: roll([
     { label: 'PRW', value: stat('prw') },
     { label: 'Skill', value: weapon.skill },
     { label: 'Mod', value: weapon.attackMod },
+    ...crippled(penalty),
   ]),
   // A weapon without POW, such as a garrote, has no damage roll of its own.
   damage:

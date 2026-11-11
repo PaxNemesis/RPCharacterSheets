@@ -26,6 +26,8 @@ export function DerivedPanel({ derived }: DerivedPanelProps) {
           { label: 'PER', value: stat('per') },
           ...(derived.racialDefense !== null ? [{ label: 'Race', value: derived.racialDefense }] : []),
           { label: 'Armor', value: derived.armorDefense },
+          // Crippled Intellect: –2 DEF (p. 215), shown only while it applies.
+          ...(derived.defensePenalty !== null ? [{ label: 'Crippled', value: derived.defensePenalty }] : []),
           { label: 'Other', path: 'modifiers.defense' },
         ]}
         total={derived.defense}

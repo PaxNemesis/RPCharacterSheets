@@ -38,16 +38,16 @@ const createGear = (): IkGear => ({ name: '', notes: '', quantity: null });
 export function EquipmentSection() {
   const { character, derived } = useIkCharacter();
   const { set } = useSheet();
-  const { stat } = derived;
+  const { stat, attackPenalty } = derived;
   const { settings, skills } = character;
   // Presets read the books in use and the character's skill levels, not the rest of the sheet.
   const ranged = useMemo(
-    () => rangedWeaponColumns(stat, { presets: rangedPresets({ settings, skills }) }),
-    [stat, settings, skills],
+    () => rangedWeaponColumns(stat, { presets: rangedPresets({ settings, skills }), attackPenalty }),
+    [stat, settings, skills, attackPenalty],
   );
   const melee = useMemo(
-    () => meleeWeaponColumns(stat, { presets: meleePresets({ settings, skills }) }),
-    [stat, settings, skills],
+    () => meleeWeaponColumns(stat, { presets: meleePresets({ settings, skills }), attackPenalty }),
+    [stat, settings, skills, attackPenalty],
   );
   const armor = useMemo(() => armorColumns(armorPresets(settings)), [settings]);
   const store = (kind: IkStoredKind): RepeatTableRowAction => ({
@@ -68,6 +68,11 @@ export function EquipmentSection() {
           RAT = POI (PRW for thrown weapons) + skill + mod. Pick a weapon from the rulebooks by name to fill in its
           values and your skill level.
         </p>
+        {attackPenalty !== null && (
+          <p className="ik-warning" role="status">
+            Crippled Agility: –2 on attack rolls, already in the RAT below (p. 215).
+          </p>
+        )}
         <RepeatTable
           path="rangedWeapons"
           columns={ranged}
@@ -82,6 +87,11 @@ export function EquipmentSection() {
           MAT = PRW + skill + mod. P+S = POW + STR. Pick a weapon from the rulebooks by name to fill in its values and
           your skill level.
         </p>
+        {attackPenalty !== null && (
+          <p className="ik-warning" role="status">
+            Crippled Agility: –2 on attack rolls, already in the MAT below (p. 215).
+          </p>
+        )}
         <RepeatTable
           path="meleeWeapons"
           columns={melee}

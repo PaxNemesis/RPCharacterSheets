@@ -86,6 +86,23 @@ describe('calculate', () => {
     expect(hurt([0, 0, 3, 2, 2, 2])).toEqual(['agility', 'intellect']);
   });
 
+  it('applies each crippled aspect’s penalty where it counts (p. 215)', () => {
+    const hurt = (marked: number[]) => calculate({ ...hero, damage: { marked, notes: '' } });
+    const whole = hurt([0, 0, 0, 0, 0, 0]);
+    expect([whole.strengthPenalty, whole.attackPenalty, whole.defensePenalty]).toEqual([null, null, null]);
+
+    // Physique: –2 STR, but the stat as typed still counts for its maximum.
+    const weak = hurt([4, 3, 0, 0, 0, 0]);
+    expect(weak.stat('str')).toBe(2);
+    expect(weak.stat('phy')).toBe(7);
+    // Agility: –2 on attack rolls, for the weapons to add.
+    expect(hurt([0, 0, 3, 2, 0, 0]).attackPenalty).toBe(-2);
+    // Intellect: –2 DEF.
+    const dazed = hurt([0, 0, 0, 0, 2, 2]);
+    expect(dazed.defensePenalty).toBe(-2);
+    expect(dazed.defense).toBe(whole.defense! - 2);
+  });
+
   it('flags stats above their maximum', () => {
     const strong = { ...hero, stats: { ...hero.stats, str: { value: 7, max: null } } };
     expect(calculate(strong).overMax).toEqual(['str']);

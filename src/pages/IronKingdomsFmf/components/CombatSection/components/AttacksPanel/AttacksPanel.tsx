@@ -49,7 +49,7 @@ const rollCell = (roll: Roll, label: string) => (
 
 /** The equipped weapons' attack and damage rolls, read-only, for use during play. */
 export function AttacksPanel({ character, derived }: AttacksPanelProps) {
-  const { stat } = derived;
+  const { stat, attackPenalty } = derived;
   const attacks: Attack[] = [
     ...character.rangedWeapons.map((weapon) => ({
       name: weapon.name.trim() || 'Unnamed ranged weapon',
@@ -60,12 +60,12 @@ export function AttacksPanel({ character, derived }: AttacksPanelProps) {
       ]
         .filter(Boolean)
         .join(' · '),
-      ...rangedRolls(weapon, stat),
+      ...rangedRolls(weapon, stat, attackPenalty),
     })),
     ...character.meleeWeapons.map((weapon) => ({
       name: weapon.name.trim() || 'Unnamed melee weapon',
       detail: 'Melee',
-      ...meleeRolls(weapon, stat),
+      ...meleeRolls(weapon, stat, attackPenalty),
     })),
   ];
 

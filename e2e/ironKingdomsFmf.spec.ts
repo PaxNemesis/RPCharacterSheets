@@ -189,6 +189,19 @@ test('picking a rulebook armor fills in its modifiers', async ({ page }) => {
   await expect(page.getByLabel('SPD, armor 1')).toHaveValue('-1');
 });
 
+test('a crippled aspect’s penalty shows where it counts', async ({ page }) => {
+  // The dwarf's Agility branches (AGL 3) are both full, so Agility is crippled: –2 on attack rolls.
+  await openWith(page, {
+    ...dwarf,
+    damage: { marked: [0, 0, 2, 1, 0, 0], notes: '' },
+    meleeWeapons: [{ name: 'Axe', skill: 2, attackMod: 0, pow: 3, notes: '', page: '' }],
+  });
+  await page.getByRole('tab', { name: 'Weapons & gear' }).click();
+  await expect(page.getByText('Crippled Agility: –2 on attack rolls, already in the MAT below')).toBeVisible();
+  // MAT = PRW 4 + skill 2 + mod 0 – 2.
+  await expect(page.getByLabel('MAT, melee weapon 1')).toHaveValue('4');
+});
+
 test('a career picked in one slot isn’t offered in the others', async ({ page }) => {
   await openWith(page, { identity: { careerList: ['Priest', ''] } });
   const second = page.getByLabel('Starting career 2', { exact: true });

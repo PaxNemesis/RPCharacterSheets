@@ -62,6 +62,11 @@ export function StatsPanel({ character, derived }: StatsPanelProps) {
           Above the maximum: {derived.overMax.map((key) => STAT_LABELS[key]).join(', ')}.
         </p>
       )}
+      {derived.strengthPenalty !== null && (
+        <p className="ik-warning" role="status">
+          Crippled Physique: STR counts as {derived.stat('str')} (–2) wherever it’s used until healed (p. 215).
+        </p>
+      )}
       <div className="stats-panel-willpower">
         <FormulaRow
           title="Willpower"

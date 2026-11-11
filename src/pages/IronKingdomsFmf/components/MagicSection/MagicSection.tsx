@@ -100,6 +100,11 @@ export function MagicSection() {
               ? ' Spell suggestions come from your careers’ spell lists (pp. 234–236).'
               : ' None of your careers has a spell list, so every spell is suggested.'}
           </p>
+          {derived.crippled.includes('intellect') && (
+            <p className="ik-warning" role="status">
+              Crippled Intellect: this character can’t upkeep spells until healed (p. 215).
+            </p>
+          )}
           <RepeatTable path="spells" columns={columns} createRow={createSpell} itemName="spell" />
         </Panel>
       )}

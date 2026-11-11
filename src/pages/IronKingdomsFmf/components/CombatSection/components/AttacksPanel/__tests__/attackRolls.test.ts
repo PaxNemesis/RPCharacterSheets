@@ -27,6 +27,12 @@ describe('attack rolls', () => {
     expect(formatRoll(damage)).toBe('+8');
   });
 
+  it('shows a crippled Agility’s –2 as a part of the attack roll (p. 215)', () => {
+    const { attack } = meleeRolls({ ...createMeleeWeapon(), skill: 1, attackMod: 0, pow: 3 }, stat, -2);
+    expect(formatParts(attack)).toBe('PRW (3) + Skill (1) + Mod (0) + Crippled (–2)');
+    expect(formatRoll(attack)).toBe('+2');
+  });
+
   it('shows no damage roll for a weapon without POW, and +0 for a total of 0', () => {
     expect(formatRoll(meleeRolls(createMeleeWeapon(), stat).damage)).toBe('—');
     expect(formatRoll(rangedRolls({ ...createRangedWeapon(), pow: 0 }, stat).damage)).toBe('+0');

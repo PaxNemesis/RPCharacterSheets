@@ -9,7 +9,8 @@ const lessPenalty = (total: number | null, loadBearing: boolean) =>
 
 /** Works out the derived stats and life spiral from the core rules (pp. 105–107, 215). */
 export function calculate(character: IkCharacter): IkDerived {
-  const stat = (key: StatKey) => character.stats[key]?.value ?? null;
+  // The stat as typed; `stat` below has the crippled Physique's STR penalty applied.
+  const rawStat = (key: StatKey) => character.stats[key]?.value ?? null;
   const statMax = (key: StatKey) => statMaximum(character, key);
   const loadBearing = character.abilities.some((ability) => ability.name?.trim().toLowerCase() === 'load bearing');
   const armorSpeed = lessPenalty(sum(...character.armor.map((piece) => piece.spd)), loadBearing);
@@ -21,7 +22,7 @@ export function calculate(character: IkCharacter): IkDerived {
 
   // Each aspect has vitality equal to its primary stat, split as evenly as possible over its two branches.
   const branchSizes = ASPECTS.flatMap(({ primary }) => {
-    const value = Math.max(0, stat(primary) ?? 0);
+    const value = Math.max(0, rawStat(primary) ?? 0);
     return [Math.ceil(value / 2), Math.floor(value / 2)];
   });
   const crippled = ASPECTS.filter((_, index) => {
@@ -34,11 +35,21 @@ export function calculate(character: IkCharacter): IkDerived {
     return size > 0 && marked >= size;
   }).map((aspect) => aspect.key);
 
+  // A crippled aspect's penalty (p. 215): Physique –2 STR, Agility –2 on attack rolls, Intellect –2 DEF.
+  const penalty = (aspect: (typeof crippled)[number]) => (crippled.includes(aspect) ? -2 : null);
+  const strengthPenalty = penalty('physique');
+  const attackPenalty = penalty('agility');
+  const defensePenalty = penalty('intellect');
+  const stat = (key: StatKey) =>
+    key === 'str' && strengthPenalty !== null && rawStat(key) !== null
+      ? sum(rawStat(key), strengthPenalty)
+      : rawStat(key);
+
   return {
     stat,
     statMax,
     overMax: STAT_KEYS.filter((key) => {
-      const value = stat(key);
+      const value = rawStat(key);
       const max = statMax(key);
       return value !== null && max !== null && value > max;
     }),
@@ -52,7 +63,7 @@ export function calculate(character: IkCharacter): IkDerived {
     speed: stat('spd') === null ? null : sum(stat('spd'), armorSpeed, modifiers.speed),
     armorDefense,
     armorArmor,
-    defense: sum(stat('spd'), stat('agl'), stat('per'), raceDefense, armorDefense, modifiers.defense),
+    defense: sum(stat('spd'), stat('agl'), stat('per'), raceDefense, armorDefense, defensePenalty, modifiers.defense),
     armor: sum(stat('phy'), armorArmor, modifiers.armor),
     initiative: sum(stat('spd'), stat('prw'), stat('per'), modifiers.initiative),
     commandSkill,
@@ -60,5 +71,8 @@ export function calculate(character: IkCharacter): IkDerived {
     branchSizes,
     vitality: branchSizes.reduce((total, size) => total + size, 0),
     crippled,
+    strengthPenalty,
+    attackPenalty,
+    defensePenalty,
   };
 }

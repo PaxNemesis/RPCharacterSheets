@@ -12,15 +12,17 @@ type ColumnOptions = {
    * attack is then this + bonus + mod, and the table gets a location column.
    */
   jackAttack?: Num;
+  /** A character's crippled Agility: –2 on attack rolls (p. 215). */
+  attackPenalty?: Num;
 };
 
-/** RAT = POI (PRW for thrown weapons) + skill + attack modifier (p. 106). */
-export const rangedAttack = (weapon: IkRangedWeapon, stat: StatLookup) =>
-  sum(stat(weapon.attackStat || 'poi'), weapon.skill, weapon.attackMod);
+/** RAT = POI (PRW for thrown weapons) + skill + attack modifier (p. 106), with a crippled Agility's –2 (p. 215). */
+export const rangedAttack = (weapon: IkRangedWeapon, stat: StatLookup, penalty: Num = null) =>
+  sum(stat(weapon.attackStat || 'poi'), weapon.skill, weapon.attackMod, penalty);
 
-/** MAT = PRW + skill + attack modifier (p. 106). */
-export const meleeAttack = (weapon: IkMeleeWeapon, stat: StatLookup) =>
-  sum(stat('prw'), weapon.skill, weapon.attackMod);
+/** MAT = PRW + skill + attack modifier (p. 106), with a crippled Agility's –2 (p. 215). */
+export const meleeAttack = (weapon: IkMeleeWeapon, stat: StatLookup, penalty: Num = null) =>
+  sum(stat('prw'), weapon.skill, weapon.attackMod, penalty);
 
 /** P+S = POW + STR (p. 215); blank for a weapon without POW. */
 export const meleeDamage = ({ pow }: IkMeleeWeapon, stat: StatLookup) =>
@@ -54,7 +56,7 @@ const skillColumn = (jack: boolean): RepeatTableColumn => ({
 /** RAT = POI (PRW for thrown weapons) + skill + attack modifier (p. 106); a steamjack's RAT + bonus + mod. */
 export function rangedWeaponColumns(
   stat: StatLookup,
-  { presets, jackAttack }: ColumnOptions = {},
+  { presets, jackAttack, attackPenalty = null }: ColumnOptions = {},
 ): RepeatTableColumn[] {
   const jack = jackAttack !== undefined;
   return [
@@ -71,7 +73,7 @@ export function rangedWeaponColumns(
       type: 'calculated',
       calculate: (row) => {
         const weapon = row as IkRangedWeapon;
-        return jack ? sum(jackAttack, weapon.skill, weapon.attackMod) : rangedAttack(weapon, stat);
+        return jack ? sum(jackAttack, weapon.skill, weapon.attackMod) : rangedAttack(weapon, stat, attackPenalty);
       },
     },
     { key: 'rng', label: 'RNG', width: '52px' },
@@ -84,7 +86,10 @@ export function rangedWeaponColumns(
 }
 
 /** MAT = PRW + skill + attack modifier; P+S = POW + STR (p. 106, 215). A steamjack uses its MAT + bonus + mod. */
-export function meleeWeaponColumns(stat: StatLookup, { presets, jackAttack }: ColumnOptions = {}): RepeatTableColumn[] {
+export function meleeWeaponColumns(
+  stat: StatLookup,
+  { presets, jackAttack, attackPenalty = null }: ColumnOptions = {},
+): RepeatTableColumn[] {
   const jack = jackAttack !== undefined;
   return [
     nameColumn(presets),
@@ -98,7 +103,7 @@ export function meleeWeaponColumns(stat: StatLookup, { presets, jackAttack }: Co
       type: 'calculated',
       calculate: (row) => {
         const weapon = row as IkMeleeWeapon;
-        return jack ? sum(jackAttack, weapon.skill, weapon.attackMod) : meleeAttack(weapon, stat);
+        return jack ? sum(jackAttack, weapon.skill, weapon.attackMod) : meleeAttack(weapon, stat, attackPenalty);
       },
     },
     { key: 'pow', label: 'POW', width: '52px', type: 'number' },

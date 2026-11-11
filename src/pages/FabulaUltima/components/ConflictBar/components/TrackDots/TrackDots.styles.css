@@ -1,0 +1,27 @@
+.track-dots-container {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: var(--space-xs);
+  vertical-align: middle;
+
+  i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    box-sizing: border-box;
+  }
+
+  .track-dots-filled {
+    background: var(--accent);
+  }
+
+  /* Resolve Beads, told apart from Core Beads by colour. */
+  &.track-dots-resolve i {
+    border-color: var(--focus);
+  }
+
+  &.track-dots-resolve .track-dots-filled {
+    background: var(--focus);
+  }
+}

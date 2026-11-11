@@ -1,104 +1,98 @@
-/* Sticky, not fixed: it takes its own room at the end of the sheet, so it never covers the last field. */
+/*
+ * A drawer on the bottom edge. The container is sticky, not fixed, and only as tall as the closed bar:
+ * it keeps that room at the end of the sheet, so the bar never covers the last field. The sheet inside
+ * hangs from its bottom edge, so opening the drawer grows it upwards over the page without moving it.
+ */
 .conflict-bar-container {
   position: sticky;
   bottom: 0;
   z-index: 10;
+  flex: none;
+  min-height: 56px;
   margin-top: auto;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: 8px 8px 0 0;
-  box-shadow: rgba(0, 0, 0, 0.25) 0 -4px 12px -4px;
+  /* Into the workspace's bottom padding, so the drawer meets the bottom edge at the end of the page too. */
+  margin-bottom: calc(-1 * var(--space-2));
 
-  .conflict-bar-row {
+  .conflict-bar-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 -6px 18px -6px;
+  }
+
+  /* A half oval on the top edge, with only the arrow. */
+  .conflict-bar-pull {
+    position: absolute;
+    top: -21px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-1);
-    padding: var(--space-1);
-  }
+    justify-content: center;
+    width: 60px;
+    height: 22px;
+    padding: var(--space-xs) 0 0;
+    font-size: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-bottom: none;
+    border-radius: 30px 30px 0 0 / 22px 22px 0 0;
 
-  .conflict-bar-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-weight: 600;
-    white-space: nowrap;
-  }
+    &:hover {
+      color: var(--accent);
+    }
 
-  .conflict-bar-active {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-
-  .conflict-bar-summary {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-1) var(--space-2);
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-  .conflict-bar-pool {
-    white-space: nowrap;
-    font-size: 13px;
-    color: var(--text-soft);
-
-    strong {
-      font-size: 15px;
-      color: var(--text-h);
+    .icon-container {
+      transition: transform 200ms;
     }
   }
 
-  .conflict-bar-crisis strong,
-  .conflict-bar-crisis {
-    color: var(--danger);
+  &.conflict-bar-open .conflict-bar-pull .icon-container {
+    transform: rotate(180deg);
   }
 
-  .conflict-bar-max {
-    color: var(--text-soft);
-    font-size: 13px;
+  /* Clicking anywhere on the bar that isn't a button opens or closes the drawer. */
+  .conflict-bar-face {
+    cursor: pointer;
+    border-radius: 12px 12px 0 0;
+
+    &:hover {
+      background: var(--surface-alt);
+    }
   }
 
-  .conflict-bar-chip {
-    font-size: 13px;
-    padding: var(--space-2xs) var(--space-1);
-    border-radius: 999px;
-    background: var(--surface-alt);
-    white-space: nowrap;
+  /* The details slide open under the bar. */
+  .conflict-bar-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 250ms ease;
   }
 
-  .conflict-bar-actions {
-    display: flex;
-    gap: var(--space-1);
-    margin-left: auto;
+  &.conflict-bar-open .conflict-bar-details {
+    grid-template-rows: 1fr;
   }
 
-  .conflict-bar-primary {
-    font-weight: 600;
-    color: var(--accent-contrast);
-    background: var(--accent);
-    border-color: var(--accent);
+  /* Hidden once closed, after the slide, so it leaves the accessibility tree too. */
+  .conflict-bar-details-inner {
+    overflow: hidden;
+    visibility: hidden;
+    transition: visibility 0s 250ms;
   }
 
-  .conflict-bar-icon {
-    display: inline-flex;
-    align-items: center;
-    font-size: 18px;
+  &.conflict-bar-open .conflict-bar-details-inner {
+    visibility: visible;
+    transition-delay: 0s;
   }
 
-  .conflict-bar-reminder {
-    padding: var(--space-xs) var(--space-2);
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
-    color: var(--positive);
-  }
-
-  /* Phones keep the bar to resources and actions; the drawer has the rest. */
-  @media (max-width: 640px) {
-    .conflict-bar-summary .conflict-bar-extra,
-    .conflict-bar-summary .conflict-bar-max {
-      display: none;
+  @media (prefers-reduced-motion: reduce) {
+    .conflict-bar-details,
+    .conflict-bar-pull .icon-container {
+      transition: none;
     }
   }
 }

@@ -1,100 +1,116 @@
-/* Opens upwards over the sheet from the bar it belongs to, without moving the sheet. */
+/* The details under the bar: a header, then three columns that stack on narrow screens. */
 .conflict-drawer-container {
-  position: absolute;
-  bottom: 100%;
-  left: -1px;
-  right: -1px;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-height: min(60vh, 640px);
+  max-height: min(52vh, 560px);
   overflow-y: auto;
   padding: var(--space-2);
+  border-top: 1px solid var(--border);
   box-sizing: border-box;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: 8px 8px 0 0;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 -8px 16px -8px;
 
   &:focus-visible {
     outline: 2px solid var(--focus);
+    outline-offset: -2px;
   }
 
-  .conflict-drawer-section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .conflict-drawer-heading {
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-soft);
-  }
-
-  .conflict-drawer-pools {
+  .conflict-drawer-header {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
-    gap: var(--space-1) var(--space-3);
-  }
-
-  /* On its own line, above the rows it applies to. */
-  .conflict-drawer-amount {
-    display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--space-1);
-    flex-basis: 100%;
-    font-size: 13px;
-    color: var(--text-soft);
 
-    input {
-      width: 72px;
+    p {
+      font-size: 13px;
+      color: var(--text-soft);
     }
   }
 
-  .conflict-drawer-pool-row {
+  .conflict-drawer-actions {
     display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .conflict-drawer-undo {
+    display: inline-flex;
     align-items: center;
     gap: var(--space-xs);
+  }
 
-    .number-field-container {
-      width: 64px;
+  .conflict-drawer-columns {
+    display: grid;
+    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+
+    @media (max-width: 960px) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+      > :last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
-  .conflict-drawer-pool-label {
-    font-weight: 700;
-    min-width: 2em;
-  }
-
-  .conflict-drawer-max {
-    font-size: 13px;
-    color: var(--text-soft);
-  }
-
-  .conflict-drawer-statuses {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: var(--space-1);
-  }
-
-  .conflict-drawer-classes,
-  .conflict-drawer-class-effects {
+  .conflict-drawer-column {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    gap: var(--space-1);
+    min-width: 0;
   }
 
+  /* The sheet's panel heading, smaller. */
+  .conflict-drawer-badge {
+    align-self: flex-start;
+    margin-top: var(--space-1);
+    padding: var(--space-2xs) var(--space-1);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-contrast);
+    background: var(--border-strong);
+    border-radius: 3px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .conflict-drawer-card,
   .conflict-drawer-classes li {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
+    justify-content: space-between;
     gap: var(--space-1);
+  }
+
+  .conflict-drawer-card {
+    padding: var(--space-1);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-alt);
+
+    span {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+  }
+
+  .conflict-drawer-classes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   .conflict-drawer-link {
@@ -104,12 +120,5 @@
     color: var(--accent);
     font-weight: 600;
     text-decoration: underline;
-  }
-
-  .conflict-drawer-actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: var(--space-1);
   }
 }

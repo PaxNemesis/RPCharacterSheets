@@ -5,7 +5,7 @@ import { character, classWith } from './character';
 
 const run = (sheet: FuCharacter, ...events: ConflictEvent[]) => events.reduce(runConflictEvent, sheet);
 
-const effect = (name: string, lasts: FuEffect['lasts']): FuEffect => ({ name, source: '', lasts, notes: '' });
+const effect = (name: string, lasts: FuEffect['lasts']): FuEffect => ({ name, lasts, notes: '' });
 const use = (name: string, resets: FuUse['resets']): FuUse => ({ name, used: 1, max: 1, resets });
 
 describe('conflict', () => {

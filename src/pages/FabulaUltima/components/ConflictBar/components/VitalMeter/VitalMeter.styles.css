@@ -1,0 +1,64 @@
+.vital-meter-container {
+  --vital-meter-fill: var(--accent);
+  position: relative;
+  display: block;
+  min-width: 72px;
+  height: 20px;
+  border-radius: 4px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  box-sizing: border-box;
+  overflow: hidden;
+
+  &.vital-meter-mp {
+    --vital-meter-fill: var(--focus);
+  }
+
+  .vital-meter-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--vital-meter-percent);
+    background: var(--vital-meter-fill);
+    transition: width 250ms;
+  }
+
+  /* The Crisis line: a notch on the bottom edge, below the numbers. */
+  .vital-meter-mark {
+    position: absolute;
+    bottom: 0;
+    width: 2px;
+    height: 3px;
+    background: var(--text-soft);
+  }
+
+  /* The text changes colour where the fill ends, so it reads on both the fill and the empty part. */
+  .vital-meter-text {
+    position: absolute;
+    inset: 0;
+    font-size: 12px;
+    font-weight: 700;
+    /* A little above centre, clear of the Crisis notch. */
+    line-height: 16px;
+    text-align: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(
+      to right,
+      var(--accent-contrast) var(--vital-meter-percent),
+      var(--text-h) var(--vital-meter-percent)
+    );
+    background-clip: text;
+    color: transparent;
+  }
+
+  &.vital-meter-crisis {
+    border-color: var(--danger);
+    --vital-meter-fill: var(--danger);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vital-meter-fill {
+      transition: none;
+    }
+  }
+}

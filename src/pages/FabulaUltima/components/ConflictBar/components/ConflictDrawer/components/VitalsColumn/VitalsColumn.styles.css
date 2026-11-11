@@ -1,0 +1,120 @@
+/* Scoped to the column; the popup is fixed on screen but stays inside it in the page. */
+.vitals-column-container {
+  /* One row per pool: label, value or meter, then two buttons of the same width. */
+  .vitals-column-pool {
+    display: grid;
+    grid-template-columns: 2em minmax(0, 1fr) 6.5em 6.5em;
+    gap: var(--space-1);
+    align-items: center;
+    font-variant-numeric: tabular-nums;
+
+    button {
+      width: 100%;
+      font-size: 13px;
+    }
+
+    .vitals-column-lower {
+      color: var(--danger);
+    }
+
+    .vitals-column-raise {
+      color: var(--positive);
+    }
+
+    &.vitals-column-crisis .vitals-column-pool-label {
+      color: var(--danger);
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: 2em minmax(0, 1fr) 5.5em 5.5em;
+    }
+  }
+
+  .vitals-column-pool-label {
+    font-weight: 700;
+    color: var(--text-h);
+  }
+
+  .vitals-column-pool-value {
+    color: var(--text-h);
+
+    small {
+      color: var(--text-soft);
+    }
+  }
+
+  .vitals-column-statuses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+  }
+
+  .vitals-column-status {
+    font-size: 13px;
+    padding: var(--space-2xs) var(--space-1);
+    border-radius: 999px;
+
+    &[aria-pressed='true'] {
+      color: var(--accent-contrast);
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+  }
+
+  /* Asking how much: fixed beside the button that opened it, above the drawer's scrolling. */
+  .vitals-column-popup {
+    position: fixed;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-2);
+    box-sizing: border-box;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 8px 24px;
+
+    input {
+      font-size: 20px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .vitals-column-apply {
+      font-weight: 600;
+      color: var(--accent-contrast);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+  }
+
+  .vitals-column-popup-title {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    font-weight: 700;
+    color: var(--text-h);
+  }
+
+  .vitals-column-popup-preview {
+    font-size: 13px;
+    color: var(--text-soft);
+    font-variant-numeric: tabular-nums;
+
+    strong {
+      color: var(--text-h);
+    }
+  }
+
+  .vitals-column-popup-warning {
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  .vitals-column-popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-1);
+  }
+}

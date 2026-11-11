@@ -188,7 +188,7 @@ export type FuChanter = {
 export type EffectDuration = 'nextTurn' | 'endOfTurn' | 'scene' | 'removed';
 
 /** Something affecting the character for a while, such as a spell, a dance or an ally's buff. */
-export type FuEffect = { name: string; source: string; lasts: EffectDuration | ''; notes: string };
+export type FuEffect = { name: string; lasts: EffectDuration | ''; notes: string };
 
 /** When a limited use comes back. */
 export type UseReset = 'turn' | 'scene' | 'rest';

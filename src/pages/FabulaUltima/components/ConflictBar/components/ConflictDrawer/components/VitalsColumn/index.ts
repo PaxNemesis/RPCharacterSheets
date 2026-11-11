@@ -1,0 +1,1 @@
+export { VitalsColumn } from './VitalsColumn';

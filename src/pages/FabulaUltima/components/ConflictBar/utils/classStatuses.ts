@@ -1,21 +1,37 @@
-import { findDance } from '../../../utils/dancer';
 import { GROWTH_CLOCK_SIZE, MAGISEEDS } from '../../../constants/floralist';
 import type { FuCharacter, FuDerived } from '../../../types';
-import { hasRulebookClass } from '../../../utils/rules';
+import { findDance } from '../../../utils/dancer';
 import { soulBeadLimit } from '../../../utils/monk';
+import { hasRulebookClass } from '../../../utils/rules';
 import { symbolLimits } from '../../../utils/symbolist';
 import type { ClassStatus } from '../ConflictBar.types';
 
-const UNTIL_NEXT_TURN = 'until your next turn';
+function monk({ monk: { core, resolve } }: FuCharacter, derived: FuDerived): ClassStatus {
+  const limit = soulBeadLimit(derived);
+  const tracks = [
+    { filled: core, size: limit },
+    { filled: resolve, size: limit, tone: 'resolve' as const },
+  ];
+  return {
+    panel: 'soul-beads',
+    label: 'Soul Beads',
+    summary: `Core ${core} · Resolve ${resolve} of ${limit}`,
+    tracks,
+    chip: { key: 'monk', text: 'Beads', tracks, title: `Core ${core} · Resolve ${resolve} of ${limit}` },
+    effects: [],
+  };
+}
 
 /** A dance lasting until your next turn runs from when it is performed until you start your next turn. */
 function dancer({ dancer: { current, previous }, conflict }: FuCharacter): ClassStatus {
-  const lasting = [current, conflict.acting ? '' : previous].filter((name) => findDance(name)?.duration === 'turn');
+  const running = current || (conflict.acting ? '' : previous);
+  const lasting = findDance(running)?.duration === 'turn';
   return {
     panel: 'dances',
     label: 'Dances',
-    summary: current ? `Dance: ${current}` : conflict.acting || !previous ? 'No dance yet' : `Last: ${previous}`,
-    effects: lasting.map((name) => ({ name, lasts: UNTIL_NEXT_TURN })),
+    summary: current || 'No dance this turn',
+    chip: running ? { key: 'dancer', text: running, note: lasting ? 'next turn' : undefined } : undefined,
+    effects: lasting ? [{ name: running, lasts: 'until your next turn' }] : [],
   };
 }
 
@@ -23,43 +39,56 @@ function dancer({ dancer: { current, previous }, conflict }: FuCharacter): Class
 function floralist({ floralist: { garden, growth }, conflict }: FuCharacter): ClassStatus {
   const seed = MAGISEEDS.find((entry) => entry.name === garden);
   const status = { panel: 'garden', label: 'Garden', effects: [] };
-  if (!seed) return { ...status, summary: 'Garden empty' };
+  if (!seed) return { ...status, summary: 'Empty' };
+  const tracks = [{ filled: growth, size: GROWTH_CLOCK_SIZE }];
   const next = growth + 1;
-  const reminder = conflict.acting
-    ? next >= GROWTH_CLOCK_SIZE
-      ? `Ending your turn fills the Growth Clock: ${seed.name} leaves the garden.`
-      : `Ending your turn fills the Growth Clock to ${next}, then ${seed.name}'s end-of-turn effect applies.`
+  const sections = `${growth} filled section${growth === 1 ? '' : 's'}`;
+  const chip = conflict.acting
+    ? {
+        note: `→ ${next >= GROWTH_CLOCK_SIZE ? 'leaves' : next}`,
+        title:
+          next >= GROWTH_CLOCK_SIZE
+            ? `Ending your turn fills the Growth Clock: ${seed.name} leaves the garden.`
+            : `Ending your turn fills the Growth Clock to ${next}, then ${seed.name}'s end-of-turn effect applies.`,
+      }
     : growth > 0
-      ? `End of turn: apply ${seed.name}'s effect for ${growth} filled section${growth > 1 ? 's' : ''}, if it has one (NF p. ${seed.page}).`
-      : undefined;
-  return { ...status, summary: `${seed.name} ${growth}/${GROWTH_CLOCK_SIZE}`, reminder };
+      ? {
+          note: '· apply effect',
+          due: true,
+          title: `End of turn: apply ${seed.name}'s effect for ${sections} (NF p. ${seed.page}).`,
+        }
+      : {};
+  return {
+    ...status,
+    summary: seed.name,
+    tracks,
+    chip: { key: 'floralist', text: seed.name, tracks, ...chip },
+  };
 }
 
 /** What each of the character's classes is tracking: Soul Beads, dances, the garden, verses and symbols. */
 export function classStatuses(character: FuCharacter, derived: FuDerived): ClassStatus[] {
   const has = (name: string) => hasRulebookClass(character, name);
   const inConflict = character.conflict.active;
+  const { sung } = character.chanter;
+  const symbols = character.symbolist.active.length;
   const statuses: (ClassStatus | false)[] = [
-    has('Monk') &&
-      inConflict && {
-        panel: 'soul-beads',
-        label: 'Soul Beads',
-        summary: `Core ${character.monk.core} · Resolve ${character.monk.resolve} of ${soulBeadLimit(derived)}`,
-        effects: [],
-      },
+    has('Monk') && inConflict && monk(character, derived),
     has('Dancer') && inConflict && dancer(character),
     has('Floralist') && inConflict && floralist(character),
     has('Chanter') &&
       inConflict && {
         panel: 'verses',
         label: 'Verses',
-        summary: character.chanter.sung ? 'Verse sung this turn' : 'No verse yet',
+        summary: sung ? 'Sung this turn' : 'No verse yet',
+        chip: sung ? { key: 'chanter', text: 'Verse sung' } : undefined,
         effects: [],
       },
     has('Symbolist') && {
       panel: 'symbols',
       label: 'Symbols',
-      summary: `${character.symbolist.active.length} of ${symbolLimits(character).active} symbols active`,
+      summary: `${symbols} of ${symbolLimits(character).active} active`,
+      chip: symbols > 0 ? { key: 'symbolist', text: `${symbols} ${symbols === 1 ? 'symbol' : 'symbols'}` } : undefined,
       effects: [],
     },
   ];

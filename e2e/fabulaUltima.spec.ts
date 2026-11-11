@@ -18,11 +18,21 @@ async function openWith(page: Page, data: unknown, panel = 'character') {
 
 const bar = (page: Page) => page.locator('.conflict-bar-container');
 
-test('the conflict bar sits at the bottom of the screen, even on a short tab', async ({ page }) => {
-  await openWith(page, monk, 'notes');
-  const box = await bar(page).boundingBox();
+test('the conflict bar meets the bottom of the screen on a short tab and at the end of a long one', async ({
+  page,
+}) => {
   const height = page.viewportSize()?.height ?? 0;
-  expect(box && Math.round(box.y + box.height)).toBeGreaterThan(height - 24);
+  const bottom = async () => {
+    const box = await bar(page).boundingBox();
+    return box && Math.round(box.y + box.height);
+  };
+
+  await openWith(page, monk, 'notes');
+  expect(await bottom()).toBe(height);
+
+  await openWith(page, monk, 'character');
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  expect(await bottom()).toBe(height);
 });
 
 test('the conflict bar never covers the end of a long tab', async ({ page }) => {
@@ -42,22 +52,36 @@ test('a conflict and its turn survive a reload, and the Monk gains Resolve Beads
   await expect(page.getByRole('group', { name: 'Resolve Beads: 2 of 4 marked' })).toBeVisible();
 
   await page.reload();
-  await expect(page.getByRole('button', { name: /Turn 1/ })).toBeVisible();
+  await expect(page.locator('.bar-row-state')).toHaveText(/Turn 1$/);
   await expect(page.getByRole('button', { name: 'End turn' })).toBeVisible();
 });
 
-test('the drawer opens over the sheet without making the page scroll sideways', async ({ page }) => {
+test('the drawer opens under the bar, and damage is typed into a popup', async ({ page }) => {
   await openWith(page, monk);
-  await page.getByRole('button', { name: /No conflict/ }).click();
   const drawer = page.getByRole('region', { name: 'Conflict details' });
+  await expect(drawer).toBeHidden();
+  await page.getByRole('button', { name: 'Show conflict details' }).click();
   await expect(drawer).toBeVisible();
-  await drawer.getByRole('button', { name: 'Lose 1 HP' }).click();
-  await expect(drawer.getByLabel('Current HP')).toHaveValue('40');
+
+  await drawer.getByRole('button', { name: 'Damage' }).click();
+  await page.getByRole('dialog', { name: 'Damage to HP' }).getByRole('spinbutton').fill('5');
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('img', { name: 'HP 36 of 41' }).first()).toBeVisible();
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
   );
   expect(overflow).toBe(0);
 
   await page.keyboard.press('Escape');
-  await expect(page.getByRole('region', { name: 'Conflict details' })).toBeHidden();
+  await expect(drawer).toBeHidden();
+});
+
+test('opening the drawer covers the page without moving it', async ({ page }) => {
+  await openWith(page, monk, 'character');
+  const panel = page.getByRole('heading', { name: 'Attributes & status effects' });
+  const before = await panel.boundingBox();
+  await page.getByRole('button', { name: 'Show conflict details' }).click();
+  await expect(page.getByRole('region', { name: 'Conflict details' })).toBeVisible();
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  expect((await panel.boundingBox())?.y).toBe(before?.y);
 });

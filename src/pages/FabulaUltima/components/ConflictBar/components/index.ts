@@ -1,3 +1,3 @@
-export { BarActions } from './BarActions';
-export { BarSummary } from './BarSummary';
+export { BarChips } from './BarChips';
+export { BarRow } from './BarRow';
 export { ConflictDrawer } from './ConflictDrawer';

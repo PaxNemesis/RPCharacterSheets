@@ -1,3 +1,4 @@
+import { findCompany } from '../constants/companies';
 import { findRace, LEVEL_CAPS, LEVEL_INDEX, TRADITIONS } from '../constants/races';
 import { baseSkillName, GENERAL_SKILLS } from '../constants/skills';
 import { STAT_KEYS } from '../constants/stats';
@@ -59,7 +60,7 @@ const lookup = (maxima: Record<string, number>, name: string) => {
 /**
  * Highest level a skill can reach: the best maximum among the character's careers (general
  * skills use each career's "General Skills" entry), capped at 2/3/4 for Hero/Veteran/Epic (p. 171).
- * Returns null when none of the careers offer the skill.
+ * Returns null when none of the careers offer the skill. An adventuring company's career skills reach the cap.
  */
 export function skillMaximum(character: IkCharacter, name: string): Num {
   const base = baseSkillName(name);
@@ -71,7 +72,13 @@ export function skillMaximum(character: IkCharacter, name: string): Num {
       (isGeneral ? lookup(career.maxima, 'General Skills') : undefined);
     return max === undefined ? current : Math.max(current ?? 0, max);
   }, undefined);
-  return best === undefined ? null : Math.min(best, LEVEL_CAPS[levelOf(character)]);
+  const cap = LEVEL_CAPS[levelOf(character)];
+  // A skill the adventuring company treats as a career skill (p. 151) goes up to the level cap.
+  const companySkill = findCompany(character.identity.company ?? '')?.careerSkills?.some(
+    (skill) => skill.toLowerCase() === name.trim().toLowerCase(),
+  );
+  if (companySkill) return cap;
+  return best === undefined ? null : Math.min(best, cap);
 }
 
 export const racialDefense = (character: IkCharacter): Num =>

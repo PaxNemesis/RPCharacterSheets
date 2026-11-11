@@ -66,6 +66,9 @@ export function writeIdentity(w: SheetWriter, { identity, settings }: IkCharacte
     { label: 'Age', name: 'identity.age', value: identity.age },
     { label: 'Eyes & hair', name: 'identity.eyesHair', value: identity.eyesHair, weight: 1.5 },
   ]);
-  w.fields([{ label: 'Defining characteristics', name: 'identity.defining', value: identity.defining }]);
+  w.fields([
+    { label: 'Adventuring company', name: 'identity.company', value: identity.company },
+    { label: 'Defining characteristics', name: 'identity.defining', value: identity.defining, weight: 2 },
+  ]);
   w.end();
 }

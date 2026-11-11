@@ -70,6 +70,7 @@ export const createCharacter = (): IkCharacter => ({
   settings: {
     raceRules: true,
     careerRules: true,
+    companyCareers: true,
     magic: true,
     mechanika: true,
     steamjacks: true,
@@ -86,6 +87,9 @@ export const createCharacter = (): IkCharacter => ({
     careerVariants: {},
     careerChoices: {},
     careerOptions: [],
+    company: '',
+    companyLeader: false,
+    companyChoice: '',
     humanBonus: '',
     level: 'Hero',
     xp: null,

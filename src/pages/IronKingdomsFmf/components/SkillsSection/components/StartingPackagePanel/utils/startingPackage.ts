@@ -3,6 +3,7 @@ import { archetypeBenefitRef } from '../../../../../constants/archetypes';
 import { findRace } from '../../../../../constants/races';
 import { skillRef } from '../../../../../constants/skills';
 import type { CareerData, IkCharacter, SkillGrant } from '../../../../../types';
+import { companyOf, companyPackage, withCompanySkills } from '../../../../../utils/company';
 import { careersOf, variantOf } from '../../../../../utils/rules';
 
 /** The player's picks for "choose one of…" skills, keyed by `choiceKey`. */
@@ -13,7 +14,10 @@ export const choiceKey = (career: CareerData, index: number) => `${career.name}:
 const unique = (values: string[]) => [...new Set(values)];
 const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
 
-/** The starting careers' combined package (pp. 117–119), plus racial abilities, connections and archetype benefits. */
+/**
+ * The starting careers' combined package (pp. 117–119), plus racial abilities, connections and archetype
+ * benefits, and what the adventuring company gives a character created as a member (pp. 151–153).
+ */
 export function startingPackage(character: IkCharacter, selection: PackageSelection) {
   const careers = careersOf(character).slice(0, 2);
   const race = character.settings.raceRules ? findRace(character.identity.race) : undefined;
@@ -38,18 +42,29 @@ export function startingPackage(character: IkCharacter, selection: PackageSelect
   const fromCareers = (key: 'abilities' | 'connections' | 'spells') =>
     careers.flatMap((career) => [...career[key], ...(variantOf(character, career)?.[key] ?? [])]);
 
+  const company = companyPackage(character);
+  const careerAbilities = unique([...(race?.abilities ?? []), ...fromCareers('abilities')]);
+  // A company ability the careers already give is replaced by another career ability (p. 151).
+  const repeated = company.abilities.filter((name) => careerAbilities.some((other) => same(other, name)));
+
   return {
     careers,
-    skills,
-    abilities: unique([...(race?.abilities ?? []), ...fromCareers('abilities')]),
-    connections: unique([...(race?.connections ?? []), ...fromCareers('connections')]),
+    company: companyOf(character),
+    companyNotes: company.notes,
+    repeatedAbilities: unique(repeated),
+    skills: withCompanySkills(skills, company),
+    abilities: unique([...careerAbilities, ...company.abilities]),
+    connections: unique([...(race?.connections ?? []), ...fromCareers('connections'), ...company.connections]),
     spells: unique(fromCareers('spells')),
     archetypeBenefits: unique([
       ...(race?.archetypeBenefits ?? []),
       ...careers.flatMap((career) => career.archetypeBenefits ?? []),
     ]),
     gold: careers.reduce((total, career) => total + career.gold, 0),
-    assets: careers.flatMap((career) => career.assets.map((asset) => ({ name: asset, career: career.name }))),
+    assets: [
+      ...careers.flatMap((career) => career.assets.map((asset) => ({ name: asset, career: career.name }))),
+      ...company.assets.map((asset) => ({ name: asset, career: companyOf(character)?.name ?? '' })),
+    ],
   };
 }
 

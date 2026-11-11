@@ -4,11 +4,11 @@ import { useSheet } from '@/components/SheetProvider';
 import { findRace } from '../../../../constants/races';
 import { useIkCharacter } from '../../../../hooks/useIkCharacter';
 import { availableOptions } from '../../../../utils/careerOptions';
-import { CareerOptions, CareerPackage } from './components';
+import { CareerOptions, CareerPackage, CompanyPackage } from './components';
 import { applyStartingPackage, choiceKey, startingPackage, type PackageSelection } from './utils/startingPackage';
 import './StartingPackagePanel.styles.css';
 
-/** Shows what the two starting careers give a new character and adds it to the sheet. */
+/** Shows what the two starting careers and the adventuring company give a new character, and adds it to the sheet. */
 export function StartingPackagePanel() {
   const { character } = useIkCharacter();
   const { set } = useSheet();
@@ -48,8 +48,9 @@ export function StartingPackagePanel() {
   return (
     <Panel title="Starting package" className="starting-package-container">
       <p className="ik-note">
-        For new characters (pp. 117–119). A skill from both careers starts at level 2. Adding the package never removes
-        anything, so it&apos;s safe to use after typing in your own entries.
+        For new characters (pp. 117–119 and, for an adventuring company, pp. 151–153). A skill from both careers starts
+        at level 2. Adding the package never removes anything, so it&apos;s safe to use after typing in your own
+        entries.
       </p>
       {options.length > 0 && (
         <CareerOptions
@@ -68,6 +69,14 @@ export function StartingPackagePanel() {
             onSelect={(key, picks) => set('identity.careerChoices', { ...selection, [key]: picks })}
           />
         ))}
+        {pack.company && (
+          <CompanyPackage
+            company={pack.company}
+            character={character}
+            repeated={pack.repeatedAbilities}
+            onChoose={(pick) => set('identity.companyChoice', pick)}
+          />
+        )}
       </div>
       {race && (race.abilities || race.connections) && (
         <p className="ik-note">

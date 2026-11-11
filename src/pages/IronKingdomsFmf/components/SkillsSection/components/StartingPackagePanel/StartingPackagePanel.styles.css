@@ -44,6 +44,11 @@
       margin-bottom: var(--space-1);
     }
 
+    /* The company leader box, above the lists it adds to. */
+    .checkbox-field-container {
+      margin-bottom: var(--space-1);
+    }
+
     dl {
       display: grid;
       grid-template-columns: 90px 1fr;

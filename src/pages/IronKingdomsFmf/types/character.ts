@@ -13,6 +13,8 @@ export type IkSettings = {
   raceRules: boolean;
   /** Use the rulebook careers for starting packages and skill maximums. */
   careerRules: boolean;
+  /** Warn when none of the careers can join the adventuring company. */
+  companyCareers: boolean;
   magic: boolean;
   mechanika: boolean;
   steamjacks: boolean;
@@ -36,6 +38,12 @@ export type IkIdentity = {
   careerChoices: Record<string, string[]>;
   /** Chosen kingdom career options, such as "Stormguard". */
   careerOptions: string[];
+  /** The adventuring company the character was created as a member of, by name. */
+  company: string;
+  /** Whether the character leads the company, such as a Mercenary Charter's captain. */
+  companyLeader: boolean;
+  /** The pick for a company's "one of the following" benefit. */
+  companyChoice: string;
   /** A human's Exceptional Potential: +1 to PHY, AGL or INT. */
   humanBonus: '' | 'phy' | 'agl' | 'int';
   level: string;

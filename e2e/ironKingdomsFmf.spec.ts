@@ -70,6 +70,44 @@ test('the sheet fits the screen without scrolling sideways', async ({ page }) =>
   expect(overflow).toBe(0);
 });
 
+test('an adventuring company’s benefits join the starting package, and the choice survives a reload', async ({
+  page,
+}) => {
+  await openWith(page, { identity: { name: 'Test Pirate', careerList: ['Pirate', 'Thief'] } });
+
+  await page.getByLabel('Adventuring company', { exact: true }).selectOption('Pirates of the Broken Coast');
+  await page.getByRole('tab', { name: 'Skills & abilities' }).click();
+  await expect(page.getByRole('heading', { name: 'Pirates of the Broken Coast (153)' })).toBeVisible();
+  await page.getByLabel(/^Captain/).check();
+  await page.reload();
+  await expect(page.getByLabel(/^Captain/)).toBeChecked();
+  await page.getByRole('tab', { name: 'Character', exact: true }).click();
+  await expect(page.getByLabel('Adventuring company', { exact: true })).toHaveValue('Pirates of the Broken Coast');
+
+  await page.getByRole('tab', { name: 'Skills & abilities' }).click();
+  await page.getByRole('button', { name: 'Add starting package to sheet' }).click();
+  const values = () =>
+    page.locator('input').evaluateAll((inputs) => inputs.map((input) => (input as HTMLInputElement).value));
+  await expect.poll(values).toEqual(expect.arrayContaining(['Hit the Deck!', 'Natural Leader']));
+
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBe(0);
+});
+
+test('with a full careers line, the company starts a line of its own on the left', async ({ page }) => {
+  await openWith(page, {
+    identity: { careerList: ['Duelist', 'Pirate', '', ''], company: 'Arcane Order' },
+  });
+
+  const company = await page.getByLabel('Adventuring company', { exact: true }).boundingBox();
+  const career = await page.getByLabel('Starting career 1', { exact: true }).boundingBox();
+  const add = await page.getByRole('button', { name: '+ Add career' }).boundingBox();
+  expect(company?.x).toBe(career?.x);
+  expect(company!.y).toBeGreaterThan(add!.y);
+});
+
 test.describe('steamjacks', () => {
   /** Opens the sheet with these steamjacks saved, on the Steamjacks tab. */
   async function openSteamjacks(page: Page, steamjacks: unknown[] = []) {

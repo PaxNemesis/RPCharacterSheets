@@ -17,6 +17,11 @@ export function SettingsSection() {
           label="Use rulebook careers"
           description="Pick careers from the rulebooks to get starting packages and skill maximums. Turn off for custom careers."
         />
+        <CheckboxField
+          path="settings.companyCareers"
+          label="Adventuring company career requirements"
+          description="Warn when none of the character’s careers can join the chosen company. Turn off to use a company’s benefits with any careers."
+        />
         <CheckboxField path="settings.magic" label="Spells" description="Show the arcane tradition and spell list." />
         <CheckboxField
           path="settings.mechanika"

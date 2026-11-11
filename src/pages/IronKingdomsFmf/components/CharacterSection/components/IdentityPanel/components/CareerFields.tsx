@@ -7,7 +7,7 @@ import { bookEnabled, SUPPLEMENTS } from '../../../../../constants/books';
 import { CAREERS } from '../../../../../constants/careers';
 import { useIkCharacter } from '../../../../../hooks/useIkCharacter';
 import type { CareerData } from '../../../../../types';
-import { alphabetical, compareNames } from '@/utils/alphabetical';
+import { compareNames } from '@/utils/alphabetical';
 import { resolveCareer } from '../../../../../utils/careerOptions';
 
 const careerLabel = (career: CareerData) => {
@@ -15,7 +15,10 @@ const careerLabel = (career: CareerData) => {
   return book ? `${career.name} (${book.short})` : career.name;
 };
 
-/** Starting careers plus any learned later, starting a line; free text when career rules are off. */
+/**
+ * Starting careers plus any learned later, starting a line; free text when career rules are off. Their
+ * notes are in CareerNotes, after the adventuring company that can share the line.
+ */
 export function CareerFields() {
   const { character } = useIkCharacter();
   const { set } = useSheet();
@@ -36,21 +39,6 @@ export function CareerFields() {
       .sort((a, b) => compareNames(a.name, b.name))
       .map((career) => ({ value: career.name, label: careerLabel(career) })),
   ];
-  const [first, second] = careers;
-  const notes = careers.flatMap((career, index) => {
-    if (!career) return [];
-    const other = index === 0 ? second : index === 1 ? first : undefined;
-    return [
-      career.prerequisites !== 'None' && `${career.name} requires: ${career.prerequisites}.`,
-      career.startingOnly && index >= 2 && `${career.name} can only be a starting career.`,
-      career.pairsWith &&
-        index < 2 &&
-        other &&
-        !career.pairsWith.includes(other.name) &&
-        `${career.name} must be paired with ${alphabetical(career.pairsWith).join(', ')}.`,
-    ].filter((note): note is string => Boolean(note));
-  });
-
   return (
     <>
       {list.map((_, index) => {
@@ -104,7 +92,6 @@ export function CareerFields() {
       <button type="button" className="identity-panel-add" onClick={() => set('identity.careerList', [...list, ''])}>
         + Add career
       </button>
-      {notes.length > 0 && <p className="ik-note ik-wide">{notes.join(' ')}</p>}
     </>
   );
 }

@@ -1,5 +1,9 @@
 .identity-panel-container {
-  /* One grid of six columns for every line, so the fields line up from one group to the next. */
+  /* The grid follows the panel's own width, not the window's, so it fits wherever the panel sits. */
+  container-type: inline-size;
+
+  /* One grid for every line, so the fields line up from one group to the next: six columns, or four or
+     two in a narrower panel. */
   .identity-panel-fields {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -14,8 +18,20 @@
     grid-column-start: 1;
   }
 
+  /* Only the span, so a wide field that starts a line keeps the start from .identity-panel-row. */
   .identity-panel-wide {
-    grid-column: span 2;
+    grid-column-end: span 2;
+  }
+
+  /* The company ends the careers line on the right. */
+  .identity-panel-company {
+    grid-column: -3 / -1;
+  }
+
+  /* No room on the careers line: on the left of a line of its own, in every layout. Two classes, so it
+     wins over the narrower layouts' rules below. */
+  .identity-panel-company.identity-panel-own-line {
+    grid-column: 1 / span 2;
   }
 
   /* On one line even in a narrow column; the rest of the line is usually free. */
@@ -45,17 +61,30 @@
     }
   }
 
-  @media (max-width: 700px) {
+  /* Four columns when six would squeeze the labels and dropdowns. */
+  @container (max-width: 960px) {
+    .identity-panel-fields {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    /* Right after the careers: on the right it would leave the careers line and the left of its own empty. */
+    .identity-panel-company {
+      grid-column: auto / span 2;
+    }
+  }
+
+  @container (max-width: 600px) {
     .identity-panel-fields {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .identity-panel-wide {
-      grid-column: span 1;
+      grid-column-end: span 1;
     }
 
-    /* The name takes a line of its own. */
-    .identity-panel-wide:first-child {
+    /* The name and the company take a line of their own; company names are long. */
+    .identity-panel-wide:first-child,
+    .identity-panel-company {
       grid-column: 1 / -1;
     }
   }

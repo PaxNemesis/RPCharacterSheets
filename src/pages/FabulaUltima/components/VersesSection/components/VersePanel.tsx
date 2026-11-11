@@ -27,6 +27,13 @@ export function VersePanel({ character, derived }: VersePanelProps) {
   const tone = TONES.find((entry) => entry.name === verse.tone && tones.includes(entry.name));
   // A blank current MP counts as full.
   const mp = character.mp.current ?? derived.maxMp;
+  // One verse per turn, counted while in a conflict (HF p. 137).
+  const sungThisTurn = character.conflict.active && character.chanter.sung;
+  const sing = () => {
+    if (!volume) return;
+    set('mp.current', mp - volume.mp);
+    if (character.conflict.active) set('chanter.sung', true);
+  };
 
   const aspects =
     key && tone
@@ -76,11 +83,7 @@ export function VersePanel({ character, derived }: VersePanelProps) {
           label="Tone"
           options={options(tones.length ? 'Choose…' : 'Learn a tone first', tones)}
         />
-        <button
-          type="button"
-          onClick={() => volume && set('mp.current', mp - volume.mp)}
-          disabled={!volume || !key || !tone || mp < volume.mp}
-        >
+        <button type="button" onClick={sing} disabled={!volume || !key || !tone || mp < volume.mp || sungThisTurn}>
           Sing{volume && ` (−${volume.mp} MP)`}
         </button>
       </div>
@@ -102,6 +105,9 @@ export function VersePanel({ character, derived }: VersePanelProps) {
         </>
       ) : (
         <p className="fu-note">Choose a volume, key and tone to see the verse&apos;s cost, targets and numbers.</p>
+      )}
+      {sungThisTurn && (
+        <p className="fu-warning">You have sung a verse this turn; start your next turn to sing again.</p>
       )}
       <p className="fu-note">
         One verse per turn, using an action. MP {mp} of {derived.maxMp}.

@@ -6,6 +6,7 @@ import type { FuCharacter } from '../types';
 import { hasRulebookClass } from '../utils/rules';
 import { CharacterSection } from './CharacterSection';
 import { ClassesSection } from './ClassesSection';
+import { ConflictBar } from './ConflictBar';
 import { CookbookSection } from './CookbookSection';
 import { DancesSection } from './DancesSection';
 import { EquipmentSection } from './EquipmentSection';
@@ -49,7 +50,10 @@ export function FuSheet({ panel, onPanelChange }: SheetProps) {
   return (
     <div className="fu-sheet">
       <Tabs label="Sheet sections" variant="secondary" items={sections} activeId={active.id} onSelect={onPanelChange} />
-      <active.Component />
+      <div className="fu-sheet-body">
+        <active.Component />
+      </div>
+      <ConflictBar onPanelChange={onPanelChange} />
     </div>
   );
 }

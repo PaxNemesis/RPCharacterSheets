@@ -1,5 +1,18 @@
 .fabula-ultima-page {
   flex-grow: 1;
+  /* With the workspace and the sheet filling the height, the conflict bar sits at the bottom on short tabs. */
+  display: flex;
+  flex-direction: column;
+
+  .fu-sheet {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .fu-sheet-body {
+    padding-bottom: var(--space-2);
+  }
 
   .fu-section {
     display: flex;

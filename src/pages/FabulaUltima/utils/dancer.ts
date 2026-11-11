@@ -1,5 +1,5 @@
 import { DANCE_MP, DANCE_MP_AFTER_OTHER, DANCES, FOLLOW_MY_LEAD_MP } from '../constants/dancer';
-import type { FuCharacter, FuDancer, FuDerived } from '../types';
+import type { ClassConflictRules, FuCharacter, FuDancer, FuDerived } from '../types';
 import { skillLevel } from './rules';
 
 export const findDance = (name: string) => DANCES.find((dance) => dance.name === name);
@@ -38,3 +38,15 @@ export function danceAmount(name: string, derived: FuDerived) {
   if (name === 'Unicorn Dance') return `${dex + (derived.level >= 40 ? 10 : derived.level >= 20 ? 5 : 0)} HP each`;
   return undefined;
 }
+
+/** At the end of your turn, this turn's dance becomes last turn's; a new scene starts with neither (HF p. 143). */
+export const dancerConflict: ClassConflictRules = {
+  className: 'Dancer',
+  on: {
+    endTurn: (character) => ({
+      ...character,
+      dancer: { ...character.dancer, previous: character.dancer.current, current: '' },
+    }),
+    endScene: (character) => ({ ...character, dancer: { ...character.dancer, previous: '', current: '' } }),
+  },
+};

@@ -1,0 +1,1 @@
+export { ConflictBar } from './ConflictBar';

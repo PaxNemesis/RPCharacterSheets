@@ -90,6 +90,9 @@ export const createCharacter = (): FuCharacter => ({
   monk: { core: 0, resolve: 0, clarity: [] },
   dancer: { learned: [], notes: {}, current: '', previous: '' },
   symbolist: { learned: [], notes: {}, active: [] },
-  chanter: { keys: [], tones: [], notes: {}, verse: { volume: '', key: '', tone: '' } },
+  chanter: { keys: [], tones: [], notes: {}, verse: { volume: '', key: '', tone: '' }, sung: false },
+  conflict: { active: false, turn: 0, acting: false },
+  effects: [],
+  uses: [],
   notes: { general: '', wealth: '' },
 });

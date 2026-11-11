@@ -1,0 +1,104 @@
+/* Sticky, not fixed: it takes its own room at the end of the sheet, so it never covers the last field. */
+.conflict-bar-container {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  margin-top: auto;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px 8px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 -4px 12px -4px;
+
+  .conflict-bar-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1);
+  }
+
+  .conflict-bar-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .conflict-bar-active {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .conflict-bar-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .conflict-bar-pool {
+    white-space: nowrap;
+    font-size: 13px;
+    color: var(--text-soft);
+
+    strong {
+      font-size: 15px;
+      color: var(--text-h);
+    }
+  }
+
+  .conflict-bar-crisis strong,
+  .conflict-bar-crisis {
+    color: var(--danger);
+  }
+
+  .conflict-bar-max {
+    color: var(--text-soft);
+    font-size: 13px;
+  }
+
+  .conflict-bar-chip {
+    font-size: 13px;
+    padding: var(--space-2xs) var(--space-1);
+    border-radius: 999px;
+    background: var(--surface-alt);
+    white-space: nowrap;
+  }
+
+  .conflict-bar-actions {
+    display: flex;
+    gap: var(--space-1);
+    margin-left: auto;
+  }
+
+  .conflict-bar-primary {
+    font-weight: 600;
+    color: var(--accent-contrast);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .conflict-bar-icon {
+    display: inline-flex;
+    align-items: center;
+    font-size: 18px;
+  }
+
+  .conflict-bar-reminder {
+    padding: var(--space-xs) var(--space-2);
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    color: var(--positive);
+  }
+
+  /* Phones keep the bar to resources and actions; the drawer has the rest. */
+  @media (max-width: 640px) {
+    .conflict-bar-summary .conflict-bar-extra,
+    .conflict-bar-summary .conflict-bar-max {
+      display: none;
+    }
+  }
+}

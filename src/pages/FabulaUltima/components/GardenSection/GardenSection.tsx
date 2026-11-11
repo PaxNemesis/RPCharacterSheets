@@ -62,8 +62,8 @@ export function GardenSection() {
           <p className="fu-warning">The clock is full: the magiseed leaves the garden and the clock is erased.</p>
         )}
         <p className="fu-note">
-          One magiseed at a time. Fill a section at the end of each of your turns while a magiseed is planted; its
-          effect depends on the filled sections. The garden empties at the end of each scene (NF p. 140).
+          One magiseed at a time. Ending your turn in the bar at the bottom fills a section while a magiseed is planted;
+          its effect depends on the filled sections. Ending the conflict empties the garden (NF p. 140).
           {derived.level >= 30 && ' At level 30 or higher, magiseed damage is +5 and HP or MP loss or recovery +10.'}
         </p>
       </Panel>

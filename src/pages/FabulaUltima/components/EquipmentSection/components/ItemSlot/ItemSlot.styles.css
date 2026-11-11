@@ -60,9 +60,9 @@
 
   /* The form being shown, in a group of form buttons. */
   .item-slot-actions button[aria-pressed='true'] {
-    color: var(--accent-contrast);
-    background: var(--accent);
-    border-color: var(--accent);
+    color: var(--on-fill);
+    background: var(--accent-fill);
+    border-color: var(--accent-fill);
   }
 
   .item-slot-edit {

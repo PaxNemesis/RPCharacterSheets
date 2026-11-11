@@ -53,12 +53,13 @@
     margin-left: auto;
   }
 
+  /* The next step: a filled button in green, which moves things on, rather than red, which warns. */
   .bar-row-primary {
     white-space: nowrap;
     font-weight: 600;
-    color: var(--accent-contrast);
-    background: var(--accent);
-    border-color: var(--accent);
+    color: var(--on-fill);
+    background: var(--positive-fill);
+    border-color: var(--positive-fill);
   }
 
   /* Shown for a few seconds after a button, quieter than the buttons around it. */

@@ -15,6 +15,12 @@
   --accent: #8c2f2f;
   --accent-contrast: #fff;
   --danger: #a12a2a;
+  /* Filled with the accent or danger colour, such as a main button or a pressed toggle, and the text on it. */
+  --accent-fill: #8c2f2f;
+  --danger-fill: #a12a2a;
+  /* A step forward, such as starting a turn: interactive, but not a warning. */
+  --positive-fill: #4f6b3a;
+  --on-fill: #fff;
   /* Something in the player's favour, such as a lower cost. */
   --positive: #4f6b3a;
   --focus: #9a6b00;
@@ -59,6 +65,11 @@
     --accent: #d0675b;
     --accent-contrast: #17140f;
     --danger: #e06a6a;
+    /* Deeper than the bright accent and danger, so light text reads on them. */
+    --accent-fill: #a2423a;
+    --danger-fill: #a8403f;
+    --positive-fill: #56773f;
+    --on-fill: #f4ede0;
     --positive: #9cb57a;
     --focus: #f2cf63;
     --shadow: rgba(0, 0, 0, 0.4) 0 4px 10px -4px;

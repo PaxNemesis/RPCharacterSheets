@@ -10,9 +10,9 @@
     line-height: 28px;
   }
 
+  /* As wide as the column they sit in. */
   &.pool-buttons-md :is(.pool-buttons-lower, .pool-buttons-raise) {
     width: 100%;
-    min-width: 2.25em;
   }
 
   /* As tall as the panel's large number fields. */
@@ -57,11 +57,12 @@
       font-variant-numeric: tabular-nums;
     }
 
+    /* Green, not red: it applies healing as often as damage. */
     .pool-buttons-apply {
       font-weight: 600;
-      color: var(--accent-contrast);
-      background: var(--accent);
-      border-color: var(--accent);
+      color: var(--on-fill);
+      background: var(--positive-fill);
+      border-color: var(--positive-fill);
     }
   }
 

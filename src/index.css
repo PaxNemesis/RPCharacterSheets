@@ -17,7 +17,7 @@
   --danger: #a12a2a;
   /* Something in the player's favour, such as a lower cost. */
   --positive: #4f6b3a;
-  --focus: #2f5e8c;
+  --focus: #9a6b00;
   --shadow: rgba(42, 34, 26, 0.12) 0 4px 10px -4px;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -60,7 +60,7 @@
     --accent-contrast: #17140f;
     --danger: #e06a6a;
     --positive: #9cb57a;
-    --focus: #7fb0e0;
+    --focus: #f2cf63;
     --shadow: rgba(0, 0, 0, 0.4) 0 4px 10px -4px;
   }
 }

@@ -1,4 +1,13 @@
 .fabula-ultima-page {
+  /* HP and MP colours, shared by the HP and MP panel and the conflict bar. */
+  --fu-hp: #b8322c;
+  --fu-mp: #2f7fc1;
+
+  @media (prefers-color-scheme: dark) {
+    --fu-hp: #e0706a;
+    --fu-mp: #6fb3ec;
+  }
+
   flex-grow: 1;
   /* With the workspace and the sheet filling the height, the conflict bar sits at the bottom on short tabs. */
   display: flex;

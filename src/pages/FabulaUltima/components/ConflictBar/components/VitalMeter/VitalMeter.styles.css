@@ -1,5 +1,5 @@
 .vital-meter-container {
-  --vital-meter-fill: var(--accent);
+  --vital-meter-fill: var(--fu-hp);
   position: relative;
   display: block;
   min-width: 72px;
@@ -11,7 +11,7 @@
   overflow: hidden;
 
   &.vital-meter-mp {
-    --vital-meter-fill: var(--focus);
+    --vital-meter-fill: var(--fu-mp);
   }
 
   .vital-meter-fill {

@@ -18,10 +18,10 @@
 
   /* Resolve Beads, told apart from Core Beads by colour. */
   &.track-dots-resolve i {
-    border-color: var(--focus);
+    border-color: var(--fu-mp);
   }
 
   &.track-dots-resolve .track-dots-filled {
-    background: var(--focus);
+    background: var(--fu-mp);
   }
 }

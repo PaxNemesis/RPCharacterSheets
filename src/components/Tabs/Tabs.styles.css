@@ -17,7 +17,9 @@
     border-radius: 6px 6px 0 0;
     background: var(--surface-alt);
 
-    button {
+    /* The tab's own buttons, not those in its menu. */
+    > button,
+    .tabs-menu {
       background: transparent;
       border: none;
       border-radius: 6px 6px 0 0;
@@ -40,6 +42,17 @@
     max-width: 220px;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .tabs-menu {
+    margin-left: calc(-1 * var(--space-1));
+    padding: var(--space-xs) var(--space-1) var(--space-xs) 0;
+    color: var(--text-soft);
+
+    &:hover,
+    &[aria-expanded='true'] {
+      color: var(--text-h);
+    }
   }
 
   .tabs-close {

@@ -98,3 +98,27 @@ test('the HP, MP and IP panel takes damage and healing from its − and + button
   await page.keyboard.press('Enter');
   await expect(panel.getByLabel('Current IP')).toHaveValue('3');
 });
+
+test('a tab’s menu duplicates the character and closes it, and opens on screen even at the largest text size', async ({
+  page,
+}) => {
+  await page.addInitScript(() =>
+    localStorage.setItem('rpcs-display-settings', JSON.stringify({ theme: 'auto', scale: 1.3 })),
+  );
+  await openWith(page, monk);
+  const tabs = page.getByRole('tablist', { name: 'Open characters' });
+
+  await page.getByRole('button', { name: 'Options for Test Monk' }).click();
+  const duplicate = page.getByRole('button', { name: 'Duplicate' });
+  const box = await duplicate.boundingBox();
+  const width = page.viewportSize()?.width ?? 0;
+  expect(box && box.x >= 0 && box.x + box.width <= width).toBe(true);
+  await duplicate.click();
+  await expect(tabs.getByRole('tab', { name: 'Test Monk (copy)', selected: true })).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Name', exact: true })).toHaveValue('Test Monk (copy)');
+
+  page.once('dialog', (dialog) => void dialog.accept());
+  await page.getByRole('button', { name: 'Options for Test Monk (copy)' }).click();
+  await page.getByRole('button', { name: 'Close…' }).click();
+  await expect(tabs.getByRole('tab')).toHaveText(['Test Monk']);
+});

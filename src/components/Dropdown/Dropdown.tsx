@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { Icon, type IconName } from '@/components/Icon';
+import { usePanelPosition } from './hooks/usePanelPosition';
 import './Dropdown.styles.css';
 
 type DropdownProps = {
@@ -13,18 +14,21 @@ type DropdownProps = {
   /** Styles the button to suit where it sits, such as the top bar. */
   buttonClassName?: string;
   /**
-   * The panel's content, given a function that closes it. Give links and buttons in it the `dropdown-item`
-   * class, and group titles the `dropdown-heading` class, for the menu look.
+   * The panel's content, given a function that closes it. For the menu look, give links and buttons in it
+   * the `dropdown-item` class (plus `dropdown-item-danger` for something destructive), group titles the
+   * `dropdown-heading` class, and lines between groups the `dropdown-divider` class.
    */
   children: (close: () => void) => ReactNode;
 };
 
-/** A button that opens a panel below it, lined up with its right edge. Closes on a click outside or on Escape. */
+/** A button that opens a panel below it. Closes on a click outside or on Escape. */
 export function Dropdown({ icon, label, title = label, iconOnly = false, buttonClassName, children }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const panelStyle = usePanelPosition(open, buttonRef, panelRef);
 
   useEffect(() => {
     if (!open) return;
@@ -61,7 +65,7 @@ export function Dropdown({ icon, label, title = label, iconOnly = false, buttonC
         {!iconOnly && <Icon name={open ? 'expand_less' : 'expand_more'} className="dropdown-caret" />}
       </button>
       {open && (
-        <div id={panelId} className="dropdown-panel">
+        <div ref={panelRef} id={panelId} className="dropdown-panel" style={panelStyle}>
           {children(() => setOpen(false))}
         </div>
       )}

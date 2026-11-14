@@ -19,6 +19,8 @@ export type SheetSystem<T> = {
   /** Upgrades data saved by an older version of this system's sheet. */
   migrate?: (data: unknown, fromVersion: number) => unknown;
   getName: (data: T) => string;
+  /** Renames the character, such as a duplicate to "<name> (copy)". Without it, a duplicate keeps the name. */
+  setName?: (data: T, name: string) => T;
   /**
    * The character as a fillable PDF, if the system has one. Load the PDF code inside it (a dynamic
    * import), so it only downloads when someone exports.

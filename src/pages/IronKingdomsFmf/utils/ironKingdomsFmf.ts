@@ -13,6 +13,7 @@ export const ironKingdomsFmf: SheetSystem<IkCharacter> = {
   listItems: LIST_ITEMS,
   migrate,
   getName: (character) => character.identity.name,
+  setName: (character, name) => ({ ...character, identity: { ...character.identity, name } }),
   // The PDF code and its library load only when someone exports.
   exportPdf: async (character) => (await import('./pdf/exportPdf')).exportPdf(character),
   Sheet: IkSheet,

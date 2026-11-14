@@ -10,6 +10,7 @@ export const system: SheetSystem<Hero> = {
   createCharacter: () => ({ name: '', level: 1, title: '' }),
   migrate: (data, from) => (from < 2 ? { ...(data as object), title: (data as { rank?: string }).rank ?? '' } : data),
   getName: (hero) => hero.name,
+  setName: (hero, name) => ({ ...hero, name }),
   Sheet: () => null,
 };
 

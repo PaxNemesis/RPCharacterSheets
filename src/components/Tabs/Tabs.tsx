@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Dropdown } from '@/components/Dropdown';
 import type { TabItem } from './Tabs.types';
 import './Tabs.styles.css';
 
@@ -8,13 +9,24 @@ type TabsProps = {
   onSelect: (id: string) => void;
   /** Shows a close button on each tab when given. */
   onClose?: (id: string) => void;
+  /** Shows a menu button on each tab instead, with this content, given a function that closes the menu. */
+  renderMenu?: (item: TabItem, close: () => void) => ReactNode;
   label: string;
   variant?: 'primary' | 'secondary';
   /** Content after the last tab, e.g. an add button. */
   trailing?: ReactNode;
 };
 
-export function Tabs({ items, activeId, onSelect, onClose, label, variant = 'primary', trailing }: TabsProps) {
+export function Tabs({
+  items,
+  activeId,
+  onSelect,
+  onClose,
+  renderMenu,
+  label,
+  variant = 'primary',
+  trailing,
+}: TabsProps) {
   return (
     <div className={`tabs-container tabs-${variant}`}>
       <div role="tablist" aria-label={label} className="tabs-list">
@@ -29,7 +41,12 @@ export function Tabs({ items, activeId, onSelect, onClose, label, variant = 'pri
             >
               {item.label}
             </button>
-            {onClose && (
+            {renderMenu && (
+              <Dropdown icon="expand_more" label={`Options for ${item.label}`} iconOnly buttonClassName="tabs-menu">
+                {(close) => renderMenu(item, close)}
+              </Dropdown>
+            )}
+            {onClose && !renderMenu && (
               <button
                 type="button"
                 className="tabs-close"

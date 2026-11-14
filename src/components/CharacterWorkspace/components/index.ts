@@ -1,3 +1,4 @@
+export { CharacterTabMenu } from './CharacterTabMenu';
 export { ConflictDialog } from './ConflictDialog';
 export { SheetErrorBoundary } from './SheetErrorBoundary';
 export { StorageNotice } from './StorageNotice';

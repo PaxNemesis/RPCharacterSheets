@@ -15,5 +15,6 @@ export const fabulaUltima: SheetSystem<FuCharacter> = {
   normalize: normalizeCharacter,
   migrate,
   getName: (character) => character.identity.name,
+  setName: (character, name) => ({ ...character, identity: { ...character.identity, name } }),
   Sheet: FuSheet,
 };

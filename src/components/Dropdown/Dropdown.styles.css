@@ -14,11 +14,10 @@
     vertical-align: middle;
   }
 
+  /* Placed against the window by usePanelPosition. */
   .dropdown-panel {
-    position: absolute;
-    top: calc(100% + var(--space-1));
-    right: 0;
-    z-index: 10;
+    position: fixed;
+    z-index: 20;
     min-width: 220px;
     padding: var(--space-xs) 0;
     color: var(--text);
@@ -62,6 +61,16 @@
       font-weight: 700;
       color: var(--accent);
     }
+
+    &.dropdown-item-danger {
+      color: var(--danger);
+    }
+  }
+
+  .dropdown-divider {
+    height: 1px;
+    margin: var(--space-xs) 0;
+    background: var(--border);
   }
 
   /* A group's title, above its items. */

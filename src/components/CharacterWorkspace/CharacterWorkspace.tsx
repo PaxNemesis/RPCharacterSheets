@@ -2,11 +2,13 @@ import { useCallback, useState } from 'react';
 import { SheetProvider, type SheetUpdater } from '@/components/SheetProvider';
 import { Tabs } from '@/components/Tabs';
 import type { SheetSystem, WorkspaceLocation } from './CharacterWorkspace.types';
-import { ConflictDialog, SheetErrorBoundary, StorageNotice, WorkspaceToolbar } from './components';
+import { CharacterTabMenu, ConflictDialog, SheetErrorBoundary, StorageNotice, WorkspaceToolbar } from './components';
 import { useCharacterStore } from './hooks/useCharacterStore';
 import { useLocationSync } from './hooks/useLocationSync';
 import { useOpenCharacters } from './hooks/useOpenCharacters';
-import { downloadAllCharacters, downloadCharacterFile, downloadCharacterPdf } from './utils/characterFile';
+import { usePdfExport } from './hooks/usePdfExport';
+import { copyCharacter } from './utils/copyCharacter';
+import { downloadAllCharacters, downloadCharacterFile } from './utils/characterFile';
 import './CharacterWorkspace.styles.css';
 
 type CharacterWorkspaceProps<T> = {
@@ -21,20 +23,7 @@ export function CharacterWorkspace<T>({ system, location }: CharacterWorkspacePr
   const [localPanel, setLocalPanel] = useState<string>();
   const panel = location ? location.panel : localPanel;
   const showPanel = location ? location.showPanel : setLocalPanel;
-  const [exporting, setExporting] = useState(false);
-  const [exportFailed, setExportFailed] = useState(false);
-
-  const exportPdf = async () => {
-    setExporting(true);
-    try {
-      await downloadCharacterPdf(system, active);
-      setExportFailed(false);
-    } catch {
-      setExportFailed(true);
-    } finally {
-      setExporting(false);
-    }
-  };
+  const { exportPdf, exporting, exportFailed } = usePdfExport(system, active);
   const { open, errors, clashes, opened, resolve } = useOpenCharacters(system, { characters, add, update, select });
   const nameOf = (data: T) => system.getName(data).trim() || 'Unnamed character';
 
@@ -55,6 +44,11 @@ export function CharacterWorkspace<T>({ system, location }: CharacterWorkspacePr
     const name = nameOf(character.data);
     const message = `Close ${name}?\n\nIt will be removed from this browser. Use Save first if you want to keep it.`;
     if (window.confirm(message)) remove(id);
+  };
+
+  const duplicate = (id: string) => {
+    const character = characters.find((c) => c.id === id);
+    if (character) add(copyCharacter(system, character.data));
   };
 
   if (!loaded) {
@@ -100,7 +94,12 @@ export function CharacterWorkspace<T>({ system, location }: CharacterWorkspacePr
         items={characters.map((c) => ({ id: c.id, label: nameOf(c.data) }))}
         activeId={active.id}
         onSelect={select}
-        onClose={close}
+        renderMenu={(item, closeMenu) => (
+          <CharacterTabMenu
+            onDuplicate={() => (closeMenu(), duplicate(item.id))}
+            onClose={() => (closeMenu(), close(item.id))}
+          />
+        )}
         trailing={
           <button
             type="button"

@@ -4,7 +4,8 @@ import { usePanelPosition } from './hooks/usePanelPosition';
 import './Dropdown.styles.css';
 
 type DropdownProps = {
-  icon: IconName;
+  /** Shown before the label; leave out for a text-only button. */
+  icon?: IconName;
   /** Shown beside the icon on wide screens, and the button's name for screen readers unless `title` is given. */
   label: string;
   /** The button's tooltip and accessible name, when it should say more than the label. */
@@ -60,8 +61,8 @@ export function Dropdown({ icon, label, title = label, iconOnly = false, buttonC
         aria-controls={panelId}
         onClick={() => setOpen((current) => !current)}
       >
-        <Icon name={icon} />
-        {!iconOnly && <span className="root-layout-bar-label">{label}</span>}
+        {icon && <Icon name={icon} />}
+        {!iconOnly && <span className="dropdown-label">{label}</span>}
         {!iconOnly && <Icon name={open ? 'expand_less' : 'expand_more'} className="dropdown-caret" />}
       </button>
       {open && (

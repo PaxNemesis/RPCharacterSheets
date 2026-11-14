@@ -81,7 +81,8 @@
   }
 
   @media (max-width: 640px) {
-    .root-layout-bar-label {
+    .root-layout-bar-label,
+    .root-layout-bar-item .dropdown-label {
       display: none;
     }
   }

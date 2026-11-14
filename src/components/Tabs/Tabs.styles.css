@@ -1,8 +1,46 @@
 .tabs-container {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--space-1);
-  overflow-x: auto;
+  position: relative;
+
+  .tabs-row {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-1);
+    /* Only clips while the tabs are being measured; afterwards everything fits. */
+    overflow: hidden;
+  }
+
+  .tabs-trailing {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  /* The hidden copy that useTabOverflow measures. */
+  .tabs-measure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Zero wide, so it never widens the page; the tabs inside keep their own widths. */
+    width: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Holds the tabs that don't fit; looks like one more tab. */
+  .tabs-more {
+    flex-shrink: 0;
+    padding: var(--space-1) var(--space-1) var(--space-1) var(--space-2);
+    white-space: nowrap;
+    color: var(--text-soft);
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px 6px 0 0;
+
+    &:hover,
+    &[aria-expanded='true'] {
+      color: var(--text-h);
+    }
+  }
 
   .tabs-list {
     display: flex;
@@ -74,6 +112,11 @@
     .tabs-select {
       font-size: 13px;
       padding: var(--space-1) var(--space-1);
+    }
+
+    .tabs-more {
+      font-size: 13px;
+      border-bottom: none;
     }
   }
 }

@@ -31,6 +31,17 @@ async function openCharacters(page: Page, characters: { id: string; data: unknow
 /** Opens the sheet with only the given character saved in the browser. */
 const openWith = (page: Page, data: unknown) => openCharacters(page, [{ id: 'e2e', data }]);
 
+/** Opens a sheet section from its tab, or from the More menu when its tab doesn't fit, as on phones. */
+async function showSection(page: Page, name: string) {
+  const tab = page.getByRole('tablist', { name: 'Sheet sections' }).getByRole('tab', { name, exact: true });
+  const more = page.getByRole('button', { name: 'More sheet sections' });
+  // Wait for the sheet, which shows the tab, the More button or both.
+  await expect(tab.or(more).first()).toBeVisible();
+  if ((await tab.count()) > 0) return tab.click();
+  await more.click();
+  await page.getByRole('button', { name, exact: true }).click();
+}
+
 const row = (page: Page, title: string) => page.getByRole('group', { name: title, exact: true });
 const box = (page: Page, title: string, label: string) => row(page, title).getByLabel(label, { exact: true });
 
@@ -76,15 +87,15 @@ test('an adventuring company’s benefits join the starting package, and the cho
   await openWith(page, { identity: { name: 'Test Pirate', careerList: ['Pirate', 'Thief'] } });
 
   await page.getByLabel('Adventuring company', { exact: true }).selectOption('Pirates of the Broken Coast');
-  await page.getByRole('tab', { name: 'Skills & abilities' }).click();
+  await showSection(page, 'Skills & abilities');
   await expect(page.getByRole('heading', { name: 'Pirates of the Broken Coast (153)' })).toBeVisible();
   await page.getByLabel(/^Captain/).check();
   await page.reload();
   await expect(page.getByLabel(/^Captain/)).toBeChecked();
-  await page.getByRole('tab', { name: 'Character', exact: true }).click();
+  await showSection(page, 'Character');
   await expect(page.getByLabel('Adventuring company', { exact: true })).toHaveValue('Pirates of the Broken Coast');
 
-  await page.getByRole('tab', { name: 'Skills & abilities' }).click();
+  await showSection(page, 'Skills & abilities');
   await page.getByRole('button', { name: 'Add starting package to sheet' }).click();
   const values = () =>
     page.locator('input').evaluateAll((inputs) => inputs.map((input) => (input as HTMLInputElement).value));
@@ -123,7 +134,7 @@ test('the career notes sit right under the careers, before a company on a line b
 test('a table too wide for the window becomes cards with as many cells side by side as fit', async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 900 });
   await openWith(page, { rangedWeapons: [{ name: 'Blunderbuss' }] });
-  await page.getByRole('tab', { name: 'Weapons & gear' }).click();
+  await showSection(page, 'Weapons & gear');
 
   // Three cells on the card's first line: name, stat and skill.
   const top = async (label: string) =>
@@ -180,7 +191,7 @@ test('faith suggests the faiths of the core rules', async ({ page }) => {
 
 test('picking a rulebook armor fills in its modifiers', async ({ page }) => {
   await openWith(page, { ...dwarf, armor: [] });
-  await page.getByRole('tab', { name: 'Weapons & gear' }).click();
+  await showSection(page, 'Weapons & gear');
   await page.getByRole('button', { name: '+ Add armor' }).click();
   await page.getByRole('combobox', { name: 'Name, armor 1' }).fill('Full Pl');
   await page.getByRole('option', { name: 'Full Plate', exact: true }).click();
@@ -196,7 +207,7 @@ test('a crippled aspect’s penalty shows where it counts', async ({ page }) => 
     damage: { marked: [0, 0, 2, 1, 0, 0], notes: '' },
     meleeWeapons: [{ name: 'Axe', skill: 2, attackMod: 0, pow: 3, notes: '', page: '' }],
   });
-  await page.getByRole('tab', { name: 'Weapons & gear' }).click();
+  await showSection(page, 'Weapons & gear');
   await expect(page.getByText('Crippled Agility: –2 on attack rolls, already in the MAT below')).toBeVisible();
   // MAT = PRW 4 + skill 2 + mod 0 – 2.
   await expect(page.getByLabel('MAT, melee weapon 1')).toHaveValue('4');
@@ -214,7 +225,7 @@ test('a career picked in one slot isn’t offered in the others', async ({ page 
 
 test('picking a suggested spell fills in its numbers and page', async ({ page }) => {
   await openWith(page, { identity: { name: 'Test Arcanist' } });
-  await page.getByRole('tab', { name: 'Magic & mechanika' }).click();
+  await showSection(page, 'Magic & mechanika');
   await page.getByRole('button', { name: '+ Add spell' }).click();
 
   await page.getByRole('combobox', { name: 'Spell, spell 1' }).fill('Arcane Bo');
@@ -230,7 +241,7 @@ test.describe('steamjacks', () => {
   /** Opens the sheet with these steamjacks saved, on the Steamjacks tab. */
   async function openSteamjacks(page: Page, steamjacks: unknown[] = []) {
     await openWith(page, { identity: { name: 'Test Marshal' }, steamjacks });
-    await page.getByRole('tab', { name: 'Steamjacks' }).click();
+    await showSection(page, 'Steamjacks');
   }
 
   async function pickChassis(page: Page, name: string) {
@@ -303,7 +314,7 @@ test.describe('steamjacks', () => {
     await expect(page.getByRole('status').filter({ hasText: 'Crippled left arm' })).toBeVisible();
 
     await page.reload();
-    await page.getByRole('tab', { name: 'Steamjacks' }).click();
+    await showSection(page, 'Steamjacks');
     await expect(cell(page, `${FORAGER_LEFT_ARM[0]}, damaged`)).toBeVisible();
     await expect(page.getByRole('status').filter({ hasText: 'Crippled left arm' })).toBeVisible();
 
@@ -403,7 +414,7 @@ test.describe('the URL', () => {
     await openCharacters(page, [alice, bob]);
     await expect(page).toHaveURL(/\/iron-kingdoms-fmf\/alice$/);
 
-    await page.getByRole('tab', { name: 'Notes' }).click();
+    await showSection(page, 'Notes');
     await expect(page).toHaveURL(/\/iron-kingdoms-fmf\/alice\?panel=notes$/);
 
     await page.goto('iron-kingdoms-fmf/bob?panel=steamjacks');
@@ -416,7 +427,7 @@ test.describe('the URL', () => {
 
   test('the back button goes back to the character shown before', async ({ page }) => {
     await openCharacters(page, [alice, bob]);
-    await page.getByRole('tab', { name: 'Combat & damage' }).click();
+    await showSection(page, 'Combat & damage');
     await page.getByRole('tab', { name: 'Bob' }).click();
     // Switching character keeps the panel.
     await expect(page).toHaveURL(/\/iron-kingdoms-fmf\/bob\?panel=combat$/);
@@ -448,4 +459,24 @@ test('Export PDF downloads the character as a PDF named after them', async ({ pa
   const bytes = await (await download.createReadStream()).toArray();
   expect(Buffer.concat(bytes).subarray(0, 5).toString()).toBe('%PDF-');
   await expect(page.getByRole('status').filter({ hasText: 'Making PDF' })).toHaveCount(0);
+});
+
+test('sheet section tabs that don’t fit go in a More menu, and the open one always stays in the row', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'phone', 'Every section tab fits on a desktop screen.');
+  await openWith(page, dwarf);
+  const sections = page.getByRole('tablist', { name: 'Sheet sections' });
+  const more = page.getByRole('button', { name: 'More sheet sections' });
+  await expect(more).toBeVisible();
+  await expect(sections.getByRole('tab', { name: 'Notes' })).toHaveCount(0);
+
+  await more.click();
+  await page.getByRole('button', { name: 'Notes', exact: true }).click();
+  await expect(sections.getByRole('tab', { name: 'Notes', selected: true })).toBeInViewport({ ratio: 1 });
+  await expect(page).toHaveURL(/panel=notes/);
+
+  const width = page.viewportSize()?.width ?? 0;
+  const moreBox = await more.boundingBox();
+  expect(moreBox && moreBox.x + moreBox.width).toBeLessThanOrEqual(width);
 });

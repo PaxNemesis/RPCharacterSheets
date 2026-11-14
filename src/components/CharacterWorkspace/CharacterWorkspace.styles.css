@@ -18,10 +18,24 @@
     gap: var(--space-2);
   }
 
+  /* Stays on the right when it wraps under the title, so the menu has room to drop down to the left. */
   .character-workspace-toolbar {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: var(--space-1);
+    margin-left: auto;
+  }
+
+  .character-workspace-action {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: 36px;
+  }
+
+  .character-workspace-status {
+    color: var(--text-soft);
   }
 
   .character-workspace-danger {

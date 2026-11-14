@@ -10,12 +10,17 @@ type DropdownProps = {
   title?: string;
   /** Show only the icon, at every width. */
   iconOnly?: boolean;
-  /** The panel's content, given a function that closes it, for links that navigate away. */
+  /** Styles the button to suit where it sits, such as the top bar. */
+  buttonClassName?: string;
+  /**
+   * The panel's content, given a function that closes it. Give links and buttons in it the `dropdown-item`
+   * class, and group titles the `dropdown-heading` class, for the menu look.
+   */
   children: (close: () => void) => ReactNode;
 };
 
-/** A top bar button that opens a panel below it. Closes on a click outside or on Escape. */
-export function Dropdown({ icon, label, title = label, iconOnly = false, children }: DropdownProps) {
+/** A button that opens a panel below it, lined up with its right edge. Closes on a click outside or on Escape. */
+export function Dropdown({ icon, label, title = label, iconOnly = false, buttonClassName, children }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,7 +49,7 @@ export function Dropdown({ icon, label, title = label, iconOnly = false, childre
       <button
         ref={buttonRef}
         type="button"
-        className="root-layout-bar-item"
+        className={['dropdown-button', buttonClassName].filter(Boolean).join(' ')}
         aria-label={title}
         title={title}
         aria-expanded={open}

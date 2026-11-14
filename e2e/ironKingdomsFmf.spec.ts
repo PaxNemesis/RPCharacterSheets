@@ -439,10 +439,13 @@ test('Export PDF downloads the character as a PDF named after them', async ({ pa
   await openWith(page, dwarf);
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.getByRole('button', { name: 'Export PDF' }).click(),
+    (async () => {
+      await page.getByRole('button', { name: 'More actions' }).click();
+      await page.getByRole('button', { name: 'Export PDF' }).click();
+    })(),
   ]);
   expect(download.suggestedFilename()).toMatch(/^test-dwarf-iron-kingdoms-fmf-.+\.pdf$/);
   const bytes = await (await download.createReadStream()).toArray();
   expect(Buffer.concat(bytes).subarray(0, 5).toString()).toBe('%PDF-');
-  await expect(page.getByRole('button', { name: 'Export PDF' })).toBeEnabled();
+  await expect(page.getByRole('status').filter({ hasText: 'Making PDF' })).toHaveCount(0);
 });

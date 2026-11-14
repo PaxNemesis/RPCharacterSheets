@@ -85,30 +85,4 @@
       display: none;
     }
   }
-
-  /* Links listed in a dropdown, each with its icon. */
-  .root-layout-link-list {
-    margin: 0;
-    padding: var(--space-xs) 0;
-    list-style: none;
-
-    a {
-      display: flex;
-      align-items: center;
-      gap: var(--space-1);
-      padding: var(--space-1) var(--space-2);
-      color: var(--text-h);
-      text-decoration: none;
-
-      &:hover,
-      &:focus-visible {
-        background: var(--surface-alt);
-      }
-    }
-
-    a.active {
-      font-weight: 700;
-      color: var(--accent);
-    }
-  }
 }

@@ -1,7 +1,7 @@
 import { Link, useMatchRoute } from '@tanstack/react-router';
 import { Icon } from '@/components/Icon';
 import { SHEET_LINKS } from '../RootLayout.constants';
-import { Dropdown } from './Dropdown';
+import { Dropdown } from '@/components/Dropdown';
 
 /** The character sheet pages. The button shows the sheet that's open, if any. */
 export function SheetsMenu() {
@@ -13,12 +13,13 @@ export function SheetsMenu() {
       icon={current?.icon ?? 'description'}
       label={current?.label ?? 'Sheets'}
       title={current ? `Sheets: ${current.label}` : 'Sheets'}
+      buttonClassName="root-layout-bar-item"
     >
       {(close) => (
-        <ul className="root-layout-link-list">
+        <ul>
           {SHEET_LINKS.map((link) => (
             <li key={link.to}>
-              <Link to={link.to} onClick={close}>
+              <Link to={link.to} className="dropdown-item" onClick={close}>
                 <Icon name={link.icon} />
                 {link.label}
               </Link>

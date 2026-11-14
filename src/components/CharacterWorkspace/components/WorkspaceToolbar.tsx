@@ -1,4 +1,6 @@
 import { useRef } from 'react';
+import { Dropdown } from '@/components/Dropdown';
+import { Icon } from '@/components/Icon';
 
 type WorkspaceToolbarProps = {
   onOpen: (files: File[]) => void;
@@ -11,26 +13,54 @@ type WorkspaceToolbarProps = {
   exporting?: boolean;
 };
 
+/** Open and Save, used most, as buttons; everything else in a menu, which new actions can join. */
 export function WorkspaceToolbar({ onOpen, onSave, onSaveAll, onExportPdf, exporting }: WorkspaceToolbarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const hasMore = Boolean(onSaveAll || onExportPdf);
 
   return (
     <div className="character-workspace-toolbar">
-      <button type="button" onClick={() => inputRef.current?.click()}>
-        Open character…
-      </button>
-      <button type="button" onClick={onSave}>
-        Save character
-      </button>
-      {onSaveAll && (
-        <button type="button" onClick={onSaveAll}>
-          Save all characters
-        </button>
+      {exporting && (
+        <span className="character-workspace-status" role="status">
+          Making PDF…
+        </span>
       )}
-      {onExportPdf && (
-        <button type="button" onClick={onExportPdf} disabled={exporting}>
-          {exporting ? 'Making PDF…' : 'Export PDF'}
-        </button>
+      <button type="button" className="character-workspace-action" onClick={() => inputRef.current?.click()}>
+        <Icon name="folder_open" />
+        Open…
+      </button>
+      <button type="button" className="character-workspace-action" onClick={onSave}>
+        <Icon name="save" />
+        Save
+      </button>
+      {hasMore && (
+        <Dropdown icon="more_horiz" label="More actions" iconOnly buttonClassName="character-workspace-action">
+          {(close) => (
+            <ul>
+              {onSaveAll && (
+                <li>
+                  <button type="button" className="dropdown-item" onClick={() => (close(), onSaveAll())}>
+                    <Icon name="file_copy" />
+                    Save all characters
+                  </button>
+                </li>
+              )}
+              {onExportPdf && (
+                <li>
+                  <button
+                    type="button"
+                    className="dropdown-item"
+                    disabled={exporting}
+                    onClick={() => (close(), onExportPdf())}
+                  >
+                    <Icon name="picture_as_pdf" />
+                    Export PDF
+                  </button>
+                </li>
+              )}
+            </ul>
+          )}
+        </Dropdown>
       )}
       <input
         ref={inputRef}

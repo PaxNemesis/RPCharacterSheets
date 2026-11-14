@@ -53,7 +53,7 @@ export function CharacterWorkspace<T>({ system, location }: CharacterWorkspacePr
     const character = characters.find((c) => c.id === id);
     if (!character) return;
     const name = nameOf(character.data);
-    const message = `Close ${name}?\n\nIt will be removed from this browser. Use Save character first if you want to keep it.`;
+    const message = `Close ${name}?\n\nIt will be removed from this browser. Use Save first if you want to keep it.`;
     if (window.confirm(message)) remove(id);
   };
 
@@ -81,13 +81,13 @@ export function CharacterWorkspace<T>({ system, location }: CharacterWorkspacePr
       <StorageNotice />
       {storageFailed && (
         <p className="character-workspace-alert" role="alert">
-          This browser couldn&apos;t store your characters, possibly because storage is full or blocked. Use Save
-          character to keep your changes.
+          This browser couldn&apos;t store your characters, possibly because storage is full or blocked. Use Save to
+          keep your changes.
         </p>
       )}
       {exportFailed && (
         <p className="character-workspace-alert" role="alert">
-          Couldn&apos;t make the PDF. Try again, or use Save character to keep a copy.
+          Couldn&apos;t make the PDF. Try again, or use Save to keep a copy.
         </p>
       )}
       {errors.map((error) => (

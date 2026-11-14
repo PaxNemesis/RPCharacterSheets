@@ -1,0 +1,76 @@
+.dropdown-container {
+  position: relative;
+
+  .dropdown-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+  }
+
+  .dropdown-caret {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+  }
+
+  .dropdown-panel {
+    position: absolute;
+    top: calc(100% + var(--space-1));
+    right: 0;
+    z-index: 10;
+    min-width: 220px;
+    padding: var(--space-xs) 0;
+    color: var(--text);
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  }
+
+  /* A link or button in the panel, with its icon. */
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--space-1) var(--space-2);
+    font: inherit;
+    text-align: left;
+    white-space: nowrap;
+    color: var(--text-h);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+      background: var(--surface-alt);
+      outline: none;
+    }
+
+    &.active {
+      font-weight: 700;
+      color: var(--accent);
+    }
+  }
+
+  /* A group's title, above its items. */
+  .dropdown-heading {
+    padding: var(--space-1) var(--space-2) var(--space-xs);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+}

@@ -1,7 +1,7 @@
 import { Link, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import { NavMenu } from './components';
-import { NAV_LINKS } from './RootLayout.constants';
+import { Icon } from '@/components/Icon';
+import { SettingsMenu, SheetsMenu } from './components';
 import './RootLayout.styles.css';
 
 // Production is GitHub Pages; anything served from this machine, `pnpm dev` or `pnpm preview`, is local.
@@ -10,7 +10,7 @@ const isLocal = ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hos
 export function RootLayout() {
   return (
     <div className="root-layout-container">
-      <nav className="root-layout-nav">
+      <nav className="root-layout-nav" aria-label="Main">
         <div className="root-layout-home">
           <Link to="/" className="root-layout-brand">
             RPCharacterSheets
@@ -21,17 +21,12 @@ export function RootLayout() {
             </span>
           )}
         </div>
-        {/* Wide screens show the links; narrow ones put them in a menu. */}
-        <div className="root-layout-links">
-          {NAV_LINKS.map((link) => (
-            <Link key={link.to} to={link.to}>
-              {link.label}
-            </Link>
-          ))}
-        </div>
-        <div className="root-layout-menu">
-          <NavMenu />
-        </div>
+        <SheetsMenu />
+        <Link to="/about" className="root-layout-bar-item" aria-label="About" title="About">
+          <Icon name="info" />
+          <span className="root-layout-bar-label">About</span>
+        </Link>
+        <SettingsMenu />
       </nav>
       <Outlet />
       <TanStackRouterDevtools />

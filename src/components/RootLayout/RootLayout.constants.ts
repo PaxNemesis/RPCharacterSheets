@@ -1,6 +1,7 @@
-/** The site's main pages, shown in the top bar, or in its menu on small screens. */
-export const NAV_LINKS = [
-  { to: '/iron-kingdoms-fmf/{-$characterId}', label: 'Iron Kingdoms' },
-  { to: '/fabula-ultima/{-$characterId}', label: 'Fabula Ultima' },
-  { to: '/about', label: 'About' },
+import type { IconName } from '@/components/Icon';
+
+/** The character sheet pages, listed in the top bar's sheets menu. */
+export const SHEET_LINKS: readonly { to: string; label: string; icon: IconName }[] = [
+  { to: '/iron-kingdoms-fmf/{-$characterId}', label: 'Iron Kingdoms', icon: 'swords' },
+  { to: '/fabula-ultima/{-$characterId}', label: 'Fabula Ultima', icon: 'wand_stars' },
 ] as const;

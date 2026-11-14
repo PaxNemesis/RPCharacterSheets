@@ -65,7 +65,7 @@
   }
 
   /* Dark mode's bright HP, MP and IP colours, darkened, so light text reads on them as well as beside them. */
-  @media (prefers-color-scheme: dark) {
+  :root[data-theme='dark'] & {
     --vital-meter-on-fill: var(--text-h);
     --vital-meter-strength: 60%;
   }

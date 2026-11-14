@@ -4,7 +4,7 @@
   --fu-mp: #2f7fc1;
   --fu-ip: #3f7a34;
 
-  @media (prefers-color-scheme: dark) {
+  :root[data-theme='dark'] & {
     --fu-hp: #e0706a;
     --fu-mp: #6fb3ec;
     --fu-ip: #8cc46e;

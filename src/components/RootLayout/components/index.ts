@@ -1,1 +1,2 @@
-export { NavMenu } from './NavMenu';
+export { SettingsMenu } from './SettingsMenu';
+export { SheetsMenu } from './SheetsMenu';

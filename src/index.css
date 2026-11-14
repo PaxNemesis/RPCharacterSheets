@@ -38,8 +38,11 @@
   --space-3: 24px;
   --space-4: 32px;
 
+  /* Text size picked in the settings menu (see SettingsMenu), applied as a zoom on the whole page. */
+  --ui-scale: 1;
+
   font: 15px/1.4 var(--sans);
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -48,36 +51,42 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #d8cfbd;
-    --text-h: #f4ede0;
-    --text-soft: #a3967e;
-    --bg: #17140f;
-    --surface: #221e17;
-    --surface-alt: #2a251c;
-    --input-bg: #120f0b;
-    --input-auto-bg: #332c20;
-    --raised: #322b21;
-    --raised-alt: #3d3528;
-    --border: #5a4f3d;
-    --border-strong: #c9b991;
-    --accent: #d0675b;
-    --accent-contrast: #17140f;
-    --danger: #e06a6a;
-    /* Deeper than the bright accent and danger, so light text reads on them. */
-    --accent-fill: #a2423a;
-    --danger-fill: #a8403f;
-    --positive-fill: #56773f;
-    --on-fill: #f4ede0;
-    --positive: #9cb57a;
-    --focus: #f2cf63;
-    --shadow: rgba(0, 0, 0, 0.4) 0 4px 10px -4px;
-  }
+/*
+ * Dark mode. `data-theme` is always set to the resolved theme, light or dark, by the script in index.html and
+ * the settings menu, which follow the system setting when the theme is Auto. Style dark variants with this
+ * selector, never with `prefers-color-scheme`, so the user's choice wins.
+ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --text: #d8cfbd;
+  --text-h: #f4ede0;
+  --text-soft: #a3967e;
+  --bg: #17140f;
+  --surface: #221e17;
+  --surface-alt: #2a251c;
+  --input-bg: #120f0b;
+  --input-auto-bg: #332c20;
+  --raised: #322b21;
+  --raised-alt: #3d3528;
+  --border: #5a4f3d;
+  --border-strong: #c9b991;
+  --accent: #d0675b;
+  --accent-contrast: #17140f;
+  --danger: #e06a6a;
+  /* Deeper than the bright accent and danger, so light text reads on them. */
+  --accent-fill: #a2423a;
+  --danger-fill: #a8403f;
+  --positive-fill: #56773f;
+  --on-fill: #f4ede0;
+  --positive: #9cb57a;
+  --focus: #f2cf63;
+  --shadow: rgba(0, 0, 0, 0.4) 0 4px 10px -4px;
 }
 
 #root {
-  min-height: 100svh;
+  zoom: var(--ui-scale);
+  /* Viewport units aren't zoomed, so divide to keep filling the screen exactly. */
+  min-height: calc(100svh / var(--ui-scale));
   display: flex;
   flex-direction: column;
 }

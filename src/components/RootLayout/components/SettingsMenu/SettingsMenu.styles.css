@@ -1,0 +1,81 @@
+.settings-menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2);
+
+  .settings-menu-group {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    legend {
+      margin-bottom: var(--space-xs);
+      padding: 0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+  }
+
+  .settings-menu-segments {
+    display: flex;
+  }
+
+  .settings-menu-segment {
+    position: relative;
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-1);
+    cursor: pointer;
+    white-space: nowrap;
+    color: var(--text-h);
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+
+    /* Overlaps the neighbour's border, so joined segments share one line. */
+    & + & {
+      margin-left: -1px;
+    }
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+
+    &:hover {
+      background: var(--surface-alt);
+    }
+
+    &:has(input:checked) {
+      z-index: 1;
+      color: var(--on-fill);
+      background: var(--accent-fill);
+      border-color: var(--accent-fill);
+    }
+
+    &:has(input:focus-visible) {
+      z-index: 2;
+      outline: 2px solid var(--focus);
+      outline-offset: 1px;
+    }
+
+    /* The radio itself is hidden; the segment shows its state. */
+    input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+}

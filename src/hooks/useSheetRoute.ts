@@ -11,6 +11,7 @@ export function useSheetRoute(): WorkspaceLocation {
   const { panel } = useSearch({ strict: false }) as { panel?: string };
   const navigate = useNavigate();
 
+  // Switching characters or panels keeps the scroll position; the router would otherwise jump to the top.
   return useMemo(
     () => ({
       characterId,
@@ -21,9 +22,15 @@ export function useSheetRoute(): WorkspaceLocation {
           params: { characterId: id } as never,
           search: (prev: object) => prev as never,
           replace,
+          resetScroll: false,
         }),
       showPanel: (next) =>
-        void navigate({ to: '.', search: (prev: object) => ({ ...prev, panel: next }) as never, replace: true }),
+        void navigate({
+          to: '.',
+          search: (prev: object) => ({ ...prev, panel: next }) as never,
+          replace: true,
+          resetScroll: false,
+        }),
     }),
     [characterId, panel, navigate],
   );

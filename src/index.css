@@ -150,8 +150,10 @@ select {
   }
 }
 
+/* Text boxes grow with their text (TextField's useAutoGrow) up to this height, then scroll. */
 textarea {
   resize: vertical;
+  max-height: min(20lh, 60vh);
 }
 
 /*

@@ -1,6 +1,7 @@
 import { Field } from '@/components/Field';
 import { useSheetField } from '@/components/SheetProvider';
 import { SuggestionInput } from './components';
+import { useAutoGrow } from './hooks/useAutoGrow';
 
 type TextFieldProps = {
   path: string;
@@ -33,6 +34,7 @@ export function TextField({
   className,
 }: TextFieldProps) {
   const [value, store] = useSheetField<string | undefined>(path);
+  const textareaRef = useAutoGrow(rows > 1 ? (value ?? '') : '');
   const setValue = (next: string) => {
     store(next);
     onChange?.(next);
@@ -43,6 +45,7 @@ export function TextField({
       {(id) =>
         rows > 1 ? (
           <textarea
+            ref={textareaRef}
             id={id}
             rows={rows}
             value={value ?? ''}

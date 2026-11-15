@@ -122,3 +122,24 @@ test('a tab’s menu duplicates the character and closes it, and opens on screen
   await page.getByRole('button', { name: 'Close…' }).click();
   await expect(tabs.getByRole('tab')).toHaveText(['Test Monk']);
 });
+
+test('text boxes grow with their text, shrink back, and scroll past their largest size', async ({ page }) => {
+  await openWith(page, monk, 'classes');
+  const notes = page.getByRole('textbox', { name: /^Notes, / });
+  const height = async () => (await notes.boundingBox())?.height ?? 0;
+  const empty = await height();
+
+  await notes.fill(Array.from({ length: 6 }, (_, i) => `Line ${i + 1}`).join('\n'));
+  const six = await height();
+  expect(six).toBeGreaterThan(empty * 2);
+  expect(await notes.evaluate((el) => el.scrollHeight <= el.clientHeight)).toBe(true);
+
+  await notes.fill(Array.from({ length: 80 }, (_, i) => `Line ${i + 1}`).join('\n'));
+  const full = await height();
+  expect(full).toBeGreaterThan(six);
+  expect(full).toBeLessThanOrEqual((page.viewportSize()?.height ?? 0) * 0.6 + 1);
+  expect(await notes.evaluate((el) => el.scrollHeight > el.clientHeight)).toBe(true);
+
+  await notes.fill('');
+  expect(await height()).toBe(empty);
+});

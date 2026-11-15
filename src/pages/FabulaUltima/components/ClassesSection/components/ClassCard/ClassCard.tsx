@@ -71,7 +71,7 @@ export function ClassCard({ index, entry, data, classNames, issues, onRemove }: 
           },
         }
       : { key: 'max', label: 'Max', width: '56px', type: 'number' },
-    { key: 'notes', label: 'Notes', width: 'minmax(200px, 3fr)', rows: 2 },
+    { key: 'notes', label: 'Notes', rows: 2, wide: true },
   ];
 
   return (
